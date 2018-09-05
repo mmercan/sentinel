@@ -62,9 +62,9 @@ namespace Sentinel.Web.Api.Product.Controllers
                 productRepo.SaveChanges();
                 return Created("", null);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                logger.LogError("Failed to execute POST");
+                logger.LogError("Failed to execute POST " + ex.Message);
                 return BadRequest();
             }
         }

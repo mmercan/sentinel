@@ -13,6 +13,10 @@ namespace Sentinel.Web.Api.Product
         {
             CreateMap<ProductInfo, ProductInfoDtoV1>();
             CreateMap<ProductInfoDtoV1, ProductInfo>().ForMember(m => m.useTabs, opt => { opt.UseValue(false); });
+
+
+            CreateMap<ProductInfo, ProductInfoDtoV2>();
+            CreateMap<ProductInfoDtoV2, ProductInfo>(); // .ForMember(m => m.useTabs, opt => { opt.UseValue(false); });
             //  CreateMap<ProductInfo, ProductInfoV1>()
             //  .ForMember(dest=>dest.)
             //CreateMap<ProductInfoDtoV1, ProductInfo>();
