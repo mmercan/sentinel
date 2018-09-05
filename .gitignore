@@ -1,0 +1,11 @@
+prototypes
+resources
+**/bin/Debug/
+**/bin/Release/
+**/bin/container/
+**/bin/local/
+**/obj/container/
+**/obj/local/
+**/obj/Debug/
+**/obj/
+**/Logs/

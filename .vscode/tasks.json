@@ -1,0 +1,13 @@
+{
+    "version": "2.0.0",
+    "tasks": [{
+        "label": "Sentinel.Web.Api.Product.build",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build",
+            "${workspaceFolder}/Sentinel.Web/Sentinel.Web.Api.Product/Sentinel.Web.Api.Product.csproj"
+        ],
+        "problemMatcher": "$msCompile"
+    }]
+}
