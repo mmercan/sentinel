@@ -33,6 +33,7 @@ namespace Sentinel.Web.Api.Product.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(typeof(List<ProductInfoDtoV1>), 200)]
         [ProducesResponseType(typeof(IDictionary<string, string[]>), 400)]
         [ApiExplorerSettings(GroupName = @"Products V1")]
