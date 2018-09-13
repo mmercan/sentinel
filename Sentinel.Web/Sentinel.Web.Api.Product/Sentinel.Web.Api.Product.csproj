@@ -29,4 +29,9 @@
     <ProjectReference Include="..\Sentinel.Web.Repos\Sentinel.Web.Repos.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
 </Project>

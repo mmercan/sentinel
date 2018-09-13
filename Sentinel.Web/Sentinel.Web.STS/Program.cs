@@ -14,7 +14,9 @@ namespace Sentinel.Web.Sts
     {
         public static void Main(string[] args)
         {
+            #pragma warning disable CS1591
             CreateWebHostBuilder(args).Build().Run();
+            #pragma warning restore CS1591
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

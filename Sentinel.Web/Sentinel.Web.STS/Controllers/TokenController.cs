@@ -45,7 +45,15 @@
             this.tokenRepo = tokenRepository;
         }
 
+
+        /// <summary>
+        /// Authenticate User
+        /// </summary>
         [HttpPost("auth")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
+        [ApiExplorerSettings(GroupName = @"Token")]
+
         public async Task<IActionResult> Auth([FromBody]AuthRequest authUserRequest)
         {
             logger.LogInformation("Grant Type is " + authUserRequest.GrantType);
@@ -136,8 +144,6 @@
 
              });
         }
-
-
         private async Task<string> GetJwt(IdentityUser user, IList<string> userRoles, string client_id, string refresh_token)
         {
             var now = DateTime.UtcNow;
@@ -190,9 +196,13 @@
             return JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented });
         }
 
-
+        /// <summary>
+        /// Get Claim list All
+        /// </summary>
         [Authorize]
-        [HttpGet("claims")]
+        [HttpGet("claims", Name = "GetClaims")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
         public object Claims()
         {
             return User.Claims.Select(c =>
@@ -203,11 +213,14 @@
             });
         }
 
-
-
+        /// <summary>
+        /// Get Claim list local
+        /// </summary>
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [Authorize(AuthenticationSchemes = "local")]
-        [HttpGet("claimsjwt")]
+        [HttpGet("claimsjwt",Name = "GetClaimsJwt")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
         public object ClaimsJwt()
         {
             return User.Claims.Select(c =>
@@ -218,8 +231,14 @@
             });
         }
 
+
+        /// <summary>
+        /// Get Claim list Azure
+        /// </summary>
         [Authorize(AuthenticationSchemes = "azure")]
         [HttpGet("claimsazure")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
         public object ClaimsAzure()
         {
             return User.Claims.Select(c =>
@@ -230,9 +249,13 @@
             });
         }
 
-
+        /// <summary>
+        /// Validate User
+        /// </summary>
         [Authorize(AuthenticationSchemes = "local")]
         [HttpPost("validateuser")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
         public async Task<object> Validate([FromBody]ValidateTokenRequest tokenRequest)
         {
             logger.LogInformation("Email addess : " + tokenRequest.UserName);
@@ -246,7 +269,13 @@
             return BadRequest();
         }
 
+
+        /// <summary>
+        /// Get Principal from token
+        /// </summary>
         [HttpGet()]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
         public ClaimsPrincipal GetPrincipal(string token)
         {
             try

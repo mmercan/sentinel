@@ -28,6 +28,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Sentinel.Web.Repos.Sql;
 using Sentinel.Web.Repos.Repositories;
+using System.Reflection;
+using System.IO;
 
 namespace Sentinel.Web.Api.Product
 {
@@ -159,6 +161,10 @@ namespace Sentinel.Web.Api.Product
                         Version = description.ApiVersion.ToString()
                     });
                 }
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
             });
         }
 

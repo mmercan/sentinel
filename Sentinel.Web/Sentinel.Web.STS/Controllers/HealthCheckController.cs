@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-namespace Sentinel.Web.Api.Product.Controllers
+namespace Sentinel.Web.Sts.Controllers
 {
     [ApiVersion("1.0", Deprecated = true)]
     [ApiVersion("2.0")]
@@ -41,7 +41,6 @@ namespace Sentinel.Web.Api.Product.Controllers
                 return BadRequest();
             }
         }
-
 
         /// <summary>
         /// isaliveandwell

@@ -25,6 +25,8 @@ using Microsoft.EntityFrameworkCore;
 using Sentinel.Web.Sts.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
+using System.IO;
 
 namespace Sentinel.Web.Sts
 {
@@ -86,7 +88,7 @@ namespace Sentinel.Web.Sts
            //use both jwt schemas interchangeably  https://stackoverflow.com/questions/49694383/use-multiple-jwt-bearer-authentication
            services.AddAuthorization(options =>
            {
-               options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().AddAuthenticationSchemes("azure", "sts").Build();
+               options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().AddAuthenticationSchemes("azure", "local").Build();
            });
 
 
@@ -121,6 +123,10 @@ namespace Sentinel.Web.Sts
                         Version = description.ApiVersion.ToString()
                     });
                 }
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
             });
         }
 

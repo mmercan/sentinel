@@ -730,7 +730,7 @@ function Add-Sts-startupcs {
             '           //use both jwt schemas interchangeably  https://stackoverflow.com/questions/49694383/use-multiple-jwt-bearer-authentication'
             '           services.AddAuthorization(options =>'
             '           {'
-            '               options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().AddAuthenticationSchemes("azure", "sts").Build();'
+            '               options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().AddAuthenticationSchemes("azure", "local").Build();'
             '           });'
             ''
         }

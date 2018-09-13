@@ -29,4 +29,8 @@
     <PackageReference Include="WebPush-netcore" Version="1.0.2" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
 </Project>

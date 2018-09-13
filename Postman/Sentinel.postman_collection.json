@@ -1,0 +1,230 @@
+{
+	"info": {
+		"_postman_id": "4ea08fed-f747-488f-bd94-91916d9a2249",
+		"name": "Sentinel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Api.Product",
+			"item": []
+		},
+		{
+			"name": "STS",
+			"item": [
+				{
+					"name": "Authenticate User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain, application/json, text/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json-patch+json"
+							},
+							{
+								"key": "api-version",
+								"value": "{{api-version}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http:///api/Token/auth",
+							"host": [
+								"http:"
+							],
+							"port": "",
+							"path": [
+								"",
+								"",
+								"api",
+								"Token",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Claim list All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain, application/json, text/json"
+							},
+							{
+								"key": "api-version",
+								"value": "{{api-version}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http:///api/Token/claims",
+							"host": [
+								"http:"
+							],
+							"port": "",
+							"path": [
+								"",
+								"",
+								"api",
+								"Token",
+								"claims"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Claim list local",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain, application/json, text/json"
+							},
+							{
+								"key": "api-version",
+								"value": "{{api-version}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http:///api/Token/claimsjwt",
+							"host": [
+								"http:"
+							],
+							"port": "",
+							"path": [
+								"",
+								"",
+								"api",
+								"Token",
+								"claimsjwt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Claim list Azure",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain, application/json, text/json"
+							},
+							{
+								"key": "api-version",
+								"value": "{{api-version}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http:///api/Token/claimsazure",
+							"host": [
+								"http:"
+							],
+							"port": "",
+							"path": [
+								"",
+								"",
+								"api",
+								"Token",
+								"claimsazure"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain, application/json, text/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json-patch+json"
+							},
+							{
+								"key": "api-version",
+								"value": "{{api-version}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http:///api/Token/validateuser",
+							"host": [
+								"http:"
+							],
+							"port": "",
+							"path": [
+								"",
+								"",
+								"api",
+								"Token",
+								"validateuser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Principal from token",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain, application/json, text/json"
+							},
+							{
+								"key": "api-version",
+								"value": "{{api-version}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http:///api/Token?token={{token}}",
+							"host": [
+								"http:"
+							],
+							"port": "",
+							"path": [
+								"",
+								"",
+								"api",
+								"Token"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Folder for api"
+		}
+	]
+}
