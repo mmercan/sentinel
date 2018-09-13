@@ -9,3 +9,4 @@ resources
 **/obj/Debug/
 **/obj/
 **/Logs/
+**/node_modules/

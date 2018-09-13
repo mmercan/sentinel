@@ -18,15 +18,15 @@ function Unzip($zipfile, $outdir) {
 }
 
 
-$folder = "AWWeb.ng"
+$folder = "Sentinel.Web.Admin"
 $scriptpath = $MyInvocation.MyCommand.Path 
 $dir = Split-Path $scriptpath
 
 
 #$angularFolder = $dir + "\" + $folder
 
-$angularFolder = Join-Path -Path $dir -ChildPath ..\..\..\prototypes\$folder
-$angularRootFolder = Join-Path -Path $dir -ChildPath ..\..\..\prototypes
+$angularFolder = Join-Path -Path $dir -ChildPath ..\..\Sentinel.Web\$folder
+$angularRootFolder = Join-Path -Path $dir -ChildPath ..\..\Sentinel.Web
 $angularFolder
 
 function new-ng {
