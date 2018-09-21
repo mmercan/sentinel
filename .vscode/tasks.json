@@ -9,5 +9,23 @@
             "${workspaceFolder}/Sentinel.Web/Sentinel.Web.Api.Product/Sentinel.Web.Api.Product.csproj"
         ],
         "problemMatcher": "$msCompile"
+    }, {
+        "label": "Sentinel.Web.STS.build",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build",
+            "${workspaceFolder}/Sentinel.Web/Sentinel.Web.STS/Sentinel.Web.Sts.csproj"
+        ],
+        "problemMatcher": "$msCompile"
+    }, {
+        "label": "Sentinel.Web.Admin.build",
+        "command": "npm",
+        "type": "process",
+        "args": [
+            "start",
+            "--prefix ${workspaceFolder}/Sentinel.Web/Sentinel.Web.Admin"
+        ],
+        "problemMatcher": "$msCompile"
     }]
 }

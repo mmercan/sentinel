@@ -11,6 +11,7 @@ import { LockscreenComponent } from './lockscreen/lockscreen.component';
 import { OathCallbackComponent } from './oath-callback/oath-callback.component';
 import { OAuthCallbackHandler } from './oauth-callback-guard';
 import { SharedModule } from '../shared/shared.module';
+import { SigninbComponent } from './signinb/signinb.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -19,7 +20,7 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [SigninComponent, SignupComponent, ForgotComponent, LockscreenComponent, OathCallbackComponent],
+  declarations: [SigninComponent, SignupComponent, ForgotComponent, LockscreenComponent, OathCallbackComponent, SigninbComponent],
   providers: [OAuthCallbackHandler]
 })
 

@@ -24,7 +24,7 @@ export class AppConfig {
     version: '1.0.0',
     debug: true,
     logLevel: logLevel.debug,
-    authenticationType: authenticationType.Adal,
+    authenticationType: authenticationType.local,
     Nofitication: {
       publicKey: 'BCbYNxjxYPOcv3Hn8xZH1bB2kJLFLeO9Fx68U0C2FOZ7wFmG_yxGdiiNIWrFRHY6X1NL6egRgzZGAC_A_6fcigA',
       subscriptionRepoUrl: window.location.hostname === 'localhost'
