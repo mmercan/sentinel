@@ -22,6 +22,9 @@ export const routes: Routes = [{
   }, {
     path: 'docs',
     loadChildren: './docs/docs.module#DocsModule'
+  }, {
+    path: 'product',
+    loadChildren: './product/product.module#ProductModule'
   }]
 }, {
   path: '',
