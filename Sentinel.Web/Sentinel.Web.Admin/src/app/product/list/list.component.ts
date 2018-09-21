@@ -7,7 +7,7 @@ import { ProductDataStoreService } from '../../shared/data-store/product-data-st
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-
+  pageView = 'table';
   constructor(private productDS: ProductDataStoreService) { }
 
   ngOnInit() {
