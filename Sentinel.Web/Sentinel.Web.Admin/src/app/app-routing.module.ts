@@ -25,6 +25,10 @@ export const routes: Routes = [{
   }, {
     path: 'product',
     loadChildren: './product/product.module#ProductModule'
+  },
+  {
+    path: 'settings',
+    loadChildren: './settings/settings.module#SettingsModule'
   }]
 }, {
   path: '',

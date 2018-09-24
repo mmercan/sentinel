@@ -1,5 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 
 import { MenuItems } from './menu-items/menu-items';
 import { AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective } from './accordion';
@@ -22,12 +23,13 @@ import { OfflineNotificationService } from './offline/offline-notification.servi
 import { Ng4FilterPipe } from './pipes/filter/ng4-filter.pipe';
 
 import { ProductDataStoreService } from './data-store/product-data-store/product-data-store.service';
+import { StorageComponent } from './storage/storage.component';
 @NgModule({
-  imports: [HttpModule],
+  imports: [HttpModule, FormsModule],
   declarations: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
-    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe],
+    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent],
   exports: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
-    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe],
+    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent],
   providers: []
 })
 export class SharedModule {

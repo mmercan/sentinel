@@ -68,6 +68,22 @@ const MENUITEMS: Menu[] = [
     ]
   },
   {
+    state: 'settings',
+    name: 'Settings',
+    type: 'sub',
+    icon: 'basic-archive',
+    children: [
+      {
+        state: 'product',
+        name: 'Product'
+      },
+      {
+        state: 'analytics',
+        name: 'Analytics'
+      }
+    ]
+  },
+  {
     state: 'docs',
     name: 'DOCS',
     type: 'link',
