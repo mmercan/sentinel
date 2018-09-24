@@ -14,6 +14,8 @@ namespace Sentinel.Web.Repos.Repositories
         public ProductRepo(SentinelDbContext db, ILogger logger = null) : base(db, p => p.Id, logger)
         {
 
+            //Reqired to seed 
+            db.Database.EnsureCreated();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Sentinel.Web.Api.Product
         public AutoMapperProfile()
         {
             CreateMap<ProductInfo, ProductInfoDtoV1>();
-            CreateMap<ProductInfoDtoV1, ProductInfo>().ForMember(m => m.useTabs, opt => { opt.UseValue(false); });
+            CreateMap<ProductInfoDtoV1, ProductInfo>().ForMember(m => m.UseTabs, opt => { opt.UseValue(false); });
 
 
             CreateMap<ProductInfo, ProductInfoDtoV2>();

@@ -40,6 +40,13 @@
       <div class="card-body">
         <div *ngIf="pageView =='table'">
           table
+
+          <div>
+            <ngx-datatable class="material" [rows]="rows" [loadingIndicator]="loadingIndicator" [columns]="columns"
+              [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable">
+            </ngx-datatable>
+          </div>
+
         </div>
         <div *ngIf="pageView =='list'">
           list

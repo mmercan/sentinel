@@ -5,13 +5,15 @@ import { ProductRoutingModule } from './product-routing.module';
 import { ListComponent } from './list/list.component';
 import { CreateComponent } from './create/create.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxDatatableModule } from '@mrtmrcn/ngx-datatable';
 @NgModule({
-  imports: [
-    CommonModule,
-    ProductRoutingModule,
-    SharedModule,
-    NgbModule
-  ],
-  declarations: [ListComponent, CreateComponent]
+    imports: [
+        CommonModule,
+        ProductRoutingModule,
+        SharedModule,
+        NgbModule,
+        NgxDatatableModule
+    ],
+    declarations: [ListComponent, CreateComponent]
 })
 export class ProductModule { }

@@ -9,7 +9,7 @@ namespace Sentinel.Web.Model.Product
         public string Name { get; set; }
         public string ProductUrl { get; set; }
         public bool Active { get; set; }
-        public bool useTabs { get; set; }
+        public bool UseTabs { get; set; }
         public string Html { get; set; }
         public string DescriptionHtml { get; set; }
         public string ObjectivesHtml { get; set; }

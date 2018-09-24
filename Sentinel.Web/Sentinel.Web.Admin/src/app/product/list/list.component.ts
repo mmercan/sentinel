@@ -10,9 +10,21 @@ export class ListComponent implements OnInit {
   pageView = 'table';
   constructor(private productDS: ProductDataStoreService) { }
 
+  rows = [];
+  loadingIndicator = true;
+  reorderable = true;
+
+  columns = [
+    { prop: 'name' },
+    { name: 'Gender' },
+    { name: 'Company', sortable: false }
+  ];
+
+
   ngOnInit() {
     this.productDS.dataset.subscribe(res => {
       console.log(res);
+      this.loadingIndicator = false;
     });
     this.productDS.getAll();
 
