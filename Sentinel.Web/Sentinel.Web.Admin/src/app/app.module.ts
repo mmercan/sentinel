@@ -15,6 +15,7 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { SharedModule } from './shared/shared.module';
 
 import { JwtInterceptor } from './shared/authentication/jwt.interceptor';
+import { DragulaModule } from 'ng2-dragula';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { JwtInterceptor } from './shared/authentication/jwt.interceptor';
     FormsModule,
     HttpClientModule,
     NgbModule.forRoot(),
-    SidebarModule.forRoot()
+    SidebarModule.forRoot(),
+    DragulaModule.forRoot()
   ],
   bootstrap: [AppComponent],
   providers: [

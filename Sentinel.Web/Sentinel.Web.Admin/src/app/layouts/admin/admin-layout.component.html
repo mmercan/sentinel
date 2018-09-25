@@ -47,7 +47,8 @@
           </a>
           <ul class="navigation-submenu" *ngIf="menuitem.type === 'sub'">
             <li class="navigation-item" *ngFor="let childitem of menuitem.children" routerLinkActive="open">
-              <a [routerLink]="['/', menuitem.state, childitem.state ]" class="navigation-link relative">{{ childitem.name }}</a>
+              <a [routerLink]="['/', menuitem.state, childitem.state ]" class="navigation-link relative">{{
+                childitem.name }}</a>
             </li>
           </ul>
         </li>
@@ -156,7 +157,7 @@
 
     <div class="main-content">
       <router-outlet></router-outlet>
-      <nav class="navbar custom-navbar navbar-light main-footer small">
+      <!-- <nav class="navbar custom-navbar navbar-light main-footer small">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
             <a class="nav-link" href="javascript:;">
@@ -170,7 +171,7 @@
             <a class="nav-link" href="javascript:;">Made with love on Earth</a>
           </li>
         </ul>
-      </nav>
+      </nav> -->
     </div>
   </div>
 
@@ -178,8 +179,8 @@
 
 <ng-template #search let-c="close" let-d="dismiss">
   <form class="search__form" action="">
-    <input class="search-input" name="search" type="search" placeholder="Search..." autocomplete="off" autocorrect="off" autocapitalize="off"
-      spellcheck="false" autofocus="true" />
+    <input class="search-input" name="search" type="search" placeholder="Search..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" autofocus="true" />
     <p class="text-muted">
       <small>
         <strong>Hit enter to search or ESC to close</strong>
@@ -190,7 +191,8 @@
     <h6 class="text-uppercase">
       <strong>Suggestions?</strong>
     </h6>
-    <p class="text-primary">#medical #analytics #fitness #transport #ui #dashboard #admin #bootstrap #angular #typescript</p>
+    <p class="text-primary">#medical #analytics #fitness #transport #ui #dashboard #admin #bootstrap #angular
+      #typescript</p>
   </div>
   <!-- <button type="button" class="search-close" aria-label="Close search form" (click)="d('Cross click')">
     <i class="fi flaticon-close"></i>
@@ -212,22 +214,26 @@
       </small>
       <div class="custom-controls-stacked mb-2">
         <label class="custom-control custom-checkbox">
-          <input class="custom-control-input" name="radio-stacked" type="radio" value="push" [(ngModel)]="_mode" (change)="isOpened = true; mode = _mode">
+          <input class="custom-control-input" name="radio-stacked" type="radio" value="push" [(ngModel)]="_mode"
+            (change)="isOpened = true; mode = _mode">
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">Push mode</span>
         </label>
         <label class="custom-control custom-checkbox">
-          <input class="custom-control-input" name="radio-stacked" type="radio" value="dock" [(ngModel)]="_mode" (change)="isOpened = true; mode = _mode">
+          <input class="custom-control-input" name="radio-stacked" type="radio" value="dock" [(ngModel)]="_mode"
+            (change)="isOpened = true; mode = _mode">
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">Docked mode</span>
         </label>
         <label class="custom-control custom-checkbox">
-          <input class="custom-control-input" name="radio-stacked" type="radio" value="over" [(ngModel)]="_mode" (change)="isOpened = true; mode = _mode">
+          <input class="custom-control-input" name="radio-stacked" type="radio" value="over" [(ngModel)]="_mode"
+            (change)="isOpened = true; mode = _mode">
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">Over content mode</span>
         </label>
         <label class="custom-control custom-checkbox">
-          <input class="custom-control-input" name="radio-stacked" type="radio" value="slide" [(ngModel)]="_mode" (change)="isOpened = true; mode = _mode">
+          <input class="custom-control-input" name="radio-stacked" type="radio" value="slide" [(ngModel)]="_mode"
+            (change)="isOpened = true; mode = _mode">
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">Slide mode</span>
         </label>
