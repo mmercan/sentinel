@@ -1,6 +1,6 @@
 import {
   Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges, forwardRef, ChangeDetectionStrategy,
-  DoCheck
+  DoCheck, IterableDiffers, KeyValueDiffers
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
@@ -16,8 +16,9 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
   templateUrl: './storage.component.html',
   styleUrls: ['./storage.component.scss']
 })
-export class StorageComponent implements ControlValueAccessor, OnInit {
+export class StorageComponent implements ControlValueAccessor, OnInit, DoCheck {
   @ViewChild('location') location;
+  differ: any;
   widget;
 
   _value: any = null;
@@ -46,7 +47,10 @@ export class StorageComponent implements ControlValueAccessor, OnInit {
 
   onChange = (_) => { };
   onTouched = () => { };
-  constructor() {
+  constructor(private differs: KeyValueDiffers) {
+    this.differ = differs.find({}).create(); // .create(null); //. create(null);
+
+    //    this._differ = this._differs.find(value).create(null);
   }
   ngOnInit() {
     this.widget = this.location.nativeElement;
@@ -62,9 +66,11 @@ export class StorageComponent implements ControlValueAccessor, OnInit {
   setDisabledState?(isDisabled: boolean): void { }
 
 
-  // ngDoCheck() {
-  //   console.log('ngDoCheck');
-  // }
+  ngDoCheck() {
+    const change = this.differ.diff(this.value);
+    console.log('ngDoCheck');
+    console.log(change);
+  }
 
   getItems(): any {
     if (this._name && this._type) {

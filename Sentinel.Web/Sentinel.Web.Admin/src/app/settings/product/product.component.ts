@@ -8,11 +8,9 @@ import { DragulaService } from 'ng2-dragula';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit, OnDestroy {
-
+  cachename = 'settings.product';
   MANY_ITEMS = 'MANY_ITEMS';
   public settings: any;
-
-
   subs = new Subscription();
 
   constructor(private dragulaService: DragulaService, private changeDetectorRef: ChangeDetectorRef) {
@@ -26,7 +24,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         // console.log(sourceModel);
         // console.log(targetModel);
         console.log(item);
-        this.settings = Object.assign({}, this.settings);
+        // this.settings = Object.assign({}, this.settings);
         // changeDetectorRef.markForCheck();
       })
     );
@@ -38,7 +36,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         // console.log(source);
         // console.log(sourceModel);
         console.log(item);
-        this.settings = Object.assign({}, this.settings);
+        // this.settings = Object.assign({}, this.settings);
         // changeDetectorRef.markForCheck();
       })
     );
@@ -47,24 +45,26 @@ export class ProductComponent implements OnInit, OnDestroy {
   sliderValue = 500;
 
   ngOnInit() {
+    const stored = localStorage.getItem(this.cachename);
+    this.loadsettings(stored);
   }
 
   ngOnDestroy() {
     this.subs.unsubscribe();
   }
 
-  onCacheChange(arg: any) {
+  loadsettings(arg: any) {
     console.log('onCacheChange');
     console.log(arg);
-    if (!arg) {
+    if (arg) {
       console.log('loading static cache values');
       this.settings = {
         allColumns: [
-          { name: 'id', prop: 'id', flexGrow: 0, sortable: 'true' },
-          { name: 'productCode', prop: 'productCode', flexGrow: 0, sortable: 'true' },
+          { name: 'id', prop: 'Id', flexGrow: 0, sortable: 'true' },
+          { name: 'productCode', prop: 'Product Code', flexGrow: 0, sortable: 'true' },
           { name: 'name', prop: 'name', flexGrow: 0, sortable: 'true' },
-          { name: 'productUrl', prop: 'productUrl', flexGrow: 0, sortable: 'true' },
-          { name: 'active', prop: 'active', flexGrow: 0, sortable: 'true' },
+          { name: 'productUrl', prop: 'Product Url', flexGrow: 0, sortable: 'true' },
+          { name: 'active', prop: 'Active', flexGrow: 0, sortable: 'true' },
           { name: 'html', prop: 'html', flexGrow: 0, sortable: 'true' },
           { name: 'descriptionHtml', prop: 'descriptionHtml', flexGrow: 0, sortable: 'true' },
           { name: 'objectivesHtml', prop: 'objectivesHtml', flexGrow: 0, sortable: 'true' },
@@ -88,11 +88,16 @@ export class ProductComponent implements OnInit, OnDestroy {
         { name: 'productCode', prop: 'productCode', flexGrow: 0, sortable: 'true' },
         { name: 'name', prop: 'name', flexGrow: 0, sortable: 'true' },
         { name: 'productUrl', prop: 'productUrl', flexGrow: 0, sortable: 'true' },
-        { name: 'active', prop: 'active', flexGrow: 0, sortable: 'true' },],
-        availableColumns: [{ name: 'The' }, { name: 'possibilities' }, { name: 'are' }, { name: 'endless!' }]
+        { name: 'active', prop: 'active', flexGrow: 0, sortable: 'true' }],
+        availableColumns: []
       };
 
       const diff = this.arrDiff(this.settings.allColumns, this.settings.selectedColumns);
+      this.settings.allColumns.forEach(ob => {
+        if (diff.includes(ob.name)) {
+          this.settings.availableColumns.push(ob);
+        }
+      });
       console.log('diff');
       console.log(diff);
     }
