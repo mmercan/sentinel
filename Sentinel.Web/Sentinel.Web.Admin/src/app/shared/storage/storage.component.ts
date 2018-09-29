@@ -1,6 +1,5 @@
 import {
-  Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges, forwardRef, ChangeDetectionStrategy,
-  DoCheck, IterableDiffers, KeyValueDiffers
+  Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges, forwardRef, ChangeDetectionStrategy
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
@@ -12,14 +11,11 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
     useExisting: forwardRef(() => StorageComponent),
     multi: true
   }],
-  changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './storage.component.html',
   styleUrls: ['./storage.component.scss']
 })
-export class StorageComponent implements ControlValueAccessor, OnInit, DoCheck {
-  @ViewChild('location') location;
-  differ: any;
-  widget;
+export class StorageComponent implements ControlValueAccessor, OnInit {
+  // @ViewChild('location') location; widget; differ: any;
 
   _value: any = null;
   valuestringfy: string;
@@ -28,8 +24,8 @@ export class StorageComponent implements ControlValueAccessor, OnInit, DoCheck {
   get value(): any { return this._value; }
   set value(v: any) {
     console.log('change');
-    if (v !== this._value) {
-      this._value = v; this.onChange(v); this.setItems();
+    if (v && v !== this._value) {
+      this._value = v; this.onChange(this._value); this.setItems();
       this.valuestringfy = JSON.stringify(this._value);
     }
   }
@@ -39,40 +35,41 @@ export class StorageComponent implements ControlValueAccessor, OnInit, DoCheck {
   get name(): string { return this._name; }
   set name(value: string) { this._name = value; this.getItems(); }
 
-
   _type?: string = undefined;
   @Input()
   get type(): string { return this._type; }
   set type(value: string) { this._type = value; this.getItems(); }
 
+  _debug?: boolean = undefined;
+  @Input()
+  public get debug(): boolean { return this._debug; }
+  public set debug(value: boolean) { this._debug = value; }
+
   onChange = (_) => { };
   onTouched = () => { };
-  constructor(private differs: KeyValueDiffers) {
-    this.differ = differs.find({}).create(); // .create(null); //. create(null);
-
-    //    this._differ = this._differs.find(value).create(null);
-  }
+  constructor() { }
   ngOnInit() {
-    this.widget = this.location.nativeElement;
+    // this.widget = this.location.nativeElement;
   }
 
-  writeValue(value: any): void {
-    console.log('writeValue');
-    this.value = value;
-    this.onChange(value);
+  writeValue(value: any): void { if (value) { this._value = value; } }
+
+  registerOnChange(fn: any) {
+    // console.log('registerOnChange');
+    this.onChange = fn;
+
+    setTimeout(() => this.getItems(), 0);
+    // this.getItems();
   }
-  registerOnChange(fn: (_: any) => void): void { this.onChange = fn; }
-  registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+
+  registerOnTouched(fn: any) {
+    this.onTouched = fn;
+  }
+
   setDisabledState?(isDisabled: boolean): void { }
 
-
-  ngDoCheck() {
-    const change = this.differ.diff(this.value);
-    console.log('ngDoCheck');
-    console.log(change);
-  }
-
   getItems(): any {
+    console.log('getItems called' + this._name + ' : ' + this._type);
     if (this._name && this._type) {
       let stored: any;
       switch (this._type) {
@@ -91,7 +88,12 @@ export class StorageComponent implements ControlValueAccessor, OnInit, DoCheck {
           break;
       }
       if (stored) {
-        this.value = JSON.parse(stored);
+        this.valuestringfy = stored;
+        this._value = JSON.parse(stored);
+        this.onChange(this._value);
+        console.log('cached');
+      } else {
+        this.onChange(this._value);
       }
     }
   }
@@ -117,4 +119,9 @@ export class StorageComponent implements ControlValueAccessor, OnInit, DoCheck {
     }
   }
 
+  // ngDoCheck() {
+  //   // const change = this.differ.diff(this.value);
+  //   // console.log('ngDoCheck');
+  //   // console.log(change);
+  // }
 }

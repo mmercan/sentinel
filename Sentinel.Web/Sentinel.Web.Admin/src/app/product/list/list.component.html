@@ -29,7 +29,7 @@
                   style="margin-right: 20px">
                   <i class="fa fa-address-card-o fa-2x"></i>
                 </button>
-                <button class="btn btn-primary">
+                <button class="btn btn-primary" (click)="newproduct()">
                   <i class="fa fa-plus fa-2x"></i>
                 </button>
               </div>
@@ -37,13 +37,14 @@
           </div>
         </div>
       </div>
-      <div class="card-body">
+      <div class="card-body" *ngIf="settings">
         <div *ngIf="pageView =='table'">
           table
 
           <div>
-            <ngx-datatable class="material" [rows]="rows" [loadingIndicator]="loadingIndicator" [columns]="columns"
-              [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable">
+            <ngx-datatable class="material" [rows]="rows" [loadingIndicator]="loadingIndicator" [columnMode]="'flex'"
+              [columns]="settings.selectedColumns" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+              [rowHeight]="'auto'" [reorderable]="reorderable">
             </ngx-datatable>
           </div>
 
@@ -58,3 +59,9 @@
     </div>
   </div>
 </div>
+
+<app-storage name="settings.product" type="local" [(ngModel)]="settings" (ngModelChange)="onCacheChange($event)"></app-storage>
+<hr>
+settings
+<input [(ngModel)]="settings" type="text">
+{{settings | json}}

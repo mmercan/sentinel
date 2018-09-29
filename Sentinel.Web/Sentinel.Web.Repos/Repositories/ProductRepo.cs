@@ -15,7 +15,14 @@ namespace Sentinel.Web.Repos.Repositories
         {
 
             //Reqired to seed 
-            db.Database.EnsureCreated();
+            try
+            {
+                db.Database.EnsureCreated();
+            }
+            catch
+            {
+
+            }
         }
     }
 }

@@ -6,13 +6,15 @@ import { ListComponent } from './list/list.component';
 import { CreateComponent } from './create/create.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@mrtmrcn/ngx-datatable';
+import { FormsModule } from '@angular/forms';
 @NgModule({
     imports: [
         CommonModule,
         ProductRoutingModule,
         SharedModule,
         NgbModule,
-        NgxDatatableModule
+        NgxDatatableModule,
+        FormsModule
     ],
     declarations: [ListComponent, CreateComponent]
 })

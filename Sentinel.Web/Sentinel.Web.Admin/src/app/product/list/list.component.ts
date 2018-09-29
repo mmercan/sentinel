@@ -8,6 +8,7 @@ import { ProductDataStoreService } from '../../shared/data-store/product-data-st
 })
 export class ListComponent implements OnInit {
   pageView = 'table';
+  public settings: any;
   constructor(private productDS: ProductDataStoreService) { }
 
   rows = [];
@@ -25,9 +26,24 @@ export class ListComponent implements OnInit {
     this.productDS.dataset.subscribe(res => {
       console.log(res);
       this.loadingIndicator = false;
+      this.rows = res;
     });
     this.productDS.getAll();
 
   }
 
+  ngDoCheck() {
+    // const change = this.differ.diff(this.value);
+    console.log('ngDoCheck');
+    console.log(this.settings);
+  }
+
+  newproduct() {
+    console.log(this.settings);
+  }
+
+  onCacheChange(settings) {
+    console.log('onCacheChange');
+    console.log(settings);
+  }
 }
