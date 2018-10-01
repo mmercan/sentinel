@@ -30,7 +30,7 @@ namespace Sentinel.Web.Model.Product
         public string TechnologyUrl { get; set; }
 
         public int VendorId { get; set; }
-        public int VendorName { get; set; }
+        public string VendorName { get; set; }
         public string VendorUrl { get; set; }
 
         public virtual VendorInfo Vendor { get; set; }

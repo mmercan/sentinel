@@ -24,6 +24,9 @@ import { Ng4FilterPipe } from './pipes/filter/ng4-filter.pipe';
 
 import { ProductDataStoreService } from './data-store/product-data-store/product-data-store.service';
 import { StorageComponent } from './storage/storage.component';
+
+import { ProductCRUDService } from './data-store/crud/api.client.generated';
+
 @NgModule({
   imports: [HttpModule, FormsModule],
   declarations: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
@@ -37,7 +40,7 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [AppConfig, AdalService, LocalAuthService, AuthService, MenuItems, NotificationService, AdalInterceptor,
-        OfflineNotificationService, AdalGuard, ProductDataStoreService]
+        OfflineNotificationService, AdalGuard, ProductDataStoreService, ProductCRUDService]
     };
   }
 }

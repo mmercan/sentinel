@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, InjectionToken, Injector } from '@angular/core';
 import { ProductDataStoreService } from '../../shared/data-store/product-data-store/product-data-store.service';
 // import { Product } from '../../shared/data-store/product-data-store/Interfaces/Production';
+import { ProductCRUDService } from '../../shared/data-store/crud/api.client.generated';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -9,7 +10,8 @@ import { ProductDataStoreService } from '../../shared/data-store/product-data-st
 export class ListComponent implements OnInit {
   pageView = 'table';
   public settings: any;
-  constructor(private productDS: ProductDataStoreService) { }
+  public filters: any = {};
+  constructor(private productDS: ProductDataStoreService, private productCRUDService: ProductCRUDService) { }
 
   rows = [];
   loadingIndicator = true;
@@ -23,6 +25,15 @@ export class ListComponent implements OnInit {
 
 
   ngOnInit() {
+
+    // const BASE_URL = new InjectionToken<string>('API_BASE_URL');
+    // const injector = Injector.create({ providers: [{ provide: BASE_URL, useValue: 'http://localhost:5003' }] });
+
+    this.productCRUDService.apiHealthCheckIsaliveandwellGet('1.0').subscribe(
+      res => { },
+      err => { }
+    );
+
     this.productDS.dataset.subscribe(res => {
       console.log(res);
       this.loadingIndicator = false;
@@ -32,18 +43,18 @@ export class ListComponent implements OnInit {
 
   }
 
-  ngDoCheck() {
-    // const change = this.differ.diff(this.value);
-    console.log('ngDoCheck');
-    console.log(this.settings);
-  }
+  // ngDoCheck() {
+  //   // const change = this.differ.diff(this.value);
+  //   console.log('ngDoCheck');
+  //   console.log(this.settings);
+  // }
 
   newproduct() {
     console.log(this.settings);
   }
 
-  onCacheChange(settings) {
-    console.log('onCacheChange');
-    console.log(settings);
-  }
+  // onCacheChange(settings) {
+  //   console.log('onCacheChange');
+  //   console.log(settings);
+  // }
 }

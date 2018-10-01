@@ -87,12 +87,12 @@ export class ProductComponent implements OnInit, OnDestroy {
                     { name: 'Vendor Name', prop: 'vendorName', flexGrow: 0, sortable: 'true' },
                     { name: 'Vendor Url', prop: 'vendorUrl', flexGrow: 0, sortable: 'true' }
                 ],
-                selectedColumns: [{ name: 'Id', prop: 'id', flexGrow: 0, sortable: 'true' },
-                { name: 'Product Code', prop: 'productCode', flexGrow: 0, sortable: 'true' },
-                { name: 'Name', prop: 'name', flexGrow: 0, sortable: 'true' },
-                { name: 'productUrl', prop: 'productUrl', flexGrow: 0, sortable: 'true' },
-                { name: 'Active', prop: 'active', flexGrow: 0, sortable: 'true' }],
-                availableColumns: []
+                selectedColumns: [{ name: 'Id', prop: 'id', flexGrow: 1, sortable: 'true' },
+                { name: 'Product Code', prop: 'productCode', flexGrow: 1, sortable: 'true' },
+                { name: 'Name', prop: 'name', flexGrow: 2, sortable: 'true' },
+                { name: 'Active', prop: 'active', flexGrow: 1, sortable: 'true' }],
+                availableColumns: [],
+                filters: {}
             };
 
             const diff = this.arrDiff(this.settings.allColumns, this.settings.selectedColumns);
