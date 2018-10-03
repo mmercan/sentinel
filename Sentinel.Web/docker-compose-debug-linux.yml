@@ -1,0 +1,55 @@
+version: '3.4'
+
+services:
+  sentinel-web-api-product:      
+    image: sentinel-web-api-product:01-dev-linux
+    build:
+      target: develop
+      context: .
+      dockerfile: Sentinel.Web.Api.Product/dockerfile-linux
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+    # volumes:
+    #   - SentinelWeb:/src
+    volumes:
+      - C:\repos\sentinel\Sentinel.Web:/src
+    #stdin_open: true
+    #tty: true
+    entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
+    ports:
+      - "8000:80"
+    #depends_on:
+    #  - sqldb   
+  sqldb:
+    image: sentinel-sql-db:01-dev-linux
+    build:
+      context: ./Sentinel.Sql.Db/
+      dockerfile: dockerfile-linux
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "Sentinel2018"
+      ACCEPT_EULA: "Y"
+    healthcheck:
+      test: sqlcmd -S sqldb -U SA -P 'Sentinel2018' -Q 'select 1'
+    # networks:
+    #   mynetwork:
+    #     aliases:
+    #       - db1.internal.prod.example.com
+
+
+
+# networks:
+#   default:
+#     external:
+#       name: nat
+
+# volumes:
+#   Sentinel2018Web:
+#     driver_opts:
+#       type: 'none'
+#       o: 'bind'
+#       #device: 'C:\repos\sentinel\Sentinel.Web'
+#       device: '/c/repos/sentinel/sentinel.web'
