@@ -7,7 +7,6 @@ ENV PATH=/home/node/.npm-global/bin:$PATH
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 RUN npm install -g @angular/cli
 WORKDIR /var/www/html
-RUN npm rebuild node-sass --force
 
 
 FROM nginx:alpine as prod

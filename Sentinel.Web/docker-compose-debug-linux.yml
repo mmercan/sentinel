@@ -28,12 +28,8 @@ services:
       target: develop
       context: .
       dockerfile: Sentinel.Web.Admin/dockerfile
-    environment:
-      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
     volumes:
       - C:\repos\sentinel\Sentinel.Web\Sentinel.Web.Admin:/var/www/html
-    #stdin_open: true
-    #tty: true
     # command: npm rebuild node-sass --force
     entrypoint: ng serve --host 0.0.0.0
     ports:
