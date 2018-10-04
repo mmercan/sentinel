@@ -31,5 +31,13 @@ $apiFolder = Join-Path -Path $dir -ChildPath .\dockapp
 #3bbac63951b5
 
 
-docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-api-product
+#docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-api-product
+
+
+docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-admin sentinel-web-api-product
+
 #docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sqldb
+
+
+
+# npm rebuild node-sass --force
