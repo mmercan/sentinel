@@ -22,6 +22,27 @@ services:
       - "8000:80"
     #depends_on:
     #  - sqldb
+    sentinel-web-sts:      
+    image: sentinel-web-sts:01-dev-linux
+    build:
+      target: develop
+      context: .
+      dockerfile: Sentinel.Web.STS/dockerfile-linux
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+    # volumes:
+    #   - SentinelWeb:/src
+    volumes:
+      - C:\repos\sentinel\Sentinel.Web:/src
+    #stdin_open: true
+    #tty: true
+    entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
+    ports:
+      - "8001:80"
+    #depends_on:
+    #  - sqldb
   sentinel-web-admin:      
     image: sentinel-web-admin:01-dev-linux
     build:
@@ -30,10 +51,14 @@ services:
       dockerfile: Sentinel.Web.Admin/dockerfile
     volumes:
       - C:\repos\sentinel\Sentinel.Web\Sentinel.Web.Admin:/var/www/html
-    # command: npm rebuild node-sass --force
-    entrypoint: ng serve --host 0.0.0.0
+    #entrypoint: ng serve --host 0.0.0.0 --poll 1 --disable-host-check
+    entrypoint: npm run startdocker
     ports:
-      - "4200:4200"    
+      - "4200:4200"  
+    deploy:
+      resources:
+        reservations:
+          memory: 2G 
   sqldb:
     image: sentinel-sql-db:01-dev-linux
     build:
