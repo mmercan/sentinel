@@ -10,6 +10,7 @@ export class ListComponent implements OnInit {
   pageView = 'table';
   public settings: any;
   public filters: any = {};
+  public selectedItem: any;
   constructor(private productDS: ProductDataStoreService) { }
 
   rows = [];

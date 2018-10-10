@@ -110,6 +110,13 @@ export class ProductComponent implements OnInit, OnDestroy {
         const stringSettings = JSON.stringify(this.settings);
         localStorage.setItem(this.cachename, stringSettings);
     }
+    public addLink(item) {
+        if (item.link) {
+            item.cellTemplate = '';
+        } else {
+            item.cellTemplate = undefined;
+        }
+    }
 
     private arrDiff(a1: any[], a2: any[]) {
         const a = [], diff = [];

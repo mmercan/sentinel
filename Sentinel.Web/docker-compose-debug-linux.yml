@@ -19,10 +19,10 @@ services:
     #tty: true
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
-      - "8000:80"
-    #depends_on:
-    #  - sqldb
-    sentinel-web-sts:      
+      - "5003:80"
+    depends_on:
+      - sentinel-db-redis
+  sentinel-web-sts:      
     image: sentinel-web-sts:01-dev-linux
     build:
       target: develop
@@ -40,7 +40,7 @@ services:
     #tty: true
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
-      - "8001:80"
+      - "5000:80"
     #depends_on:
     #  - sqldb
   sentinel-web-admin:      
@@ -75,7 +75,33 @@ services:
     #   mynetwork:
     #     aliases:
     #       - db1.internal.prod.example.com
-
+  sentinel-db-redis:
+    image: sentinel-db-redis:01-dev-linux
+    build:
+      context: ./Sentinel.Db.Redis
+      dockerfile: dockerfile
+    # volumes:
+    #   - C:\repos\sentinel\Sentinel.Web\Sentinel.Db.Redis:/data   
+    # command: redis-server --requirepass yourpassword
+    # command: ["redis-server", "--appendonly", "yes"]
+    hostname: redis
+    ports:
+      - "6379:6379"
+    # networks:
+    #   - redis-net
+  sentinel-db-mongodb:
+    image: mongo:latest
+    container_name: "sentinel-db-mongodb"
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    # volumes:
+    #   - ./data/db:/data/db
+    hostname: mongodb
+    ports:
+        - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+ 
 # networks:
 #   default:
 #     external:

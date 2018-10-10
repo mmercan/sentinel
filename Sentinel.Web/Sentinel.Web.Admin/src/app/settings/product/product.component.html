@@ -50,7 +50,7 @@ settings
 
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">flexGrow</label>
-            <div class="col-sm-6">
+            <div class="col-sm-3">
               <input type="number" class="form-control" [name]="item.prop+'flexGrow'" [(ngModel)]="item.flexGrow">
             </div>
             <div class="col-sm-3">
@@ -58,6 +58,13 @@ settings
                 <input type="checkbox" class="form-check-input" [name]="item.prop+'sortable'" id="" [checked]="item.sortable"
                   (change)="item.sortable = !item.sortable">
                 Sortable
+              </label>
+            </div>
+            <div class="col-sm-3">
+              <label class="form-check-label" style="margin-left: 10px">
+                <input type="checkbox" class="form-check-input" [name]="item.prop+'link'" id="" [checked]="item.link"
+                  (change)="item.link = !item.link">
+                link
               </label>
             </div>
           </div>

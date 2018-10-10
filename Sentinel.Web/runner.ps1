@@ -34,9 +34,11 @@ $apiFolder = Join-Path -Path $dir -ChildPath .\dockapp
 #docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-api-product
 #docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sqldb
 # npm rebuild node-sass --force
+# docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-admin sentinel-web-sts sentinel-web-api-product
+#docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-admin
 
-# docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-admin sentinel-web-api-product
 
+#docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-sts sentinel-web-api-product sentinel-web-admin
 
-docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-admin
+docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-sts sentinel-web-api-product sentinel-db-redis sentinel-db-mongodb
 
