@@ -977,7 +977,7 @@ function Add-cors-swagger-startupcs {
     $startupobj | set-content  $fileName
 }
 function Add-SignalR {
-    dotnet add package Microsoft.AspNetCore.SignalR -v 1.0.0
+    dotnet add package Microsoft.AspNetCore.SignalR -v 1.0.1
 
     $charcs = @'
     using System;

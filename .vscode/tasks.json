@@ -27,5 +27,14 @@
             "--prefix ${workspaceFolder}/Sentinel.Web/Sentinel.Web.Admin"
         ],
         "problemMatcher": "$msCompile"
+    }, {
+        "label": "Sentinel.Web.Api.Comms.build",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build",
+            "${workspaceFolder}/Sentinel.Web/Sentinel.Web.Api.Comms/Sentinel.Web.Api.Comms.csproj"
+        ],
+        "problemMatcher": "$msCompile"
     }]
 }

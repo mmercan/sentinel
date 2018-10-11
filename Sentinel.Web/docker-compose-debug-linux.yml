@@ -22,6 +22,28 @@ services:
       - "5003:80"
     depends_on:
       - sentinel-db-redis
+  sentinel-web-api-comms:      
+    image: sentinel-web-api-comms:01-dev-linux
+    build:
+      target: develop
+      context: .
+      dockerfile: Sentinel.Web.Api.Comms/dockerfile-linux
+    environment:
+      - NATS_URL=nats://nats-server:4222/
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+    # volumes:
+    #   - SentinelWeb:/src
+    volumes:
+      - C:\repos\sentinel\Sentinel.Web:/src
+    #stdin_open: true
+    #tty: true
+    entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
+    ports:
+      - "5003:80"
+    depends_on:
+      - sentinel-db-redis
   sentinel-web-sts:      
     image: sentinel-web-sts:01-dev-linux
     build:
@@ -101,6 +123,16 @@ services:
     ports:
         - 27017:27017
     command: mongod --smallfiles --logpath=/dev/null # --quiet
+  sentinel-nats:
+    image: 'nats:1.3.0'
+    container_name: "sentinel-nats"
+    entrypoint: "/gnatsd -DV"
+    expose:
+      - "4222"
+    ports:
+      - "8222:8222"
+      - "4222:4222"
+    hostname: nats-server
  
 # networks:
 #   default:
