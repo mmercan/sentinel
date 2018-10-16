@@ -10,6 +10,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
       - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
     # volumes:
     #   - SentinelWeb:/src
@@ -29,7 +30,7 @@ services:
       context: .
       dockerfile: Sentinel.Web.Api.Comms/dockerfile-linux
     environment:
-      - NATS_URL=nats://nats-server:4222/
+      - NATS_URL=nats://sentinel-nats:4222/
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
@@ -41,7 +42,7 @@ services:
     #tty: true
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
-      - "5003:80"
+      - "5004:80"
     depends_on:
       - sentinel-db-redis
   sentinel-web-sts:      
@@ -132,7 +133,7 @@ services:
     ports:
       - "8222:8222"
       - "4222:4222"
-    hostname: nats-server
+    # hostname: nats-server
  
 # networks:
 #   default:

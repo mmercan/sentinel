@@ -30,6 +30,7 @@ using Sentinel.Web.Repos.Sql;
 using Sentinel.Web.Repos.Repositories;
 using System.Reflection;
 using System.IO;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Sentinel.Web.Api.Product
 {
@@ -107,8 +108,20 @@ namespace Sentinel.Web.Api.Product
                     o.UseInMemoryDatabase(databaseName: "Add_writes_to_database");
                 }
             });
-            services.AddScoped<ProductRepo>();
 
+            if (InDocker)
+            {
+
+                var redisconn = Configuration["RedisConnection"];
+                services.AddDistributedRedisCache(options =>
+               {
+                   options.Configuration = redisconn;
+                   options.InstanceName = "productapi";
+
+               });
+            }
+
+            services.AddScoped<ProductRepo>();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.

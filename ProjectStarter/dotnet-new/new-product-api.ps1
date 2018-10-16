@@ -29,6 +29,8 @@ Add-TestApis
 dotnet restore
 dotnet build
 
+dotnet add package "Microsoft.Extensions.Caching.Redis"
+
 $Env:ASPNETCORE_ENVIRONMENT = "Development"
 dotnet watch run
 #Set-Location $dir

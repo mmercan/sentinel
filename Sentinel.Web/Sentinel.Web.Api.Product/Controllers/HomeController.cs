@@ -4,14 +4,23 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Sentinel.Web.Api.Product.Models;
 
 namespace Sentinel.Web.Api.Product.Controllers
 {
     public class HomeController : Controller
     {
+        private IDistributedCache cache;
+
+        public HomeController(IDistributedCache cache)
+        {
+            this.cache = cache;
+        }
         public IActionResult Index()
         {
+            cache.SetString("call", DateTime.Now.ToLongTimeString());
+            cache.SetString("date", DateTime.Now.ToLongDateString());
             return View();
         }
 

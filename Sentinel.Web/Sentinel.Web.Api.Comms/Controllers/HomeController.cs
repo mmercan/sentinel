@@ -8,19 +8,23 @@ using Sentinel.Web.Api.Comms.Models;
 using NATS.Client;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 namespace Sentinel.Web.Api.Comms.Controllers
 {
     public class HomeController : Controller
     {
         ILogger<HomeController> logger;
-        public HomeController(ILogger<HomeController> logger)
+        private IConfiguration configuration;
+
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             this.logger = logger;
+            this.configuration = configuration;
         }
         public IActionResult Index()
         {
-            new Publisher().Run(logger);
+            new Publisher().Run(logger, configuration);
             return View();
         }
 
@@ -67,15 +71,24 @@ namespace Sentinel.Web.Api.Comms.Controllers
         string subject = "foo";
         byte[] payload = null;
 
-        public void Run(ILogger<HomeController> logger)
+        public void Run(ILogger<HomeController> logger, IConfiguration configuration)
         {
             payload = Encoding.ASCII.GetBytes("My Message");
             Stopwatch sw = null;
             banner();
 
             Options opts = ConnectionFactory.GetDefaultOptions();
-            opts.Url = url;
 
+            if (configuration["NATS_URL"] != null)
+            {
+                opts.Url = configuration["NATS_URL"];
+            }
+            else
+            {
+                opts.Url = url;
+            }
+            logger.LogInformation("URL");
+            logger.LogInformation(opts.Url);
             using (IConnection c = new ConnectionFactory().CreateConnection(opts))
             {
                 sw = Stopwatch.StartNew();

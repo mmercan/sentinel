@@ -87,8 +87,10 @@ namespace Sentinel.Web.Handler.Comms
 
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
-                .SetBasePath(Path.Combine(AppContext.BaseDirectory, "../../../"))
-                .AddJsonFile("appsettings.json", optional: true)
+            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory()))
+
+                //.SetBasePath(Path.Combine(AppContext.BaseDirectory, "../../../"))
+                .AddJsonFile("appsettings.json", optional: false)
                 .AddEnvironmentVariables();
 
             if (environment == "Development")
