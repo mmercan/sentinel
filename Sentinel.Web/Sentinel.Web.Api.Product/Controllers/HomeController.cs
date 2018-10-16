@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Mercan.Common.Mongo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Sentinel.Web.Api.Product.Models;
 
 namespace Sentinel.Web.Api.Product.Controllers
@@ -13,9 +16,13 @@ namespace Sentinel.Web.Api.Product.Controllers
     {
         private IDistributedCache cache;
 
-        public HomeController(IDistributedCache cache)
+        public HomeController(IDistributedCache cache, IOptions<MangoBaseRepoSettings> mangoBaseRepoSettings, ILogger<HomeController> logger)
         {
             this.cache = cache;
+
+            logger.LogCritical("CollectionName");
+            logger.LogCritical(mangoBaseRepoSettings.Value.CollectionName);
+
         }
         public IActionResult Index()
         {

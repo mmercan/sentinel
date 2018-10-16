@@ -11,6 +11,10 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
+      - Mongodb__ConnectionString=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
+      - Mongodb__DatabaseName=sentinel
+      - Mongodb__CollectionName=product
+      - Mongodb__IdField=Id
       - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
     # volumes:
     #   - SentinelWeb:/src
@@ -31,6 +35,8 @@ services:
       dockerfile: Sentinel.Web.Api.Comms/dockerfile-linux
     environment:
       - NATS_URL=nats://sentinel-nats:4222/
+      - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
+      - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
@@ -53,6 +59,8 @@ services:
       dockerfile: Sentinel.Web.STS/dockerfile-linux
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
+      - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
     # volumes:
@@ -118,6 +126,8 @@ services:
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=hbMnztmZ4w9JJTGZ
     # volumes:
     #   - ./data/db:/data/db
     hostname: mongodb

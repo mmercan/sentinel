@@ -31,6 +31,7 @@ using Sentinel.Web.Repos.Repositories;
 using System.Reflection;
 using System.IO;
 using Microsoft.Extensions.Caching.Distributed;
+using Mercan.Common.Mongo;
 
 namespace Sentinel.Web.Api.Product
 {
@@ -120,6 +121,8 @@ namespace Sentinel.Web.Api.Product
 
                });
             }
+
+            services.Configure<MangoBaseRepoSettings>(Configuration.GetSection("Mongodb"));
 
             services.AddScoped<ProductRepo>();
             services.Configure<CookiePolicyOptions>(options =>

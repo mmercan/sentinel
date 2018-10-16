@@ -31,6 +31,11 @@ dotnet build
 
 dotnet add package "Microsoft.Extensions.Caching.Redis"
 
+# dotnet add package "MongoDB.Driver"
+# dotnet add package "MongoDB.Driver.Core"
+# dotnet add package "MongoDB.Bson"
+
+
 $Env:ASPNETCORE_ENVIRONMENT = "Development"
 dotnet watch run
 #Set-Location $dir
