@@ -9,6 +9,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
+using Microsoft.Extensions.Options;
 
 namespace Mercan.Common.Mongo
 {
@@ -19,7 +20,7 @@ namespace Mercan.Common.Mongo
         public string IdFieldName { get; private set; }
         private string collectionName;
 
-        public MangoBaseRepo(MangoBaseRepoSettings options) : this(options.ConnectionString, options.DatabaseName, options.CollectionName)
+        public MangoBaseRepo(IOptions<MangoBaseRepoSettings> options) : this(options.Value.ConnectionString, options.Value.DatabaseName, options.Value.CollectionName)
         {
 
         }

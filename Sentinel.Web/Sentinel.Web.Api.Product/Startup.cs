@@ -32,6 +32,8 @@ using System.Reflection;
 using System.IO;
 using Microsoft.Extensions.Caching.Distributed;
 using Mercan.Common.Mongo;
+using Sentinel.Web.Dto.Product;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Sentinel.Web.Api.Product
 {
@@ -123,6 +125,9 @@ namespace Sentinel.Web.Api.Product
             }
 
             services.Configure<MangoBaseRepoSettings>(Configuration.GetSection("Mongodb"));
+
+            services.TryAdd(new ServiceDescriptor(typeof(MangoBaseRepo<ProductInfoDtoV2>), typeof(MangoBaseRepo<ProductInfoDtoV2>), ServiceLifetime.Scoped));
+
 
             services.AddScoped<ProductRepo>();
             services.Configure<CookiePolicyOptions>(options =>

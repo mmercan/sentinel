@@ -9,6 +9,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Sentinel.Web.Api.Product.Models;
+using Sentinel.Web.Dto.Product;
 
 namespace Sentinel.Web.Api.Product.Controllers
 {
@@ -16,9 +17,15 @@ namespace Sentinel.Web.Api.Product.Controllers
     {
         private IDistributedCache cache;
 
-        public HomeController(IDistributedCache cache, IOptions<MangoBaseRepoSettings> mangoBaseRepoSettings, ILogger<HomeController> logger)
+        public HomeController(IDistributedCache cache, IOptions<MangoBaseRepoSettings> mangoBaseRepoSettings,
+         ILogger<HomeController> logger, MangoBaseRepo<ProductInfoDtoV2> repo)
         {
             this.cache = cache;
+            var rr = repo.GetAll();
+
+            ProductInfoDtoV2 blah = new ProductInfoDtoV2 { Name = "my name" };
+            var addtask = repo.AddAsync(blah);
+            addtask.Wait();
 
             logger.LogCritical("CollectionName");
             logger.LogCritical(mangoBaseRepoSettings.Value.CollectionName);
