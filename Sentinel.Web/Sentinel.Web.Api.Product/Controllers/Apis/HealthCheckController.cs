@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
+using Mercan.Common.Mongo;
+using Sentinel.Web.Dto.Product;
 
 namespace Sentinel.Web.Api.Product.Controllers
 {
@@ -17,7 +21,8 @@ namespace Sentinel.Web.Api.Product.Controllers
 
         ILogger<HealthCheckController> _logger;
 
-        public HealthCheckController(ILogger<HealthCheckController> logger)
+        public HealthCheckController(ILogger<HealthCheckController> logger, IDistributedCache cache, IOptions<MangoBaseRepoSettings> mangoBaseRepoSettings,
+         MangoBaseRepo<ProductInfoDtoV2> repo)
         {
             _logger = logger;
         }

@@ -34,6 +34,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Mercan.Common.Mongo;
 using Sentinel.Web.Dto.Product;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using MongoDB.Driver;
 
 namespace Sentinel.Web.Api.Product
 {
@@ -205,6 +206,12 @@ namespace Sentinel.Web.Api.Product
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            var mongoClient = new MongoClient(Configuration["Mongodb:ConnectionString"]);
+           // var mongoClient = new MongoClient("mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary");
+            var MongoDblogs = mongoClient.GetDatabase("logs");
+
+
             var logger = new LoggerConfiguration()
             .ReadFrom.Configuration(Configuration)
             .Enrich.FromLogContext()
@@ -212,6 +219,7 @@ namespace Sentinel.Web.Api.Product
             .Enrich.WithProperty("ApplicationName", "Api App")
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .WriteTo.Console()
+            .WriteTo.MongoDBCapped(MongoDblogs, collectionName: "rollingapplog")
             .WriteTo.File("Logs/logs.txt");
             //.WriteTo.Elasticsearch()
 
