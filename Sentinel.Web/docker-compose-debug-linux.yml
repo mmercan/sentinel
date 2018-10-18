@@ -74,22 +74,22 @@ services:
       - "5000:80"
     #depends_on:
     #  - sqldb
-  sentinel-web-admin:      
-    image: sentinel-web-admin:01-dev-linux
-    build:
-      target: develop
-      context: .
-      dockerfile: Sentinel.Web.Admin/dockerfile
-    volumes:
-      - C:\repos\sentinel\Sentinel.Web\Sentinel.Web.Admin:/var/www/html
-    #entrypoint: ng serve --host 0.0.0.0 --poll 1 --disable-host-check
-    entrypoint: npm run startdocker
-    ports:
-      - "4200:4200"  
-    deploy:
-      resources:
-        reservations:
-          memory: 2G 
+  # sentinel-web-admin:      
+  #   image: sentinel-web-admin:01-dev-linux
+  #   build:
+  #     target: develop
+  #     context: .
+  #     dockerfile: Sentinel.Web.Admin/dockerfile
+  #   volumes:
+  #     - C:\repos\sentinel\Sentinel.Web\Sentinel.Web.Admin:/var/www/html
+  #   #entrypoint: ng serve --host 0.0.0.0 --poll 1 --disable-host-check
+  #   entrypoint: npm run startdocker
+  #   ports:
+  #     - "4200:4200"  
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         memory: 2G 
   sqldb:
     image: sentinel-sql-db:01-dev-linux
     build:
