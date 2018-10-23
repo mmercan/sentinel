@@ -71,7 +71,7 @@ services:
   sentinel-web-admin:      
     image: sentinel-web-admin:01-prod-linux
     build:
-      target: final
+      target: prod
       context: .
       dockerfile: Sentinel.Web.Admin/dockerfile
     volumes:
