@@ -11,16 +11,16 @@ EXPOSE 80
 
 FROM develop AS build
 WORKDIR /src
-COPY Sentinel.Web.STS/Sentinel.Web.STS.csproj Sentinel.Web.STS/
-RUN dotnet restore Sentinel.Web.STS/Sentinel.Web.STS.csproj
+COPY Sentinel.Web.STS/Sentinel.Web.Sts.csproj Sentinel.Web.STS/
+RUN dotnet restore Sentinel.Web.STS/Sentinel.Web.Sts.csproj
 COPY . .
 WORKDIR /src/Sentinel.Web.STS
-RUN dotnet build Sentinel.Web.STS.csproj -c Release -o /app
+RUN dotnet build Sentinel.Web.Sts.csproj -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish Sentinel.Web.STS.csproj -c Release -o /app
+RUN dotnet publish Sentinel.Web.Sts.csproj -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "Sentinel.Web.STS.dll"]
+ENTRYPOINT ["dotnet", "Sentinel.Web.Sts.dll"]

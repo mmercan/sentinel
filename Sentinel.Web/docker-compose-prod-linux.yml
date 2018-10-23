@@ -2,13 +2,13 @@ version: '3.4'
 
 services:
   sentinel-web-api-product:      
-    image: sentinel-web-api-product:01-dev-linux
+    image: sentinel-web-api-product:01-prod-linux
     build:
-      target: develop
+      target: final
       context: .
       dockerfile: Sentinel.Web.Api.Product/dockerfile-linux
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
       - Mongodb__ConnectionString=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
@@ -23,22 +23,22 @@ services:
       #- C:\repos\sentinel\Sentinel.Web:/src
     #stdin_open: true
     #tty: true
-    entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
+    # entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
       - "5003:80"
     depends_on:
       - sentinel-db-redis
   sentinel-web-api-comms:      
-    image: sentinel-web-api-comms:01-dev-linux
+    image: sentinel-web-api-comms:01-prod-linux
     build:
-      target: develop
+      target: final
       context: .
       dockerfile: Sentinel.Web.Api.Comms/dockerfile-linux
     environment:
       - NATS_URL=nats://sentinel-nats:4222/
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
       - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
     # volumes:
@@ -46,57 +46,32 @@ services:
     volumes:
       - .:/src
     #  - C:\repos\sentinel\Sentinel.Web:/src
-    entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
-    ports:
-      - "5004:80"
-    depends_on:
-      - sentinel-db-redis
-  sentinel-web-handler-comms:      
-    image: sentinel-web-handler-comms:01-dev-linux
-    build:
-      target: develop
-      context: .
-      dockerfile: Sentinel.Web.Handler.Comms/dockerfile-linux
-    environment:
-      - NATS_URL=nats://sentinel-nats:4222/
-      - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
-      - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
-      - ASPNETCORE_ENVIRONMENT=Development
-      - DOTNET_USE_POLLING_FILE_WATCHER=1
-      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
-    volumes:
-      - .:/src
-    entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
+    # entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
       - "5004:80"
     depends_on:
       - sentinel-db-redis
   sentinel-web-sts:      
-    image: sentinel-web-sts:01-dev-linux
+    image: sentinel-web-sts:01-prod-linux
     build:
-      target: develop
+      target: final
       context: .
       dockerfile: Sentinel.Web.STS/dockerfile-linux
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
       - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
-    # volumes:
-    #   - SentinelWeb:/src
-    volumes:
-      - .:/src
-    #  - C:\repos\sentinel\Sentinel.Web:/src
-    entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
+    # entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
       - "5000:80"
     #depends_on:
     #  - sqldb
   sentinel-web-admin:      
-    image: sentinel-web-admin:01-dev-linux
+    image: sentinel-web-admin:01-prod-linux
     build:
-      target: develop
+      target: final
       context: .
       dockerfile: Sentinel.Web.Admin/dockerfile
     volumes:
@@ -110,7 +85,7 @@ services:
         reservations:
           memory: 2G 
   # sqldb:
-  #   image: sentinel-sql-db:01-dev-linux
+  #   image: sentinel-sql-db:01-prod-linux
   #   build:
   #     context: ./Sentinel.Sql.Db/
   #     dockerfile: dockerfile-linux
@@ -126,7 +101,7 @@ services:
   #   #     aliases:
   #   #       - db1.internal.prod.example.com
   sentinel-db-redis:
-    image: sentinel-db-redis:01-dev-linux
+    image: sentinel-db-redis:01-prod-linux
     build:
       context: ./Sentinel.Db.Redis
       dockerfile: dockerfile

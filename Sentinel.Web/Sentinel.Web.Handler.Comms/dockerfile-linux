@@ -6,21 +6,21 @@ FROM microsoft/dotnet:2.1-sdk AS develop
 # RUN apt-get update && apt-get install bash
 ENV DOTNET_USE_POLLING_FILE_WATCHER=1
 ENV ASPNETCORE_ENVIRONMENT=Development
-WORKDIR /src/Sentinel.Web.Api.Product
+WORKDIR /src/Sentinel.Web.Handler.Comms
 EXPOSE 80
 
 FROM develop AS build
 WORKDIR /src
-COPY Sentinel.Web.Api.Product/Sentinel.Web.Api.Product.csproj Sentinel.Web.Api.Product/
-RUN dotnet restore Sentinel.Web.Api.Product/Sentinel.Web.Api.Product.csproj
+COPY Sentinel.Web.Handler.Comms/Sentinel.Web.Handler.Comms.csproj Sentinel.Web.Handler.Comms/
+RUN dotnet restore Sentinel.Web.Handler.Comms/Sentinel.Web.Handler.Comms.csproj
 COPY . .
-WORKDIR /src/Sentinel.Web.Api.Product
-RUN dotnet build Sentinel.Web.Api.Product.csproj -c Release -o /app
+WORKDIR /src/Sentinel.Web.Handler.Comms
+RUN dotnet build Sentinel.Web.Handler.Comms.csproj -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish Sentinel.Web.Api.Product.csproj -c Release -o /app
+RUN dotnet publish Sentinel.Web.Handler.Comms.csproj -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "Sentinel.Web.Api.Product.dll"]
+ENTRYPOINT ["dotnet", "Sentinel.Web.Handler.Comms.dll"]
