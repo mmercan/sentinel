@@ -17,8 +17,9 @@ RUN mkdir /home/node/.npm-global
 ENV PATH=/home/node/.npm-global/bin:$PATH
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 RUN npm install -g @angular/cli
-WORKDIR /var/www/html
+WORKDIR /home/node/admin
 COPY Sentinel.Web.Admin/ .
+USER root
 RUN npm install
 RUN ng build --prod
 
@@ -26,4 +27,4 @@ RUN ng build --prod
 FROM nginx:alpine as prod
 COPY Sentinel.Web.Admin/nginx.conf /etc/nginx/nginx.conf
 WORKDIR /usr/share/nginx/html
-COPY --from=builder /var/www/html/Sentinel.Web.Admin/dist/ClientApp/ .
+COPY --from=builder /home/node/admin/dist/ClientApp/ .
