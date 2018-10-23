@@ -28,3 +28,4 @@ FROM nginx:alpine as prod
 COPY Sentinel.Web.Admin/nginx.conf /etc/nginx/nginx.conf
 WORKDIR /usr/share/nginx/html
 COPY --from=builder /home/node/admin/dist/ClientApp/ .
+# ENTRYPOINT ["npm", "run", "startdocker"]

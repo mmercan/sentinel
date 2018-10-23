@@ -77,9 +77,9 @@ services:
     volumes:
       - .\Sentinel.Web.Admin:/var/www/html
     #entrypoint: ng serve --host 0.0.0.0 --poll 1 --disable-host-check
-    entrypoint: npm run startdocker
+    # entrypoint: npm run startdocker
     ports:
-      - "4200:4200"
+      - "4200:80"
   # sqldb:
   #   image: sentinel-sql-db:01-prod-linux
   #   build:
