@@ -10,7 +10,7 @@ WORKDIR /var/www/html
 
 
 FROM node:latest as builder
-RUN apt-get update && apt-get install -y vim
+RUN apt-get update && apt-get install -y vim && apt-get -y install sudo
 EXPOSE 4200
 USER node
 RUN mkdir /home/node/.npm-global
@@ -20,7 +20,7 @@ RUN npm install -g @angular/cli
 WORKDIR /home/node/admin
 COPY Sentinel.Web.Admin/ .
 USER root
-RUN npm install
+RUN sudo npm install
 RUN ng build --prod
 
 

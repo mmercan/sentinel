@@ -16,14 +16,6 @@ services:
       - Mongodb__CollectionName=product
       - Mongodb__IdField=Id
       - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
-    # volumes:
-    #   - SentinelWeb:/src
-    volumes:
-      - .:/src
-      #- C:\repos\sentinel\Sentinel.Web:/src
-    #stdin_open: true
-    #tty: true
-    # entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
       - "5003:80"
     depends_on:
@@ -41,12 +33,6 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
-    # volumes:
-    #   - SentinelWeb:/src
-    volumes:
-      - .:/src
-    #  - C:\repos\sentinel\Sentinel.Web:/src
-    # entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
       - "5004:80"
     depends_on:
@@ -63,7 +49,6 @@ services:
       - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
-    # entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
       - "5000:80"
     #depends_on:
@@ -74,10 +59,6 @@ services:
       target: prod
       context: .
       dockerfile: Sentinel.Web.Admin/dockerfile
-    volumes:
-      - .\Sentinel.Web.Admin:/var/www/html
-    #entrypoint: ng serve --host 0.0.0.0 --poll 1 --disable-host-check
-    # entrypoint: npm run startdocker
     ports:
       - "4200:80"
   # sqldb:
@@ -108,8 +89,6 @@ services:
     hostname: redis
     ports:
       - "6379:6379"
-    # networks:
-    #   - redis-net
   sentinel-db-mongodb:
     image: mongo:latest
     container_name: "sentinel-db-mongodb"
