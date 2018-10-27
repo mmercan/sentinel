@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   sentinel-web-api-product:      
-    image: mmercan/sentinel-web-api-product:01-prod-linux
+    image: mmercan/sentinel-web-api-product:${TAGVersion}-prod-linux
     build:
       target: final
       context: .
@@ -21,7 +21,7 @@ services:
     depends_on:
       - sentinel-db-redis
   sentinel-web-api-comms:      
-    image: mmercan/sentinel-web-api-comms:01-prod-linux
+    image: mmercan/sentinel-web-api-comms:${TAGVersion}-prod-linux
     build:
       target: final
       context: .
@@ -38,7 +38,7 @@ services:
     depends_on:
       - sentinel-db-redis
   sentinel-web-sts:      
-    image: mmercan/sentinel-web-sts:01-prod-linux
+    image: mmercan/sentinel-web-sts:${TAGVersion}-prod-linux
     build:
       target: final
       context: .
@@ -54,7 +54,7 @@ services:
     #depends_on:
     #  - sqldb
   sentinel-web-admin:      
-    image: mmercan/sentinel-web-admin:01-prod-linux
+    image: mmercan/sentinel-web-admin:${TAGVersion}-prod-linux
     build:
       target: prod
       context: .
@@ -62,7 +62,7 @@ services:
     ports:
       - "4200:80"
   # sqldb:
-  #   image: mmercan/sentinel-sql-db:01-prod-linux
+  #   image: mmercan/sentinel-sql-db:${TAGVersion}-prod-linux
   #   build:
   #     context: ./Sentinel.Sql.Db/
   #     dockerfile: dockerfile-linux
@@ -78,7 +78,7 @@ services:
   #   #     aliases:
   #   #       - db1.internal.prod.example.com
   sentinel-db-redis:
-    image: mmercan/sentinel-db-redis:01-prod-linux
+    image: mmercan/sentinel-db-redis:${TAGVersion}-prod-linux
     build:
       context: ./Sentinel.Db.Redis
       dockerfile: dockerfile

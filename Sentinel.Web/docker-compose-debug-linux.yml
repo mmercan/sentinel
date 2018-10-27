@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   sentinel-web-api-product:      
-    image: sentinel-web-api-product:01-dev-linux
+    image: sentinel-web-api-product:${TAGVersion}-dev-linux
     build:
       target: develop
       context: .
@@ -29,7 +29,7 @@ services:
     depends_on:
       - sentinel-db-redis
   sentinel-web-api-comms:      
-    image: sentinel-web-api-comms:01-dev-linux
+    image: sentinel-web-api-comms:${TAGVersion}-dev-linux
     build:
       target: develop
       context: .
@@ -52,7 +52,7 @@ services:
     depends_on:
       - sentinel-db-redis
   sentinel-web-handler-comms:      
-    image: sentinel-web-handler-comms:01-dev-linux
+    image: sentinel-web-handler-comms:${TAGVersion}-dev-linux
     build:
       target: develop
       context: .
@@ -67,12 +67,12 @@ services:
     volumes:
       - .:/src
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
-    ports:
-      - "5004:80"
+    # ports:
+    #   - "5004:80"
     depends_on:
       - sentinel-db-redis
   sentinel-web-sts:      
-    image: sentinel-web-sts:01-dev-linux
+    image: sentinel-web-sts:${TAGVersion}-dev-linux
     build:
       target: develop
       context: .
@@ -94,7 +94,7 @@ services:
     #depends_on:
     #  - sqldb
   sentinel-web-admin:      
-    image: sentinel-web-admin:01-dev-linux
+    image: sentinel-web-admin:${TAGVersion}-dev-linux
     build:
       target: develop
       context: .
@@ -110,7 +110,7 @@ services:
         reservations:
           memory: 2G 
   # sqldb:
-  #   image: sentinel-sql-db:01-dev-linux
+  #   image: sentinel-sql-db:${TAGVersion}-dev-linux
   #   build:
   #     context: ./Sentinel.Sql.Db/
   #     dockerfile: dockerfile-linux
@@ -126,7 +126,7 @@ services:
   #   #     aliases:
   #   #       - db1.internal.prod.example.com
   sentinel-db-redis:
-    image: sentinel-db-redis:01-dev-linux
+    image: sentinel-db-redis:${TAGVersion}-dev-linux
     build:
       context: ./Sentinel.Db.Redis
       dockerfile: dockerfile
@@ -156,7 +156,7 @@ services:
   sentinel-nats:
     image: 'nats:1.3.0'
     container_name: "sentinel-nats"
-    entrypoint: "/gnatsd -DV"
+    entrypoint: "/gnatsd -m 8222 -DV"
     expose:
       - "4222"
     ports:
