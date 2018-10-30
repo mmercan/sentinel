@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: sentinel-web-admin
   labels:
-    run: sentinel-web-admin
+    app: sentinel-web-admin
 spec:
   type: LoadBalancer
   ports:
@@ -11,7 +11,7 @@ spec:
     port: 80
     targetPort: 80
   selector:
-    run: sentinel-web-admin
+    app: sentinel-web-admin
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
