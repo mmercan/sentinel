@@ -5,17 +5,11 @@ metadata:
   labels:
     run: sentinel-web-admin
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 80
-    targetPort: 80
-    protocol: TCP
-    name: http
-  - port: 443
-    protocol: TCP
-    name: https
   selector:
-    run: angular-app
+    run: sentinel-web-admin
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -32,5 +26,4 @@ spec:
       - name: sentinel-web-admin
         image: mmercan/sentinel-web-admin
         ports:
-        - containerPort: 80
-        - containerPort: 443    
+        - containerPort: 80    
