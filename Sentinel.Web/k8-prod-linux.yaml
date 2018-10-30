@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-web-admin
+  labels:
+    run: sentinel-web-admin
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    protocol: TCP
+    name: https
+  selector:
+    run: angular-app
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-web-admin
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-web-admin
+    spec:
+      containers:
+      - name: sentinel-web-admin
+        image: mmercan/sentinel-web-admin
+        ports:
+        - containerPort: 80
+        - containerPort: 443    
