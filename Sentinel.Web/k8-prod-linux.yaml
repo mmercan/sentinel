@@ -112,9 +112,7 @@ spec:
         image: mmercan/sentinel-db-redis
         ports:
         - containerPort: 6379    
-# ---
-#Mongo
-#----
+
 
 apiVersion: v1
 kind: Service
@@ -130,7 +128,6 @@ spec:
       targetPort: 27017
   selector:
     app: sentinel-db-mongodb
-
 
 apiVersion: apps/v1beta1
 kind: Deployment
