@@ -84,6 +84,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: sentinel-db-redis
+  labels:
+    app: sentinel-db-redis
 spec:
   selector:
     app: sentinel-db-redis
@@ -93,16 +95,23 @@ spec:
       targetPort: 6379
   type: ClusterIP
 
+
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: sentinel-db-redis
 spec:
-  containers:
-  - name: sentinel-db-redis
-    image: mmercan/sentinel-db-redis
-    ports:
-    - containerPort: 6379
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-db-redis
+    spec:
+      containers:
+      - name: sentinel-db-redis
+        image: mmercan/sentinel-db-redis
+        ports:
+        - containerPort: 6379    
 
 
 # ---
