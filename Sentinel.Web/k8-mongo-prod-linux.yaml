@@ -13,7 +13,7 @@ spec:
       targetPort: 27017
   selector:
     app: sentinel-db-mongodb
-
+---
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
@@ -43,7 +43,7 @@ spec:
           value: "root" 
         - name: MONGO_INITDB_ROOT_PASSWORD
           value: "hbMnztmZ4w9JJTGZ"   
-          
+---          
 apiVersion: v1
 kind: Service
 metadata:
@@ -58,7 +58,7 @@ spec:
       targetPort: 6379
   selector:
     app: sentinel-db-redis
-
+---
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
