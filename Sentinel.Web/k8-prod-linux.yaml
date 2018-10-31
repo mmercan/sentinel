@@ -98,11 +98,11 @@ kind: Deployment
 metadata:
   name: sentinel-db-redis
 spec:
-      containers:
-      - name: sentinel-db-redis
-        image: mmercan/sentinel-db-redis
-        ports:
-        - containerPort: 6379
+  containers:
+  - name: sentinel-db-redis
+    image: mmercan/sentinel-db-redis
+    ports:
+    - containerPort: 6379
 
 
 # ---
