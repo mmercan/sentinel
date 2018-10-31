@@ -77,8 +77,7 @@ spec:
           value: "Id"
         - name: SentinelConnection
           value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
-
-          
+     
 #---
 #STS
 #---
