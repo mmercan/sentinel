@@ -28,11 +28,8 @@ spec:
       - name: sentinel-web-admin
         image: mmercan/sentinel-web-admin
         ports:
-        - containerPort: 80   
+        - containerPort: 80
 
-#---
-#STS
-#---
 apiVersion: v1
 kind: Service
 metadata:
@@ -77,7 +74,6 @@ spec:
           value: "Id"
         - name: SentinelConnection
           value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"   
-#---
 
 apiVersion: v1
 kind: Service
@@ -125,40 +121,6 @@ spec:
           value: "Id"
         - name: SentinelConnection
           value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: sentinel-db-redis
-  labels:
-    app: sentinel-db-redis
-spec:
-  type: ClusterIP
-  ports:
-    - protocol: TCP
-      port: 6379
-      targetPort: 6379
-  selector:
-    app: sentinel-db-redis
-
-apiVersion: apps/v1beta1
-kind: Deployment
-metadata:
-  name: sentinel-db-redis
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: sentinel-db-redis
-    spec:
-      containers:
-      - name: sentinel-db-redis
-        image: mmercan/sentinel-db-redis
-        ports:
-        - containerPort: 6379    
-
-
 
 # ---
 # apiVersion: v1

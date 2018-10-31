@@ -44,3 +44,34 @@ spec:
         - name: MONGO_INITDB_ROOT_PASSWORD
           value: "hbMnztmZ4w9JJTGZ"   
           
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-db-redis
+  labels:
+    app: sentinel-db-redis
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+  selector:
+    app: sentinel-db-redis
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-db-redis
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-db-redis
+    spec:
+      containers:
+      - name: sentinel-db-redis
+        image: mmercan/sentinel-db-redis
+        ports:
+        - containerPort: 6379 
