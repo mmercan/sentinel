@@ -77,6 +77,57 @@ spec:
           value: "Id"
         - name: SentinelConnection
           value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
+
+          
+#---
+#STS
+#---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-web-sts
+  labels:
+    app: sentinel-web-sts
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  selector:
+    app: sentinel-web-sts
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-web-sts
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-web-sts
+    spec:
+      containers:
+      - name: sentinel-web-sts
+        image: mmercan/sentinel-web-sts
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+        - name: RedisConnection
+          value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
+        - name: Mongodb__ConnectionString
+          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+        - name: Mongodb__DatabaseName
+          value: "sentinel"
+        - name: Mongodb__CollectionName
+          value: "product"
+        - name: Mongodb__IdField
+          value: "Id"
+        - name: SentinelConnection
+          value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
        
 #-----
 
