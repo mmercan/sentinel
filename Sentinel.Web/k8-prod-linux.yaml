@@ -125,8 +125,6 @@ spec:
           value: "Id"
         - name: SentinelConnection
           value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
-     
-#-----
 
 apiVersion: v1
 kind: Service
@@ -142,7 +140,6 @@ spec:
       targetPort: 6379
   selector:
     app: sentinel-db-redis
-
 
 apiVersion: apps/v1beta1
 kind: Deployment
