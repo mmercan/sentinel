@@ -6,7 +6,7 @@ metadata:
   labels:
     app: sentinel-db-mongodb
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 27017
