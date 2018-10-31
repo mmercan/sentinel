@@ -142,12 +142,11 @@ spec:
     spec:
       containers:
       - name: sentinel-db-mongodb
-         command:
-           - mongod
-           - "--smallfiles"
-           - "--logpath=/dev/null"
-
         image: mongo:latest
+        command:
+        - mongod
+        - "--smallfiles"
+        - "--logpath=/dev/null"
         ports:
         - containerPort: 27017 
         env:
