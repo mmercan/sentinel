@@ -78,6 +78,32 @@ spec:
         - name: SentinelConnection
           value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
        
+#-----
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-db-redis
+spec:
+  selector:
+    app: sentinel-db-redis
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+  type: ClusterIP
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-db-redis
+spec:
+      containers:
+      - name: sentinel-db-redis
+        image: mmercan/sentinel-db-redis
+        ports:
+        - containerPort: 6379
+
 
 # ---
 # apiVersion: v1
