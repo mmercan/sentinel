@@ -162,53 +162,6 @@ spec:
         - containerPort: 6379    
 
 
-apiVersion: v1
-kind: Service
-metadata:
-  name: sentinel-db-mongodb
-  labels:
-    app: sentinel-db-mongodb
-spec:
-  type: ClusterIP
-  ports:
-    - protocol: TCP
-      port: 27017
-      targetPort: 27017
-  selector:
-    app: sentinel-db-mongodb
-
-apiVersion: apps/v1beta1
-kind: Deployment
-metadata:
-  name: sentinel-db-mongodb
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: sentinel-db-mongodb
-    spec:
-      containers:
-      - name: sentinel-db-mongodb
-        image: mongo:latest
-        command:
-        - mongod
-        - "--smallfiles"
-        - "--logpath=/dev/null"
-        ports:
-        - containerPort: 27017 
-        env:
-        - name: MONGO_DATA_DIR
-          value: "/data/db"   
-        - name: MONGO_LOG_DIR
-          value: "/dev/null"  
-        - name: MONGO_INITDB_ROOT_USERNAME
-          value: "root" 
-        - name: MONGO_INITDB_ROOT_PASSWORD
-          value: "hbMnztmZ4w9JJTGZ"   
-          
-
-
 
 # ---
 # apiVersion: v1
