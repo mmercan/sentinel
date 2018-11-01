@@ -104,15 +104,13 @@ services:
         - 27017:27017
     command: mongod --smallfiles --logpath=/dev/null # --quiet
   sentinel-nats:
-    image: 'nats:1.3.0'
-    container_name: "sentinel-nats"
-    entrypoint: "/gnatsd -DV"
-    expose:
-      - "4222"
+    image: sentinel-nats:${TAGVersion}-dev-linux
+    build:
+      context: ./sentinel-nats
+      dockerfile: dockerfile-linux
     ports:
       - "8222:8222"
       - "4222:4222"
-    # hostname: nats-server
  
 # networks:
 #   default:
