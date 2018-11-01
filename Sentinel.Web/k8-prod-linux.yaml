@@ -121,6 +121,57 @@ spec:
           value: "Id"
         - name: SentinelConnection
           value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-nats-monitor
+  labels:
+    app: sentinel-nats
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 8222
+    targetPort: 8222
+  selector:
+    app: sentinel-nats
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-nats
+  labels:
+    app: sentinel-nats
+spec:
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 4222
+    targetPort: 4222
+  selector:
+    app: sentinel-nats
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-nats
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-nats
+    spec:
+      containers:
+      - name: sentinel-nats
+        image: mmercan/sentinel-nats
+        ports:
+        - containerPort: 8222
+        - containerPort: 4222
+---
+
+---
 # ---
 # apiVersion: v1
 # kind: PersistentVolumeClaim
