@@ -104,7 +104,7 @@ services:
         - 27017:27017
     command: mongod --smallfiles --logpath=/dev/null # --quiet
   sentinel-nats:
-    image: sentinel-nats:${TAGVersion}-dev-linux
+    image: mmercan/sentinel-nats:${TAGVersion}-dev-linux
     build:
       context: ./sentinel-nats
       dockerfile: dockerfile-linux
