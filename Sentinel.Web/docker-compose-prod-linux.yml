@@ -90,8 +90,10 @@ services:
     ports:
       - "6379:6379"
   sentinel-db-mongodb:
-    image: mongo:latest
-    container_name: "sentinel-db-mongodb"
+    image: mmercan/sentinel-db-mongodb:${TAGVersion}-prod-linux
+    build:
+      context: ./Sentinel.Db.Mongodb
+      dockerfile: dockerfile-linux
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
@@ -99,12 +101,11 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=hbMnztmZ4w9JJTGZ
     # volumes:
     #   - ./data/db:/data/db
-    hostname: mongodb
     ports:
         - 27017:27017
-    command: mongod --smallfiles --logpath=/dev/null # --quiet
+    # command: mongod --smallfiles --logpath=/dev/null # --quiet
   sentinel-nats:
-    image: mmercan/sentinel-nats:${TAGVersion}-dev-linux
+    image: mmercan/sentinel-nats:${TAGVersion}-prod-linux
     build:
       context: ./sentinel-nats
       dockerfile: dockerfile-linux

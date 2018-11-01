@@ -1,0 +1,5 @@
+FROM mongo:latest
+
+CMD ["mongod", "--smallfiles", "--logpath=/dev/null"]
+EXPOSE 27017
+EXPOSE 28017

@@ -137,8 +137,10 @@ services:
     # networks:
     #   - redis-net
   sentinel-db-mongodb:
-    image: mongo:latest
-    container_name: "sentinel-db-mongodb"
+    image: sentinel-db-mongodb:${TAGVersion}-dev-linux
+    build:
+      context: ./Sentinel.Db.Mongodb
+      dockerfile: dockerfile-linux
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
@@ -146,10 +148,9 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=hbMnztmZ4w9JJTGZ
     # volumes:
     #   - ./data/db:/data/db
-    hostname: mongodb
     ports:
         - 27017:27017
-    command: mongod --smallfiles --logpath=/dev/null # --quiet
+    # command: mongod --smallfiles --logpath=/dev/null # --quiet
   sentinel-nats:
     image: sentinel-nats:${TAGVersion}-dev-linux
     build:

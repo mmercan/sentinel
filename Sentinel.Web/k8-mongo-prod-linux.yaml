@@ -7,9 +7,9 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - protocol: TCP
-      port: 27017
-      targetPort: 27017
+  - protocol: TCP
+    port: 27017
+    targetPort: 27017
   selector:
     app: sentinel-db-mongodb
 ---
@@ -26,11 +26,7 @@ spec:
     spec:
       containers:
       - name: sentinel-db-mongodb
-        image: mongo:latest
-        command:
-        - mongod
-        - "--smallfiles"
-        - "--logpath=/dev/null"
+        image: mmercan/sentinel-db-mongodb
         ports:
         - containerPort: 27017 
         env:
