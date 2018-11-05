@@ -146,8 +146,8 @@ services:
       - MONGO_LOG_DIR=/dev/null
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=hbMnztmZ4w9JJTGZ
-    # volumes:
-    #   - ./data/db:/data/db
+    volumes:
+      - ./data/db:/data/db
     ports:
         - 27017:27017
     # command: mongod --smallfiles --logpath=/dev/null # --quiet

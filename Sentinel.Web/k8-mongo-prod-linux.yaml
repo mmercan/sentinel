@@ -1,3 +1,16 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+   name: px-mongo-pvc
+   annotations:
+     volume.beta.kubernetes.io/storage-class: azurefile
+spec:
+   accessModes:
+     - ReadWriteOnce
+   resources:
+     requests:
+       storage: 5Gi
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -37,7 +50,14 @@ spec:
         - name: MONGO_INITDB_ROOT_USERNAME
           value: "root" 
         - name: MONGO_INITDB_ROOT_PASSWORD
-          value: "hbMnztmZ4w9JJTGZ"   
+          value: "hbMnztmZ4w9JJTGZ"  
+        volumeMounts:
+        - mountPath: /data/db
+          name: mongodb
+        volumes:
+        - name: mongodb
+        persistentVolumeClaim:
+          claimName: px-mongo-pvc 
 ---          
 apiVersion: v1
 kind: Service
@@ -69,4 +89,72 @@ spec:
       - name: sentinel-db-redis
         image: mmercan/sentinel-db-redis
         ports:
-        - containerPort: 6379 
+        - containerPort: 6379
+---
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: sentinel-sql-db-data-claim
+# spec:
+#   accessModes:
+#   - ReadWriteOnce
+#   resources:
+#    requests:
+#     storage: 5Gi
+
+# kind: Secret
+# apiVersion: v1
+# metadata:
+#   name: sentinel-sql-db-secret
+#   namespace: default
+# data:
+#   # Password is P@ssword1$ so update it with password of your choice  
+#   SA_PASSWORD: UEBzc3dvcmQxJA==
+# type: Opaque
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: sentinel-sql-db-service
+# spec:
+#   selector:
+#     app: sentinel-sql-db
+#   ports:
+#     - protocol: TCP
+#       port: 1433
+#       targetPort: 1433
+#   type: ClusterIP
+
+# apiVersion: apps/v1beta1
+# kind: Deployment
+# metadata:
+#   name: sentinel-sql-db-deployment
+# spec:
+#   replicas: 1
+#   template:
+#     metadata:
+#       labels:
+#         app: sentinel-sql-db
+#     spec:
+#       terminationGracePeriodSeconds: 10
+#       containers:
+#       - name: mssql
+#         image: microsoft/mssql-server-linux
+#         ports:
+#         - containerPort: 1433
+#         env:
+#         - name: ACCEPT_EULA
+#           value: "Y"
+#         - name: SA_PASSWORD
+#           valueFrom:
+#             secretKeyRef:
+#               name: sentinel-sql-db-secret
+#               key: SA_PASSWORD
+#         volumeMounts:
+#         - name: mssql-persistent-storage
+#           mountPath: /var/opt/mssql
+#       volumes:
+#       - name: mssql-persistent-storage
+#         persistentVolumeClaim:
+#           claimName: sentinel-sql-db-data-claim
