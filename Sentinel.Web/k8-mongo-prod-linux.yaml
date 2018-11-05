@@ -54,10 +54,10 @@ spec:
         volumeMounts:
         - mountPath: /data/db
           name: mongodb
-        volumes:
+      volumes:
         - name: mongodb
-          persistentVolumeClaim:
-          claimName: px-mongo-pvc 
+        persistentVolumeClaim:
+        claimName: px-mongo-pvc 
 ---          
 apiVersion: v1
 kind: Service
