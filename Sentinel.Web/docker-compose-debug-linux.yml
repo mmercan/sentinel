@@ -147,10 +147,9 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=hbMnztmZ4w9JJTGZ
     volumes:
-      - ./data/db:/data/db
+      - mongodata:/data/db
     ports:
         - 27017:27017
-    # command: mongod --smallfiles --logpath=/dev/null # --quiet
   sentinel-nats:
     image: sentinel-nats:${TAGVersion}-dev-linux
     build:
@@ -159,7 +158,8 @@ services:
     ports:
       - "8222:8222"
       - "4222:4222"
- 
+volumes:
+  mongodata:
 # networks:
 #   default:
 #     external:

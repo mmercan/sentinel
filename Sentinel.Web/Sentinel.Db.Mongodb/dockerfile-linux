@@ -1,5 +1,6 @@
 FROM mongo:latest
-
-CMD ["mongod", "--smallfiles", "--logpath=/dev/null"]
+VOLUME /data/db
+# CMD ["mongod", "--smallfiles", "--logpath=/dev/null"]
+CMD ["mongod"]
 EXPOSE 27017
 EXPOSE 28017
