@@ -158,6 +158,14 @@ services:
     ports:
       - "8222:8222"
       - "4222:4222"
+  sentinel-util-mailhog:
+    image: sentinel-util-mailhog:${TAGVersion}-dev-linux
+    build:
+      context: ./Sentinel.Util.Mailhog
+      dockerfile: dockerfile-linux
+    ports:
+      - "1025:1025"
+      - "8025:8025"
 volumes:
   mongodata:
 # networks:
