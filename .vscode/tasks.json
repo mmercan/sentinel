@@ -36,5 +36,14 @@
             "${workspaceFolder}/Sentinel.Web/Sentinel.Web.Api.Comms/Sentinel.Web.Api.Comms.csproj"
         ],
         "problemMatcher": "$msCompile"
+    }, {
+        "label": "Mercan.Common.build",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build",
+            "${workspaceFolder}/Sentinel.Web/Mercan/Mercan.Common/Mercan.Common.csproj"
+        ],
+        "problemMatcher": "$msCompile"
     }]
 }

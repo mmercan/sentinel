@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using System.Net.Mail;
 
 namespace Sentinel.Web.Sts.Controllers
 {
@@ -20,6 +21,10 @@ namespace Sentinel.Web.Sts.Controllers
         public HealthCheckController(ILogger<HealthCheckController> logger)
         {
             _logger = logger;
+
+            // var client = new SmtpClient("smtp.gmail.com", 587);
+
+
         }
 
         /// <summary>
