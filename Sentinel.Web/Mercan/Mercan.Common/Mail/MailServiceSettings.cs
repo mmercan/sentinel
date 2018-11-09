@@ -4,9 +4,9 @@ namespace Mercan.Common.Mail
 {
     public class MailServiceSettings : IMailServiceSettings
     {
-        public string Server { get; }
-        public int Port { get; }
-        public string UserName { get; }
-        public string Password { get; }
+        public string Server { get; set; }
+        public int Port { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
     }
 }

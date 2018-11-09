@@ -10,8 +10,6 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_USE_POLLING_FILE_WATCHER=1
-      - SMTP__SERVER=sentinel-util-mailhog
-      - SMTP__PORT=1025
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
       - Mongodb__ConnectionString=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
       - Mongodb__DatabaseName=sentinel
@@ -81,6 +79,10 @@ services:
       dockerfile: Sentinel.Web.STS/dockerfile-linux
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - SMTP__Server=sentinel-util-mailhog
+      - SMTP__Port=1025
+      - SMTP__UserName=mail@mail.com
+      - SMTP__Password=password123
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
       - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
       - DOTNET_USE_POLLING_FILE_WATCHER=1

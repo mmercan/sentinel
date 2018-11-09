@@ -29,6 +29,10 @@
     <PackageReference Include="WebPush-netcore" Version="1.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Mercan\Mercan.Common\Mercan.Common.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>

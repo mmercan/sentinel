@@ -73,7 +73,15 @@ spec:
         - name: Mongodb__IdField
           value: "Id"
         - name: SentinelConnection
-          value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"   
+          value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
+        - name: SMTP__Server
+          value: "sentinel-util-mailhog"
+        - name: SMTP__Port
+          value: 1025
+        - name: SMTP__UserName
+          value: "mail@mail.com"
+        - name: SMTP__Password
+          value: "password123"
 ---
 apiVersion: v1
 kind: Service

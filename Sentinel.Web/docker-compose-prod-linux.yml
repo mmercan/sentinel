@@ -48,6 +48,10 @@ services:
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
       - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
       - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - SMTP__Server=sentinel-util-mailhog
+      - SMTP__Port=1025
+      - SMTP__UserName=mail@mail.com
+      - SMTP__Password=password123
       - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
     ports:
       - "5000:80"

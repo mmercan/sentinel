@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.Net.Mail;
+using Mercan.Common.Mail;
 
 namespace Sentinel.Web.Sts.Controllers
 {
@@ -17,11 +18,12 @@ namespace Sentinel.Web.Sts.Controllers
     {
 
         ILogger<HealthCheckController> _logger;
+        private MailService mailService;
 
-        public HealthCheckController(ILogger<HealthCheckController> logger)
+        public HealthCheckController(ILogger<HealthCheckController> logger, MailService mailService)
         {
             _logger = logger;
-
+            this.mailService = mailService;
             // var client = new SmtpClient("smtp.gmail.com", 587);
 
 
@@ -58,6 +60,8 @@ namespace Sentinel.Web.Sts.Controllers
         {
             try
             {
+                _logger.LogDebug("GetIsAliveAndWell Called");
+                mailService.Send("fff@hhh.com", "blah", "blh");
                 return Ok();
             }
             catch (Exception)
