@@ -77,7 +77,7 @@ spec:
         - name: SMTP__Server
           value: "sentinel-util-mailhog"
         - name: SMTP__Port
-          value: 1025
+          value: "1025"
         - name: SMTP__UserName
           value: "mail@mail.com"
         - name: SMTP__Password
