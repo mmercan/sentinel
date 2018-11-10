@@ -178,6 +178,15 @@ services:
     ports:
       - "1025:1025"
       - "8025:8025"
+  sentinel-util-kibana:
+    image: sentinel-util-kibana:${TAGVersion}-dev-linux
+    build:
+      context: ./Sentinel.Util.Kibana
+      dockerfile: dockerfile-linux
+    environment:
+      - ELASTICSEARCH_URL=http://sentinel-db-elasticsearch:9200
+    ports:
+      - "5601:5601"
 volumes:
   mongodata:
 # networks:

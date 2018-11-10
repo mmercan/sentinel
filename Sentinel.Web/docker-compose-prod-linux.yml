@@ -94,7 +94,7 @@ services:
     ports:
       - "6379:6379"
   sentinel-db-elasticsearch:
-    image: mmercan/sentinel-db-elasticsearch:${TAGVersion}-dev-linux
+    image: mmercan/sentinel-db-elasticsearch:${TAGVersion}-prod-linux
     build:
       context: ./Sentinel.Db.Elasticsearch
       dockerfile: dockerfile-linux
@@ -132,7 +132,15 @@ services:
     ports:
       - "1025:1025"
       - "8025:8025"
- 
+  sentinel-util-kibana:
+    image: mmercan/sentinel-util-kibana:${TAGVersion}-prod-linux
+    build:
+      context: ./Sentinel.Util.Kibana
+      dockerfile: dockerfile-linux
+    environment:
+      - ELASTICSEARCH_URL=http://sentinel-db-elasticsearch:9200
+    ports:
+      - "5601:5601"
 # networks:
 #   default:
 #     external:
