@@ -93,6 +93,14 @@ services:
     hostname: redis
     ports:
       - "6379:6379"
+  sentinel-db-elasticsearch:
+    image: mmercan/sentinel-db-elasticsearch:${TAGVersion}-dev-linux
+    build:
+      context: ./Sentinel.Db.Elasticsearch
+      dockerfile: dockerfile-linux
+    ports:
+      - "9200:9200"
+      - "9300:9300"
   sentinel-db-mongodb:
     image: mmercan/sentinel-db-mongodb:${TAGVersion}-prod-linux
     build:
