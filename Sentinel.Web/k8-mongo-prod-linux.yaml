@@ -139,6 +139,71 @@ spec:
         - containerPort: 1025
         - containerPort: 8025
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-db-elasticsearch
+  labels:
+    app: sentinel-db-elasticsearch
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 9200
+    targetPort: 9200
+  selector:
+    app: sentinel-db-elasticsearch
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-db-elasticsearch
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-db-elasticsearch
+    spec:
+      containers:
+      - name: sentinel-db-elasticsearch
+        image: mmercan/sentinel-db-elasticsearch
+        ports:
+        - containerPort: 9200
+        - containerPort: 9300      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-util-kibana
+  labels:
+    app: sentinel-util-kibana
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 5601
+    targetPort: 5601
+  selector:
+    app: sentinel-util-kibana
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-util-kibana
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-util-kibana
+    spec:
+      containers:
+      - name: sentinel-util-kibana
+        image: mmercan/sentinel-util-kibana
+        ports:
+        - containerPort: 5601
+---
 # ---
 # apiVersion: v1
 # kind: PersistentVolumeClaim

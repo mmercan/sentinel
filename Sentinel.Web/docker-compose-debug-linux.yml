@@ -187,6 +187,8 @@ services:
       - ELASTICSEARCH_URL=http://sentinel-db-elasticsearch:9200
     ports:
       - "5601:5601"
+    depends_on:
+      - sentinel-db-elasticsearch
 volumes:
   mongodata:
 # networks:
