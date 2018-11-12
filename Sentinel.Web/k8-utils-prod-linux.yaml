@@ -20,26 +20,31 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - protocol: TCP
+  - name: http
+    protocol: TCP
     port: 9200
     targetPort: 9200
-  selector:
-    app: sentinel-db-elasticsearch
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: sentinel-db-elasticsearch-nodecomms
-  labels:
-    app: sentinel-db-elasticsearch
-spec:
-  type: ClusterIP
-  ports:
-  - protocol: TCP
+  - name: transport
+    protocol: TCP
     port: 9300
     targetPort: 9300
   selector:
     app: sentinel-db-elasticsearch
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: sentinel-db-elasticsearch-nodecomms
+#   labels:
+#     app: sentinel-db-elasticsearch
+# spec:
+#   type: ClusterIP
+#   ports:
+#   - protocol: TCP
+#     port: 9300
+#     targetPort: 9300
+#   selector:
+#     app: sentinel-db-elasticsearch
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
