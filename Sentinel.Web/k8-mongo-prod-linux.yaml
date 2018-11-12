@@ -139,38 +139,38 @@ spec:
         - containerPort: 1025
         - containerPort: 8025
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: sentinel-db-elasticsearch
-  labels:
-    app: sentinel-db-elasticsearch
-spec:
-  type: LoadBalancer
-  ports:
-  - protocol: TCP
-    port: 9200
-    targetPort: 9200
-  selector:
-    app: sentinel-db-elasticsearch
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: sentinel-db-elasticsearch
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: sentinel-db-elasticsearch
-    spec:
-      containers:
-      - name: sentinel-db-elasticsearch
-        image: mmercan/sentinel-db-elasticsearch
-        ports:
-        - containerPort: 9200
-        - containerPort: 9300      
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: sentinel-db-elasticsearch
+#   labels:
+#     app: sentinel-db-elasticsearch
+# spec:
+#   type: LoadBalancer
+#   ports:
+#   - protocol: TCP
+#     port: 9200
+#     targetPort: 9200
+#   selector:
+#     app: sentinel-db-elasticsearch
+# ---
+# apiVersion: extensions/v1beta1
+# kind: Deployment
+# metadata:
+#   name: sentinel-db-elasticsearch
+# spec:
+#   replicas: 1
+#   template:
+#     metadata:
+#       labels:
+#         app: sentinel-db-elasticsearch
+#     spec:
+#       containers:
+#       - name: sentinel-db-elasticsearch
+#         image: mmercan/sentinel-db-elasticsearch
+#         ports:
+#         - containerPort: 9200
+#         - containerPort: 9300      
 # ---
 # apiVersion: v1
 # kind: Service
