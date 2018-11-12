@@ -1,82 +1,82 @@
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-   name: px-mongo-pvc
-   annotations:
-     volume.beta.kubernetes.io/storage-class: azurefile
-spec:
-   accessModes:
-     - ReadWriteOnce
-   resources:
-     requests:
-       storage: 5Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: sentinel-db-elasticsearch
-  labels:
-    app: sentinel-db-elasticsearch
-spec:
-  type: LoadBalancer
-  ports:
-  - name: http
-    protocol: TCP
-    port: 9200
-    targetPort: 9200
-  - name: transport
-    protocol: TCP
-    port: 9300
-    targetPort: 9300
-  selector:
-    app: sentinel-db-elasticsearch
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#    name: px-mongo-pvc
+#    annotations:
+#      volume.beta.kubernetes.io/storage-class: azurefile
+# spec:
+#    accessModes:
+#      - ReadWriteOnce
+#    resources:
+#      requests:
+#        storage: 5Gi
 # ---
 # apiVersion: v1
 # kind: Service
 # metadata:
-#   name: sentinel-db-elasticsearch-nodecomms
+#   name: sentinel-db-elasticsearch
 #   labels:
 #     app: sentinel-db-elasticsearch
 # spec:
-#   type: ClusterIP
+#   type: LoadBalancer
 #   ports:
-#   - protocol: TCP
+#   - name: http
+#     protocol: TCP
+#     port: 9200
+#     targetPort: 9200
+#   - name: transport
+#     protocol: TCP
 #     port: 9300
 #     targetPort: 9300
 #   selector:
 #     app: sentinel-db-elasticsearch
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: sentinel-db-elasticsearch
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: sentinel-db-elasticsearch
-    spec:
-      initContainers:
-      - name: init-sysctl
-        image: busybox
-        imagePullPolicy: IfNotPresent
-        command: ["sysctl", "-w", "vm.max_map_count=262144"]
-        securityContext:
-          privileged: true
-      containers:
-      - name: sentinel-db-elasticsearch
-        image: mmercan/sentinel-db-elasticsearch
-        resources:
-          requests:
-            cpu: 100m
-            memory: 256Mi
-          limits:
-            cpu: 250m
-            memory: 512Mi
-        ports:
-        - containerPort: 9200
-        - containerPort: 9300
+# # ---
+# # apiVersion: v1
+# # kind: Service
+# # metadata:
+# #   name: sentinel-db-elasticsearch-nodecomms
+# #   labels:
+# #     app: sentinel-db-elasticsearch
+# # spec:
+# #   type: ClusterIP
+# #   ports:
+# #   - protocol: TCP
+# #     port: 9300
+# #     targetPort: 9300
+# #   selector:
+# #     app: sentinel-db-elasticsearch
+# ---
+# apiVersion: extensions/v1beta1
+# kind: Deployment
+# metadata:
+#   name: sentinel-db-elasticsearch
+# spec:
+#   replicas: 1
+#   template:
+#     metadata:
+#       labels:
+#         app: sentinel-db-elasticsearch
+#     spec:
+#       initContainers:
+#       - name: init-sysctl
+#         image: busybox
+#         imagePullPolicy: IfNotPresent
+#         command: ["sysctl", "-w", "vm.max_map_count=262144"]
+#         securityContext:
+#           privileged: true
+#       containers:
+#       - name: sentinel-db-elasticsearch
+#         image: mmercan/sentinel-db-elasticsearch
+#         resources:
+#           requests:
+#             cpu: 100m
+#             memory: 256Mi
+#           limits:
+#             cpu: 250m
+#             memory: 512Mi
+#         ports:
+#         - containerPort: 9200
+#         - containerPort: 9300
 ---
 apiVersion: v1
 kind: Service
