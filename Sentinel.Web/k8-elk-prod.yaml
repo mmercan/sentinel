@@ -32,7 +32,7 @@ metadata:
   labels:                    
     service: sample-elasticsearch
 spec:                        
-  type: ClusterIP
+  type: LoadBalancer
   selector:                   
     service: sample-elasticsearch
   ports:                     
