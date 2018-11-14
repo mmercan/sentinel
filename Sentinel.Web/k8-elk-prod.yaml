@@ -230,15 +230,30 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sentinel-elk-proxy
+  name: sentinel-elk-proxy-kibana
   labels:
     app: sentinel-elk-proxy
 spec:
   type: LoadBalancer
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 80
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: sentinel-elk-proxy
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-elk-proxy-elasticsearch
+  labels:
+    app: sentinel-elk-proxy
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 9200
+    targetPort: 9200
   selector:
     app: sentinel-elk-proxy
 ---

@@ -71,7 +71,8 @@ services:
       context: ./Sentinel.elk.Proxy
       dockerfile: dockerfile
     ports:
-      - "80:80" 
+      - "8080:8080"
+      - "9200:9200" 
   sentinel-db-redis:
     image: mmercan/sentinel-db-redis:${TAGVersion}-prod-linux
     build:

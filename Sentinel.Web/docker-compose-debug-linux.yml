@@ -119,7 +119,9 @@ services:
       context: ./Sentinel.elk.Proxy
       dockerfile: dockerfile
     ports:
-      - "80:80"  
+      - "80:80"
+      - "8080:8080"
+      - "8081:8081"
 
   # sentinel-sql-db:
   #   image: sentinel-sql-db:01-dev-linux
