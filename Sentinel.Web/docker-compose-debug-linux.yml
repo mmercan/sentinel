@@ -112,7 +112,14 @@ services:
     deploy:
       resources:
         reservations:
-          memory: 2G 
+          memory: 2G
+  sentinel-elk-proxy:      
+    image: sentinel-elk-proxy:${TAGVersion}-dev-linux
+    build:
+      context: ./Sentinel.elk.Proxy
+      dockerfile: dockerfile
+    ports:
+      - "80:80"  
 
   # sentinel-sql-db:
   #   image: sentinel-sql-db:01-dev-linux

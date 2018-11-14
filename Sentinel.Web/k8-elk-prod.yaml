@@ -21,7 +21,7 @@ data:
     discovery.zen.minimum_master_nodes: 1
     #Update max_local_storage_nodes value based on number of nodes
     node.max_local_storage_nodes: 1
-    #xpack.security.enabled: true
+    xpack.security.enabled: true
     xpack.monitoring.collection.enabled: true
   role_mapping.yml: |
 ---
@@ -92,8 +92,8 @@ spec:
         env:
           - name: cluster.name
             value: "sentinel-db-elasticsearch-cluster"
-          # - name: "xpack.security.enabled"
-          #   value: "true"
+          - name: "xpack.security.enabled"
+             value: "true"
           - name: "TAKE_FILE_OWNERSHIP"
             value: “1”
           - name: "ELASTIC_PASSWORD"
@@ -226,3 +226,36 @@ data:
       }
     }
   logstash.conf: |
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-elk-proxy
+  labels:
+    app: sentinel-elk-proxy
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  selector:
+    app: sentinel-elk-proxy
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-elk-proxy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-elk-proxy
+    spec:
+      containers:
+      - name: sentinel-elk-proxy
+        image: mmercan/sentinel-elk-proxy
+        ports:
+        - containerPort: 80
+---

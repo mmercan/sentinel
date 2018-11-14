@@ -65,6 +65,13 @@ services:
       dockerfile: Sentinel.Web.Admin/dockerfile
     ports:
       - "80:80"
+  sentinel-elk-proxy:      
+    image: mmercan/sentinel-elk-proxy:${TAGVersion}-prod-linux
+    build:
+      context: ./Sentinel.elk.Proxy
+      dockerfile: dockerfile
+    ports:
+      - "80:80" 
   sentinel-db-redis:
     image: mmercan/sentinel-db-redis:${TAGVersion}-prod-linux
     build:
