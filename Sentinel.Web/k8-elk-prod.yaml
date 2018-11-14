@@ -21,7 +21,7 @@ data:
     discovery.zen.minimum_master_nodes: 1
     #Update max_local_storage_nodes value based on number of nodes
     node.max_local_storage_nodes: 1
-    xpack.security.enabled: true
+    #xpack.security.enabled: true
     xpack.monitoring.collection.enabled: true
   role_mapping.yml: |
 ---
@@ -92,8 +92,8 @@ spec:
         env:
           - name: cluster.name
             value: "sentinel-db-elasticsearch-cluster"
-          - name: "xpack.security.enabled"
-            value: "true"
+          # - name: "xpack.security.enabled"
+          #   value: "true"
           - name: "TAKE_FILE_OWNERSHIP"
             value: “1”
           - name: "ELASTIC_PASSWORD"
