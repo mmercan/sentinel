@@ -273,3 +273,37 @@ spec:
         image: mmercan/sentinel-elk-proxy
         ports:
         - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-elk-logstash
+  labels:
+    app: sentinel-elk-logstash
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 9600
+    targetPort: 9600
+  selector:
+    app: sentinel-elk-logstash
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-elk-logstash
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-elk-logstash
+    spec:
+      containers:
+      - name: sentinel-elk-logstash
+        image: mmercan/sentinel-elk-logstash
+        ports:
+        - containerPort: 9600
+        - containerPort: 5044
+

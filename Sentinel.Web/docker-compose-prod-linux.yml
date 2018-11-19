@@ -116,6 +116,18 @@ services:
     ports:
       - "1025:1025"
       - "8025:8025"
+  sentinel-elk-logstash:
+    image: mmercan/sentinel-elk-logstash:${TAGVersion}-prod-linux
+    build:
+      context: ./Sentinel.elk.Logstash
+      dockerfile: dockerfile-linux
+    environment:
+      - ELASTICSEARCH_URL=http://sentinel-db-elasticsearch:9200
+    ports:
+      - "5044:5044"
+      - "9600:9600"
+    # depends_on:
+    #   - sentinel-db-elasticsearch
   # sqldb:
   #   image: mmercan/sentinel-sql-db:${TAGVersion}-prod-linux
   #   build:
