@@ -1,0 +1,5 @@
+FROM docker.elastic.co/logstash/logstash-oss:6.4.3
+EXPOSE 5044 9600
+ENV LS_JAVA_OPTS="-Xmx256m -Xms256m"
+COPY ./data/cars.csv /usr/share/logstash/data
+COPY ./pipeline/logstash-car.conf /usr/share/logstash/pipeline

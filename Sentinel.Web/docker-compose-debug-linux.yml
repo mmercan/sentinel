@@ -198,6 +198,18 @@ services:
       - "5601:5601"
     depends_on:
       - sentinel-db-elasticsearch
+  sentinel-elk-logstash:
+    image: sentinel-elk-logstash:${TAGVersion}-dev-linux
+    build:
+      context: ./Sentinel.elk.Logstash
+      dockerfile: dockerfile-linux
+    environment:
+      - ELASTICSEARCH_URL=http://sentinel-db-elasticsearch:9200
+    ports:
+      - "5044:5044"
+      - "9600:9600"
+    depends_on:
+      - sentinel-db-elasticsearch
 volumes:
   mongodata:
 # networks:
