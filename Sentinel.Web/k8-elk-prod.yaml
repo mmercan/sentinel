@@ -118,11 +118,11 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: sentinel-util-kibana-configmap
+  name: sentinel-elk-kibana-configmap
   namespace: default
 data:
   kibana.yml: |
-    server.name: sentinel-util-kibana
+    server.name: sentinel-elk-kibana
     server.host: "0"
     elasticsearch.url: http://sentinel-db-elasticsearch:9200
     xpack.monitoring.ui.container.elasticsearch.enabled: true
@@ -132,13 +132,13 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sentinel-util-kibana
+  name: sentinel-elk-kibana
   labels:
-    component: sentinel-util-kibana
+    component: sentinel-elk-kibana
 spec:
   type: LoadBalancer
   selector:
-    component: sentinel-util-kibana
+    component: sentinel-elk-kibana
   ports:
   - name: http
     port: 80
@@ -147,21 +147,21 @@ spec:
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: sentinel-util-kibana
+  name: sentinel-elk-kibana
   labels:
-    component: sentinel-util-kibana
+    component: sentinel-elk-kibana
 spec:
   replicas: 1
   selector:
     matchLabels:
-     component: sentinel-util-kibana
+     component: sentinel-elk-kibana
   template:
     metadata:
       labels:
-        component: sentinel-util-kibana
+        component: sentinel-elk-kibana
     spec:
       containers:
-      - name: sentinel-util-kibana
+      - name: sentinel-elk-kibana
         image: docker.elastic.co/kibana/kibana:6.4.1
         resources:
           limits:
@@ -172,7 +172,7 @@ spec:
         - containerPort: 5601
           name: http
         volumeMounts:
-        - name: sentinel-util-kibana-configmap
+        - name: sentinel-elk-kibana-configmap
           mountPath: /usr/share/kibana/config/kibana.yml
           subPath: kibana.yml
         resources: {}
@@ -182,50 +182,14 @@ spec:
         securityContext:
           privileged: false
       volumes:
-      - name: sentinel-util-kibana-configmap
+      - name: sentinel-elk-kibana-configmap
         configMap:
-            name: sentinel-util-kibana-configmap
+            name: sentinel-elk-kibana-configmap
       restartPolicy: Always
       terminationGracePeriodSeconds: 5
       dnsPolicy: ClusterFirst
       securityContext: {}
       schedulerName: default-scheduler
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: sample-logstash-configmap
-  namespace: default
-data:
-  logstash.yml: |
-    xpack.monitoring.elasticsearch.url: http://sample-elasticsearch:9200
-    dead_letter_queue.enable: true
-    xpack.monitoring.enabled: true
-    xpack.monitoring.elasticsearch.username: logstash_system 
-    xpack.monitoring.elasticsearch.password: Password1$
-  pipelines.yml: |
-    - pipeline.id: azureeventhubs
-      path.config: "/usr/share/logstash/azureeventhubs.cfg"
-  azureeventhubs.cfg: |
-    input {
-      azure_event_hubs {
-        event_hub_connections => ["{AZURE_EVENT_HUB_CONNECTION_STRING};EntityPath=logstash"]
-        threads => 2
-        decorate_events => true
-        consumer_group => "$Default"
-        storage_connection => "{STORAGE_ACCOUNT_CONNECTION_STRING}"
-        storage_container => "logstash"
-        }
-    }
-    filter {
-    }
-    output {
-      elasticsearch {
-        hosts => [ "http://sentinel-db-elasticsearch:9200" ]
-        index => "azureeventhub-%{+YYYY.MM.dd}"
-      }
-    }
-  logstash.conf: |
 ---
 apiVersion: v1
 kind: Service
@@ -306,4 +270,40 @@ spec:
         ports:
         - containerPort: 9600
         - containerPort: 5044
-
+---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: sample-logstash-configmap
+#   namespace: default
+# data:
+#   logstash.yml: |
+#     xpack.monitoring.elasticsearch.url: http://sample-elasticsearch:9200
+#     dead_letter_queue.enable: true
+#     xpack.monitoring.enabled: true
+#     # xpack.monitoring.elasticsearch.username: logstash_system 
+#     # xpack.monitoring.elasticsearch.password: Password1$
+#   pipelines.yml: |
+#     - pipeline.id: azureeventhubs
+#       path.config: "/usr/share/logstash/azureeventhubs.cfg"
+#   azureeventhubs.cfg: |
+#     input {
+#       azure_event_hubs {
+#         event_hub_connections => ["{AZURE_EVENT_HUB_CONNECTION_STRING};EntityPath=logstash"]
+#         threads => 2
+#         decorate_events => true
+#         consumer_group => "$Default"
+#         storage_connection => "{STORAGE_ACCOUNT_CONNECTION_STRING}"
+#         storage_container => "logstash"
+#         }
+#     }
+#     filter {
+#     }
+#     output {
+#       elasticsearch {
+#         hosts => [ "http://sentinel-db-elasticsearch:9200" ]
+#         index => "azureeventhub-%{+YYYY.MM.dd}"
+#       }
+#     }
+#   logstash.conf: |
+# ---
