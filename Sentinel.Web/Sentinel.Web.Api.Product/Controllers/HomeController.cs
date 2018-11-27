@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Mercan.Common;
 using Mercan.Common.Mongo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
@@ -18,17 +19,17 @@ namespace Sentinel.Web.Api.Product.Controllers
         private IDistributedCache cache;
 
         public HomeController(IDistributedCache cache, IOptions<MangoBaseRepoSettings> mangoBaseRepoSettings,
-         ILogger<HomeController> logger, MangoBaseRepo<ProductInfoDtoV2> repo)
+         ILogger<HomeController> logger, MangoBaseRepo<ProductInfoDtoV2> repo, TriggerHandler triggerHandler)
         {
             this.cache = cache;
-            var rr = repo.GetAll();
+            // var rr = repo.GetAll();
 
-            ProductInfoDtoV2 blah = new ProductInfoDtoV2 { Name = "my name" };
-            var addtask = repo.AddAsync(blah);
-            addtask.Wait();
+            // ProductInfoDtoV2 blah = new ProductInfoDtoV2 { Name = "my name" };
+            // var addtask = repo.AddAsync(blah);
+            // addtask.Wait();
 
-            logger.LogCritical("CollectionName");
-            logger.LogCritical(mangoBaseRepoSettings.Value.CollectionName);
+            // logger.LogCritical("CollectionName");
+            // logger.LogCritical(mangoBaseRepoSettings.Value.CollectionName);
 
         }
         public IActionResult Index()

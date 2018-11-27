@@ -32,6 +32,7 @@ using System.Reflection;
 using System.IO;
 using Microsoft.Extensions.Caching.Distributed;
 using Mercan.Common.Mongo;
+using Mercan.Common;
 using Sentinel.Web.Dto.Product;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MongoDB.Driver;
@@ -100,6 +101,7 @@ namespace Sentinel.Web.Api.Product
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IServiceCollection>(services);
 
             services.AddDbContext<SentinelDbContext>(o =>
             {
@@ -131,6 +133,8 @@ namespace Sentinel.Web.Api.Product
 
 
             services.AddScoped<ProductRepo>();
+            // services.AddScoped<TriggerHandler>();
+            services.AddTriggerHandler<TriggerHandler>();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -208,7 +212,7 @@ namespace Sentinel.Web.Api.Product
             app.UseStaticFiles();
 
             var mongoClient = new MongoClient(Configuration["Mongodb:ConnectionString"]);
-           // var mongoClient = new MongoClient("mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary");
+            // var mongoClient = new MongoClient("mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary");
             var MongoDblogs = mongoClient.GetDatabase("logs");
 
 
