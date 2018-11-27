@@ -12,7 +12,7 @@ public class KafkaListenerAttribute : Attribute
     }
 
 
-    public KafkaListenerAttribute(string bootstrapServers, string groupId string topic)
+    public KafkaListenerAttribute(string bootstrapServers, string groupId, string topic)
     {
         this.Topic = topic;
         this.BootstrapServers = bootstrapServers;
