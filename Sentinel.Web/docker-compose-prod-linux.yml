@@ -126,8 +126,32 @@ services:
     ports:
       - "5044:5044"
       - "9600:9600"
-    # depends_on:
-    #   - sentinel-db-elasticsearch
+  sentinel-util-zookeeper:
+    image: sentinel-util-zookeeper:${TAGVersion}-prod-linux
+    build:
+      context: ./Sentinel.Util.Kafka
+      dockerfile: dockerfile-zookeeper
+    ports:
+      - 2181:2181
+  sentinel-util-kafka:
+    image: sentinel-util-kafka:${TAGVersion}-prod-linux
+    build:
+      context: ./Sentinel.Util.Kafka
+      dockerfile: dockerfile-kafka
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: sentinel-util-zookeeper:2181/local
+      KAFKA_ADVERTISED_HOST_NAME: sentinel-util-kafka
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_CREATE_TOPICS: "test-topic:2:1,test-topic2:1:1,test-topic3:1:1"
+  sentinel-util-kafka-manager:
+    image: sentinel-util-kafka-manager:${TAGVersion}-prod-linux
+    build:
+      context: ./Sentinel.Util.Kafka
+      dockerfile: dockerfile-manager
+    ports:
+      - 9000:9000
   # sqldb:
   #   image: mmercan/sentinel-sql-db:${TAGVersion}-prod-linux
   #   build:
