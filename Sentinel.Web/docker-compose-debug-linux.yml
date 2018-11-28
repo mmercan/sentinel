@@ -228,19 +228,18 @@ services:
       - "9600:9600"
     depends_on:
       - sentinel-db-elasticsearch
-  sentinel-util-kafka-landoop:
-    image: sentinel-util-kafka-landoop:${TAGVersion}-dev-linux
+  sentinel-util-zookeeper:
+    image: sentinel-util-zookeeper:${TAGVersion}-dev-linux
     build:
       context: ./Sentinel.Util.Kafka
-      dockerfile: dockerfile-linux-landoop
-    ports:
-      - "8000:8000"
-  sentinel-util-zookeeper:
-    image: wurstmeister/zookeeper
+      dockerfile: dockerfile-zookeeper
     ports:
       - 2181:2181
   sentinel-util-kafka:
-    image: wurstmeister/kafka
+    image: sentinel-util-kafka:${TAGVersion}-dev-linux
+    build:
+      context: ./Sentinel.Util.Kafka
+      dockerfile: dockerfile-kafka
     ports:
       - 9092:9092
     environment:
@@ -248,6 +247,12 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: sentinel-util-kafka
       KAFKA_ADVERTISED_PORT: 9092
       KAFKA_CREATE_TOPICS: "test-topic:2:1,test-topic2:1:1,test-topic3:1:1"
+  sentinel-util-kafka-manager:
+    build:
+      context: ./Sentinel.Util.Kafka
+      dockerfile: dockerfile-manager
+    ports:
+      - 9000:9000
   sentinel-util-kafka-burrow:
     build:
       context: ./Sentinel.Util.Kafka/Burrow
@@ -261,6 +266,13 @@ services:
       - sentinel-util-zookeeper
       - sentinel-util-kafka
     restart: always
+  sentinel-util-kafka-landoop:
+    image: sentinel-util-kafka-landoop:${TAGVersion}-dev-linux
+    build:
+      context: ./Sentinel.Util.Kafka
+      dockerfile: dockerfile-linux-landoop
+    ports:
+      - "8000:8000"
   sentinel-util-kafka-monitor:
     build:
       context: ./Sentinel.Util.Kafka
@@ -270,12 +282,6 @@ services:
     depends_on:
       - sentinel-util-zookeeper
       - sentinel-util-kafka
-  sentinel-util-kafka-manager:
-    build:
-      context: ./Sentinel.Util.Kafka
-      dockerfile: dockerfile-manager
-    ports:
-      - 9000:9000
 volumes:
   mongodata:
 # networks:
