@@ -1,0 +1,14 @@
+FROM landoop/kafka-topics-ui
+EXPOSE 8000
+ENV KAFKA_REST_PROXY_URL=sentinel-util-kafka-proxy:9092
+ENV PROXY=true
+
+
+
+
+
+# docker pull landoop/kafka-topics-ui
+# docker run --rm -it -p 8000:8000 \
+#            -e "KAFKA_REST_PROXY_URL=http://kafka-rest-proxy-host:port" \
+#            -e "PROXY=true" \
+#            landoop/kafka-topics-ui

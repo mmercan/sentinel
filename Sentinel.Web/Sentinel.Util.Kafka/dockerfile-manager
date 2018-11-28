@@ -1,0 +1,4 @@
+FROM sheepkiller/kafka-manager
+ENV ZK_HOSTS="sentinel-util-zookeeper:2181/local"
+ENV APPLICATION_SECRET="letmein sheepkiller/kafka-manager"
+EXPOSE 9000

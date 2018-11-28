@@ -1,0 +1,4 @@
+FROM solsson/kafka-monitor
+
+# COPY ./monitor/kafka-monitor.properties /opt/kafka-monitor/config/kafka-monitor.properties
+EXPOSE 8000

@@ -1,0 +1,10 @@
+FROM spotify/kafkaproxy
+EXPOSE 2181 9092
+
+ENV ADVERTISED_HOST=sentinel-util-kafka-proxy
+# ENV ADVERTISED_HOST=0.0.0.0
+ENV ADVERTISED_PORT=9092
+ENV CONSUMER_THREADS=1
+ENV TOPICS=my-topic,some-other-topic
+ENV ZK_CONNECT=kafka7zookeeper:2181/root/path
+ENV GROUP_ID=mymirror

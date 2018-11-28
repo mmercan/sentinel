@@ -42,9 +42,8 @@ $apiFolder = Join-Path -Path $dir -ChildPath .\dockapp
 #docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-api-comms sentinel-elk-proxy
 
 # sentinel-util-kibana  sentinel-db-elasticsearch
-docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes  sentinel-util-mailhog sentinel-db-mongodb sentinel-nats sentinel-db-redis sentinel-web-sts sentinel-web-api-product sentinel-web-api-comms sentinel-web-handler-comms
-
-
+#docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-util-mailhog sentinel-db-mongodb sentinel-nats sentinel-db-redis sentinel-web-sts sentinel-web-api-product sentinel-web-api-comms sentinel-web-handler-comms  sentinel-web-api-member
+docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-util-zookeeper sentinel-util-kafka sentinel-util-kafka-manager
 
 
 
