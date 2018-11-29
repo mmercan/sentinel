@@ -1,182 +1,101 @@
-# kind: PersistentVolumeClaim
-# apiVersion: v1
-# metadata:
-#    name: px-mongo-pvc
-#    annotations:
-#      volume.beta.kubernetes.io/storage-class: azurefile
-# spec:
-#    accessModes:
-#      - ReadWriteOnce
-#    resources:
-#      requests:
-#        storage: 5Gi
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: sentinel-db-elasticsearch
-#   labels:
-#     app: sentinel-db-elasticsearch
-# spec:
-#   type: LoadBalancer
-#   ports:
-#   - name: http
-#     protocol: TCP
-#     port: 9200
-#     targetPort: 9200
-#   - name: transport
-#     protocol: TCP
-#     port: 9300
-#     targetPort: 9300
-#   selector:
-#     app: sentinel-db-elasticsearch
-# # ---
-# # apiVersion: v1
-# # kind: Service
-# # metadata:
-# #   name: sentinel-db-elasticsearch-nodecomms
-# #   labels:
-# #     app: sentinel-db-elasticsearch
-# # spec:
-# #   type: ClusterIP
-# #   ports:
-# #   - protocol: TCP
-# #     port: 9300
-# #     targetPort: 9300
-# #   selector:
-# #     app: sentinel-db-elasticsearch
-# ---
-# apiVersion: extensions/v1beta1
-# kind: Deployment
-# metadata:
-#   name: sentinel-db-elasticsearch
-# spec:
-#   replicas: 1
-#   template:
-#     metadata:
-#       labels:
-#         app: sentinel-db-elasticsearch
-#     spec:
-#       initContainers:
-#       - name: init-sysctl
-#         image: busybox
-#         imagePullPolicy: IfNotPresent
-#         command: ["sysctl", "-w", "vm.max_map_count=262144"]
-#         securityContext:
-#           privileged: true
-#       containers:
-#       - name: sentinel-db-elasticsearch
-#         image: mmercan/sentinel-db-elasticsearch
-#         resources:
-#           requests:
-#             cpu: 100m
-#             memory: 256Mi
-#           limits:
-#             cpu: 250m
-#             memory: 512Mi
-#         ports:
-#         - containerPort: 9200
-#         - containerPort: 9300
----
 apiVersion: v1
 kind: Service
 metadata:
-  name: sentinel-util-kibana
-  labels:
-    app: sentinel-util-kibana
+  name: sentinel-util-zookeeper
 spec:
   type: LoadBalancer
   ports:
   - protocol: TCP
-    port: 5601
-    targetPort: 5601
+    port: 2181
+    targetPort: 2181
   selector:
-    app: sentinel-util-kibana
+    app: sentinel-util-zookeeper
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: sentinel-util-kibana
+  name: sentinel-util-zookeeper-deployment
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: sentinel-util-kibana
+        app: sentinel-util-zookeeper
     spec:
       containers:
-      - name: sentinel-util-kibana
-        image: mmercan/sentinel-util-kibana
+      - name: sentinel-util-zookeeper
+        image: mmercan/sentinel-util-zookeeper
         ports:
-        - containerPort: 5601
-        env:
-        - name: ELASTICSEARCH_URL
-          value: "http://sentinel-db-elasticsearch:9200"
+        - containerPort: 2181
 ---
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: sentinel-sql-db-data-claim
-# spec:
-#   accessModes:
-#   - ReadWriteOnce
-#   resources:
-#    requests:
-#     storage: 5Gi
-
-# kind: Secret
-# apiVersion: v1
-# metadata:
-#   name: sentinel-sql-db-secret
-#   namespace: default
-# data:
-#   # Password is P@ssword1$ so update it with password of your choice  
-#   SA_PASSWORD: UEBzc3dvcmQxJA==
-# type: Opaque
-
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: sentinel-sql-db-service
-# spec:
-#   selector:
-#     app: sentinel-sql-db
-#   ports:
-#     - protocol: TCP
-#       port: 1433
-#       targetPort: 1433
-#   type: ClusterIP
-
-# apiVersion: apps/v1beta1
-# kind: Deployment
-# metadata:
-#   name: sentinel-sql-db-deployment
-# spec:
-#   replicas: 1
-#   template:
-#     metadata:
-#       labels:
-#         app: sentinel-sql-db
-#     spec:
-#       terminationGracePeriodSeconds: 10
-#       containers:
-#       - name: mssql
-#         image: microsoft/mssql-server-linux
-#         ports:
-#         - containerPort: 1433
-#         env:
-#         - name: ACCEPT_EULA
-#           value: "Y"
-#         - name: SA_PASSWORD
-#           valueFrom:
-#             secretKeyRef:
-#               name: sentinel-sql-db-secret
-#               key: SA_PASSWORD
-#         volumeMounts:
-#         - name: mssql-persistent-storage
-#           mountPath: /var/opt/mssql
-#       volumes:
-#       - name: mssql-persistent-storage
-#         persistentVolumeClaim:
-#           claimName: sentinel-sql-db-data-claim
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-util-kafka
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 9092
+    targetPort: 9092
+  selector:
+    app: sentinel-util-kafka
+---
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-util-kafka-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-util-kafka
+    spec:
+      containers:
+      - name: sentinel-util-kafka
+        image: mmercan/sentinel-util-kafka
+        ports:
+        - containerPort: 9092
+        env:
+        - name: KAFKA_ZOOKEEPER_CONNECT
+          value: "sentinel-util-zookeeper:2181/local"
+        - name: KAFKA_ADVERTISED_HOST_NAME
+          value: "sentinel-util-kafka"
+        - name: KAFKA_ADVERTISED_PORT
+          value: "9092"
+        - name: KAFKA_CREATE_TOPICS
+          value: "test-topic:2:1,test-topic2:1:1,test-topic3:1:1"
+---
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-util-kafka-manager
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 9000
+    targetPort: 9000
+  selector:
+    app: sentinel-util-kafka-manager
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-util-kafka-manager-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-util-kafka-manager
+    spec:
+      containers:
+      - name: sentinel-util-kafka-manager
+        image: mmercan/sentinel-util-kafka-manager
+        ports:
+        - containerPort: 9000
+---
