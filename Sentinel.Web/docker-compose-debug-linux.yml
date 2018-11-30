@@ -21,6 +21,11 @@ services:
     #   - SentinelWeb:/src
     volumes:
       - .:/src
+    entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
+    ports:
+      - "5003:80"
+    # stdin_open: true
+    # tty: true
   sentinel-web-api-member:      
     image: sentinel-web-api-member:${TAGVersion}-dev-linux
     build:

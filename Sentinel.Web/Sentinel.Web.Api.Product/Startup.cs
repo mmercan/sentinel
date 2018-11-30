@@ -36,6 +36,8 @@ using Mercan.Common;
 using Sentinel.Web.Dto.Product;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MongoDB.Driver;
+using Serilog.Sinks.Elasticsearch;
+using CorrelationId;
 
 namespace Sentinel.Web.Api.Product
 {
@@ -158,6 +160,8 @@ namespace Sentinel.Web.Api.Product
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddCorrelationId();
+
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -224,8 +228,14 @@ namespace Sentinel.Web.Api.Product
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .WriteTo.Console()
             .WriteTo.MongoDBCapped(MongoDblogs, collectionName: "rollingapplog")
-            .WriteTo.File("Logs/logs.txt");
-            //.WriteTo.Elasticsearch()
+            .WriteTo.File("Logs/logs.txt")
+            //.WriteTo.Kafka(new KafkaSinkOptions(topic: "test", brokers: new[] { new Uri(Configuration["KafkaUrl"]) }))
+            .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://sentinel-db-elasticsearch:9200"))
+            {
+                AutoRegisterTemplate = true,
+                AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6
+            })
+            ;
 
             logger.WriteTo.Console();
             loggerFactory.AddSerilog();
@@ -249,6 +259,7 @@ namespace Sentinel.Web.Api.Product
 
             app.UseAuthentication();
 
+            app.UseCorrelationId();
 
             app.UseMvc(routes =>
             {

@@ -129,6 +129,8 @@ spec:
           value: "Id"
         - name: SentinelConnection
           value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
+        - name: kafkaUrl
+          value: "http://sentinel-util-kafka:9092"
 ---
 apiVersion: v1
 kind: Service

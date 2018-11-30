@@ -11,4 +11,5 @@ COPY ./pipeline/logstash-car.conf /usr/share/logstash/pipeline
 WORKDIR /usr/local/bin/
 RUN logstash-plugin install logstash-output-gelf
 RUN logstash-plugin install logstash-input-azure_event_hubs
+RUN logstash-plugin install logstash-input-kafka
 RUN logstash-plugin list
