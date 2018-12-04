@@ -19,8 +19,8 @@ export enum authenticationType {
 @Injectable()
 export class AppConfig {
   config = {
-    name: 'Bupa CT DAAS',
-    title: 'Bupa CT DAAS',
+    name: 'Sentinel',
+    title: 'Sentinel',
     version: '1.0.0',
     debug: true,
     logLevel: logLevel.debug,
