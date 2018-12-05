@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sentinel-admin-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - admin.myrcan.com
+    secretName: tls-secret-prod
+  rules:
+  - host: admin.myrcan.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: sentinel-web-admin
+          servicePort: 80
+      - path: /auth
+        backend:
+          serviceName: sentinel-web-sts-service
+          servicePort: 80

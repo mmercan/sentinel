@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kibana-admin-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/tls-acme: “true”
+spec:
+  tls:
+  - hosts:
+    - kibana.myrcan.com
+    secretName: tls-secret-kibana-prod
+  rules:
+  - host: kibana.myrcan.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: sentinel-elk-kibana
+          servicePort: 80

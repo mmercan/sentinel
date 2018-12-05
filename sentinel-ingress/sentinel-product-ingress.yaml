@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sentinel-product-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - product.myrcan.com
+    secretName: tls-secret-product-prod
+  rules:
+  - host: product.myrcan.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: sentinel-web-api-product
+          servicePort: 80
