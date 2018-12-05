@@ -29,6 +29,7 @@ spec:
       containers:
       - name: sentinel-web-admin
         image: mmercan/sentinel-web-admin
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 ---
@@ -59,6 +60,7 @@ spec:
       containers:
       - name: sentinel-web-sts
         image: mmercan/sentinel-web-sts
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
         env:
