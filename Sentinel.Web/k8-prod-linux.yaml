@@ -19,6 +19,8 @@ metadata:
   name: sentinel-web-admin
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
