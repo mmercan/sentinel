@@ -1,0 +1,39 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: tls-secret-member-prod
+spec:
+  secretName: tls-secret-member-prod
+  dnsNames:
+  - member.myrcan.com
+  acme:
+    config:
+    - http01:
+        ingressClass: nginx
+      domains:
+      - member.myrcan.com
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sentinel-member-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - member.myrcan.com
+    secretName: tls-secret-member-prod
+  rules:
+  - host: member.myrcan.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: sentinel-web-api-member
+          servicePort: 80
