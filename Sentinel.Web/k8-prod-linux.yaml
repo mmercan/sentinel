@@ -86,6 +86,8 @@ spec:
           value: "mail@mail.com"
         - name: SMTP__Password
           value: "password123"
+        - name: DOTNET_RUNNING_IN_CONTAINER
+          value: "true"
 ---
 apiVersion: v1
 kind: Service
@@ -136,6 +138,8 @@ spec:
           value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
         - name: kafkaUrl
           value: "http://sentinel-util-kafka:9092"
+        - name: DOTNET_RUNNING_IN_CONTAINER
+          value: "true"
 ---
 apiVersion: v1
 kind: Service
@@ -186,6 +190,8 @@ spec:
           value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
         - name: kafkaUrl
           value: "http://sentinel-util-kafka:9092"
+        - name: DOTNET_RUNNING_IN_CONTAINER
+          value: "true"
 ---
 apiVersion: v1
 kind: Service
@@ -236,6 +242,12 @@ spec:
           value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
         - name: kafkaUrl
           value: "http://sentinel-util-kafka:9092"
+        - name: NATS_URL
+          value: "nats://sentinel-nats:4222/"
+        - name: MongoConnection
+          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+        - name: DOTNET_RUNNING_IN_CONTAINER
+          value: "true"
 ---
 apiVersion: v1
 kind: Service
