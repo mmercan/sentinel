@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
   settings: {
-    loginUrl: 'http://auth/myrcan.com',
-    productApiBaseUrl: 'https://product.myrcan.com',
-    memberApiBaseUrl: 'https://member.myrcan.com',
-    commApiBaseUrl: 'https://comms.myrcan.com'
+    loginUrl: 'http://auth.myrcan.com/api/',
+    productApiBaseUrl: 'https://product.myrcan.com/api/',
+    memberApiBaseUrl: 'https://member.myrcan.com/api/',
+    commApiBaseUrl: 'https://comms.myrcan.com/api/'
   }
 };

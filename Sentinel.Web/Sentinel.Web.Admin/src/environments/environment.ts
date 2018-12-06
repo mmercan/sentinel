@@ -6,9 +6,9 @@ export const environment = {
   production: false,
   settings: {
     loginUrl: 'http://localhost:5000',
-    productApiBaseUrl: 'http://localhost:5003',
-    memberApiBaseUrl: 'http://localhost:5002',
-    commApiBaseUrl: 'http://localhost:5004'
+    productApiBaseUrl: 'http://localhost:5003/api/',
+    memberApiBaseUrl: 'http://localhost:5002/api/',
+    commApiBaseUrl: 'http://localhost:5004/api/'
   }
 };
 

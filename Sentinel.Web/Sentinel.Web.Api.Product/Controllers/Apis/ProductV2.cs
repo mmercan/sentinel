@@ -14,6 +14,7 @@ using Sentinel.Web.Repos.Repositories;
 
 namespace Sentinel.Web.Api.Product.Controllers
 {
+    [Authorize(AuthenticationSchemes = "azure")]
     [ApiVersion("2.0")]
     [Route("api/Product")]
     //[Route("api/v{version:apiVersion}/Product")]
