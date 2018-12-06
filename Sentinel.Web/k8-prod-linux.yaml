@@ -5,7 +5,7 @@ metadata:
   labels:
     app: sentinel-web-admin
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - protocol: TCP
     port: 80
@@ -38,7 +38,7 @@ kind: Service
 metadata:
   name: sentinel-web-sts-service
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - protocol: TCP
     port: 80
@@ -94,7 +94,7 @@ metadata:
   labels:
     app: sentinel-web-api-product
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - protocol: TCP
     port: 80
@@ -144,7 +144,7 @@ metadata:
   labels:
     app: sentinel-web-api-member
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - protocol: TCP
     port: 80
@@ -194,7 +194,7 @@ metadata:
   labels:
     app: sentinel-web-api-comms
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - protocol: TCP
     port: 80
