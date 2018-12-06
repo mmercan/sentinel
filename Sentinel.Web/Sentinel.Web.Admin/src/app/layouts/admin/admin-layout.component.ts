@@ -14,6 +14,8 @@ import { NotificationService, Notification } from '../../shared/notification/not
 import { AuthService } from '../../shared/authentication/auth.service';
 import { AppConfig, authenticationType } from '../../app.config';
 
+import { environment } from '../../../environments/environment';
+
 const SMALL_WIDTH_BREAKPOINT = 991;
 
 export interface Options {
@@ -65,7 +67,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     private notificationService: NotificationService,
   ) {
     this.mediaMatcher.addListener(mql => zone.run(() => this.mediaMatcher = mql));
-
+    console.log(environment.settings.loginUrl);
     this.notificationService.dataset.subscribe(result => {
       if (result && result.length) {
         this.notificationCount = result.length;
