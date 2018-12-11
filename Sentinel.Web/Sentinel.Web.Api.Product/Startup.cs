@@ -233,7 +233,8 @@ namespace Sentinel.Web.Api.Product
             .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://sentinel-db-elasticsearch:9200"))
             {
                 AutoRegisterTemplate = true,
-                AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6
+                AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
+                IndexFormat = "productslog-{0:yyyy.MM.dd}"
             })
             ;
 
