@@ -36,6 +36,7 @@ namespace Sentinel.Web.Api.Product.Controllers
         [Authorize]
         [ProducesResponseType(typeof(List<ProductInfoDtoV1>), 200)]
         [ProducesResponseType(typeof(IDictionary<string, string[]>), 400)]
+        [ProducesResponseType(typeof(IDictionary<string, string[]>), 401)]
         [ApiExplorerSettings(GroupName = @"Products V1")]
         public ActionResult<List<ProductInfoDtoV1>> Get()
         {
@@ -54,6 +55,7 @@ namespace Sentinel.Web.Api.Product.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(ProductInfoDtoV1), 201)]
         [ProducesResponseType(typeof(IDictionary<string, string[]>), 400)]
+        [ProducesResponseType(typeof(IDictionary<string, string[]>), 401)]
         public IActionResult Post([FromBody] ProductInfoDtoV1 model)
         {
             if (!this.ModelState.IsValid)

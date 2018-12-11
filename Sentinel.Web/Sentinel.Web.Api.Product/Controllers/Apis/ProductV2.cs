@@ -33,6 +33,9 @@ namespace Sentinel.Web.Api.Product.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(List<ProductInfoDtoV2>), 200)]
+        [ProducesResponseType(typeof(IDictionary<string, string[]>), 400)]
+        [ProducesResponseType(typeof(IDictionary<string, string[]>), 401)]
         public IActionResult Get()
         {
             try
@@ -49,6 +52,9 @@ namespace Sentinel.Web.Api.Product.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(List<ProductInfoDtoV2>), 201)]
+        [ProducesResponseType(typeof(IDictionary<string, string[]>), 400)]
+        [ProducesResponseType(typeof(IDictionary<string, string[]>), 401)]
         public IActionResult Post([FromBody] ProductInfoDtoV2 model)
         {
             if (!this.ModelState.IsValid)
