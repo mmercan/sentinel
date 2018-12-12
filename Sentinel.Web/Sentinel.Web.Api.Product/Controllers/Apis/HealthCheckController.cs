@@ -112,7 +112,9 @@ namespace Sentinel.Web.Api.Product.Controllers
 
             if (this.User.Identity.IsAuthenticated)
             {
-                messages += this.User.ToJSON() + " , \n";
+                messages += "AuthenticationType : " + this.User.Identity.AuthenticationType + " , \n";
+                messages += "Name   : " + this.User.Identity.Name + " , \n";
+                messages += "Claims : " + this.User.Claims.Select(p => p.Type + " : " + p.Value + " " + p.Properties.ToList().ToJSON()).ToList().ToJSON() + " , \n";
             }
 
             List<Type> exceptions = new List<Type>{
