@@ -31,6 +31,9 @@ namespace Sentinel.Web.Api.Product
             try
             {
                 await _next(httpContext);
+                var trace = LoggerMessage.Define(LogLevel.Trace, new EventId(2, "Trace"), "An unhandled exception has occurred while executing the request.");
+                _logger.LogTrace(new EventId(2, "Trace"), null, "Request-Response " + httpContext.Response.StatusCode.ToString(), httpContext);
+
             }
             catch (Exception ex)
             {
