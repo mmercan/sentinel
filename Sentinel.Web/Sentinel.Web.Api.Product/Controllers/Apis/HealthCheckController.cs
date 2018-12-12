@@ -20,12 +20,12 @@ namespace Sentinel.Web.Api.Product.Controllers
     [ApiVersion("2.0")]
     [Route("api/HealthCheck")]
     [ApiExplorerSettings(GroupName = @"Health Check")]
+    [Authorize]
     public class HealthCheckController : Controller
     {
         ILogger<HealthCheckController> _logger;
         private KafkaListener<TriggerHandler> kafkahandler;
         private IServiceCollection services;
-
         public HealthCheckController(IServiceCollection services, ILogger<HealthCheckController> logger, IDistributedCache cache, IOptions<MangoBaseRepoSettings> mangoBaseRepoSettings,
          MangoBaseRepo<ProductInfoDtoV2> repo, KafkaListener<TriggerHandler> kafkahandler)
         {
@@ -35,7 +35,6 @@ namespace Sentinel.Web.Api.Product.Controllers
             MethodInfo inf = null;
             //  inf.GetCustomAttributes(typeof(KafkaListenerAttribute), false)
         }
-
 
         /// <summary>
         /// isalive
@@ -61,7 +60,6 @@ namespace Sentinel.Web.Api.Product.Controllers
 
         // private void Consume(string GroupId, string BootstrapServers, string topic, MethodInfo methodinfo)
         // {
-
         //     var conf = new ConsumerConfig
         //     {
         //         GroupId = "test-consumer-group",
@@ -73,16 +71,13 @@ namespace Sentinel.Web.Api.Product.Controllers
         //         // eariest message in the topic 'my-topic' the first time you run the program.
         //         AutoOffsetReset = AutoOffsetResetType.Earliest
         //     };
-
         //     using (var c = new Consumer<Ignore, string>(conf))
         //     {
         //         c.Subscribe("my-topic");
-
         //         bool consuming = true;
         //         // The client will automatically recover from non-fatal errors. You typically
         //         // don't need to take any action unless an error is marked as fatal.
         //         c.OnError += (_, e) => consuming = !e.IsFatal;
-
         //         while (consuming)
         //         {
         //             try
@@ -96,7 +91,6 @@ namespace Sentinel.Web.Api.Product.Controllers
         //                 Console.WriteLine($"Error occured: {e.Error.Reason}");
         //             }
         //         }
-
         //         // Ensure the consumer leaves the group cleanly and final offsets are committed.
         //         c.Close();
         //     }
@@ -113,16 +107,13 @@ namespace Sentinel.Web.Api.Product.Controllers
         // [Authorize]
         public IActionResult GetIsAliveAndWell()
         {
-
             string messages = "";
-
-
             messages += "IsAuthenticated : " + this.User.Identity.IsAuthenticated + " , \n";
+
             if (this.User.Identity.IsAuthenticated)
             {
                 messages += this.User.ToJSON() + " , \n";
             }
-
 
             List<Type> exceptions = new List<Type>{
                 typeof(Microsoft.Extensions.Options.IOptions<>),
@@ -149,19 +140,16 @@ namespace Sentinel.Web.Api.Product.Controllers
                             //   _logger.LogDebug("type excepted " + service.ServiceType.FullName);
                         }
 
-
                         if (!skip)
                         {
                             //  _logger.LogDebug("Type " + service.ServiceType.FullName);
                             var instance = serviceprovider.GetService(service.ServiceType);
                             //  _logger.LogDebug("Instance " + instance.GetType().FullName);
-
                             messages += "Success : " + instance.GetType().FullName + " , \n";
                         }
                     }
                     catch (Exception ex) { messages += "Failed : " + ex.Message + " , \n"; }
                 }
-
                 return Ok(messages);
             }
             catch (Exception ex)
@@ -170,6 +158,5 @@ namespace Sentinel.Web.Api.Product.Controllers
                 return BadRequest();
             }
         }
-
     }
 }
