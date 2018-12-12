@@ -110,9 +110,20 @@ namespace Sentinel.Web.Api.Product.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
         [ApiExplorerSettings(GroupName = @"HealthCheck")]
+        // [Authorize]
         public IActionResult GetIsAliveAndWell()
         {
+
             string messages = "";
+
+
+            messages += "IsAuthenticated : " + this.User.Identity.IsAuthenticated + " , \n";
+            if (this.User.Identity.IsAuthenticated)
+            {
+                messages += this.User.ToJSON() + " , \n";
+            }
+
+
             List<Type> exceptions = new List<Type>{
                 typeof(Microsoft.Extensions.Options.IOptions<>),
                 typeof(Microsoft.Extensions.Options.OptionsCache<>),
