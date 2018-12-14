@@ -13,7 +13,7 @@ namespace Sentinel.Web.Api.Product
     {
         private readonly RequestDelegate _next;
         private readonly DeveloperExceptionPageOptions _options;
-        private readonly ILogger _logger;
+        private readonly ILogger<ExceptionLoggerMiddleware> _logger;
 
         public ExceptionLoggerMiddleware(
             RequestDelegate next,
@@ -21,7 +21,6 @@ namespace Sentinel.Web.Api.Product
             ILoggerFactory loggerFactory
             )
         {
-
             _logger = loggerFactory.CreateLogger<ExceptionLoggerMiddleware>();
             _next = next;
         }
@@ -31,17 +30,14 @@ namespace Sentinel.Web.Api.Product
             try
             {
                 await _next(httpContext);
-                var trace = LoggerMessage.Define(LogLevel.Trace, new EventId(2, "Trace"), "An unhandled exception has occurred while executing the request.");
-                _logger.LogTrace(new EventId(2, "Trace"), null, "Request-Response " + httpContext.Response.StatusCode.ToString(), httpContext);
-
+                // var trace = LoggerMessage.Define(LogLevel.Trace, new EventId(2, "Trace"), "An unhandled exception has occurred while executing the request.");
+                // _logger.LogError(LogHttpResponse.ToLogHttpResponse(httpContext.Response).ToJSON(), LogHttpResponse.ToLogHttpResponse(httpContext.Response));
+                //_logger.LogInformation(new EventId(2, "Information"), null, "Request-Response " + httpContext.Response.StatusCode.ToString(), LogHttpResponse.ToLogHttpResponse(httpContext.Response));
             }
             catch (Exception ex)
             {
-
                 var unhandledException = LoggerMessage.Define(LogLevel.Error, new EventId(1, "UnhandledException"), "An unhandled exception has occurred while executing the request.");
                 unhandledException(_logger, ex);
-
-
                 if (httpContext.Response.HasStarted)
                 {
                 }
@@ -62,5 +58,8 @@ namespace Sentinel.Web.Api.Product
             return builder.UseMiddleware<ExceptionLoggerMiddleware>();
         }
     }
+
+
+
 }
 

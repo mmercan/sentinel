@@ -22,6 +22,18 @@ namespace System.Linq
             return result;
         }
 
+
+        public static string ToJSON(this object item)
+        {
+            //MemoryStream stream1 = new MemoryStream();
+            //DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(T));
+            //ser.WriteObject(stream1, item);
+            //stream1.Position = 0;
+            //StreamReader sr = new StreamReader(stream1);
+            //return sr.ReadToEnd();
+            var result = JsonConvert.SerializeObject(item);
+            return result;
+        }
         public static T FromJSON<T>(this string json)
         {
             //DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(T));

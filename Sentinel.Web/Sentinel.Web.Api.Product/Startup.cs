@@ -211,6 +211,7 @@ namespace Sentinel.Web.Api.Product
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            app.UseequestResponseLogger();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -234,7 +235,11 @@ namespace Sentinel.Web.Api.Product
             {
                 AutoRegisterTemplate = true,
                 AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
-                IndexFormat = "productslog-{0:yyyy.MM.dd}"
+                TemplateName = "productslog",
+                IndexFormat = "productslog-{0:yyyy.MM.dd}",
+                InlineFields = true,
+                // IndexDecider = (@event, offset) => "test_elapsedtimes",
+                CustomFormatter = new ElasticsearchJsonFormatter()
             })
             ;
 
