@@ -49,7 +49,7 @@ namespace Sentinel.Web.Api.Product
             //request.Body = body;
 
             var request = LogHttpRequest.ToLogHttpRequest(requestinfo, TraceIdentifier);
-            _logger.LogInformation(message: "{@requstlog} registered", args: request);
+            _logger.LogInformation(message: "{@request} registered", args: request);
         }
 
         private void LogResponse(HttpResponse responseinfo, string TraceIdentifier = null)
