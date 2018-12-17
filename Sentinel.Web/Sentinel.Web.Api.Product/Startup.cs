@@ -262,11 +262,8 @@ namespace Sentinel.Web.Api.Product
                 });
             app.UseCors("MyPolicy");
             app.UseCookiePolicy();
-
             app.UseAuthentication();
-
             app.UseCorrelationId();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

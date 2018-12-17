@@ -27,10 +27,10 @@ namespace Sentinel.Web.Api.Product
             // using (var responseBody = new MemoryStream())
             // {
             // context.Response.Body = responseBody;
-            var request = await FormatRequest(context.Request);
+            LogRequest(context.Request, context.TraceIdentifier);
             await _next(context);
-            var response = FormatResponse(context.Response, context.TraceIdentifier);
-            _logger.LogInformation(message: "{@response} registered", args: response);
+            LogResponse(context.Response, context.TraceIdentifier);
+
             // string responseText = response.ToJSON();
             // _logger.LogInformation(,response);
             // var loggingmessages = LoggerMessage.Define(LogLevel.Information, new EventId(1, "Response"), context.Request.Path);
@@ -39,7 +39,7 @@ namespace Sentinel.Web.Api.Product
             // await responseBody.CopyToAsync(originalBodyStream);
             // }
         }
-        private async Task<string> FormatRequest(HttpRequest request)
+        private void LogRequest(HttpRequest request, string TraceIdentifier = null)
         {
             //var body = request.Body;
             //request.EnableRewind();
@@ -47,19 +47,20 @@ namespace Sentinel.Web.Api.Product
             //await request.Body.ReadAsync(buffer, 0, buffer.Length);
             //var bodyAsText = Encoding.UTF8.GetString(buffer);
             //request.Body = body;
-            return $"{request.Scheme} {request.Host}{request.Path} {request.QueryString}";
+
+            var requestlog = LogHttpRequest.ToLogHttpRequest(request, TraceIdentifier);
+            _logger.LogInformation(message: "{@requstlog} registered", args: requestlog);
         }
 
-        private LogHttpResponse FormatResponse(HttpResponse response, string TraceIdentifier = null)
+        private void LogResponse(HttpResponse response, string TraceIdentifier = null)
         {
             //response.Body.Seek(0, SeekOrigin.Begin);
             // string text = await new StreamReader(response.Body).ReadToEndAsync();
             // response.Body.Seek(0, SeekOrigin.Begin);
-
             // var header = response.Headers.ToList().ToJSON();
-            var respjson = LogHttpResponse.ToLogHttpResponse(response, TraceIdentifier);
-            // var respjson = new { Header = header, ContentLength = response.ContentLength, ContentType = response.ContentType, StatusCode = response.StatusCode }.ToJSON();
-            return respjson;
+
+            var responseLog = LogHttpResponse.ToLogHttpResponse(response, TraceIdentifier);
+            _logger.LogInformation(message: "{@response} registered", args: responseLog);
 
         }
 
@@ -81,12 +82,6 @@ namespace Sentinel.Web.Api.Product
         public string ContentType { get; set; }
         public int StatusCode { get; set; }
         public string TraceIdentifier { get; set; }
-        // public IHeaderDictionary Headers { get; set; }
-        // public string Body { get; set; }
-
-        // 
-        // public IResponseCookies Cookies { get; set; }
-        // public bool HasStarted { get; set; }
 
         public static LogHttpResponse ToLogHttpResponse(HttpResponse response, string TraceIdentifier = null)
         {
@@ -99,6 +94,40 @@ namespace Sentinel.Web.Api.Product
                 TraceIdentifier = TraceIdentifier
             };
             return logg;
+
+        }
+    }
+
+    public class LogHttpRequest
+    {
+        public List<KeyValuePair<string, Microsoft.Extensions.Primitives.StringValues>> Headers { get; set; }
+        public long? ContentLength { get; set; }
+        public string ContentType { get; set; }
+        public int StatusCode { get; set; }
+        public string TraceIdentifier { get; set; }
+        public string Scheme { get; private set; }
+        public HostString Host { get; private set; }
+        public PathString Path { get; private set; }
+        public QueryString QueryString { get; private set; }
+
+        public static LogHttpRequest ToLogHttpRequest(HttpRequest request, string TraceIdentifier = null)
+        {
+            var logg = new LogHttpRequest
+            {
+                Scheme = request.Scheme,
+                Host = request.Host,
+                Path = request.Path,
+                QueryString = request.QueryString,
+
+                Headers = request.Headers.ToList(),
+                ContentLength = request.ContentLength,
+                ContentType = request.ContentType,
+
+                TraceIdentifier = TraceIdentifier
+            };
+            return logg;
+
+
 
         }
     }
