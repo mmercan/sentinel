@@ -28,37 +28,24 @@ namespace Sentinel.Web.Api.Product
 
         public async Task Invoke(HttpContext context)
         {
-            //First, get the incoming request
+            // var originalBodyStream = context.Response.Body;
+            // using (var responseBody = new MemoryStream())
+            // {
+            // context.Response.Body = responseBody;
             var request = await FormatRequest(context.Request);
 
-            //Copy a pointer to the original response body stream
-            var originalBodyStream = context.Response.Body;
+            await _next(context);
 
-            //Create a new memory stream...
-            using (var responseBody = new MemoryStream())
-            {
-                //...and use that for the temporary response body
-                context.Response.Body = responseBody;
+            var response = FormatResponse(context.Response, context.TraceIdentifier);
+            _logger.LogInformation(message: "{@response} registered", args: response);
 
-                //Continue down the Middleware pipeline, eventually returning to this class
-                await _next(context);
-
-                //Format the response from the server
-                var response = FormatResponse(context.Response, context.TraceIdentifier);
-                string responseText = response.ToJSON();
-                //_logger.LogInformation(,response);
-                // var loggingmessages = LoggerMessage.Define(LogLevel.Information, new EventId(1, "Response"), context.Request.Path);
-                // loggingmessages(_logger, null,response);
-                _logger.LogInformation(message: "{@response} registered", args: response);
-                // _logger.LogInformation(new EventId(2, "Response"), null, message: responseText, args: response);
-
-
-
-                //TODO: Save log to chosen datastore
-
-                //Copy the contents of the new memory stream (which contains the response) to the original stream, which is then returned to the client.
-                await responseBody.CopyToAsync(originalBodyStream);
-            }
+            // string responseText = response.ToJSON();
+            // _logger.LogInformation(,response);
+            // var loggingmessages = LoggerMessage.Define(LogLevel.Information, new EventId(1, "Response"), context.Request.Path);
+            // loggingmessages(_logger, null,response);
+            // _logger.LogInformation(new EventId(2, "Response"), null, message: responseText, args: response);
+            // await responseBody.CopyToAsync(originalBodyStream);
+            // }
         }
 
         private async Task<string> FormatRequest(HttpRequest request)
@@ -109,8 +96,6 @@ namespace Sentinel.Web.Api.Product
 
     public class LogHttpResponse
     {
-
-
         public List<KeyValuePair<string, Microsoft.Extensions.Primitives.StringValues>> Headers { get; set; }
         public long? ContentLength { get; set; }
         public string ContentType { get; set; }
