@@ -14,18 +14,13 @@ namespace Sentinel.Web.Api.Product
 {
     public class RequestResponseLoggingMiddleware
     {
-
-
         private readonly RequestDelegate _next;
-
         private readonly ILogger<RequestResponseLoggingMiddleware> _logger;
-
         public RequestResponseLoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
         {
             _logger = loggerFactory.CreateLogger<RequestResponseLoggingMiddleware>();
             _next = next;
         }
-
         public async Task Invoke(HttpContext context)
         {
             // var originalBodyStream = context.Response.Body;
@@ -33,12 +28,9 @@ namespace Sentinel.Web.Api.Product
             // {
             // context.Response.Body = responseBody;
             var request = await FormatRequest(context.Request);
-
             await _next(context);
-
             var response = FormatResponse(context.Response, context.TraceIdentifier);
             _logger.LogInformation(message: "{@response} registered", args: response);
-
             // string responseText = response.ToJSON();
             // _logger.LogInformation(,response);
             // var loggingmessages = LoggerMessage.Define(LogLevel.Information, new EventId(1, "Response"), context.Request.Path);
@@ -47,27 +39,15 @@ namespace Sentinel.Web.Api.Product
             // await responseBody.CopyToAsync(originalBodyStream);
             // }
         }
-
         private async Task<string> FormatRequest(HttpRequest request)
         {
-            var body = request.Body;
-
-            //This line allows us to set the reader for the request back at the beginning of its stream.
-            request.EnableRewind();
-
-            //We now need to read the request stream.  First, we create a new byte[] with the same length as the request stream...
-            var buffer = new byte[Convert.ToInt32(request.ContentLength)];
-
-            //...Then we copy the entire request stream into the new buffer.
-            await request.Body.ReadAsync(buffer, 0, buffer.Length);
-
-            //We convert the byte[] into a string using UTF8 encoding...
-            var bodyAsText = Encoding.UTF8.GetString(buffer);
-
-            //..and finally, assign the read body back to the request body, which is allowed because of EnableRewind()
-            request.Body = body;
-
-            return $"{request.Scheme} {request.Host}{request.Path} {request.QueryString} {bodyAsText}";
+            //var body = request.Body;
+            //request.EnableRewind();
+            //var buffer = new byte[Convert.ToInt32(request.ContentLength)];
+            //await request.Body.ReadAsync(buffer, 0, buffer.Length);
+            //var bodyAsText = Encoding.UTF8.GetString(buffer);
+            //request.Body = body;
+            return $"{request.Scheme} {request.Host}{request.Path} {request.QueryString}";
         }
 
         private LogHttpResponse FormatResponse(HttpResponse response, string TraceIdentifier = null)
@@ -87,7 +67,7 @@ namespace Sentinel.Web.Api.Product
 
     public static class RequestResponseLoggingMiddlewareExtensions
     {
-        public static IApplicationBuilder UseequestResponseLogger(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseRequestResponseLogger(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<RequestResponseLoggingMiddleware>();
         }

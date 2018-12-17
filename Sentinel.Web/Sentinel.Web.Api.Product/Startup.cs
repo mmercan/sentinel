@@ -211,7 +211,7 @@ namespace Sentinel.Web.Api.Product
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-            app.UseequestResponseLogger();
+            app.UseRequestResponseLogger();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
