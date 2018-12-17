@@ -39,7 +39,7 @@ namespace Sentinel.Web.Api.Product
             // await responseBody.CopyToAsync(originalBodyStream);
             // }
         }
-        private void LogRequest(HttpRequest request, string TraceIdentifier = null)
+        private void LogRequest(HttpRequest requestinfo, string TraceIdentifier = null)
         {
             //var body = request.Body;
             //request.EnableRewind();
@@ -48,19 +48,19 @@ namespace Sentinel.Web.Api.Product
             //var bodyAsText = Encoding.UTF8.GetString(buffer);
             //request.Body = body;
 
-            var requestlog = LogHttpRequest.ToLogHttpRequest(request, TraceIdentifier);
-            _logger.LogInformation(message: "{@requstlog} registered", args: requestlog);
+            var request = LogHttpRequest.ToLogHttpRequest(requestinfo, TraceIdentifier);
+            _logger.LogInformation(message: "{@requstlog} registered", args: request);
         }
 
-        private void LogResponse(HttpResponse response, string TraceIdentifier = null)
+        private void LogResponse(HttpResponse responseinfo, string TraceIdentifier = null)
         {
             //response.Body.Seek(0, SeekOrigin.Begin);
             // string text = await new StreamReader(response.Body).ReadToEndAsync();
             // response.Body.Seek(0, SeekOrigin.Begin);
             // var header = response.Headers.ToList().ToJSON();
 
-            var responseLog = LogHttpResponse.ToLogHttpResponse(response, TraceIdentifier);
-            _logger.LogInformation(message: "{@response} registered", args: responseLog);
+            var response = LogHttpResponse.ToLogHttpResponse(responseinfo, TraceIdentifier);
+            _logger.LogInformation(message: "{@response} registered", args: response);
 
         }
 
