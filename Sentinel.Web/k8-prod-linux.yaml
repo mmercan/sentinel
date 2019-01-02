@@ -243,7 +243,7 @@ spec:
         - name: kafkaUrl
           value: "http://sentinel-util-kafka:9092"
         - name: NATS_URL
-          value: "nats://sentinel-services-nats:4222/"
+          value: "nats://sentinel-service-nats:4222/"
         - name: MongoConnection
           value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
         - name: DOTNET_RUNNING_IN_CONTAINER
@@ -252,9 +252,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sentinel-services-nats-monitor
+  name: sentinel-service-nats-monitor
   labels:
-    app: sentinel-services-nats
+    app: sentinel-service-nats
 spec:
   type: LoadBalancer
   ports:
@@ -262,14 +262,14 @@ spec:
     port: 8222
     targetPort: 8222
   selector:
-    app: sentinel-services-nats
+    app: sentinel-service-nats
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: sentinel-services-nats
+  name: sentinel-service-nats
   labels:
-    app: sentinel-services-nats
+    app: sentinel-service-nats
 spec:
   type: ClusterIP
   ports:
@@ -277,22 +277,22 @@ spec:
     port: 4222
     targetPort: 4222
   selector:
-    app: sentinel-services-nats
+    app: sentinel-service-nats
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: sentinel-services-nats
+  name: sentinel-service-nats
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: sentinel-services-nats
+        app: sentinel-service-nats
     spec:
       containers:
-      - name: sentinel-services-nats
-        image: mmercan/sentinel-services-nats
+      - name: sentinel-service-nats
+        image: mmercan/sentinel-service-nats
         ports:
         - containerPort: 8222
         - containerPort: 4222
