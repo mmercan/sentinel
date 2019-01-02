@@ -1,12 +1,12 @@
 version: '3.4'
 
 services:
-  sentinel-web-api-product:      
-    image: mmercan/sentinel-web-api-product:${TAGVersion}-prod-linux
+  sentinel-api-product:      
+    image: mmercan/sentinel-api-product:${TAGVersion}-prod-linux
     build:
       target: final
       context: .
-      dockerfile: Sentinel.Web.Api.Product/dockerfile-linux
+      dockerfile: Sentinel.Api.Product/dockerfile-linux
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - DOTNET_USE_POLLING_FILE_WATCHER=1
@@ -20,14 +20,14 @@ services:
       - "5003:80"
     depends_on:
       - sentinel-db-redis
-  sentinel-web-api-comms:      
-    image: mmercan/sentinel-web-api-comms:${TAGVersion}-prod-linux
+  sentinel-api-comms:      
+    image: mmercan/sentinel-api-comms:${TAGVersion}-prod-linux
     build:
       target: final
       context: .
-      dockerfile: Sentinel.Web.Api.Comms/dockerfile-linux
+      dockerfile: Sentinel.Api.Comms/dockerfile-linux
     environment:
-      - NATS_URL=nats://sentinel-nats:4222/
+      - NATS_URL=nats://sentinel-services-nats:4222/
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
       - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
       - ASPNETCORE_ENVIRONMENT=Production
@@ -55,12 +55,12 @@ services:
       - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
     ports:
       - "5000:80"
-  sentinel-web-api-member:      
-    image: mmercan/sentinel-web-api-member:${TAGVersion}-prod-linux
+  sentinel-api-member:      
+    image: mmercan/sentinel-api-member:${TAGVersion}-prod-linux
     build:
       target: final
       context: .
-      dockerfile: Sentinel.Web.Api.Member/dockerfile-linux
+      dockerfile: Sentinel.Api.Member/dockerfile-linux
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - DOTNET_USE_POLLING_FILE_WATCHER=1
@@ -117,10 +117,10 @@ services:
     ports:
         - 27017:27017
     # command: mongod --smallfiles --logpath=/dev/null # --quiet
-  sentinel-nats:
-    image: mmercan/sentinel-nats:${TAGVersion}-prod-linux
+  sentinel-services-nats:
+    image: mmercan/sentinel-services-nats:${TAGVersion}-prod-linux
     build:
-      context: ./sentinel-nats
+      context: ./Sentinel.Util.Nats
       dockerfile: dockerfile-linux
     ports:
       - "8222:8222"
@@ -172,7 +172,7 @@ services:
   # sqldb:
   #   image: mmercan/sentinel-sql-db:${TAGVersion}-prod-linux
   #   build:
-  #     context: ./Sentinel.Sql.Db/
+  #     context: ./Sentinel.Db.Sql/
   #     dockerfile: dockerfile-linux
   #   ports:
   #     - "1433:1433"

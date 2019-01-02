@@ -31,25 +31,26 @@ $apiFolder = Join-Path -Path $dir -ChildPath .\dockapp
 #3bbac63951b5
 
 
-#docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-api-product
+#docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-api-product
 #docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sqldb
 # npm rebuild node-sass --force
-# docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-admin sentinel-web-sts sentinel-web-api-product
+# docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-admin sentinel-web-sts sentinel-api-product
 #docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-admin
 
 
-#docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-sts sentinel-web-api-product sentinel-web-admin
-#docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-api-comms sentinel-elk-proxy
+#docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-sts sentinel-api-product sentinel-web-admin
+#docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-api-comms sentinel-elk-proxy
 
 #docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-util-zookeeper sentinel-util-kafka sentinel-util-kafka-manager
 
-# sentinel-util-kibana  sentinel-db-elasticsearch sentinel-web-api-member sentinel-util-zookeeper sentinel-util-kafka sentinel-util-kafka-manager
+# sentinel-util-kibana  sentinel-db-elasticsearch sentinel-api-member sentinel-util-zookeeper sentinel-util-kafka sentinel-util-kafka-manager
 
 
 # docker-compose --verbose
-#docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-web-api-product sentinel-web-sts
+#docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-api-product sentinel-web-sts
 
-docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-util-mailhog sentinel-db-mongodb sentinel-nats sentinel-db-redis sentinel-web-sts sentinel-web-api-product sentinel-web-api-comms sentinel-web-handler-comms sentinel-db-elasticsearch sentinel-util-kibana
+# docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-util-mailhog sentinel-db-mongodb sentinel-services-nats sentinel-db-redis sentinel-web-sts sentinel-api-product sentinel-api-comms sentinel-handler-comms sentinel-db-elasticsearch sentinel-util-kibana
+docker-compose -f docker-compose-debug-linux.yml up --build sentinel-util-mailhog sentinel-db-mongodb sentinel-services-nats sentinel-db-redis sentinel-web-sts sentinel-api-product sentinel-api-comms sentinel-handler-comms sentinel-db-elasticsearch sentinel-util-kibana
 
 
 

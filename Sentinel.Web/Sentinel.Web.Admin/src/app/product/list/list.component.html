@@ -52,10 +52,22 @@
         <div *ngIf="pageView =='table'">
           <div>
             <ngx-datatable class="material" [rows]="rows| ng4Filter:filters" [loadingIndicator]="loadingIndicator"
-              [columnMode]="'flex'" [columns]="settings.selectedColumns" [columnMode]="'force'" [headerHeight]="50"
-              [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable" [limit]="10" [selected]="selectedItem"
-              [selectionType]="'single'">
+              [columnMode]="'flex'" [columns]="settings.selectedColumns" [headerHeight]="50" [footerHeight]="50"
+              [rowHeight]="'auto'" [reorderable]="reorderable">
             </ngx-datatable>
+
+            <!-- [limit]="'10'" [selected]="selectedItem"
+            [selectionType]="'single'" -->
+
+            <!-- <ngx-datatable class="material" [rows]="rows | ng4Filter:filters" [columns]="settings.selectedColumns"
+              [headerHeight]="50" [footerHeight]="50">
+            </ngx-datatable> -->
+
+
+
+            <ngx-datatable class="material" [rows]="rows | ng4Filter:filters" [loadingIndicator]="loadingIndicator"
+              [columns]="settings.selectedColumns" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+              [rowHeight]="'auto'" [reorderable]="reorderable"> </ngx-datatable>
           </div>
 
         </div>

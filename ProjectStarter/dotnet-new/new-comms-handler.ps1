@@ -1,4 +1,4 @@
-$folder = "Sentinel.Web.Handler.Comms"
+$folder = "Sentinel.Handler.Comms"
 Write-Host "--------------------------------"
 $scriptpath = $MyInvocation.MyCommand.Path 
 $dir = Split-Path $scriptpath

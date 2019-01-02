@@ -1,6 +1,6 @@
 Import-Module .\new-dotnet.ps1 -Force
 
-$folder = "Sentinel.Web.Api.Product"
+$folder = "Sentinel.Api.Product"
 Write-Host "--------------------------------"
 $scriptpath = $MyInvocation.MyCommand.Path 
 $dir = Split-Path $scriptpath

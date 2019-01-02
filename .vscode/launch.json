@@ -4,14 +4,14 @@
     // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
     "version": "0.2.0",
     "configurations": [{
-            "name": "Sentinel.Web.Api.Product Launch",
+            "name": "Sentinel.Api.Product Launch",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "Sentinel.Web.Api.Product.build",
+            "preLaunchTask": "Sentinel.Api.Product.build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Sentinel.Web/Sentinel.Web.Api.Product/bin/local/Debug/netcoreapp2.1/Sentinel.Web.Api.Product.dll",
+            "program": "${workspaceFolder}/Sentinel.Web/Sentinel.Api.Product/bin/local/Debug/netcoreapp2.1/Sentinel.Api.Product.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Sentinel.Web/Sentinel.Web.Api.Product",
+            "cwd": "${workspaceFolder}/Sentinel.Web/Sentinel.Api.Product",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
@@ -66,14 +66,14 @@
                 "/Views": "${workspaceFolder}/Views"
             }
         }, {
-            "name": "Sentinel.Web.Api.Comms.build Launch",
+            "name": "Sentinel.Api.Comms.build Launch",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "Sentinel.Web.Api.Comms.build",
+            "preLaunchTask": "Sentinel.Api.Comms.build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Sentinel.Web/Sentinel.Web.Api.Comms/bin/local/Debug/netcoreapp2.1/Sentinel.Web.Api.Comms.dll",
+            "program": "${workspaceFolder}/Sentinel.Web/Sentinel.Api.Comms/bin/local/Debug/netcoreapp2.1/Sentinel.Api.Comms.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Sentinel.Web/Sentinel.Web.Api.Comms",
+            "cwd": "${workspaceFolder}/Sentinel.Web/Sentinel.Api.Comms",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {

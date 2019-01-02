@@ -1,0 +1,26 @@
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM microsoft/dotnet:2.1-sdk AS develop
+# RUN apt-get update && apt-get install bash
+ENV DOTNET_USE_POLLING_FILE_WATCHER=1
+ENV ASPNETCORE_ENVIRONMENT=Development
+WORKDIR /src/Sentinel.Handler.Comms
+EXPOSE 80
+
+FROM develop AS build
+WORKDIR /src
+COPY Sentinel.Handler.Comms/Sentinel.Handler.Comms.csproj Sentinel.Handler.Comms/
+RUN dotnet restore Sentinel.Handler.Comms/Sentinel.Handler.Comms.csproj
+COPY . .
+WORKDIR /src/Sentinel.Handler.Comms
+RUN dotnet build Sentinel.Handler.Comms.csproj -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish Sentinel.Handler.Comms.csproj -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "Sentinel.Handler.Comms.dll"]

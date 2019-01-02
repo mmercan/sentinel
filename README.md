@@ -13,9 +13,15 @@
   <a href="https://hub.docker.com/r/mmercan/sentinel-web-admin/" target="_blank">Web admin</a><br>
 </p>
 <p>
-  <a href="https://hub.docker.com/r/mmercan/sentinel-web-api-comms/" target="_blank">comms api</a><br>
+  <a href="https://hub.docker.com/r/mmercan/sentinel-api-comms/" target="_blank">comms api</a><br>
+
+  Email 
+  Mobile Notifications 
+  SignalR
+  etc...
+
 </p>
 <p>
-  <a href="https://hub.docker.com/r/mmercan/sentinel-web-api-product/" target="_blank">product api</a><br>
+  <a href="https://hub.docker.com/r/mmercan/sentinel-api-product/" target="_blank">product api</a><br>
 </p>
   

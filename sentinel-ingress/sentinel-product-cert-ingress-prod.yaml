@@ -35,5 +35,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: sentinel-web-api-product
+          serviceName: sentinel-api-product
           servicePort: 80

@@ -1,12 +1,12 @@
 {
     "version": "2.0.0",
     "tasks": [{
-        "label": "Sentinel.Web.Api.Product.build",
+        "label": "Sentinel.Api.Product.build",
         "command": "dotnet",
         "type": "process",
         "args": [
             "build",
-            "${workspaceFolder}/Sentinel.Web/Sentinel.Web.Api.Product/Sentinel.Web.Api.Product.csproj"
+            "${workspaceFolder}/Sentinel.Web/Sentinel.Api.Product/Sentinel.Api.Product.csproj"
         ],
         "problemMatcher": "$msCompile"
     }, {
@@ -28,12 +28,12 @@
         ],
         "problemMatcher": "$msCompile"
     }, {
-        "label": "Sentinel.Web.Api.Comms.build",
+        "label": "Sentinel.Api.Comms.build",
         "command": "dotnet",
         "type": "process",
         "args": [
             "build",
-            "${workspaceFolder}/Sentinel.Web/Sentinel.Web.Api.Comms/Sentinel.Web.Api.Comms.csproj"
+            "${workspaceFolder}/Sentinel.Web/Sentinel.Api.Comms/Sentinel.Api.Comms.csproj"
         ],
         "problemMatcher": "$msCompile"
     }, {

@@ -1,12 +1,12 @@
 version: '3.4'
 
 services:
-  sentinel-web-api-product:      
-    image: sentinel-web-api-product:${TAGVersion}-dev-linux
+  sentinel-api-product:      
+    image: sentinel-api-product:${TAGVersion}-dev-linux
     build:
       target: develop
       context: .
-      dockerfile: Sentinel.Web.Api.Product/dockerfile-linux
+      dockerfile: Sentinel.Api.Product/dockerfile-linux
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_USE_POLLING_FILE_WATCHER=1
@@ -26,12 +26,12 @@ services:
       - "5003:80"
     # stdin_open: true
     # tty: true
-  sentinel-web-api-member:      
-    image: sentinel-web-api-member:${TAGVersion}-dev-linux
+  sentinel-api-member:      
+    image: sentinel-api-member:${TAGVersion}-dev-linux
     build:
       target: develop
       context: .
-      dockerfile: Sentinel.Web.Api.Member/dockerfile-linux
+      dockerfile: Sentinel.Api.Member/dockerfile-linux
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_USE_POLLING_FILE_WATCHER=1
@@ -52,14 +52,14 @@ services:
       - "5002:80"
     # depends_on:
     #   - sentinel-db-redis
-  sentinel-web-api-comms:      
-    image: sentinel-web-api-comms:${TAGVersion}-dev-linux
+  sentinel-api-comms:      
+    image: sentinel-api-comms:${TAGVersion}-dev-linux
     build:
       target: develop
       context: .
-      dockerfile: Sentinel.Web.Api.Comms/dockerfile-linux
+      dockerfile: Sentinel.Api.Comms/dockerfile-linux
     environment:
-      - NATS_URL=nats://sentinel-nats:4222/
+      - NATS_URL=nats://sentinel-services-nats:4222/
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
       - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
       - ASPNETCORE_ENVIRONMENT=Development
@@ -76,14 +76,14 @@ services:
       - "5004:80"
     depends_on:
       - sentinel-db-redis
-  sentinel-web-handler-comms:      
-    image: sentinel-web-handler-comms:${TAGVersion}-dev-linux
+  sentinel-handler-comms:      
+    image: sentinel-handler-comms:${TAGVersion}-dev-linux
     build:
       target: develop
       context: .
-      dockerfile: Sentinel.Web.Handler.Comms/dockerfile-linux
+      dockerfile: Sentinel.Handler.Comms/dockerfile-linux
     environment:
-      - NATS_URL=nats://sentinel-nats:4222/
+      - NATS_URL=nats://sentinel-services-nats:4222/
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
       - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
       - ASPNETCORE_ENVIRONMENT=Development
@@ -149,7 +149,7 @@ services:
   # sentinel-sql-db:
   #   image: sentinel-sql-db:01-dev-linux
   #   build:
-  #     context: ./Sentinel.Sql.Db/
+  #     context: ./Sentinel.Db.Sql/
   #     dockerfile: dockerfile-linux
   #   ports:
   #     - "1433:1433"
@@ -194,10 +194,10 @@ services:
       - mongodata:/data/db
     ports:
         - 27017:27017
-  sentinel-nats:
-    image: sentinel-nats:${TAGVersion}-dev-linux
+  sentinel-services-nats:
+    image: sentinel-services-nats:${TAGVersion}-dev-linux
     build:
-      context: ./sentinel-nats
+      context: ./Sentinel.Services.Nats
       dockerfile: dockerfile-linux
     ports:
       - "8222:8222"
