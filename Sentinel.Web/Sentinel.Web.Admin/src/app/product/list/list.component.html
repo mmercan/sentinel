@@ -7,6 +7,11 @@
         <div style="width: 100%">
           <div class="d-flex flex-row">
             <div class="d-block d-sm-none d-md-none d-lg-none d-xl-none" style="flex:2 0px">
+              <select class="form-control" style="height: 46px" name="vendorname" [(ngModel)]="filters.vendorId">
+                <option value="">All</option>
+                <option value="1">Microsoft</option>
+                <option value="2">Cisco</option>
+              </select>
               <input class="form-control" style="height: 46px" type="search" value="" placeholder="Search" id="example-search-input">
             </div>
           </div>
@@ -18,8 +23,12 @@
                 <option value="2">Cisco</option>
               </select>
             </div>
+            <div class="d-none d-sx-none d-sm-block d-md-block" style="flex:1 0px">
+              <input class="form-control" style="height: 46px" type="search" [(ngModel)]="filters.productCode"
+                placeholder="Code" id="search-input">
+            </div>
             <div class="d-none d-sx-none d-sm-block d-md-block" style="flex:2 0px">
-              <input class="form-control" style="height: 46px" type="search" [(ngModel)]="filters.name" placeholder="Search"
+              <input class="form-control" style="height: 46px" type="search" [(ngModel)]="filters.name" placeholder="Name"
                 id="search-input">
             </div>
             <div class="d-flex">
@@ -76,10 +85,62 @@
 
         </div>
         <div *ngIf="pageView =='list'">
-          list
+
+          <div class="card-body" *ngFor="let item of rows | ng4Filter:filters">
+            <div class="d-flex align-items-center">
+              <div class="mr-3">
+                <div class="widget-icon rounded-circle bg-red text-white icon icon-basic-headset"></div>
+              </div>
+              <div class="mr-auto">
+                <a href="javascript:;" class="ff-headers text-color">{{ item.productCode }}</a>
+                <div>{{ item.name }}</div>
+              </div>
+              <div class="d-flex">
+                <div class="forum-stat">
+                  <h6>890</h6>
+                  <small class="d-block">Views</small>
+                </div>
+                <div class="forum-stat">
+                  <h6>465</h6>
+                  <small class="d-block">Topics</small>
+                </div>
+                <div class="forum-stat">
+                  <h6>375</h6>
+                  <small class="d-block">Replies</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
         <div *ngIf="pageView =='grid'">
-          grid
+
+
+          <div class="row">
+            <div class="media-tile media-tile-footer col-lg-3 col-sm-6" *ngFor="let item of rows | ng4Filter:filters">
+              <figure>
+                <img src="assets/images/unsplash/2.jpg" alt="Card image cap" class="img-fluid" />
+                <figcaption>
+                  <h6 class="media-title fw-300">{{ item.productCode }}</h6>
+                  <small class="media-subtitle">{{ item.name }}</small>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <!-- <div class="row">
+            <div class="media-tile media-tile-header col-lg-3 col-sm-6" *ngFor="let item of rows | ng4Filter:filters">
+              <figure>
+                <img src="assets/images/unsplash/{{id}}.jpg" alt="Card image cap" class="img-fluid" />
+                <figcaption>
+                  <h6 class="media-title fw-300">{{ id }}</h6>
+                  <small class="media-subtitle">Tile image {{ id }}</small>
+                </figcaption>
+              </figure>
+            </div>
+          </div> -->
+
+
         </div>
       </div>
     </div>
