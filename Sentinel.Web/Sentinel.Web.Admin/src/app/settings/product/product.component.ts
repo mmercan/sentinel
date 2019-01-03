@@ -59,54 +59,53 @@ export class ProductComponent implements OnInit, OnDestroy {
     loadsettings(arg: any) {
         console.log('loadsettings');
         console.log(arg);
-        if (!arg) {
-            console.log('loading static cache values');
-            this.settings = {
-                allColumns: [
-                    { name: 'Id', prop: 'id', flexGrow: 0, sortable: 'true' },
-                    { name: 'Product Code', prop: 'productCode', flexGrow: 0, sortable: 'true' },
-                    { name: 'Name', prop: 'name', flexGrow: 0, sortable: 'true' },
-                    { name: 'productUrl', prop: 'productUrl', flexGrow: 0, sortable: 'true' },
-                    { name: 'active', prop: 'active', flexGrow: 0, sortable: 'true' },
-                    { name: 'Html', prop: 'html', flexGrow: 0, sortable: 'true' },
-                    { name: 'Description Html', prop: 'descriptionHtml', flexGrow: 0, sortable: 'true' },
-                    { name: 'Objectives Html', prop: 'objectivesHtml', flexGrow: 0, sortable: 'true' },
-                    { name: 'Audience Html', prop: 'audienceHtml', flexGrow: 0, sortable: 'true' },
-                    { name: 'Prerequisites Html', prop: 'prerequisitesHtml', flexGrow: 0, sortable: 'true' },
-                    { name: 'Topics Html', prop: 'topicsHtml', flexGrow: 0, sortable: 'true' },
-                    { name: 'Related Html', prop: 'relatedHtml', flexGrow: 0, sortable: 'true' },
-                    { name: 'Roadmaps Html', prop: 'roadmapsHtml', flexGrow: 0, sortable: 'true' },
-                    { name: 'Duration', prop: 'duration', flexGrow: 0, sortable: 'true' },
-                    { name: 'Duration Type', prop: 'durationType', flexGrow: 0, sortable: 'true' },
-                    { name: 'Created On', prop: 'createdOn', flexGrow: 0, sortable: 'true' },
-                    { name: 'Modified On', prop: 'modifiedOn', flexGrow: 0, sortable: 'true' },
-                    { name: 'Technology Id', prop: 'technologyId', flexGrow: 0, sortable: 'true' },
-                    { name: 'Technology Name', prop: 'technologyName', flexGrow: 0, sortable: 'true' },
-                    { name: 'Technology Url', prop: 'technologyUrl', flexGrow: 0, sortable: 'true' },
-                    { name: 'Vendor Id', prop: 'vendorId', flexGrow: 0, sortable: 'true' },
-                    { name: 'Vendor Name', prop: 'vendorName', flexGrow: 0, sortable: 'true' },
-                    { name: 'Vendor Url', prop: 'vendorUrl', flexGrow: 0, sortable: 'true' }
-                ],
-                selectedColumns: [{ name: 'Id', prop: 'id', flexGrow: 1, sortable: 'true' },
-                { name: 'Product Code', prop: 'productCode', flexGrow: 1, sortable: 'true' },
-                { name: 'Name', prop: 'name', flexGrow: 2, sortable: 'true' },
-                { name: 'Active', prop: 'active', flexGrow: 1, sortable: 'true' }],
-                availableColumns: [],
-                filters: {}
-            };
-
-            const diff = this.arrDiff(this.settings.allColumns, this.settings.selectedColumns);
-            this.settings.allColumns.forEach(ob => {
-                if (diff.includes(ob.prop)) {
-                    this.settings.availableColumns.push(ob);
-                }
-            });
-            console.log('diff');
-            console.log(diff);
-        }
+        // if (!arg) {
+        //     console.log('loading static cache values');
+        //     this.settings = {
+        //         allColumns: [
+        //             { name: 'Id', prop: 'id', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Product Code', prop: 'productCode', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Name', prop: 'name', flexGrow: 0, sortable: 'true' },
+        //             { name: 'productUrl', prop: 'productUrl', flexGrow: 0, sortable: 'true' },
+        //             { name: 'active', prop: 'active', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Html', prop: 'html', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Description Html', prop: 'descriptionHtml', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Objectives Html', prop: 'objectivesHtml', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Audience Html', prop: 'audienceHtml', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Prerequisites Html', prop: 'prerequisitesHtml', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Topics Html', prop: 'topicsHtml', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Related Html', prop: 'relatedHtml', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Roadmaps Html', prop: 'roadmapsHtml', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Duration', prop: 'duration', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Duration Type', prop: 'durationType', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Created On', prop: 'createdOn', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Modified On', prop: 'modifiedOn', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Technology Id', prop: 'technologyId', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Technology Name', prop: 'technologyName', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Technology Url', prop: 'technologyUrl', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Vendor Id', prop: 'vendorId', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Vendor Name', prop: 'vendorName', flexGrow: 0, sortable: 'true' },
+        //             { name: 'Vendor Url', prop: 'vendorUrl', flexGrow: 0, sortable: 'true' }
+        //         ],
+        //         selectedColumns: [{ name: 'Product Code', prop: 'productCode', flexGrow: 1, sortable: 'true' },
+        //         { name: 'Name', prop: 'name', flexGrow: 2, sortable: 'true' },
+        //         { name: 'Active', prop: 'active', flexGrow: 1, sortable: 'true' }],
+        //         availableColumns: [],
+        //         filters: {}
+        //     };
+        // }
+        const diff = this.arrDiff(this.settings.allColumns, this.settings.selectedColumns);
+        this.settings.allColumns.forEach(ob => {
+            if (diff.includes(ob.prop)) {
+                this.settings.availableColumns.push(ob);
+            }
+        });
+        console.log('diff');
+        console.log(diff);
     }
 
     public save() {
+        this.settings.availableColumn = [];
         const stringSettings = JSON.stringify(this.settings);
         localStorage.setItem(this.cachename, stringSettings);
     }

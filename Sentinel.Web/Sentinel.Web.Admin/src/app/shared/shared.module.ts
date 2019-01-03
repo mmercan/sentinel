@@ -26,21 +26,21 @@ import { ProductDataStoreService } from './data-store/product-data-store/product
 import { StorageComponent } from './storage/storage.component';
 
 import { ProductCRUDService } from './generated/api.client.generated';
-
+import { SettingsService } from './settings/settings.service';
 @NgModule({
   imports: [HttpModule, FormsModule],
   declarations: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
     IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent],
   exports: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
     IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent],
-  providers: []
+  providers: [SettingsService]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
       providers: [AppConfig, AdalService, LocalAuthService, AuthService, MenuItems, NotificationService, AdalInterceptor,
-        OfflineNotificationService, AdalGuard, ProductDataStoreService, ProductCRUDService]
+        OfflineNotificationService, AdalGuard, ProductDataStoreService, ProductCRUDService, SettingsService]
     };
   }
 }

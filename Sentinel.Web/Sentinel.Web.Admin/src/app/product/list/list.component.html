@@ -50,25 +50,29 @@
       </div>
       <div class="card-body" *ngIf="settings">
         <div *ngIf="pageView =='table'">
-          <div>
-            <ngx-datatable class="material" [rows]="rows| ng4Filter:filters" [loadingIndicator]="loadingIndicator"
-              [columnMode]="'flex'" [columns]="settings.selectedColumns" [headerHeight]="50" [footerHeight]="50"
-              [rowHeight]="'auto'" [reorderable]="reorderable">
-            </ngx-datatable>
-
-            <!-- [limit]="'10'" [selected]="selectedItem"
+          <!-- [limit]="'10'" [selected]="selectedItem"
             [selectionType]="'single'" -->
 
-            <!-- <ngx-datatable class="material" [rows]="rows | ng4Filter:filters" [columns]="settings.selectedColumns"
+          <!-- <ngx-datatable class="material" [rows]="rows | ng4Filter:filters" [columns]="settings.selectedColumns"
               [headerHeight]="50" [footerHeight]="50">
             </ngx-datatable> -->
 
+          <!-- <ngx-datatable class="material" [rows]="rows| ng4Filter:filters" [loadingIndicator]="loadingIndicator"
+            [columnMode]="'flex'" [columns]="settings.selectedColumns" [headerHeight]="50" [footerHeight]="50"
+            [rowHeight]="'auto'" [reorderable]="reorderable">
+          </ngx-datatable> -->
 
-
-            <ngx-datatable class="material" [rows]="rows | ng4Filter:filters" [loadingIndicator]="loadingIndicator"
-              [columns]="settings.selectedColumns" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-              [rowHeight]="'auto'" [reorderable]="reorderable"> </ngx-datatable>
+          <div style="height: 0px">
+            <ngx-datatable [columnMode]="'flex'" [columns]="settings.selectedColumns" [reorderable]="reorderable">
+            </ngx-datatable>
           </div>
+
+          <ngx-datatable class="material" [rows]="rows | ng4Filter:filters" [loadingIndicator]="loadingIndicator"
+            [columns]="settings.selectedColumns" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+            [rowHeight]="'auto'" [reorderable]="reorderable"> </ngx-datatable>
+
+
+
 
         </div>
         <div *ngIf="pageView =='list'">
