@@ -252,47 +252,47 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sentinel-service-nats-monitor
+  name: sentinel-service-rabbitmq-management
   labels:
-    app: sentinel-service-nats
+    app: sentinel-service-rabbitmq
 spec:
   type: LoadBalancer
   ports:
   - protocol: TCP
-    port: 8222
-    targetPort: 8222
+    port: 15672
+    targetPort: 15672
   selector:
-    app: sentinel-service-nats
+    app: sentinel-service-rabbitmq
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: sentinel-service-nats
+  name: sentinel-service-rabbitmq
   labels:
-    app: sentinel-service-nats
+    app: sentinel-service-rabbitmq
 spec:
   type: ClusterIP
   ports:
   - protocol: TCP
-    port: 4222
-    targetPort: 4222
+    port: 5672
+    targetPort: 5672
   selector:
-    app: sentinel-service-nats
+    app: sentinel-service-rabbitmq
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: sentinel-service-nats
+  name: sentinel-service-rabbitmq
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: sentinel-service-nats
+        app: sentinel-service-rabbitmq
     spec:
       containers:
-      - name: sentinel-service-nats
-        image: mmercan/sentinel-service-nats
+      - name: sentinel-service-rabbitmq
+        image: mmercan/sentinel-service-rabbitmq
         ports:
-        - containerPort: 8222
-        - containerPort: 4222
+        - containerPort: 5672
+        - containerPort: 15672

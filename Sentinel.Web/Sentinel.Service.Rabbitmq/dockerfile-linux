@@ -1,0 +1,9 @@
+FROM rabbitmq:3-management
+
+# ENV ABBITMQ_ERLANG_COOKIE = SWQOKODSQALRPCLNMEQG
+# ENV RABBITMQ_DEFAULT_USER = rabbitmq
+# ENV RABBITMQ_DEFAULT_PASS = rabbitmq
+# ENV RABBITMQ_DEFAULT_VHOST = /
+
+COPY ./config/enabled_plugins /etc/rabbitmq/enabled_plugins
+COPY ./config/rabbitmq.conf /etc/rabbitmq/rabbitmq.conf

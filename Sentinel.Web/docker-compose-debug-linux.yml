@@ -202,6 +202,25 @@ services:
     ports:
       - "8222:8222"
       - "4222:4222"
+  sentinel-service-rabbitmq:
+    image: sentinel-service-rabbitmq:${TAGVersion}-dev-linux
+    build:
+      context: ./Sentinel.Service.Rabbitmq
+      dockerfile: dockerfile-linux
+    labels:
+      NAME: "rabbitmq1"
+    environment:
+       RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+    #   RABBITMQ_DEFAULT_USER: "rabbitmq"
+    #   RABBITMQ_DEFAULT_PASS: "rabbitmq"
+    #   RABBITMQ_DEFAULT_VHOST: "/"
+    # volumes:
+      # - ./config/:/etc/rabbitmq/
+      # - "./rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro"
+      # - "./autocluster-0.4.1.ez:/usr/lib/rabbitmq/lib/rabbitmq_server-3.5.5/plugins/autocluster-0.4.1.ez"
+    ports:
+    - "15672:15672"
+    - "5672:5672"
   sentinel-util-mailhog:
     image: sentinel-util-mailhog:${TAGVersion}-dev-linux
     build:
