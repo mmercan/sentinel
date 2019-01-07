@@ -52,6 +52,10 @@
                 <button class="btn btn-primary" (click)="newproduct()">
                   <i class="fa fa-plus fa-2x"></i>
                 </button>
+
+                <a class="btn btn-secondary" [routerLink]="['/settings']" [queryParams]="{ entity: 'product'}">
+                  <i class="fa fa-gears fa-2x"></i>
+                </a>
               </div>
             </div>
           </div>
@@ -85,6 +89,9 @@
 
         </div>
         <div *ngIf="pageView =='list'">
+          <div class="card-body" *ngFor="let item of rows | ng4Filter:filters">
+            <dynamic-html [content]="listtemplate"></dynamic-html>
+          </div>
 
           <div class="card-body" *ngFor="let item of rows | ng4Filter:filters">
             <div class="d-flex align-items-center">

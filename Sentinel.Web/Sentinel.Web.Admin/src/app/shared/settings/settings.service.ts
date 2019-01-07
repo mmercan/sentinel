@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SettingsService {
-
+  public settings = settings;
   constructor() {
 
     console.log('SettingsService started');
@@ -25,7 +25,16 @@ export class SettingsService {
 
   }
 
+  getCacheName(entiryName: string) {
 
+    if (settings.hasOwnProperty(entiryName) && settings[entiryName].hasOwnProperty('storageKey')) {
+      const setting = settings[entiryName];
+      const storageKey = setting['storageKey'];
+      return storageKey;
+    } else {
+      return undefined;
+    }
+  }
 
   save(cachename: string, settingstosave: any) {
     const stringSettings = JSON.stringify(settingstosave);
@@ -64,6 +73,22 @@ const settings = {
     ],
     selectedColumns: [
       { name: 'Product Code', prop: 'productCode', flexGrow: 1, sortable: 'true' },
+      { name: 'Name', prop: 'name', flexGrow: 2, sortable: 'true' },
+      { name: 'Active', prop: 'active', flexGrow: 1, sortable: 'true' }],
+    availableColumns: [],
+    filters: {}
+  },
+  category: {
+    storageKey: 'settings.category',
+    allColumns: [
+      { name: 'Id', prop: 'id', flexGrow: 1, sortable: 'true' },
+      { name: 'Name', prop: 'name', flexGrow: 3, sortable: 'true' },
+      { name: 'Active', prop: 'active', flexGrow: 1, sortable: 'true' },
+      { name: 'Html', prop: 'html', flexGrow: 1, sortable: 'true' },
+      { name: 'Created On', prop: 'createdOn', flexGrow: 1, sortable: 'true' },
+      { name: 'Modified On', prop: 'modifiedOn', flexGrow: 1, sortable: 'true' },
+    ],
+    selectedColumns: [
       { name: 'Name', prop: 'name', flexGrow: 2, sortable: 'true' },
       { name: 'Active', prop: 'active', flexGrow: 1, sortable: 'true' }],
     availableColumns: [],

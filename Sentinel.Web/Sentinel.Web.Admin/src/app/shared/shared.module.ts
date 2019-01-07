@@ -1,6 +1,8 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, ANALYZE_FOR_ENTRY_COMPONENTS } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import { DragulaModule } from 'ng2-dragula';
+import { CommonModule } from '@angular/common';
 
 import { MenuItems } from './menu-items/menu-items';
 import { AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective } from './accordion';
@@ -27,12 +29,16 @@ import { StorageComponent } from './storage/storage.component';
 
 import { ProductCRUDService } from './generated/api.client.generated';
 import { SettingsService } from './settings/settings.service';
+import { SettingsComponent } from './settings/settings.component';
+
+
+
 @NgModule({
-  imports: [HttpModule, FormsModule],
+  imports: [CommonModule, HttpModule, FormsModule, DragulaModule],
   declarations: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
-    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent],
+    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent, SettingsComponent],
   exports: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
-    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent],
+    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent, DragulaModule],
   providers: [SettingsService]
 })
 export class SharedModule {

@@ -4,6 +4,7 @@ import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 // import { AuthGuardService } from './shared/authentication/auth-guard.service';
 import { AdalGuard } from './shared/authentication/adal-auth/adal.guard';
+import { SettingsComponent } from './shared/settings/settings.component';
 
 export const routes: Routes = [{
   path: '',
@@ -28,8 +29,10 @@ export const routes: Routes = [{
   },
   {
     path: 'settings',
-    loadChildren: './settings/settings.module#SettingsModule'
-  }]
+    component: SettingsComponent,
+    //   loadChildren: './settings/settings.module#SettingsModule'
+  }
+  ]
 }, {
   path: '',
   component: AuthLayoutComponent,

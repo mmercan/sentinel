@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from '../interfaces/user-interface';
-import { } from '../../shared/data-store/user-data-store/'
+// import { } from '../../shared/data-store/user-data-store/'
 
 @Component({
   selector: 'app-settings',

@@ -153,7 +153,7 @@ export class ConfigApiService {
     const obs = Observable.create(observer => {
       const myReader: FileReader = new FileReader();
       myReader.onloadend = (e) => {
-        const content = myReader.result;
+        const content: any = myReader.result;
         const jsoncontent = JSON.parse(content);
         const configstr = JSON.stringify(jsoncontent);
         localStorage.setItem('app-settingsConfig', configstr);

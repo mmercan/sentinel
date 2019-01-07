@@ -17,6 +17,8 @@ import { SharedModule } from './shared/shared.module';
 import { JwtInterceptor } from './shared/authentication/jwt.interceptor';
 import { DragulaModule } from 'ng2-dragula';
 
+import { DynamicHTMLModule } from './dynamic-html/dynamic-html.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +35,11 @@ import { DragulaModule } from 'ng2-dragula';
     HttpClientModule,
     NgbModule.forRoot(),
     SidebarModule.forRoot(),
-    DragulaModule.forRoot()
+    DragulaModule.forRoot(),
+    DynamicHTMLModule.forRoot({
+      components: [
+      ]
+    })
   ],
   bootstrap: [AppComponent],
   providers: [

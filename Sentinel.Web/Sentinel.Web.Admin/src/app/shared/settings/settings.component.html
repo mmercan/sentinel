@@ -1,4 +1,4 @@
-<app-storage name="settings.product" type="local" [(ngModel)]="settings" (ngModelChange)="onCacheChange($event)"></app-storage>
+<app-storage [name]="cachename" type="local" [(ngModel)]="settings" (ngModelChange)="onCacheChange($event)"></app-storage>
 <!-- <hr>
 settings
 {{settings | json}} -->
@@ -84,17 +84,17 @@ settings
   </div>
   <div class="taskboard-wrapper col-md-2">
     <div>
-      <button class="btn btn-outline-primary">
+      <button class="btn btn-outline-primary" (click)="save()">
         <i class="fa fa-plus fa-2x"></i>
       </button>
     </div>
     <div>
-      <button class="btn btn-outline-success" (click)="save()">
+      <button class="btn btn-outline-success" (click)="save()" style="padding-left: 23px;padding-right: 23px">
         <i class="fa fa-save fa-2x"></i>
       </button>
     </div>
     <div>
-      <button class="btn btn-outline-danger">
+      <button class="btn btn-outline-danger" (click)="save()">
         <i class="fa fa-trash fa-2x"></i>
       </button>
     </div>

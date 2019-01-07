@@ -32,7 +32,7 @@ export interface Options {
 export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private _router: Subscription;
-  private mediaMatcher: MediaQueryList = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`);
+  private mediaMatcher: any = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`);
 
   currentLang = 'en';
   options: Options;

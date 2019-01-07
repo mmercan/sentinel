@@ -1,5 +1,6 @@
 import { Component, OnInit, InjectionToken, Injector } from '@angular/core';
 import { ProductDataStoreService } from '../../shared/data-store/product-data-store/product-data-store.service';
+import { Router } from '@angular/router';
 // import { Product } from '../../shared/data-store/product-data-store/Interfaces/Production';
 @Component({
   selector: 'app-list',
@@ -11,7 +12,8 @@ export class ListComponent implements OnInit {
   public settings: any;
   public filters: any = {};
   public selectedItem: any;
-  constructor(private productDS: ProductDataStoreService) { }
+  public listtemplate = "<span> {{item.productCode}} Hello <input [(ngModel)]=\"item.productCode\"> </span>";
+  constructor(private productDS: ProductDataStoreService, private router: Router) { }
 
   rows = [];
   loadingIndicator = true;
@@ -47,6 +49,11 @@ export class ListComponent implements OnInit {
   newproduct() {
     console.log(this.settings);
   }
+
+  // opensettings() {
+  //   this.router.navigate(['/settings/'], { queryParams: { entity: 'product' } });
+  // }
+
 
   // onCacheChange(settings) {
   //   console.log('onCacheChange');

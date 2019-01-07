@@ -7,6 +7,8 @@ import { CreateComponent } from './create/create.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@mrtmrcn/ngx-datatable';
 import { FormsModule } from '@angular/forms';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { DynamicHTMLModule } from '../dynamic-html/dynamic-html.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -14,7 +16,9 @@ import { FormsModule } from '@angular/forms';
         SharedModule,
         NgbModule,
         NgxDatatableModule,
-        FormsModule
+        FormsModule,
+        ScrollingModule,
+        DynamicHTMLModule
     ],
     declarations: [ListComponent, CreateComponent]
 })
