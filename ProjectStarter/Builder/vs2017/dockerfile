@@ -1,6 +1,6 @@
 # escape=`
 
-FROM microsoft/windowsservercore:10.0.14393.1715
+FROM microsoft/windowsservercore:1803
 SHELL ["powershell"]
 
 ENV DOTNET_SDK_VERSION 2.1.302

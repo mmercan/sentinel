@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using Sentinel.Web.Dto.Product;
-using Sentinel.Web.Repos.Repositories;
-using Sentinel.Web.Model.Product;
+using Sentinel.Repos.Repositories;
+using Sentinel.Model.Product;
 using Mercan.Common.Filters;
 
 namespace Sentinel.Api.Product.Controllers

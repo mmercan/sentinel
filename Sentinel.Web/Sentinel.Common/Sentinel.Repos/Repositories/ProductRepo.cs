@@ -3,10 +3,10 @@ using Mercan.Common.Repos;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Sentinel.Web.Model.Product;
-using Sentinel.Web.Repos.Sql;
+using Sentinel.Model.Product;
+using Sentinel.Repos.Sql;
 
-namespace Sentinel.Web.Repos.Repositories
+namespace Sentinel.Repos.Repositories
 {
     public class ProductRepo : EFRepository<ProductInfo>
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Sentinel.Web.Model.Product
+namespace Sentinel.Model.Product
 {
     public class VendorInfo
     {

@@ -26,8 +26,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Microsoft.EntityFrameworkCore;
-using Sentinel.Web.Repos.Sql;
-using Sentinel.Web.Repos.Repositories;
+using Sentinel.Repos.Sql;
+using Sentinel.Repos.Repositories;
 using System.Reflection;
 using System.IO;
 using Microsoft.Extensions.Caching.Distributed;

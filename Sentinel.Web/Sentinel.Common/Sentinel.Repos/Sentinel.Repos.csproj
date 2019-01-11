@@ -9,8 +9,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sentinel.Web.Model\Sentinel.Web.Model.csproj" />
-    <ProjectReference Include="..\Mercan\Mercan.Common\Mercan.Common.csproj" />
+    <ProjectReference Include="..\Sentinel.Model\Sentinel.Model.csproj" />
+    <ProjectReference Include="..\..\Mercan\Mercan.Common\Mercan.Common.csproj" />
   </ItemGroup>
   
 </Project>

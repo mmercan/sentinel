@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sentinel.Web.Model
+namespace Sentinel.Model
 {
     public class Class1
     {

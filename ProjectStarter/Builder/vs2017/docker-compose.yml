@@ -1,0 +1,8 @@
+version: '3.4'
+
+services: 
+  vs2017-base:
+    image: vs2017-base
+    build:
+      context: .
+      dockerfile: dockerfile

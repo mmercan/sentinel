@@ -29,8 +29,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mercan\Mercan.Common\Mercan.Common.csproj"/>
-    <ProjectReference Include="..\Sentinel.Web.Model\Sentinel.Web.Model.csproj"/>
-    <ProjectReference Include="..\Sentinel.Web.Repos\Sentinel.Web.Repos.csproj"/>
+    <ProjectReference Include="..\Sentinel.Common\Sentinel.Model\Sentinel.Model.csproj"/>
+    <ProjectReference Include="..\Sentinel.Common\Sentinel.Repos\Sentinel.Repos.csproj"/>
     <ProjectReference Include="..\Mercan\Mercan.Common.Mongo\Mercan.Common.Mongo.csproj"/>
   </ItemGroup>
 </Project>

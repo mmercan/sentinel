@@ -1,7 +1,7 @@
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Sentinel.Web.Dto.Product;
-using Sentinel.Web.Model.Product;
+using Sentinel.Model.Product;
 //using Sentinel.Api.Product.Dto;
 //using Sentinel.Model.Product;
 

@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sentinel.Web.Dto.Product;
-using Sentinel.Web.Model.Product;
-using Sentinel.Web.Repos.Repositories;
+using Sentinel.Model.Product;
+using Sentinel.Repos.Repositories;
 
 
 namespace Sentinel.Api.Product.Controllers

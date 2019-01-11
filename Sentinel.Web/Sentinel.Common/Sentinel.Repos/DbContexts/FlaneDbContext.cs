@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Sentinel.Web.Model.Product;
+using Sentinel.Model.Product;
 using System.Collections.Generic;
 
 
-namespace Sentinel.Web.Repos.Sql
+namespace Sentinel.Repos.Sql
 {
     public class SentinelDbContext : DbContext
     {
