@@ -74,12 +74,12 @@ services:
       - "5002:80"
     depends_on:
       - sentinel-db-redis
-  sentinel-web-admin:      
-    image: mmercan/sentinel-web-admin:${TAGVersion}-prod-linux
+  sentinel-ui-admin:      
+    image: mmercan/sentinel-ui-admin:${TAGVersion}-prod-linux
     build:
       target: prod
       context: .
-      dockerfile: Sentinel.Web.Admin/dockerfile
+      dockerfile: Sentinel.UI.Admin/dockerfile
     ports:
       - "80:80"
   sentinel-elk-proxy:      

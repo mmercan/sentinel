@@ -10,7 +10,7 @@
   <a href="https://hub.docker.com/r/mmercan/sentinel-db-redis/" target="_blank">redis</a><br>
 </p>
 <p>
-  <a href="https://hub.docker.com/r/mmercan/sentinel-web-admin/" target="_blank">Web admin</a><br>
+  <a href="https://hub.docker.com/r/mmercan/sentinel-ui-admin/" target="_blank">Web admin</a><br>
 </p>
 <p>
   <a href="https://hub.docker.com/r/mmercan/sentinel-api-comms/" target="_blank">comms api</a><br>

@@ -18,7 +18,7 @@ ENV PATH=/home/node/.npm-global/bin:$PATH
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 RUN npm install -g @angular/cli
 WORKDIR /home/node/admin
-COPY Sentinel.Web.Admin/ .
+COPY Sentinel.UI.Admin/ .
 USER root
 RUN sudo npm install
 RUN ng build --prod
@@ -26,7 +26,7 @@ RUN ng build --prod
 
 FROM nginx:alpine as prod
 EXPOSE 80
-COPY Sentinel.Web.Admin/nginx.conf /etc/nginx/nginx.conf
+COPY Sentinel.UI.Admin/nginx.conf /etc/nginx/nginx.conf
 WORKDIR /usr/share/nginx/html
 COPY --from=builder /home/node/admin/dist/ClientApp/ .
 # ENTRYPOINT ["npm", "run", "startdocker"]

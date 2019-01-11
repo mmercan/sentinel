@@ -18,7 +18,7 @@ function Unzip($zipfile, $outdir) {
 }
 
 
-$folder = "Sentinel.Web.Admin"
+$folder = "Sentinel.UI.Admin"
 $scriptpath = $MyInvocation.MyCommand.Path 
 $dir = Split-Path $scriptpath
 

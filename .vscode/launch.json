@@ -108,7 +108,7 @@
             "type": "chrome",
             "request": "launch",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/Sentinel.Web.Admin"
+            "webRoot": "${workspaceFolder}/Sentinel.UI.Admin"
         },
     ]
 }

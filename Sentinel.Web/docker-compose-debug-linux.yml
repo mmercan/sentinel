@@ -124,14 +124,14 @@ services:
       - "5000:80"
     #depends_on:
     #  - sqldb
-  sentinel-web-admin:      
-    image: sentinel-web-admin:${TAGVersion}-dev-linux
+  sentinel-ui-admin:      
+    image: sentinel-ui-admin:${TAGVersion}-dev-linux
     build:
       target: develop
       context: .
-      dockerfile: Sentinel.Web.Admin/dockerfile
+      dockerfile: Sentinel.UI.Admin/dockerfile
     volumes:
-      - .\Sentinel.Web.Admin:/var/www/html
+      - .\Sentinel.UI.Admin:/var/www/html
     #entrypoint: ng serve --host 0.0.0.0 --poll 1 --disable-host-check
     entrypoint: npm run startdocker
     ports:

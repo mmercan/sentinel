@@ -35,7 +35,7 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: sentinel-web-admin
+          serviceName: sentinel-ui-admin
           servicePort: 80
       - path: /auth
         backend:

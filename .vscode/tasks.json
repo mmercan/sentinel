@@ -19,12 +19,12 @@
         ],
         "problemMatcher": "$msCompile"
     }, {
-        "label": "Sentinel.Web.Admin.build",
+        "label": "Sentinel.UI.Admin.build",
         "command": "npm",
         "type": "process",
         "args": [
             "start",
-            "--prefix ${workspaceFolder}/Sentinel.Web/Sentinel.Web.Admin"
+            "--prefix ${workspaceFolder}/Sentinel.Web/Sentinel.UI.Admin"
         ],
         "problemMatcher": "$msCompile"
     }, {

@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sentinel-web-admin
+  name: sentinel-ui-admin
   labels:
-    app: sentinel-web-admin
+    app: sentinel-ui-admin
 spec:
   type: ClusterIP
   ports:
@@ -11,12 +11,12 @@ spec:
     port: 80
     targetPort: 80
   selector:
-    app: sentinel-web-admin
+    app: sentinel-ui-admin
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: sentinel-web-admin
+  name: sentinel-ui-admin
 spec:
   replicas: 1
   strategy:
@@ -24,11 +24,11 @@ spec:
   template:
     metadata:
       labels:
-        app: sentinel-web-admin
+        app: sentinel-ui-admin
     spec:
       containers:
-      - name: sentinel-web-admin
-        image: mmercan/sentinel-web-admin:__imageversion__
+      - name: sentinel-ui-admin
+        image: mmercan/sentinel-ui-admin:__imageversion__
         imagePullPolicy: Always
         ports:
         - containerPort: 80
