@@ -4,7 +4,7 @@
 
 # Images
 <p>
-  <a href="https://hub.docker.com/r/mmercan/sentinel-web-sts/" target="_blank">Sts api</a>
+  <a href="https://hub.docker.com/r/mmercan/sentinel-ui-sts/" target="_blank">Sts api</a>
 </p>
 <p>
   <a href="https://hub.docker.com/r/mmercan/sentinel-db-redis/" target="_blank">redis</a><br>

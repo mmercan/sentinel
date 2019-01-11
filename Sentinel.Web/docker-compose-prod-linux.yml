@@ -37,12 +37,12 @@ services:
       - "5004:80"
     depends_on:
       - sentinel-db-redis
-  sentinel-web-sts:      
-    image: mmercan/sentinel-web-sts:${TAGVersion}-prod-linux
+  sentinel-ui-sts:      
+    image: mmercan/sentinel-ui-sts:${TAGVersion}-prod-linux
     build:
       target: final
       context: .
-      dockerfile: Sentinel.Web.STS/dockerfile-linux
+      dockerfile: Sentinel.UI.STS/dockerfile-linux
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword

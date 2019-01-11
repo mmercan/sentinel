@@ -35,5 +35,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: sentinel-web-sts-service
+          serviceName: sentinel-ui-sts-service
           servicePort: 80

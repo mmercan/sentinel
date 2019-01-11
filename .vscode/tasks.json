@@ -10,12 +10,12 @@
         ],
         "problemMatcher": "$msCompile"
     }, {
-        "label": "Sentinel.Web.STS.build",
+        "label": "Sentinel.UI.STS.build",
         "command": "dotnet",
         "type": "process",
         "args": [
             "build",
-            "${workspaceFolder}/Sentinel.Web/Sentinel.Web.STS/Sentinel.Web.Sts.csproj"
+            "${workspaceFolder}/Sentinel.Web/Sentinel.UI.STS/Sentinel.UI.Sts.csproj"
         ],
         "problemMatcher": "$msCompile"
     }, {

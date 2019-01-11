@@ -35,14 +35,14 @@
                 "/Views": "${workspaceFolder}/Views"
             }
         }, {
-            "name": "Sentinel.Web.STS.build Launch",
+            "name": "Sentinel.UI.STS.build Launch",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "Sentinel.Web.STS.build",
+            "preLaunchTask": "Sentinel.UI.STS.build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Sentinel.Web/Sentinel.Web.STS/bin/local/Debug/netcoreapp2.1/Sentinel.Web.Sts.dll",
+            "program": "${workspaceFolder}/Sentinel.Web/Sentinel.UI.STS/bin/local/Debug/netcoreapp2.1/Sentinel.UI.Sts.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Sentinel.Web/Sentinel.Web.STS",
+            "cwd": "${workspaceFolder}/Sentinel.Web/Sentinel.UI.STS",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {

@@ -36,7 +36,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sentinel-web-sts-service
+  name: sentinel-ui-sts-service
 spec:
   type: ClusterIP
   ports:
@@ -44,22 +44,22 @@ spec:
     port: 80
     targetPort: 80
   selector:
-    app: sentinel-web-sts
+    app: sentinel-ui-sts
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: sentinel-web-sts-deployment
+  name: sentinel-ui-sts-deployment
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: sentinel-web-sts
+        app: sentinel-ui-sts
     spec:
       containers:
-      - name: sentinel-web-sts
-        image: mmercan/sentinel-web-sts:__imageversion__
+      - name: sentinel-ui-sts
+        image: mmercan/sentinel-ui-sts:__imageversion__
         imagePullPolicy: Always
         ports:
         - containerPort: 80

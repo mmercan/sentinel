@@ -97,12 +97,12 @@ services:
     #   - "5004:80"
     depends_on:
       - sentinel-db-redis
-  sentinel-web-sts:      
-    image: sentinel-web-sts:${TAGVersion}-dev-linux
+  sentinel-ui-sts:      
+    image: sentinel-ui-sts:${TAGVersion}-dev-linux
     build:
       target: develop
       context: .
-      dockerfile: Sentinel.Web.STS/dockerfile-linux
+      dockerfile: Sentinel.UI.STS/dockerfile-linux
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - SMTP__Server=sentinel-util-mailhog
