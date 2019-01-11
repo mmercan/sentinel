@@ -39,7 +39,7 @@ export class AppConfig {
       baseUrl: window.location.hostname === 'localhost'
         ? 'http://localhost:5003/api/' : '/api/',
       appsettingsFolderLocation: window.location.hostname === 'localhost'
-        ? 'C:\\Users\\mmercan\\Desktop\\BAU\\Bupa.Api.BFF.SSP\\Bupa.Api.BFF.SSP.CRM' : 'D:\\home\\site\\wwwroot',
+        ? 'C:\\Users\\mmercan\\Desktop\\BAU\\Api.BFF.SSP\\Api.BFF.SSP.CRM' : 'D:\\home\\site\\wwwroot',
       keyVaultCertThumbPrintLocation: 'KeyVault:CertThumbPrint',
       keyVaultBaseUrlLocation: 'KeyVault:BaseUrl',
       keyVaultClientIdLocation: 'KeyVault:ClientId'

@@ -8,13 +8,11 @@ namespace Mercan.Common.Constants
         public const string MediaTypeApplicationJson = "application/json";
 
         /// <summary>
-        /// Media type used for Bupa APIs that return JSON. The API version is suffixed to this (e.g. 'application/vnd.bupa+jsonv=1.1')
         /// </summary>
-        public const string BupaJsonMediaType = "application/vnd.bupa+json";
+        public const string JsonMediaType = "application/vnd+json";
         /// <summary>
-        /// Default version parameter name used with Bupa JSON media type. 
         /// </summary>
-        public const string BupaJsonMediaTypeVersionParameterName = "version";
+        public const string JsonMediaTypeVersionParameterName = "version";
 
         /// <summary>
         /// Name of Request Correlation Header

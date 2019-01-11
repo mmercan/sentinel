@@ -1,0 +1,98 @@
+# escape=`
+
+# Installer image
+FROM microsoft/windowsservercore:1709 AS installer-env
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
+# Retrieve .NET Core SDK
+ENV DOTNET_SDK_VERSION 2.1.4
+ENV DOTNET_SDK_DOWNLOAD_URL https://dotnetcli.blob.core.windows.net/dotnet/Sdk/$DOTNET_SDK_VERSION/dotnet-sdk-$DOTNET_SDK_VERSION-win-x64.zip
+ENV DOTNET_SDK_DOWNLOAD_SHA 955E20434007592F77FB866AA8543EF13EFDC0B1CB91F0C946824F60D8726DB5227D1245FBEB7409F93293CF918D50B99F96B0D4512B62A70577E69874F8C777
+
+RUN Invoke-WebRequest $Env:DOTNET_SDK_DOWNLOAD_URL -OutFile dotnet.zip; `
+    if ((Get-FileHash dotnet.zip -Algorithm sha512).Hash -ne $Env:DOTNET_SDK_DOWNLOAD_SHA) { `
+    Write-Host 'CHECKSUM VERIFICATION FAILED!'; `
+    exit 1; `
+    }; `
+    `
+    Expand-Archive dotnet.zip -DestinationPath dotnet; `
+    Remove-Item -Force dotnet.zip
+
+
+# Retrieve node and git
+ENV NODE_VERSION 6.12.3
+
+RUN Invoke-WebRequest -UseBasicParsing https://nodejs.org/dist/v${env:NODE_VERSION}/node-v${env:NODE_VERSION}-win-x64.zip -outfile node.zip; `
+    Expand-Archive node.zip -DestinationPath nodejs-tmp; `
+    Move-Item nodejs-tmp/node-v${env:NODE_VERSION}-win-x64 nodejs; `
+    Remove-Item -Force node.zip; `
+    Remove-Item -Force nodejs-tmp; `
+    Invoke-WebRequest -UseBasicParsing https://github.com/git-for-windows/git/releases/download/v2.14.1.windows.1/MinGit-2.14.1-64-bit.zip -outfile git.zip; `
+    Expand-Archive git.zip -DestinationPath git; `
+    Remove-Item -Force git.zip
+
+# Build image
+FROM microsoft/windowsservercore
+
+SHELL ["powershell"]
+
+# Install Microsoft Build Tools 2015
+RUN Invoke-WebRequest "https://download.microsoft.com/download/E/E/D/EEDF18A8-4AED-4CE0-BEBE-70A83094FC5A/BuildTools_Full.exe" -OutFile "$env:TEMP\BuildTools_Full.exe" -UseBasicParsing 
+RUN &  "$env:TEMP\BuildTools_Full.exe" /Silent /Full 
+
+RUN Install-WindowsFeature NET-Framework-45-ASPNET ; `
+    Install-WindowsFeature Web-Asp-Net45
+
+# Install .Net 4.6.1
+RUN Invoke-WebRequest "https://download.microsoft.com/download/F/1/D/F1DEB8DB-D277-4EF9-9F48-3A65D4D8F965/NDP461-DevPack-KB3105179-ENU.exe" -OutFile "$env:TEMP\NDP461-DevPack-KB3105179-ENU.exe" -UseBasicParsing 
+RUN &  "$env:TEMP\NDP461-DevPack-KB3105179-ENU.exe" /q
+
+# Intstall F# Sharp
+RUN Invoke-WebRequest "http://download.microsoft.com/download/9/1/2/9122D406-F1E3-4880-A66D-D6C65E8B1545/FSharp_Bundle.exe" -OutFile "$env:TEMP\FSharp_Bundle.exe" -UseBasicParsing 
+RUN &  "$env:TEMP\FSharp_Bundle.exe" /install /quiet 
+
+# Add NuGet v 3.5.0
+RUN MKDIR "C:\windows\nuget"
+RUN Invoke-WebRequest "https://dist.nuget.org/win-x86-commandline/v3.5.0/NuGet.exe" -OutFile "C:\windows\nuget\nuget.exe" -UseBasicParsing 
+WORKDIR "C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v14.0"
+
+# Install Web Targets
+RUN &  "C:\windows\nuget\nuget.exe" Install MSBuild.Microsoft.VisualStudio.Web.targets -Version 14.0.0.3 
+RUN mv 'C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v14.0\MSBuild.Microsoft.VisualStudio.Web.targets.14.0.0.3\tools\VSToolsPath\*' 'C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v14.0'
+
+# Add Msbuild to path
+RUN setx PATH '%PATH%;C:\\Program Files (x86)\\MSBuild\\14.0\\Bin\\' 
+
+# Install FAKE
+RUN MKDIR "c:\windows\fake"
+WORKDIR "c:\windows\fake"
+
+RUN &  "C:\windows\nuget\nuget.exe" Install FAKE -Version 4.50.0
+
+# Add FAKE to path
+RUN setx PATH '%PATH%;C:\\windows\\fake\\fake.4.50.0\tools'
+
+ENV ASPNETCORE_URLS http://+:80
+ENV ASPNETCORE_PKG_VERSION 2.0.5
+
+
+COPY --from=installer-env ["dotnet", "C:\\Program Files\\dotnet"]
+COPY --from=installer-env ["nodejs", "C:\\Program Files\\nodejs"]
+
+COPY ["config", "C:\\Program Files (x86)\\NuGet"]
+COPY ["nuget", "C:\\NuGet"]
+RUN setx /M PATH $($Env:PATH + ';' + $Env:ProgramFiles + '\dotnet')
+RUN setx /M PATH $($Env:PATH + ';' + $Env:ProgramFiles + '\nodejs')
+RUN setx /M PATH $($Env:PATH + ';' + $Env:ProgramFiles + '\git\cmd')
+
+RUN & 'C:\Program Files\nodejs\npm' install -g gulp bower
+
+# Trigger the population of the local package cache
+ENV NUGET_XMLDOC_MODE skip
+
+RUN mkdir warmup; `
+    cd warmup; `
+    dotnet new mvc; `
+    cd ..; `
+    Remove-Item -Recurse -Force warmup;

@@ -1,0 +1,26 @@
+# escape=`
+
+FROM microsoft/windowsservercore:10.0.14393.1715
+SHELL ["powershell"]
+
+ENV DOTNET_SDK_VERSION 2.1.302
+
+RUN Invoke-WebRequest "https://dotnetcli.blob.core.windows.net/dotnet/Sdk/$Env:DOTNET_SDK_VERSION/dotnet-sdk-$Env:DOTNET_SDK_VERSION-win-x64.zip" -OutFile dotnet.zip; `
+    Expand-Archive dotnet.zip -DestinationPath  "$env:TEMP\dotnet"; `
+    Remove-Item -Force dotnet.zip
+
+RUN mv "$env:TEMP\dotnet\*" 'C:\Program Files\dotnet'
+
+RUN Invoke-WebRequest "https://aka.ms/vs/15/release/vs_community.exe" -OutFile "$env:TEMP\vs_community.exe" -UseBasicParsing
+RUN & "$env:TEMP\vs_community.exe" --add Microsoft.VisualStudio.Workload.NetWeb --quiet --wait --norestart --noUpdateInstaller | Out-Default
+
+RUN & 'C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/MSBuild.exe' /version
+RUN setx /M PATH $($Env:PATH + ';C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/MSBuild.exe')
+
+RUN Install-WindowsFeature NET-Framework-45-ASPNET ; `
+    Install-WindowsFeature Web-Asp-Net45
+
+# COPY config\nuget.config C:\
+# COPY ["nuget", "C:\\NuGet"]
+
+CMD ["powershell"]
