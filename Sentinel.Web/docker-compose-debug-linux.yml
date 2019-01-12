@@ -194,6 +194,13 @@ services:
       - mongodata:/data/db
     ports:
         - 27017:27017
+  sentinel-db-mysql:
+    image: sentinel-db-mysql:${TAGVersion}-dev-linux
+    build:
+      context: ./Sentinel.Db.Mysql
+      dockerfile: dockerfile-linux
+    ports:
+      - "3306:3306"
   sentinel-service-nats:
     image: sentinel-service-nats:${TAGVersion}-dev-linux
     build:
@@ -307,6 +314,21 @@ services:
     depends_on:
       - sentinel-util-zookeeper
       - sentinel-util-kafka
+  
+  sentinel-ui-wordpress:      
+    image: sentinel-ui-wordpress:${TAGVersion}-dev-linux
+    build:
+      # target: develop
+      context: ./Sentinel.UI.WordPress
+      dockerfile: dockerfile-linux
+    environment:
+      - WORDPRESS_DB_HOST=sentinel-db-mysql
+    # volumes:
+    #   - .:/src
+    ports:
+      - "5500:80"
+  
+
 volumes:
   mongodata:
 # networks:
