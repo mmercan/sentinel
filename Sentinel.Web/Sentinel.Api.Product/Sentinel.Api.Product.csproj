@@ -26,6 +26,7 @@
     <PackageReference Include="WebPush-netcore" Version="1.0.2"/>
     <PackageReference Include="Serilog.Sinks.MongoDB" Version="3.1.0"/>
     <PackageReference Include="CorrelationId" Version="2.1.0"/>
+    <PackageReference Include="EasyNetQ" Version="3.3.7"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mercan\Mercan.Common\Mercan.Common.csproj"/>

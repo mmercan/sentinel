@@ -21,6 +21,9 @@ services:
     #   - SentinelWeb:/src
     volumes:
       - .:/src
+      # - ./Sentinel.Api.Product:/src/Sentinel.Api.Product
+      # - ./Mercan:/src/Mercan
+      # - ./Sentinel.Common:/src/Sentinel.Common
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
       - "5003:80"
@@ -118,6 +121,9 @@ services:
     #   - SentinelWeb:/src
     volumes:
       - .:/src
+      # - ./Sentinel.UI.STS:/src/Sentinel.UI.STS
+      # - ./Mercan:/src/Mercan
+      # - ./Sentinel.Common:/src/Sentinel.Common
     #  - C:\repos\sentinel\Sentinel.Web:/src
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
@@ -259,62 +265,17 @@ services:
       - "9600:9600"
     depends_on:
       - sentinel-db-elasticsearch
-  sentinel-util-zookeeper:
-    image: sentinel-util-zookeeper:${TAGVersion}-dev-linux
-    build:
-      context: ./Sentinel.Util.Kafka
-      dockerfile: dockerfile-zookeeper
+  sentinel-util-phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - sentinel-db-mysql:db
     ports:
-      - 2181:2181
-  sentinel-util-kafka:
-    image: sentinel-util-kafka:${TAGVersion}-dev-linux
-    build:
-      context: ./Sentinel.Util.Kafka
-      dockerfile: dockerfile-kafka
-    ports:
-      - 9092:9092
+      - 8181:80
     environment:
-      KAFKA_ZOOKEEPER_CONNECT: sentinel-util-zookeeper:2181/local
-      KAFKA_ADVERTISED_HOST_NAME: sentinel-util-kafka
-      KAFKA_ADVERTISED_PORT: 9092
-      KAFKA_CREATE_TOPICS: "test-topic:2:1,test-topic2:1:1,test-topic3:1:1"
-  sentinel-util-kafka-manager:
-    image: sentinel-util-kafka-manager:${TAGVersion}-dev-linux
-    build:
-      context: ./Sentinel.Util.Kafka
-      dockerfile: dockerfile-manager
-    ports:
-      - 9000:9000
-  sentinel-util-kafka-burrow:
-    build:
-      context: ./Sentinel.Util.Kafka/Burrow
-      dockerfile: Dockerfile
-    # volumes:
-    #   - ${PWD}/docker-config:/etc/burrow/
-    #   - ${PWD}/tmp:/var/tmp/burrow
-    ports:
-      - 8000:8000
-    depends_on:
-      - sentinel-util-zookeeper
-      - sentinel-util-kafka
-    restart: always
-  sentinel-util-kafka-landoop:
-    image: sentinel-util-kafka-landoop:${TAGVersion}-dev-linux
-    build:
-      context: ./Sentinel.Util.Kafka
-      dockerfile: dockerfile-linux-landoop
-    ports:
-      - "8000:8000"
-  sentinel-util-kafka-monitor:
-    build:
-      context: ./Sentinel.Util.Kafka
-      dockerfile: dockerfile-monitor
-    ports:
-      - 8000:8000
-    depends_on:
-      - sentinel-util-zookeeper
-      - sentinel-util-kafka
-  
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: somewordpress
+      PMA_HOST: sentinel-db-mysql
+      PMA_PORT: 3306
   sentinel-ui-wordpress:      
     image: sentinel-ui-wordpress:${TAGVersion}-dev-linux
     build:
@@ -323,12 +284,82 @@ services:
       dockerfile: dockerfile-linux
     environment:
       - WORDPRESS_DB_HOST=sentinel-db-mysql
+      #wordprassusername=mercan
+      # Wordpasspassword=mattmercan!1
+      # - WORDPRESS_DB_PASSWORD=wordadmin 
+      # - WORDPRESS_DB_USER=Pa$$w0rd
     # volumes:
     #   - .:/src
     ports:
       - "5500:80"
+  sentinel-ui-orchard:      
+    image: sentinel-ui-orchard:${TAGVersion}-dev-linux
+    build:
+      context: ./Sentinel.UI.Orchard
+      dockerfile: dockerfile-linux
+    ports:
+      - "5501:80"
   
-
+  
+  
+  
+  
+  
+  # sentinel-util-zookeeper:
+  #   image: sentinel-util-zookeeper:${TAGVersion}-dev-linux
+  #   build:
+  #     context: ./Sentinel.Util.Kafka
+  #     dockerfile: dockerfile-zookeeper
+  #   ports:
+  #     - 2181:2181
+  # sentinel-util-kafka:
+  #   image: sentinel-util-kafka:${TAGVersion}-dev-linux
+  #   build:
+  #     context: ./Sentinel.Util.Kafka
+  #     dockerfile: dockerfile-kafka
+  #   ports:
+  #     - 9092:9092
+  #   environment:
+  #     KAFKA_ZOOKEEPER_CONNECT: sentinel-util-zookeeper:2181/local
+  #     KAFKA_ADVERTISED_HOST_NAME: sentinel-util-kafka
+  #     KAFKA_ADVERTISED_PORT: 9092
+  #     KAFKA_CREATE_TOPICS: "test-topic:2:1,test-topic2:1:1,test-topic3:1:1"
+  # sentinel-util-kafka-manager:
+  #   image: sentinel-util-kafka-manager:${TAGVersion}-dev-linux
+  #   build:
+  #     context: ./Sentinel.Util.Kafka
+  #     dockerfile: dockerfile-manager
+  #   ports:
+  #     - 9000:9000
+  # sentinel-util-kafka-burrow:
+  #   build:
+  #     context: ./Sentinel.Util.Kafka/Burrow
+  #     dockerfile: Dockerfile
+  #   # volumes:
+  #   #   - ${PWD}/docker-config:/etc/burrow/
+  #   #   - ${PWD}/tmp:/var/tmp/burrow
+  #   ports:
+  #     - 8000:8000
+  #   depends_on:
+  #     - sentinel-util-zookeeper
+  #     - sentinel-util-kafka
+  #   restart: always
+  # sentinel-util-kafka-landoop:
+  #   image: sentinel-util-kafka-landoop:${TAGVersion}-dev-linux
+  #   build:
+  #     context: ./Sentinel.Util.Kafka
+  #     dockerfile: dockerfile-linux-landoop
+  #   ports:
+  #     - "8000:8000"
+  # sentinel-util-kafka-monitor:
+  #   build:
+  #     context: ./Sentinel.Util.Kafka
+  #     dockerfile: dockerfile-monitor
+  #   ports:
+  #     - 8000:8000
+  #   depends_on:
+  #     - sentinel-util-zookeeper
+  #     - sentinel-util-kafka
 volumes:
   mongodata:
 # networks:

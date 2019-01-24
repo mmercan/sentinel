@@ -1,0 +1,3 @@
+FROM orchardproject/orchardcore-cms-linux:latest
+
+EXPOSE 80

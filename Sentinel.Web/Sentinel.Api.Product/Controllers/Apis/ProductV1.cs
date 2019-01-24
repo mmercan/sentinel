@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
-using Sentinel.Web.Dto.Product;
 using Sentinel.Repos.Repositories;
 using Sentinel.Model.Product;
 using Mercan.Common.Filters;
+using Sentinel.Model.Product.Dto;
 
 namespace Sentinel.Api.Product.Controllers
 {

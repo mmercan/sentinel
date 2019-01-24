@@ -10,7 +10,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Sentinel.Api.Product.Models;
-using Sentinel.Web.Dto.Product;
+using Sentinel.Model.Product.Dto;
 
 namespace Sentinel.Api.Product.Controllers
 {

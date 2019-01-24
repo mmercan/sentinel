@@ -33,11 +33,11 @@ using System.IO;
 using Microsoft.Extensions.Caching.Distributed;
 using Mercan.Common.Mongo;
 using Mercan.Common;
-using Sentinel.Web.Dto.Product;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MongoDB.Driver;
 using Serilog.Sinks.Elasticsearch;
 using CorrelationId;
+using Sentinel.Model.Product.Dto;
 
 namespace Sentinel.Api.Product
 {
@@ -104,6 +104,7 @@ namespace Sentinel.Api.Product
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IServiceCollection>(services);
+            services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddDbContext<SentinelDbContext>(o =>
             {
@@ -240,8 +241,7 @@ namespace Sentinel.Api.Product
                 InlineFields = true,
                 // IndexDecider = (@event, offset) => "test_elapsedtimes",
                 CustomFormatter = new ElasticsearchJsonFormatter()
-            })
-            ;
+            });
 
             logger.WriteTo.Console();
             loggerFactory.AddSerilog();

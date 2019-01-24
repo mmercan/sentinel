@@ -1,14 +1,19 @@
 using System;
 
-namespace Sentinel.Web.Dto.Product
+namespace Sentinel.Model.Product.Dto
 {
-    public class ProductInfoDtoV1
+    public class ProductInfoDtoV2
     {
+        public ProductInfoDtoV2()
+        {
+        }
+
         public int Id { get; set; }
         public string ProductCode { get; set; }
         public string Name { get; set; }
         public string ProductUrl { get; set; }
         public bool Active { get; set; }
+        public bool useTabs { get; set; }
         public string Html { get; set; }
         public string DescriptionHtml { get; set; }
         public string ObjectivesHtml { get; set; }

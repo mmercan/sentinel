@@ -7,9 +7,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Sentinel.Web.Dto.Product;
 using Sentinel.Model.Product;
 using Sentinel.Repos.Repositories;
+using Sentinel.Model.Product.Dto;
+using Sentinel.Model;
+using EasyNetQ;
+using EasyNetQ.Topology;
+//using EasyNetQMessages;
+// using EasyNetQMessages.Polymorphic;
 
 
 namespace Sentinel.Api.Product.Controllers
@@ -65,8 +70,27 @@ namespace Sentinel.Api.Product.Controllers
             try
             {
                 var result = mapper.Map<ProductInfo>(model);
-                productRepo.Add(result);
-                productRepo.SaveChanges();
+                //productRepo.Add(result);
+                //productRepo.SaveChanges();
+
+                using (var bus = RabbitHutch.CreateBus("host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq"))
+                {
+                    Console.WriteLine("Publishing messages with topic publish.");
+                    Console.WriteLine();
+
+                    // bus.Publish<ProductInfo>(result, "product.newproduct");
+                    bus.Publish(model);
+                    bus.Publish(new ProductInfoDtoV2 { });
+
+                    // var response = bus.Request<ProductInfoDtoV2, MessageResponse>(model);
+                    // logger.LogCritical("ProductInfoDtoV2 response " + response.Message);
+                    //   var exchange =  bus.Advanced.ExchangeDeclare("Sentinel.Model.Product.ProductInfo, Sentinel.Model", ExchangeType.Topic, passive: false, durable: true, autoDelete: false);
+                    //   var topic =  bus.Advanced.QueueDeclare("Sentinel.Model.Product.ProductInfo, Sentinel.Model_product",passive:false,durable:true)
+                    //     bus.Advanced.Bind()
+                    // bus.Subscribe<ProductInfo>("product", Handler, x =>{ x.WithDurable(true); x.WithTopic("product.*");});
+                }
+
+
                 return Created("", null);
             }
             catch (Exception ex)

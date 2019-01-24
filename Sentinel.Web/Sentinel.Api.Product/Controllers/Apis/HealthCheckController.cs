@@ -9,10 +9,10 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Mercan.Common.Mongo;
 using Mercan.Common;
-using Sentinel.Web.Dto.Product;
 using Microsoft.Extensions.DependencyInjection;
 using Confluent.Kafka;
 using System.Reflection;
+using Sentinel.Model.Product.Dto;
 
 namespace Sentinel.Api.Product.Controllers
 {
