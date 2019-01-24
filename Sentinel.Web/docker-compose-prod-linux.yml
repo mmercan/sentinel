@@ -37,6 +37,22 @@ services:
       - "5004:80"
     depends_on:
       - sentinel-db-redis
+  sentinel-handler-comms:      
+    image: mmercan/sentinel-handler-comms:${TAGVersion}-prod-linux
+    build:
+      target: final
+      context: .
+      dockerfile: Sentinel.Handler.Comms/dockerfile-linux
+    environment:
+      - NATS_URL=nats://sentinel-service-nats:4222/
+      - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
+      - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+    depends_on:
+      - sentinel-db-redis
   sentinel-ui-sts:      
     image: mmercan/sentinel-ui-sts:${TAGVersion}-prod-linux
     build:
