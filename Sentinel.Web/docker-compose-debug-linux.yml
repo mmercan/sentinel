@@ -86,6 +86,7 @@ services:
       context: .
       dockerfile: Sentinel.Handler.Comms/dockerfile-linux
     environment:
+      - RabbitMQConnection=host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10
       - NATS_URL=nats://sentinel-service-nats:4222/
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
       - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary

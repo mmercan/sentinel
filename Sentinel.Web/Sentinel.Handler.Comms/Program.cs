@@ -10,31 +10,72 @@ using Sentinel.Model.Product.Dto;
 using Sentinel.Model;
 using EasyNetQ;
 using Sentinel.Handler.Comms.Services;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.Elasticsearch;
+using EasyNetQ;
 
 namespace Sentinel.Handler.Comms
 {
     class Program
     {
+        //public static IConfiguration Configuration { get; }
         public static void Main(string[] args)
         {
             var host = new HostBuilder()
-                .ConfigureLogging((hostContext, config) =>
-                {
-                    config.AddConsole();
-                    config.AddDebug();
-                })
                 .ConfigureAppConfiguration((hostContext, config) =>
                 {
-                    config.AddEnvironmentVariables();
                     config.AddJsonFile("appsettings.json", optional: true);
                     config.AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true);
                     config.AddCommandLine(args);
+                    config.AddEnvironmentVariables();
+
+                })
+                .ConfigureLogging((hostContext, logging) =>
+                {
+                    logging.AddConsole();
+                    logging.AddSerilog();
+                    logging.AddDebug();
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
+
+                    var env = hostContext.HostingEnvironment;
+
+                    var logger = new LoggerConfiguration()
+                    .ReadFrom.Configuration(hostContext.Configuration)
+                    .Enrich.FromLogContext()
+                    .Enrich.WithProperty("Enviroment", env.EnvironmentName)
+                    .Enrich.WithProperty("ApplicationName", "Api App")
+                    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                    .WriteTo.Console()
+                    .WriteTo.File("Logs/logs.txt")
+                    //.WriteTo.Kafka(new KafkaSinkOptions(topic: "test", brokers: new[] { new Uri(Configuration["KafkaUrl"]) }))
+                    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://sentinel-db-elasticsearch:9200"))
+                    {
+                        AutoRegisterTemplate = true,
+                        AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
+                        TemplateName = "productslog",
+                        IndexFormat = "productslog-{0:yyyy.MM.dd}",
+                        InlineFields = true,
+                        // IndexDecider = (@event, offset) => "test_elapsedtimes",
+                        CustomFormatter = new ElasticsearchJsonFormatter()
+                    });
+
+                    logger.WriteTo.Console();
+                    Log.Logger = logger.CreateLogger();
                     services.AddLogging();
+                    services.AddSingleton<IConfiguration>(hostContext.Configuration);
+
+                    // services.AddSingleton<IHostedService, GracePeriodManagerService>();
+
+                    //  services.AddHostedService<TimedHostedService>();
+
+                    services.AddSingleton<IBus>(RabbitHutch.CreateBus(hostContext.Configuration.GetSection("RabbitMQConnection").Value));
+                    services.AddHostedService<ProductSubscribeService>();
+                    services.AddHostedService<ProductAsyncSubscribeService>();
+
                     // services.AddSingleton<MonitorLoop>();
-                    services.AddHostedService<ProductService>();
                     // services.AddHostedService<ConsumeScopedServiceHostedService>();
                     // services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
                     // services.AddHostedService<ProductChangeService>();

@@ -38,7 +38,7 @@ namespace Sentinel.Handler.Comms.Services
 
 
                     bus.Subscribe<ProductInfoDtoV2>("test", msg =>
-                          logger.LogCritical("ProductInfoDtoV2 message " + msg.Id));
+                          logger.LogCritical("ProductInfoDtoV2 ProductChangeService message " + msg.Id));
 
                     // bus.Respond<ProductInfoDtoV2, MessageResponse>(Responder);
                     // Console.WriteLine("Listening for (payment.*) messages. Hit <return> to quit.");
