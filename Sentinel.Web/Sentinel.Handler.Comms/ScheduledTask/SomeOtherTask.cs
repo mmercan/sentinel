@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Mercan.Common.ScheduledTask;
 
 namespace Sentinel.Handler.Comms.ScheduledTask
 {

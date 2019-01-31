@@ -14,6 +14,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
 using Sentinel.Handler.Comms.ScheduledTask;
+using Mercan.Common.ScheduledTask;
 
 namespace Sentinel.Handler.Comms
 {

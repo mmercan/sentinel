@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 
-namespace Sentinel.Handler.Comms.ScheduledTask
+namespace Mercan.Common.ScheduledTask
 {
     public abstract class HostedService : IHostedService
     {

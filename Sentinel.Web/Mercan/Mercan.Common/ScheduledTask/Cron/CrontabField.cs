@@ -3,7 +3,7 @@ using System.Collections;
 using System.Globalization;
 using System.IO;
 
-namespace Sentinel.Handler.Comms.ScheduledTask.Cron
+namespace Mercan.Common.ScheduledTask.Cron
 {
     /// <summary>
     /// Represents a single crontab field.

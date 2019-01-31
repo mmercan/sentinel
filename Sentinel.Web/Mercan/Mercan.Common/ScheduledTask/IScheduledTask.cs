@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sentinel.Handler.Comms.ScheduledTask
+namespace Mercan.Common.ScheduledTask
 {
     public interface IScheduledTask
     {

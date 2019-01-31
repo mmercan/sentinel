@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Sentinel.Handler.Comms.ScheduledTask
+namespace Mercan.Common.ScheduledTask
 {
     public static class SchedulerExtensions
     {

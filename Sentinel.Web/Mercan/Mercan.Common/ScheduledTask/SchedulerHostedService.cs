@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Sentinel.Handler.Comms.ScheduledTask.Cron;
+using Mercan.Common.ScheduledTask.Cron;
 using Microsoft.Extensions.Logging;
 
-namespace Sentinel.Handler.Comms.ScheduledTask
+namespace Mercan.Common.ScheduledTask
 {
     public class SchedulerHostedService : HostedService
     {

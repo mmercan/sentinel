@@ -1,6 +1,6 @@
 using System;
 
-namespace Sentinel.Handler.Comms.ScheduledTask.Cron
+namespace Mercan.Common.ScheduledTask.Cron
 {
     [Serializable]
     public enum CrontabFieldKind

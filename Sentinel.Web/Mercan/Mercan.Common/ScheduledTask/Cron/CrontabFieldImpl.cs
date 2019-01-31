@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
 
-namespace Sentinel.Handler.Comms.ScheduledTask.Cron
+namespace Mercan.Common.ScheduledTask.Cron
 {
     [Serializable]
     public sealed class CrontabFieldImpl : IObjectReference

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 
-namespace Sentinel.Handler.Comms.ScheduledTask.Cron
+namespace Mercan.Common.ScheduledTask.Cron
 {
     /// <summary>
     /// Represents a schedule initialized from the crontab expression.
