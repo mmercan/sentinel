@@ -76,7 +76,7 @@ namespace Sentinel.Api.Product.Controllers
                 using (var bus = RabbitHutch.CreateBus("host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq"))
                 {
                     bus.Publish(model, "product.newproduct");
-                    bus.Publish(new ProductInfoDtoV2 { }, "product.newproduct");
+                    // bus.Publish(new ProductInfoDtoV2 { }, "product.newproduct");
 
                     // var response = bus.Request<ProductInfoDtoV2, MessageResponse>(model);
                     // logger.LogCritical("ProductInfoDtoV2 response " + response.Message);

@@ -25,59 +25,35 @@ namespace Sentinel.Handler.Comms
             this.logger = logger;
             this.configuration = configuration;
             this.bus = bus;
-
-
-
-            // var RabbitMQConn = configuration.GetSection("RabbitMQConnection").Value;
-            // logger.LogCritical("Connecting to message queue url : " + RabbitMQConn);
-            // _bus = RabbitHutch.CreateBus(RabbitMQConn);
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-
-            _executingTask = SubscribeProduct(_stoppingCts.Token);
-            // If the task is completed then return it, this will bubble cancellation and failure to the caller
+            _executingTask = Task.Factory.StartNew(new Action(SubscribeProduct), TaskCreationOptions.LongRunning);
             if (_executingTask.IsCompleted)
             {
                 return _executingTask;
             }
-            // Otherwise it's running
             return Task.CompletedTask;
         }
-        private Task SubscribeProduct(CancellationToken cancellationToken)
+        private void SubscribeProduct()
         {
-            var observer = Task.Factory.StartNew(() =>
-   {
-
-       try
-       {
-           var RabbitMQConn = configuration.GetSection("RabbitMQConnection").Value;
-           logger.LogCritical("Async Connecting queue url : " + RabbitMQConn);
-           using (var bus = RabbitHutch.CreateBus(RabbitMQConn))
-           {
-               logger.LogCritical("Connected to bus");
-               // Change them
-               // bus.Subscribe<ProductInfoDtoV2>("test", DoWork);
-               bus.Subscribe<ProductInfoDtoV2>("productall", Handler, x => x.WithTopic("product.*"));
-               Console.WriteLine("Listening on topic product.*");
-               _ResetEvent.Wait();
-
-
-               var cancelled = false;
-               Console.CancelKeyPress += (_, e) =>
-                   {
-                       e.Cancel = true; // prevent the process from terminating.
-                       cancelled = true;
-                   };
-           }
-       }
-       catch (Exception ex)
-       {
-           logger.LogError("Exception: " + ex.Message);
-       }
-   });
-            return Task.CompletedTask;
+            try
+            {
+                var RabbitMQConn = configuration.GetSection("RabbitMQConnection").Value;
+                logger.LogCritical("Async Connecting queue url : " + RabbitMQConn);
+                using (var bus = RabbitHutch.CreateBus(RabbitMQConn))
+                {
+                    logger.LogCritical("Connected to bus");
+                    bus.Subscribe<ProductInfoDtoV2>("productall", Handler, x => x.WithTopic("product.*"));
+                    Console.WriteLine("Listening on topic product.*");
+                    _ResetEvent.Wait();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Exception: " + ex.Message);
+            }
         }
         private void Handler(ProductInfoDtoV2 state)
         {
@@ -86,7 +62,7 @@ namespace Sentinel.Handler.Comms
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            logger.LogCritical("Timed Background Service is stopping.");
+            logger.LogCritical("ProductSubscribeService Service is stopping.");
             _ResetEvent.Dispose();
             return Task.CompletedTask;
         }

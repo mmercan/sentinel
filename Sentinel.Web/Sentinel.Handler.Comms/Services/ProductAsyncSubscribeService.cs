@@ -14,7 +14,7 @@ namespace Sentinel.Handler.Comms
 {
     public class ProductAsyncSubscribeService : IHostedService, IDisposable
     {
-        private ManualResetEventSlim _ResetEvent2 = new ManualResetEventSlim(false);
+        private ManualResetEventSlim _ResetEvent = new ManualResetEventSlim(false);
         private IBus bus;
         private readonly ILogger logger;
         private readonly IConfiguration configuration;
@@ -29,55 +29,44 @@ namespace Sentinel.Handler.Comms
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            // Store the task we're executing
-            _executingTask = SubscribeAsync(_stoppingCts.Token);
-            // If the task is completed then return it, this will bubble cancellation and failure to the caller
+            _executingTask = Task.Factory.StartNew(new Action(SubscribeProductAsync), TaskCreationOptions.LongRunning);
             if (_executingTask.IsCompleted)
             {
                 return _executingTask;
             }
-            // Otherwise it's running
             return Task.CompletedTask;
         }
 
-        private Task SubscribeAsync(CancellationToken cancellationToken)
+        private void SubscribeProductAsync()
         {
-
-            var observer = Task.Factory.StartNew(() =>
-       {
-
-           try
-           {
-               var RabbitMQConn = configuration.GetSection("RabbitMQConnection").Value;
-               logger.LogCritical("Async Connecting queue url : " + RabbitMQConn);
-               using (var bus = RabbitHutch.CreateBus(RabbitMQConn))
-               {
-                   logger.LogCritical("Async Connected to bus");
-                   bus.SubscribeAsync<ProductInfoDtoV2>("product", message => Task.Factory.StartNew(() =>
-                    {
-                        Handler(message);
-                    }).ContinueWith(task =>
-                    {
-                        if (task.IsCompleted && !task.IsFaulted)
-                        {
-                            logger.LogCritical("Finished processing all messages");
-                        }
-                        else
-                        {
-                            // Dont catch this, it is caught further up the heirarchy and results in being sent to the default error queue
-                            // on the broker
-                            throw new EasyNetQException("Message processing exception - look in the default error queue (broker)");
-                        }
-                    }), x => x.WithTopic("product.newproduct"));
-                   _ResetEvent2.Wait();
-               }
-           }
-           catch (Exception ex)
-           {
-               logger.LogError("Exception: " + ex.Message);
-           }
-       });
-            return Task.CompletedTask;
+            try
+            {
+                var RabbitMQConn = configuration.GetSection("RabbitMQConnection").Value;
+                logger.LogCritical("Async Connecting queue url : " + RabbitMQConn);
+                using (var bus = RabbitHutch.CreateBus(RabbitMQConn))
+                {
+                    logger.LogCritical("Async Connected to bus");
+                    bus.SubscribeAsync<ProductInfoDtoV2>("product", message => Task.Factory.StartNew(() =>
+                     {
+                         Handler(message);
+                     }).ContinueWith(task =>
+                     {
+                         if (task.IsCompleted && !task.IsFaulted)
+                         {
+                             logger.LogCritical("Finished processing all messages");
+                         }
+                         else
+                         {
+                             throw new EasyNetQException("Message processing exception - look in the default error queue (broker)");
+                         }
+                     }), x => x.WithTopic("product.newproduct"));
+                    _ResetEvent.Wait();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Exception: " + ex.Message);
+            }
         }
         private void Handler(ProductInfoDtoV2 state)
         {
@@ -86,8 +75,8 @@ namespace Sentinel.Handler.Comms
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            logger.LogCritical("Timed Background Service is stopping.");
-            _ResetEvent2.Dispose();
+            logger.LogCritical("ProductAsyncSubscribeService Service is stopping.");
+            _ResetEvent.Dispose();
             return Task.CompletedTask;
         }
 

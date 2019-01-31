@@ -13,7 +13,7 @@ using Sentinel.Handler.Comms.Services;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
-using EasyNetQ;
+using Sentinel.Handler.Comms.ScheduledTask;
 
 namespace Sentinel.Handler.Comms
 {
@@ -68,6 +68,9 @@ namespace Sentinel.Handler.Comms
                     services.AddSingleton<IConfiguration>(hostContext.Configuration);
 
                     // services.AddSingleton<IHostedService, GracePeriodManagerService>();
+                    services.AddSingleton<IScheduledTask, SomeOtherTask>();
+                    services.AddSingleton<IScheduledTask, QuoteOfTheDayTask>();
+                    services.AddScheduler();
 
                     //  services.AddHostedService<TimedHostedService>();
 
