@@ -47,11 +47,10 @@ namespace Sentinel.Handler.Comms
                     .ReadFrom.Configuration(hostContext.Configuration)
                     .Enrich.FromLogContext()
                     .Enrich.WithProperty("Enviroment", env.EnvironmentName)
-                    .Enrich.WithProperty("ApplicationName", "Api App")
+                    .Enrich.WithProperty("ApplicationName", "Sentinel.Handler.Comms")
                     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                     .WriteTo.Console()
                     .WriteTo.File("Logs/logs.txt")
-                    //.WriteTo.Kafka(new KafkaSinkOptions(topic: "test", brokers: new[] { new Uri(Configuration["KafkaUrl"]) }))
                     .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://sentinel-db-elasticsearch:9200"))
                     {
                         AutoRegisterTemplate = true,
@@ -68,17 +67,15 @@ namespace Sentinel.Handler.Comms
                     services.AddLogging();
                     services.AddSingleton<IConfiguration>(hostContext.Configuration);
 
-                    // services.AddSingleton<IHostedService, GracePeriodManagerService>();
+                    // Scheduled Tasks Added                   
                     services.AddSingleton<IScheduledTask, SomeOtherTask>();
                     services.AddSingleton<IScheduledTask, QuoteOfTheDayTask>();
                     services.AddScheduler();
 
-                    //  services.AddHostedService<TimedHostedService>();
-
                     services.AddSingleton<IBus>(RabbitHutch.CreateBus(hostContext.Configuration.GetSection("RabbitMQConnection").Value));
                     services.AddHostedService<ProductSubscribeService>();
                     services.AddHostedService<ProductAsyncSubscribeService>();
-
+                    // services.AddHostedService<TimedHostedService>();
                     // services.AddSingleton<MonitorLoop>();
                     // services.AddHostedService<ConsumeScopedServiceHostedService>();
                     // services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
@@ -91,12 +88,11 @@ namespace Sentinel.Handler.Comms
 
             using (host)
             {
-                // Start the host
                 var hoststart = host.StartAsync();
                 hoststart.Wait();
                 // Monitor for new background queue work items
-                //  var monitorLoop = host.Services.GetRequiredService<MonitorLoop>();
-                //  monitorLoop.StartMonitorLoop();
+                // var monitorLoop = host.Services.GetRequiredService<MonitorLoop>();
+                // monitorLoop.StartMonitorLoop();
                 var waitforshutdown = host.WaitForShutdownAsync();
                 waitforshutdown.Wait();
             }
