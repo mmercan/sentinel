@@ -2,7 +2,7 @@
     using System.Threading.Tasks;
     using Microsoft.Extensions.Logging;
     using Mercan.Common.ScheduledTask;
-    namespace Sentinel.Handler.Comms.ScheduledTask
+    namespace Sentinel.Handler.Product.ScheduledTask
     {
         public class SomeOtherTask : IScheduledTask
         {

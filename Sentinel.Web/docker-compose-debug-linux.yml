@@ -101,6 +101,24 @@ services:
     #   - "5004:80"
     depends_on:
       - sentinel-db-redis
+  sentinel-handler-product:      
+    image: sentinel-handler-product:${TAGVersion}-dev-linux
+    build:
+      target: develop
+      context: .
+      dockerfile: Sentinel.Handler.Product/dockerfile-linux
+    environment:
+      - RabbitMQConnection=host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10
+      - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
+      - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - DOTNET_RUNNING_IN_CONTAINER=true
+    volumes:
+      - .:/src
+    entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
+    # ports:
+    #   - "5004:80"
   sentinel-ui-sts:      
     image: sentinel-ui-sts:${TAGVersion}-dev-linux
     build:

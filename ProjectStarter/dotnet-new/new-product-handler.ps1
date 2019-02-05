@@ -1,3 +1,5 @@
+Import-Module .\new-dotnet.ps1 -Force
+
 $folder = "Sentinel.Handler.Product"
 Write-Host "--------------------------------"
 $scriptpath = $MyInvocation.MyCommand.Path 
@@ -377,7 +379,7 @@ function update-SomeOtherTask {
     using System.Threading.Tasks;
     using Microsoft.Extensions.Logging;
     using Mercan.Common.ScheduledTask;
-    namespace Sentinel.Handler.Comms.ScheduledTask
+    namespace __projectname__.ScheduledTask
     {
         public class SomeOtherTask : IScheduledTask
         {
@@ -437,5 +439,7 @@ update-appsettings
 
 dotnet restore
 dotnet build
+
+Add-Dockerfile
 
 # cd $scriptpath
