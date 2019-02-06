@@ -38,32 +38,32 @@ dotnet add reference "..\Mercan\Mercan.Common\Mercan.Common.csproj"
 dotnet restore
 dotnet build
 
-function update-Programcs {
+function update-handler-Programcs {
 
     $fileName = "$appFolder\Program.cs"
     $programobj = (Get-Content $fileName) |
         Foreach-Object {
-            $_ # send the current line to output
-            if ($_ -match "using System;") {
+        $_ # send the current line to output
+        if ($_ -match "using System;") {
 
-                'using System.Text;'
-                'using System.Threading;'
-                'using System.IO;'
-                'using Microsoft.Extensions.Configuration;'
-                'using Microsoft.Extensions.DependencyInjection;'
-                'using Microsoft.Extensions.Logging;'
-                'using Microsoft.Extensions.Hosting;'
-                'using Sentinel.Model.Product.Dto;'
-                'using Sentinel.Model;'
-                'using EasyNetQ;'
-                'using __projectname__.Services;'
-                'using Serilog;'
-                'using Serilog.Events;'
-                'using Serilog.Sinks.Elasticsearch;'
-                'using __projectname__.ScheduledTask;'
-                'using Mercan.Common.ScheduledTask;'
+            'using System.Text;'
+            'using System.Threading;'
+            'using System.IO;'
+            'using Microsoft.Extensions.Configuration;'
+            'using Microsoft.Extensions.DependencyInjection;'
+            'using Microsoft.Extensions.Logging;'
+            'using Microsoft.Extensions.Hosting;'
+            'using Sentinel.Model.Product.Dto;'
+            'using Sentinel.Model;'
+            'using EasyNetQ;'
+            'using __projectname__.Services;'
+            'using Serilog;'
+            'using Serilog.Events;'
+            'using Serilog.Sinks.Elasticsearch;'
+            'using __projectname__.ScheduledTask;'
+            'using Mercan.Common.ScheduledTask;'
                 
-            }
+        }
 
         if ($_ -match "Hello World!") {
 
@@ -143,7 +143,7 @@ function update-Programcs {
 
 }
 
-function update-ProductSubscribeService {
+function update-handler-ProductSubscribeService {
 
     $ProductSubscribeService = @'
     using System;
@@ -226,7 +226,7 @@ function update-ProductSubscribeService {
 
 }
 
-function update-ProductAsyncSubscribeService {
+function update-handler-ProductAsyncSubscribeService {
 
     $ProductAsyncSubscribeService = @'
     using System;
@@ -321,7 +321,7 @@ function update-ProductAsyncSubscribeService {
     $ProductAsyncSubscribeService | set-content  ".\Services\ProductAsyncSubscribeService.cs"
 }
 
-function update-QuoteOfTheDayTask {
+function update-handler-QuoteOfTheDayTask {
 
     $QuoteOfTheDayTask = @'
     using System.Collections.Generic;
@@ -372,7 +372,7 @@ function update-QuoteOfTheDayTask {
 
 }
 
-function update-SomeOtherTask {
+function update-handler-SomeOtherTask {
 
     $SomeOtherTask = @'
     using System.Threading;
@@ -404,7 +404,7 @@ function update-SomeOtherTask {
 }
 
 
-function update-appsettings {
+function update-handler-appsettings {
 
     $appsettings = @'
     {
@@ -424,21 +424,46 @@ function update-appsettings {
     # $appsettings = $appsettings.replace("__projectname__", $folder)
     $appsettings | set-content  ".\appsettings.json"
 
+
+
+
+    $xmlfile = "$appFolder/Sentinel.Handler.Product.csproj"
+    [XML]$xml = Get-Content $xmlfile
+    $newNode = $xml.CreateElement('ItemGroup')
+
+    $itemGroupnode = $xml.CreateElement('None')
+    $itemGroupnode.SetAttribute('Update', 'appsettings.json')
+
+    $copyToOutput = $xml.CreateElement('CopyToOutputDirectory')
+    $copyToOutput.InnerText = "Always"
+
+    $itemGroupnode.AppendChild($copyToOutput)
+    $newNode.AppendChild($itemGroupnode)
+    $xml.Project.AppendChild($newnode)
+
+    $xml.Save($xmlfile)
+
 }
 
- update-Programcs
+
+
+update-handler-Programcs
 
 new-item -type directory -path $appFolder\Services -Force
 new-item -type directory -path $appFolder\ScheduledTasks -Force
 
-update-ProductAsyncSubscribeService
-update-ProductSubscribeService
-update-SomeOtherTask
-update-QuoteOfTheDayTask
-update-appsettings
+update-handler-ProductAsyncSubscribeService
+update-handler-ProductSubscribeService
+update-handler-SomeOtherTask
+update-handler-QuoteOfTheDayTask
+update-handler-appsettings
 
+dotnet build ../Sentinel.Web.sln
+dotnet build ../Sentinel.Web.sln
 dotnet restore
 dotnet build
+
+
 
 Add-Dockerfile
 
