@@ -58,7 +58,7 @@ services:
     build:
       target: final
       context: .
-      dockerfile: Sentinel.Handler.product/dockerfile-linux
+      dockerfile: Sentinel.Handler.Product/dockerfile-linux
     environment:
       - RabbitMQConnection=host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10
       - NATS_URL=nats://sentinel-service-nats:4222/
