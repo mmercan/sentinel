@@ -123,10 +123,8 @@ namespace Sentinel.Api.Product.Controllers
                 typeof(Microsoft.Extensions.Options.IOptionsSnapshot<>),
                 typeof(Microsoft.Extensions.Options.IOptionsMonitor<>),
                 typeof(Microsoft.Extensions.Options.IOptionsFactory<>),
-                typeof(Microsoft.Extensions.Logging.Logger<>),
                 typeof(Microsoft.Extensions.Logging.Configuration.ILoggerProviderConfiguration<>),
                 typeof(Mercan.Common.KafkaListener<>),
-                typeof(Microsoft.AspNetCore.Mvc.ViewFeatures.HtmlHelper<>)
                 };
             try
             {
@@ -139,19 +137,27 @@ namespace Sentinel.Api.Product.Controllers
                         if (exceptions.Contains(service.ServiceType))
                         {
                             skip = true;
-                            //   _logger.LogDebug("type excepted " + service.ServiceType.FullName);
+                            messages += "Skipped : " + service.ServiceType.FullName + " , \n";
                         }
 
                         if (!skip)
                         {
-                            //  _logger.LogDebug("Type " + service.ServiceType.FullName);
-                            var instance = serviceprovider.GetService(service.ServiceType);
-                            //  _logger.LogDebug("Instance " + instance.GetType().FullName);
-                            messages += "Success : " + instance.GetType().FullName + " , \n";
+                            if (service.ServiceType.ContainsGenericParameters)
+                            {
+                                var t = service.ServiceType.MakeGenericType(typeof(HealthCheckController));
+                                var instance = serviceprovider.GetService(t);
+                                messages += "Success : " + instance.GetType().FullName + " , \n";
+                            }
+                            else
+                            {
+                                var instance = serviceprovider.GetService(service.ServiceType);
+                                messages += "Success : " + instance.GetType().FullName + " , \n";
+                            }
                         }
                     }
                     catch (Exception ex) { messages += "Failed : " + ex.Message + " , \n"; }
                 }
+                _logger.LogDebug(messages);
                 return Ok(messages);
             }
             catch (Exception ex)

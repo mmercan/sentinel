@@ -12,7 +12,7 @@ services:
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - DOTNET_RUNNING_IN_CONTAINER=true
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
-      - Mongodb__ConnectionString=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
+      - Mongodb__ConnectionString=mongodb://root:hbMnztmZ4w9JJTGZ@168.62.62.82:27017/admin?readPreference=primary
       - Mongodb__DatabaseName=sentinel
       - Mongodb__CollectionName=product
       - Mongodb__IdField=Id
@@ -40,7 +40,7 @@ services:
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - DOTNET_RUNNING_IN_CONTAINER=true
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
-      - Mongodb__ConnectionString=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
+      - Mongodb__ConnectionString=mongodb://root:hbMnztmZ4w9JJTGZ@168.62.62.82:27017/admin?readPreference=primary
       - Mongodb__DatabaseName=sentinel
       - Mongodb__CollectionName=product
       - Mongodb__IdField=Id
@@ -64,7 +64,7 @@ services:
     environment:
       - NATS_URL=nats://sentinel-service-nats:4222/
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
-      - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
+      - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@168.62.62.82:27017/admin?readPreference=primary
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - DOTNET_RUNNING_IN_CONTAINER=true
@@ -89,7 +89,7 @@ services:
       - RabbitMQConnection=host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10
       - NATS_URL=nats://sentinel-service-nats:4222/
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
-      - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
+      - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@168.62.62.82:27017/admin?readPreference=primary
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - DOTNET_RUNNING_IN_CONTAINER=true
@@ -110,7 +110,7 @@ services:
     environment:
       - RabbitMQConnection=host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
-      - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
+      - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@168.62.62.82:27017/admin?readPreference=primary
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - DOTNET_RUNNING_IN_CONTAINER=true
@@ -132,7 +132,7 @@ services:
       - SMTP__UserName=mail@mail.com
       - SMTP__Password=password123
       - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
-      - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
+      - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@168.62.62.82:27017/admin?readPreference=primary
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - DOTNET_RUNNING_IN_CONTAINER=true
       - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
@@ -267,7 +267,7 @@ services:
       context: ./Sentinel.Util.Kibana
       dockerfile: dockerfile-linux
     environment:
-      - ELASTICSEARCH_URL=http://sentinel-db-elasticsearch:9200
+      - ELASTICSEARCH_URL=http://40.117.115.1:9200
     ports:
       - "5601:5601"
     depends_on:

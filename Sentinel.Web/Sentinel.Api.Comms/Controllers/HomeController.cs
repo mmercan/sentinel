@@ -24,7 +24,7 @@ namespace Sentinel.Api.Comms.Controllers
         }
         public IActionResult Index()
         {
-            new Publisher().Run(logger, configuration);
+            // new Publisher().Run(logger, configuration);
             return View();
         }
 
@@ -89,23 +89,19 @@ namespace Sentinel.Api.Comms.Controllers
             }
             logger.LogInformation("URL");
             logger.LogInformation(opts.Url);
-            using (IConnection c = new ConnectionFactory().CreateConnection(opts))
-            {
-                sw = Stopwatch.StartNew();
-
-                for (int i = 0; i < count; i++)
-                {
-                    c.Publish(subject, payload);
-                }
-                c.Flush();
-
-                sw.Stop();
-
-                logger.LogDebug("Published {0} msgs in {1} seconds ", count, sw.Elapsed.TotalSeconds);
-                logger.LogDebug("({0} msgs/second).", (int)(count / sw.Elapsed.TotalSeconds));
-                printStats(c, logger);
-
-            }
+            // using (IConnection c = new ConnectionFactory().CreateConnection(opts))
+            // {
+            //     sw = Stopwatch.StartNew();
+            //     for (int i = 0; i < count; i++)
+            //     {
+            //         c.Publish(subject, payload);
+            //     }
+            //     c.Flush();
+            //     sw.Stop();
+            //     logger.LogDebug("Published {0} msgs in {1} seconds ", count, sw.Elapsed.TotalSeconds);
+            //     logger.LogDebug("({0} msgs/second).", (int)(count / sw.Elapsed.TotalSeconds));
+            //     printStats(c, logger);
+            // }
         }
 
         private void printStats(IConnection c, ILogger<HomeController> logger)

@@ -1199,6 +1199,13 @@ function Add-HeathCheckApi {
     using Microsoft.Extensions.Logging;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Caching.Distributed;
+    using Microsoft.Extensions.Options;
+    using Mercan.Common.Mongo;
+    using Mercan.Common;
+    using Microsoft.Extensions.DependencyInjection;
+    using System.Reflection;
+    using Sentinel.Model.Product.Dto;
     
     namespace __projectname__.Controllers
     {
@@ -1209,12 +1216,18 @@ function Add-HeathCheckApi {
         {
     
             ILogger<HealthCheckController> _logger;
+            private IServiceCollection services;
     
-            public HealthCheckController(ILogger<HealthCheckController> logger)
+            public HealthCheckController(IServiceCollection services, ILogger<HealthCheckController> logger, IDistributedCache cache, IOptions<MangoBaseRepoSettings> mangoBaseRepoSettings,
+            MangoBaseRepo<ProductInfoDtoV2> repo)
             {
                 _logger = logger;
+                this.services = services;
             }
     
+            /// <summary>
+            /// isalive
+            /// </summary>
             [HttpGet("isalive")]
             [ProducesResponseType(200)]
             [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
@@ -1225,27 +1238,81 @@ function Add-HeathCheckApi {
                 {
                     return Ok();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    _logger.LogError("Failed to execute isalive");
+    
+                    _logger.LogError("Failed to execute isalive " + ex.Message);
                     return BadRequest();
                 }
             }
     
     
+            /// <summary>
+            /// isaliveandwell
+            /// </summary>
             [HttpGet("isaliveandwell")]
             [ProducesResponseType(200)]
             [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
             [ApiExplorerSettings(GroupName = @"HealthCheck")]
+            // [Authorize]
             public IActionResult GetIsAliveAndWell()
             {
+                string messages = "";
+                messages += "IsAuthenticated : " + this.User.Identity.IsAuthenticated + " , \n";
+    
+                if (this.User.Identity.IsAuthenticated)
+                {
+                    messages += "AuthenticationType : " + this.User.Identity.AuthenticationType + " , \n";
+                    messages += "Name   : " + this.User.Identity.Name + " , \n";
+                    messages += "Claims : " + this.User.Claims.Select(p => p.Type + " : " + p.Value + " " + p.Properties.ToList().ToJSON()).ToList().ToJSON() + " , \n";
+                }
+    
+                List<Type> exceptions = new List<Type>{
+                    typeof(Microsoft.Extensions.Options.IOptions<>),
+                    typeof(Microsoft.Extensions.Options.OptionsCache<>),
+                    typeof(Microsoft.Extensions.Options.IOptionsSnapshot<>),
+                    typeof(Microsoft.Extensions.Options.IOptionsMonitor<>),
+                    typeof(Microsoft.Extensions.Options.IOptionsFactory<>),
+                    typeof(Microsoft.Extensions.Logging.Configuration.ILoggerProviderConfiguration<>),
+                    typeof(Mercan.Common.KafkaListener<>),
+                    };
                 try
                 {
-                    return Ok();
+                    var serviceprovider = this.services.BuildServiceProvider();
+                    foreach (var service in this.services)
+                    {
+                        try
+                        {
+                            bool skip = false;
+                            if (exceptions.Contains(service.ServiceType))
+                            {
+                                skip = true;
+                                messages += "Skipped : " + service.ServiceType.FullName + " , \n";
+                            }
+    
+                            if (!skip)
+                            {
+                                if (service.ServiceType.ContainsGenericParameters)
+                                {
+                                    var t = service.ServiceType.MakeGenericType(typeof(HealthCheckController));
+                                    var instance = serviceprovider.GetService(t);
+                                    messages += "Success : " + instance.GetType().FullName + " , \n";
+                                }
+                                else
+                                {
+                                    var instance = serviceprovider.GetService(service.ServiceType);
+                                    messages += "Success : " + instance.GetType().FullName + " , \n";
+                                }
+                            }
+                        }
+                        catch (Exception ex) { messages += "Failed : " + ex.Message + " , \n"; }
+                    }
+                    _logger.LogDebug(messages);
+                    return Ok(messages);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    _logger.LogError("Failed to execute isaliveandwell");
+                    _logger.LogError("Failed to execute isaliveandwell " + messages + ex.Message);
                     return BadRequest();
                 }
             }
