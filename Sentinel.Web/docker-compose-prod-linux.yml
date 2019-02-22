@@ -1,6 +1,25 @@
 version: '3.4'
 
 services:
+  sentinel-ui-product:      
+    image: mmercan/sentinel-ui-product:${TAGVersion}-prod-linux
+    build:
+      target: final
+      context: .
+      dockerfile: Sentinel.UI.Product/dockerfile-linux
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
+      - Mongodb__ConnectionString=mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary
+      - Mongodb__DatabaseName=sentinel
+      - Mongodb__CollectionName=product
+      - Mongodb__IdField=Id
+      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+    ports:
+      - "5005:80"
+    depends_on:
+      - sentinel-db-redis
   sentinel-api-product:      
     image: mmercan/sentinel-api-product:${TAGVersion}-prod-linux
     build:

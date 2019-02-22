@@ -1,0 +1,38 @@
+{
+    "iisSettings":  {
+                        "windowsAuthentication":  false,
+                        "anonymousAuthentication":  true,
+                        "iisExpress":  {
+                                           "applicationUrl":  "http://localhost:50803",
+                                           "sslPort":  44335
+                                       }
+                    },
+    "profiles":  {
+                     "IIS Express":  {
+                                         "commandName":  "IISExpress",
+                                         "launchBrowser":  true,
+                                         "environmentVariables":  {
+                                                                      "ASPNETCORE_ENVIRONMENT":  "Development"
+                                                                  }
+                                     },
+                     "Sentinel.UI.Product":  {
+                                                 "commandName":  "Project",
+                                                 "launchBrowser":  true,
+                                                 "applicationUrl":  "http://localhost:5005",
+                                                 "environmentVariables":  {
+                                                                              "ASPNETCORE_ENVIRONMENT":  "Development"
+                                                                          }
+                                             },
+                     "Kestrel (dotnet watch run)":  {
+                                                        "commandName":  "Executable",
+                                                        "executablePath":  "C:\\Program Files\\dotnet\\dotnet.exe",
+                                                        "commandLineArgs":  "watch run",
+                                                        "workingDirectory":  "C:\\repos\\sentinel\\Sentinel.Web\\Sentinel.UI.Product",
+                                                        "launchBrowser":  true,
+                                                        "launchUrl":  "https://localhost:5005/",
+                                                        "environmentVariables":  {
+                                                                                     "ASPNETCORE_ENVIRONMENT":  "Development"
+                                                                                 }
+                                                    }
+                 }
+}

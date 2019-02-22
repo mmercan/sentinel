@@ -1,6 +1,34 @@
 version: '3.4'
 
 services:
+  sentinel-ui-product:      
+    image: sentinel-ui-product:${TAGVersion}-dev-linux
+    build:
+      target: develop
+      context: .
+      dockerfile: Sentinel.UI.Product/dockerfile-linux
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
+      - Mongodb__ConnectionString=mongodb://root:hbMnztmZ4w9JJTGZ@168.62.62.82:27017/admin?readPreference=primary
+      - Mongodb__DatabaseName=sentinel
+      - Mongodb__CollectionName=product
+      - Mongodb__IdField=Id
+      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+    # volumes:
+    #   - SentinelWeb:/src
+    volumes:
+      - .:/src
+      # - ./Sentinel.Api.Product:/src/Sentinel.Api.Product
+      # - ./Mercan:/src/Mercan
+      # - ./Sentinel.Common:/src/Sentinel.Common
+    entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
+    ports:
+      - "5005:80"
+    # stdin_open: true
+    # tty: true
   sentinel-api-product:      
     image: sentinel-api-product:${TAGVersion}-dev-linux
     build:

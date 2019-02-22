@@ -84,6 +84,30 @@ function new-dotnet ([string]$port = 5000) {
     dotnet add package "AutoMapper.Extensions.Microsoft.DependencyInjection"
 }
 
+
+
+function new-dotnet-newestpackages ([string]$port = 5000) {
+    dotnet new mvc # --output $folder
+    $loc = '"applicationUrl": "http://localhost:' + $port + '"'
+
+
+    $fileName = "./Properties/launchSettings.json"
+    $launchSettings = Get-Content $fileName  -raw
+    $launchSettings = $launchSettings.replace('"applicationUrl": "https://localhost:5001;http://localhost:5000"', $loc)
+    $launchSettings | set-content  $fileName
+
+    dotnet add package "WebPush-netcore"
+    dotnet add package "Polly"
+    dotnet add package "Swashbuckle.AspNetCore"
+    dotnet add package "Microsoft.AspNetCore.Mvc.Versioning"
+    dotnet add package "Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer"
+
+    dotnet add package "Microsoft.AspNetCore.Identity" 
+    dotnet add package "Microsoft.AspNetCore.Identity.UI" 
+    dotnet add package "Microsoft.AspNetCore.Identity.EntityFrameworkCore"
+
+    dotnet add package "AutoMapper.Extensions.Microsoft.DependencyInjection"
+}
 function Add-PushNotificationController {
     $PushNotificationController = @'
 using System;
@@ -937,6 +961,11 @@ function Add-cors-swagger-startupcs {
             '                o.DefaultApiVersion = new ApiVersion(1, 0);'
             '                o.ApiVersionReader = new HeaderApiVersionReader("api-version");'
             '            });'
+            '            services.AddVersionedApiExplorer(options =>'
+            '            {'
+            "                options.GroupNameFormat = `"'v'VVV`";"
+            '                options.SubstituteApiVersionInUrl = true;'
+            '            });'
             ''
             '            services.AddSwaggerGen(options =>'
             '            {'
@@ -977,7 +1006,8 @@ function Add-cors-swagger-startupcs {
     $startupobj | set-content  $fileName
 }
 function Add-SignalR {
-    dotnet add package Microsoft.AspNetCore.SignalR -v 1.0.1
+    dotnet add package Microsoft.AspNetCore.SignalR
+    # dotnet add package Microsoft.AspNetCore.SignalR -v 1.0.1
 
     $charcs = @'
     using System;
@@ -1201,7 +1231,7 @@ function Add-HeathCheckApi {
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Caching.Distributed;
     using Microsoft.Extensions.Options;
-    using Mercan.Common.Mongo;
+    // using Mercan.Common.Mongo;
     using Mercan.Common;
     using Microsoft.Extensions.DependencyInjection;
     using System.Reflection;
@@ -1218,8 +1248,7 @@ function Add-HeathCheckApi {
             ILogger<HealthCheckController> _logger;
             private IServiceCollection services;
     
-            public HealthCheckController(IServiceCollection services, ILogger<HealthCheckController> logger, IDistributedCache cache, IOptions<MangoBaseRepoSettings> mangoBaseRepoSettings,
-            MangoBaseRepo<ProductInfoDtoV2> repo)
+            public HealthCheckController(IServiceCollection services, ILogger<HealthCheckController> logger, IDistributedCache cache)
             {
                 _logger = logger;
                 this.services = services;
