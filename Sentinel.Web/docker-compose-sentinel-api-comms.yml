@@ -5,7 +5,7 @@
         image: mmercan/sentinel-api-comms:${TAGVersion}-prod-linux
         build:
           target: final
-          context: .
+          context: ./Sentinel.Api.Comms
           dockerfile: dockerfile-linux
         environment:
           - ASPNETCORE_ENVIRONMENT=Production
