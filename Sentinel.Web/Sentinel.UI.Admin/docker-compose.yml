@@ -6,7 +6,7 @@
         build:
           target: final
           context: ../
-          dockerfile: Sentinel.UI.Admin/dockerfile-linux
+          dockerfile: Sentinel.UI.Admin/dockerfile
         # environment:
         #   - ASPNETCORE_ENVIRONMENT=Production
         #   - DOTNET_USE_POLLING_FILE_WATCHER=1

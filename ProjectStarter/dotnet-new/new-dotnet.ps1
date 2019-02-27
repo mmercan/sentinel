@@ -1412,11 +1412,56 @@ ENTRYPOINT ["dotnet", "__projectname__.dll"]
         # ports:
         #   - "5005:80"
 '@
-    $dockersevicename = $folder.ToLower()
+    $dockersevicename = $folder.ToLower().Replace('.', '-')
     $dockercomposelinux = $dockercomposelinux.replace("__projectname__", $folder)
     $dockercomposelinux = $dockercomposelinux.replace("__dockersevicename__", $dockersevicename)
     $dockercomposelinux | set-content  ".\docker-compose.yml"
 
+
+
+    $k8linux = @'
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: __dockersevicename__
+      labels:
+        app: __dockersevicename__
+    spec:
+      type: LoadBalancer
+      ports:
+      - protocol: TCP
+        port: 80
+        targetPort: 80
+      selector:
+        app: __dockersevicename__
+    ---
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    metadata:
+      name: __dockersevicename__
+    spec:
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: __dockersevicename__
+        spec:
+          containers:
+          - name:  __dockersevicename__
+            image: mmercan/__dockersevicename__:__imageversion__
+            imagePullPolicy: Always
+            ports:
+            - containerPort: 80
+            env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: DOTNET_RUNNING_IN_CONTAINER
+              value: "true"
+'@
+    $dockersevicename = $folder.ToLower().Replace('.', '-')
+    $k8linux = $k8linux.replace("__projectname__", $folder)
+    $k8linux = $k8linux.replace("__dockersevicename__", $dockersevicename)
+    $k8linux | set-content  ".\k8-$dockersevicename.yaml"
 
 
     $directoryBuildprops = @'
