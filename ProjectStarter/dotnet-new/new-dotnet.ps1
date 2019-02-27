@@ -1420,43 +1420,62 @@ ENTRYPOINT ["dotnet", "__projectname__.dll"]
 
 
     $k8linux = @'
-    apiVersion: v1
-    kind: Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: __dockersevicename__
+  labels:
+    app: __dockersevicename__
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  selector:
+    app: __dockersevicename__
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: __dockersevicename__
+spec:
+  replicas: 1
+  template:
     metadata:
-      name: __dockersevicename__
       labels:
         app: __dockersevicename__
     spec:
-      type: LoadBalancer
-      ports:
-      - protocol: TCP
-        port: 80
-        targetPort: 80
-      selector:
-        app: __dockersevicename__
-    ---
-    apiVersion: extensions/v1beta1
-    kind: Deployment
-    metadata:
-      name: __dockersevicename__
-    spec:
-      replicas: 1
-      template:
-        metadata:
-          labels:
-            app: __dockersevicename__
-        spec:
-          containers:
-          - name:  __dockersevicename__
-            image: mmercan/__dockersevicename__:__imageversion__
-            imagePullPolicy: Always
-            ports:
-            - containerPort: 80
-            env:
-            - name: ASPNETCORE_ENVIRONMENT
-              value: "Production"
-            - name: DOTNET_RUNNING_IN_CONTAINER
-              value: "true"
+      containers:
+      - name:  __dockersevicename__
+        image: mmercan/__dockersevicename__:__imageversion__
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+        - name: RedisConnection
+          value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
+        - name: Mongodb__ConnectionString
+          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+        - name: Mongodb__DatabaseName
+          value: "sentinel"
+        - name: Mongodb__CollectionName
+          value: "product"
+        - name: Mongodb__IdField
+          value: "Id"
+        - name: SentinelConnection
+          value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
+        - name: kafkaUrl
+          value: "http://sentinel-util-kafka:9092"
+        - name: NATS_URL
+          value: "nats://sentinel-service-nats:4222/"
+        - name: MongoConnection
+          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+        - name: DOTNET_RUNNING_IN_CONTAINER
+          value: "true"
+
 '@
     $dockersevicename = $folder.ToLower().Replace('.', '-')
     $k8linux = $k8linux.replace("__projectname__", $folder)
