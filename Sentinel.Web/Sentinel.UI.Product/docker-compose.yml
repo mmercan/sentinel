@@ -5,8 +5,8 @@
         image: mmercan/sentinel-ui-product:${TAGVersion}-prod-linux
         build:
           target: final
-          context: ./Sentinel.UI.Product
-          dockerfile: dockerfile-linux
+          context: ../
+          dockerfile: Sentinel.UI.Product/dockerfile-linux
         environment:
           - ASPNETCORE_ENVIRONMENT=Production
           - DOTNET_USE_POLLING_FILE_WATCHER=1

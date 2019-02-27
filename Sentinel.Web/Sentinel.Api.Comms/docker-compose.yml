@@ -5,8 +5,8 @@
         image: mmercan/sentinel-api-comms:${TAGVersion}-prod-linux
         build:
           target: final
-          context: ./Sentinel.Api.Comms
-          dockerfile: dockerfile-linux
+          context: ../
+          dockerfile: Sentinel.Api.Comms/dockerfile-linux
         environment:
           - ASPNETCORE_ENVIRONMENT=Production
           - DOTNET_USE_POLLING_FILE_WATCHER=1
