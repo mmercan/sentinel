@@ -4,7 +4,7 @@
       sentinel-ui-admin:      
         image: mmercan/sentinel-ui-admin:${TAGVersion}-prod-linux
         build:
-          target: final
+          target: prod
           context: ../
           dockerfile: Sentinel.UI.Admin/dockerfile
         # environment:
