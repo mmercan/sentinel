@@ -1395,6 +1395,30 @@ ENTRYPOINT ["dotnet", "__projectname__.dll"]
     $dockerlinux = $dockerlinux.replace("__projectname__", $folder)
     $dockerlinux | set-content  ".\dockerfile-windows"
 
+
+    $dockercomposelinux = @'
+    version: '3.4'
+
+    services:
+      __dockersevicename__:      
+        image: mmercan/__dockersevicename__:${TAGVersion}-prod-linux
+        build:
+          target: final
+          context: .
+          dockerfile: dockerfile-linux
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Production
+          - DOTNET_USE_POLLING_FILE_WATCHER=1
+        # ports:
+        #   - "5005:80"
+'@
+    $dockersevicename = $folder.ToLower()
+    $dockercomposelinux = $dockercomposelinux.replace("__projectname__", $folder)
+    $dockercomposelinux = $dockercomposelinux.replace("__dockersevicename__", $dockersevicename)
+    $dockercomposelinux | set-content  ".\docker-compose.yml"
+
+
+
     $directoryBuildprops = @'
 <Project>
   <PropertyGroup>

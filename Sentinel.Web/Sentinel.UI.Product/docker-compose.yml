@@ -1,0 +1,14 @@
+    version: '3.4'
+
+    services:
+      sentinel-ui-product:      
+        image: mmercan/sentinel-ui-product:${TAGVersion}-prod-linux
+        build:
+          target: final
+          context: .
+          dockerfile: dockerfile-linux
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Production
+          - DOTNET_USE_POLLING_FILE_WATCHER=1
+        # ports:
+        #   - "5005:80"
