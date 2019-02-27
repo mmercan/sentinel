@@ -32,6 +32,8 @@ spec:
         ports:
         - containerPort: 80
         env:
+        - name: RabbitMQConnection
+          value: "host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10"
         - name: ASPNETCORE_ENVIRONMENT
           value: "Production"
         - name: RedisConnection
