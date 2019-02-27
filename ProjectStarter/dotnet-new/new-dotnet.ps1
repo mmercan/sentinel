@@ -1404,8 +1404,8 @@ ENTRYPOINT ["dotnet", "__projectname__.dll"]
         image: mmercan/__dockersevicename__:${TAGVersion}-prod-linux
         build:
           target: final
-          context: .
-          dockerfile: dockerfile-linux
+          context: ../
+          dockerfile: __projectname__/dockerfile-linux
         environment:
           - ASPNETCORE_ENVIRONMENT=Production
           - DOTNET_USE_POLLING_FILE_WATCHER=1

@@ -1,0 +1,14 @@
+    version: '3.4'
+
+    services:
+      sentinel-api-product:      
+        image: mmercan/sentinel-api-product:${TAGVersion}-prod-linux
+        build:
+          target: final
+          context: ../
+          dockerfile: Sentinel.Api.Product/dockerfile-linux
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Production
+          - DOTNET_USE_POLLING_FILE_WATCHER=1
+        # ports:
+        #   - "5005:80"
