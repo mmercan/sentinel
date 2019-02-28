@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-service-rabbitmq-management
+  labels:
+    app: sentinel-service-rabbitmq
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 15672
+    targetPort: 15672
+  selector:
+    app: sentinel-service-rabbitmq
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-service-rabbitmq
+  labels:
+    app: sentinel-service-rabbitmq
+spec:
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 5672
+    targetPort: 5672
+  selector:
+    app: sentinel-service-rabbitmq
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-service-rabbitmq
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-service-rabbitmq
+    spec:
+      containers:
+      - name: sentinel-service-rabbitmq
+        image: mmercan/sentinel-service-rabbitmq
+        ports:
+        - containerPort: 5672
+        - containerPort: 15672
+        env:
+        - name: RABBITMQ_ERLANG_COOKIE
+          value: "SWQOKODSQALRPCLNMEQG"
