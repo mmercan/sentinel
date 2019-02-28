@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  sentinel-util-mailhog:
+    image: mmercan/sentinel-util-mailhog:${TAGVersion}-prod-linux
+    build:
+      context: ./
+      dockerfile: dockerfile-linux
+    ports:
+      - "1025:1025"
+      - "8025:8025"
