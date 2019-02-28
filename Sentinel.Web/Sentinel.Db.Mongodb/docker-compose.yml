@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  sentinel-db-mongodb:
+    image: mmercan/sentinel-db-mongodb:${TAGVersion}-prod-linux
+    build:
+      context: ./
+      dockerfile: dockerfile-linux
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=hbMnztmZ4w9JJTGZ
+    # volumes:
+    #   - ./data/db:/data/db
+    ports:
+        - 27017:27017
+    # command: mongod --smallfiles --logpath=/dev/null # --quiet

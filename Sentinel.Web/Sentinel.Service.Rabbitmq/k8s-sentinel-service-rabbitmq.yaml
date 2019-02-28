@@ -34,6 +34,7 @@ metadata:
   name: sentinel-service-rabbitmq
 spec:
   replicas: 1
+  revisionHistoryLimit: 1
   template:
     metadata:
       labels:
