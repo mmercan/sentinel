@@ -4,7 +4,7 @@ services:
   sentinel-service-rabbitmq:
     image: mmercan/sentinel-service-rabbitmq:${TAGVersion}-prod-linux
     build:
-      context: ./Sentinel.Service.Rabbitmq
+      context: ./
       dockerfile: dockerfile-linux
     labels:
       NAME: "rabbitmq1"
