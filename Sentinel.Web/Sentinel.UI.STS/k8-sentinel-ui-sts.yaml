@@ -19,6 +19,7 @@ metadata:
   name: sentinel-ui-sts
 spec:
   replicas: 1
+  revisionHistoryLimit: 1
   template:
     metadata:
       labels:
