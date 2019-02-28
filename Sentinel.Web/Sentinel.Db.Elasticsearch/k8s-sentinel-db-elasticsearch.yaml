@@ -1,0 +1,193 @@
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sentinel-db-elasticsearch-data-claim
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+   requests:
+    storage: 50Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sentinel-db-elasticsearch-configmap
+  namespace: default
+data:
+  elasticsearch.yml: |
+    cluster.name: "sentinel-db-elasticsearch-cluster"
+    network.host: 0.0.0.0
+    discovery.zen.minimum_master_nodes: 1
+    #Update max_local_storage_nodes value based on number of nodes
+    node.max_local_storage_nodes: 1
+    xpack.security.enabled: true
+    xpack.monitoring.collection.enabled: true
+  role_mapping.yml: |
+---
+apiVersion: v1               
+kind: Service                
+metadata:                    
+  name: sentinel-db-elasticsearch        
+  labels:                    
+    service: sentinel-db-elasticsearch
+spec:                        
+  type: LoadBalancer
+  selector:                   
+    service: sentinel-db-elasticsearch
+  ports:                     
+  - name: http               
+    port: 9200               
+    targetPort: 9200
+    protocol: TCP            
+  - name: transport          
+    port: 9300               
+    targetPort: 9300
+    protocol: TCP
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sentinel-db-elasticsearch
+  labels:
+    service: sentinel-db-elasticsearch
+spec:
+  serviceName: sentinel-db-elasticsearch
+  # Number of PODS
+  replicas: 1
+  selector:
+    matchLabels:
+      service: sentinel-db-elasticsearch
+  template:
+    metadata:
+      labels:
+        service: sentinel-db-elasticsearch
+    spec:
+      terminationGracePeriodSeconds: 15
+      initContainers:
+      # https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html
+      - name: increase-the-vm-max-map-count
+        image: busybox
+        command:
+        - sysctl
+        - -w
+        - vm.max_map_count=262144
+        securityContext:
+          privileged: true
+      containers:
+      - name: sentinel-db-elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:6.4.1
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 2Gi
+          requests:
+            cpu: 100m
+            memory: 1Gi
+        ports:
+        - containerPort: 9200
+          name: http
+        - containerPort: 9300
+          name: tcp
+        env:
+          - name: cluster.name
+            value: "sentinel-db-elasticsearch-cluster"
+          - name: "xpack.security.enabled"
+            value: "true"
+          - name: "TAKE_FILE_OWNERSHIP"
+            value: “1”
+          - name: "ELASTIC_PASSWORD"
+            value: "Pa$$w0rd"
+        volumeMounts:
+        - name: sentinel-db-elasticsearch-data-claim
+          mountPath: /usr/share/elasticsearch/data
+        - name: sentinel-db-elasticsearch-configmap
+          mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
+          subPath: elasticsearch.yml
+        - name: sentinel-db-elasticsearch-configmap
+          mountPath: /usr/share/elasticsearch/config/role_mapping.yml
+          subPath: role_mapping.yml
+      volumes:
+      - name: sentinel-db-elasticsearch-data-claim
+        persistentVolumeClaim:
+           claimName: sentinel-db-elasticsearch-data-claim
+      - name: sentinel-db-elasticsearch-configmap
+        configMap:
+            name: sentinel-db-elasticsearch-configmap
+---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: sentinel-elk-kibana-configmap
+#   namespace: default
+# data:
+#   kibana.yml: |
+#     server.name: sentinel-elk-kibana
+#     server.host: "0"
+#     elasticsearch.url: http://sentinel-db-elasticsearch:9200
+#     xpack.monitoring.ui.container.elasticsearch.enabled: true
+#     # elasticsearch.username: kibana
+#     # elasticsearch.password: Password1$
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: sentinel-elk-kibana
+#   labels:
+#     component: sentinel-elk-kibana
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     component: sentinel-elk-kibana
+#   ports:
+#   - name: http
+#     port: 80
+#     targetPort: http
+# ---
+# apiVersion: apps/v1beta1
+# kind: Deployment
+# metadata:
+#   name: sentinel-elk-kibana
+#   labels:
+#     component: sentinel-elk-kibana
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#      component: sentinel-elk-kibana
+#   template:
+#     metadata:
+#       labels:
+#         component: sentinel-elk-kibana
+#     spec:
+#       containers:
+#       - name: sentinel-elk-kibana
+#         image: docker.elastic.co/kibana/kibana:6.4.1
+#         resources:
+#           limits:
+#             cpu: 1000m
+#           requests:
+#             cpu: 100m
+#         ports:
+#         - containerPort: 5601
+#           name: http
+#         volumeMounts:
+#         - name: sentinel-elk-kibana-configmap
+#           mountPath: /usr/share/kibana/config/kibana.yml
+#           subPath: kibana.yml
+#         resources: {}
+#         terminationMessagePath: "/dev/termination-log"
+#         terminationMessagePolicy: File
+#         imagePullPolicy: Always
+#         securityContext:
+#           privileged: false
+#       volumes:
+#       - name: sentinel-elk-kibana-configmap
+#         configMap:
+#             name: sentinel-elk-kibana-configmap
+#       restartPolicy: Always
+#       terminationGracePeriodSeconds: 5
+#       dnsPolicy: ClusterFirst
+#       securityContext: {}
+#       schedulerName: default-scheduler
