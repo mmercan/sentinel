@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  sentinel-service-nats:
+    image: mmercan/sentinel-service-nats:${TAGVersion}-prod-linux
+    build:
+      context: ./
+      dockerfile: dockerfile-linux
+    ports:
+      - "8222:8222"
+      - "4222:4222"
+

@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-service-nats-monitor
+  labels:
+    app: sentinel-service-nats
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 8222
+    targetPort: 8222
+  selector:
+    app: sentinel-service-nats
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-service-nats
+  labels:
+    app: sentinel-service-nats
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 4222
+    targetPort: 4222
+  selector:
+    app: sentinel-service-nats
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-service-nats
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-service-nats
+    spec:
+      containers:
+      - name: sentinel-service-nats
+        image: mmercan/sentinel-service-nats
+        ports:
+        - containerPort: 4222
+        - containerPort: 8222
