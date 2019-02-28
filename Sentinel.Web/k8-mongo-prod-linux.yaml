@@ -80,6 +80,7 @@ metadata:
   name: sentinel-db-redis
 spec:
   replicas: 1
+  revisionHistoryLimit: 1
   template:
     metadata:
       labels:

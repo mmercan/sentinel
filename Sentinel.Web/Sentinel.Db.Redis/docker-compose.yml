@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  sentinel-db-redis:
+    image: mmercan/sentinel-db-redis:${TAGVersion}-prod-linux
+    build:
+      context: ./
+      dockerfile: dockerfile
+    # volumes:
+    #   - C:\repos\sentinel\Sentinel.Web\Sentinel.Db.Redis:/data   
+    # command: redis-server --requirepass yourpassword
+    # command: ["redis-server", "--appendonly", "yes"]
+    hostname: redis
+    ports:
+      - "6379:6379"

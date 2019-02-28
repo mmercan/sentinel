@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-db-redis
+  labels:
+    app: sentinel-db-redis
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+  selector:
+    app: sentinel-db-redis
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-db-redis
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-db-redis
+    spec:
+      containers:
+      - name: sentinel-db-redis
+        image: mmercan/sentinel-db-redis
+        ports:
+        - containerPort: 6379
