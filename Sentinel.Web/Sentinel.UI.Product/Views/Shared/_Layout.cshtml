@@ -1,499 +1,85 @@
-﻿<!-- <!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Sentinel.UI.Product</title>
-
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE="/>
-    </environment>
-    <link rel="stylesheet" href="~/css/site.css" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Sentinel.UI.Product</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - Sentinel.UI.Product - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha256-E/V4cWE4qvAeO5MOhjtGtqDzPndRO1LBk8lJ/PR7CA4=">
-        </script>
-    </environment>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
-    @RenderSection("Scripts", required: false)
-</body>
-</html> -->
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Sentinel.UI.Product</title>
-
-    <!-- Required Meta Tags Always Come First -->
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-    <!-- Favicon -->
     <link rel="shortcut icon" href="../../favicon.ico">
-
-    <!-- CSS Global Compulsory -->
-    <link rel="stylesheet" href="../../assets/vendor/bootstrap/bootstrap.min.css">
-
-    <!-- CSS Implementing Plugins -->
+    <title>@ViewData["Title"] - Sentinel.Api.Product</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+            asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-fallback-test-class="sr-only"
+            asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    <!-- <link rel="stylesheet" href="../../assets/vendor/bootstrap/bootstrap.min.css"> -->
     <link rel="stylesheet" href="../../assets/vendor/icon-hs/style.css">
     <link rel="stylesheet" href="../../assets/vendor/icon-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../assets/vendor/hamburgers/hamburgers.min.css">
     <link rel="stylesheet" href="../../assets/vendor/hs-megamenu/src/hs.megamenu.css">
-
-    <!-- CSS Unify -->
     <link rel="stylesheet" href="../../assets/css/unify.css">
-
-    <!-- CSS Customization -->
     <link rel="stylesheet" href="../../assets/css/custom.css">
-  </head>
+</head>
 
-  <body>
+<body>
     <main>
-      <!-- Header -->
-      <header id="js-header" class="u-header u-header--static u-header--show-hide u-header--change-appearance"
-              data-header-fix-moment="300"
-              data-header-fix-effect="slide">
-        <div class="u-header__section u-header__section--light g-bg-white g-transition-0_3 g-py-10"
-             data-header-fix-moment-exclude="g-bg-white g-py-10"
-             data-header-fix-moment-classes="g-bg-white-opacity-0_8 u-shadow-v18 g-py-0">
-          <nav class="navbar navbar-expand-lg">
+        @await Html.PartialAsync("~/Views/Shared/_Header.cshtml")
+        <section class="g-py-50">
             <div class="container">
-              <!-- Responsive Toggle Button -->
-              <button class="navbar-toggler navbar-toggler-right btn g-line-height-1 g-brd-none g-pa-0 g-pos-abs g-right-0 g-top-3" type="button"
-                      aria-label="Toggle navigation"
-                      aria-expanded="false"
-                      aria-controls="navBar"
-                      data-toggle="collapse"
-                      data-target="#navBar">
-                <span class="hamburger hamburger--slider">
-                  <span class="hamburger-box">
-                    <span class="hamburger-inner"></span>
-                  </span>
-                </span>
-              </button>
-              <!-- End Responsive Toggle Button -->
-
-              <!-- Logo -->
-              <a href="../../index.html" class="navbar-brand d-flex">
-                <svg width="86px" height="32px" viewBox="0 0 86 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <g transform="translate(-78.000000, -19.000000)">
-                      <g transform="translate(78.000000, 19.000000)">
-                        <path d="M0,0 L19.2941176,0 L19.2941176,0 C23.7123956,-8.11624501e-16 27.2941176,3.581722 27.2941176,8 L27.2941176,27.2941176 L8,27.2941176 L8,27.2941176 C3.581722,27.2941176 5.41083001e-16,23.7123956 0,19.2941176 L0,0 Z" fill="#72c02c"></path>
-                        <path d="M21.036662,24.8752523 L20.5338647,22.6659916 L20.3510293,22.6659916 C19.8533083,23.4481246 19.1448284,24.0626484 18.2255681,24.5095816 C17.3063079,24.9565147 16.2575544,25.1799779 15.0792761,25.1799779 C13.0376043,25.1799779 11.5139914,24.672107 10.5083918,23.6563498 C9.50279224,22.6405927 9,21.1017437 9,19.0397567 L9,8.02392554 L12.6109986,8.02392554 L12.6109986,18.4150692 C12.6109986,19.7050808 12.8750915,20.6725749 13.4032852,21.3175807 C13.9314789,21.9625865 14.7593086,22.2850846 15.886799,22.2850846 C17.3901196,22.2850846 18.4947389,21.8356188 19.2006901,20.9366737 C19.9066413,20.0377286 20.2596117,18.5318912 20.2596117,16.4191164 L20.2596117,8.02392554 L23.855374,8.02392554 L23.855374,24.8752523 L21.036662,24.8752523 Z" fill="#FFFFFF"></path>
-                        <path d="M44.4764678,24.4705882 L40.8807055,24.4705882 L40.8807055,14.1099172 C40.8807055,12.809748 40.6191519,11.8397145 40.096037,11.1997875 C39.5729221,10.5598605 38.7425531,10.2399018 37.6049051,10.2399018 C36.0914269,10.2399018 34.9842682,10.6868282 34.2833958,11.5806945 C33.5825234,12.4745608 33.2320924,13.9727801 33.2320924,16.0753974 L33.2320924,24.4705882 L29.6515664,24.4705882 L29.6515664,7.61926145 L32.4550421,7.61926145 L32.9578394,9.8285222 L33.1406747,9.8285222 C33.6485533,9.02607405 34.3697301,8.40647149 35.3042266,7.96969592 C36.2387232,7.53292034 37.27478,7.31453583 38.412428,7.31453583 C42.4551414,7.31453583 44.4764678,9.3714132 44.4764678,13.4852296 L44.4764678,24.4705882 Z M53.7357283,24.4705882 L50.1552023,24.4705882 L50.1552023,7.61926145 L53.7357283,7.61926145 L53.7357283,24.4705882 Z M49.9418944,3.15503112 C49.9418944,2.51510412 50.1171098,2.0224693 50.467546,1.67711187 C50.8179823,1.33175444 51.3182351,1.15907831 51.9683197,1.15907831 C52.5980892,1.15907831 53.0881846,1.33175444 53.4386208,1.67711187 C53.7890571,2.0224693 53.9642725,2.51510412 53.9642725,3.15503112 C53.9642725,3.76448541 53.7890571,4.24442346 53.4386208,4.59485968 C53.0881846,4.94529589 52.5980892,5.12051137 51.9683197,5.12051137 C51.3182351,5.12051137 50.8179823,4.94529589 50.467546,4.59485968 C50.1171098,4.24442346 49.9418944,3.76448541 49.9418944,3.15503112 Z M68.0077253,10.3313195 L63.8939294,10.3313195 L63.8939294,24.4705882 L60.2981671,24.4705882 L60.2981671,10.3313195 L57.525164,10.3313195 L57.525164,8.65532856 L60.2981671,7.55831633 L60.2981671,6.4613041 C60.2981671,4.47042009 60.7654084,2.99505497 61.699905,2.03516447 C62.6344015,1.07527397 64.0615189,0.595335915 65.9812999,0.595335915 C67.2408388,0.595335915 68.4800439,0.803563007 69.6989525,1.22002344 L68.7543031,3.93208145 C67.8705943,3.64766945 67.0275286,3.50546559 66.2250804,3.50546559 C65.4124747,3.50546559 64.820805,3.75686171 64.4500537,4.25966149 C64.0793023,4.76246128 63.8939294,5.51664965 63.8939294,6.52224922 L63.8939294,7.61926145 L68.0077253,7.61926145 L68.0077253,10.3313195 Z M69.0089215,7.61926145 L72.9094094,7.61926145 L76.3375727,17.1724096 C76.8556088,18.5335242 77.2009611,19.813359 77.3736398,21.0119524 L77.49553,21.0119524 C77.5869482,20.453286 77.7545456,19.7752783 77.9983273,18.9779089 C78.242109,18.1805396 79.5321012,14.3943616 81.8683427,7.61926145 L85.738358,7.61926145 L78.5315971,26.7103215 C77.2212704,30.2146837 75.0374253,31.9668385 71.9799963,31.9668385 C71.1877057,31.9668385 70.4157419,31.8805004 69.6640816,31.7078217 L69.6640816,28.8738734 C70.2024329,28.9957643 70.8169567,29.0567088 71.5076716,29.0567088 C73.2344587,29.0567088 74.4482703,28.056203 75.1491427,26.0551615 L75.7738303,24.4705882 L69.0089215,7.61926145 Z" fill="#555555"></path>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </a>
-              <!-- End Logo -->
-
-              <!-- Navigation -->
-              <div class="js-mega-menu collapse navbar-collapse align-items-center flex-sm-row g-pt-10 g-pt-5--lg" id="navBar">
-                <ul class="navbar-nav text-uppercase g-font-weight-600 ml-auto">
-                  <li class="nav-item active g-mx-20--lg">
-                    <a href="#" class="nav-link g-px-0">Home <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="nav-item g-mx-20--lg">
-                    <a href="#" class="nav-link g-px-0">Features</a>
-                  </li>
-                  <li class="nav-item g-mx-20--lg">
-                    <a href="#" class="nav-link g-px-0">Shortcodes</a>
-                  </li>
-
-                  <li class="nav-item hs-has-sub-menu g-mx-20--lg">
-                    <a href="#" class="nav-link g-px-0" id="nav-link-1"
-                       aria-haspopup="true"
-                       aria-expanded="false"
-                       aria-controls="nav-submenu-1"
-                    >Pages</a>
-
-                    <!-- Submenu -->
-                    <ul class="hs-sub-menu list-unstyled g-text-transform-none g-brd-top g-brd-primary g-brd-top-2 g-min-width-200 g-mt-20 g-mt-10--lg--scrolling" id="nav-submenu-1"
-                        aria-labelledby="nav-link-1">
-                      <li class="dropdown-item"><a class="nav-link g-px-0" href="#">Page 1</a></li>
-                      <li class="dropdown-item hs-has-sub-menu">
-                        <a id="nav-link-2" class="nav-link g-px-0" href="#"
-                           aria-haspopup="true"
-                           aria-expanded="false"
-                           aria-controls="nav-submenu-2"
-                        >Page 2</a>
-
-                        <!-- Submenu (level 2) -->
-                        <ul class="hs-sub-menu list-unstyled g-brd-top g-brd-primary g-brd-top-2 g-min-width-200 g-mt-minus-2 g-my-2" id="nav-submenu-2"
-                            aria-labelledby="nav-link-2">
-                          <li class="dropdown-item"><a class="nav-link g-px-0" href="#">Page 2-1</a></li>
-                          <li class="dropdown-item"><a class="nav-link g-px-0" href="#">Page 2-2</a></li>
-                          <li class="dropdown-item"><a class="nav-link g-px-0" href="#">Page 2-3</a></li>
-                          <li class="dropdown-item"><a class="nav-link g-px-0" href="#">Page 2-4</a></li>
-                          <li class="dropdown-item"><a class="nav-link g-px-0" href="#">Page 2-5</a></li>
-                        </ul>
-                        <!-- End Submenu (level 2) -->
-                      </li>
-                      <li class="dropdown-item"><a class="nav-link g-px-0" href="#">Page 3</a></li>
-                      <li class="dropdown-item"><a class="nav-link g-px-0" href="#">Page 4</a></li>
-                      <li class="dropdown-item"><a class="nav-link g-px-0" href="#">Page 5</a></li>
-                      <li class="dropdown-item"><a class="nav-link g-px-0" href="#">Page 6</a></li>
-                      <li class="dropdown-item"><a class="nav-link g-px-0" href="#">Page 7</a></li>
-                    </ul>
-                    <!-- End Submenu -->
-                  </li>
-
-                  <li class="nav-item g-mx-20--lg">
-                    <a href="#" class="nav-link g-px-0">Demos</a>
-                  </li>
-                  <li class="nav-item g-ml-20--lg g-mr-0--lg">
-                    <a href="#" class="nav-link g-px-0">What's New</a>
-                  </li>
-                </ul>
-              </div>
-              <!-- End Navigation -->
+                @RenderBody()
             </div>
-          </nav>
-        </div>
-      </header>
-      <!-- End Header -->
-
-      <!-- Content -->
-      <section class="g-py-50">
-        <div class="container">
-           <partial name="_CookieConsentPartial" />  
-            @RenderBody()
-          <!--
-              <h1 class="g-mb-20">Blank Page!</h1> 
-              <p>Microsoft has spent a lot of time (and money) trying to make Windows self-repairing, partly because it generally gets the blame when other programs – or users – try to improve” it. Given that tens of thousands of expert programmers have worked on the code over the past 30 years, the number of safe, simple, significant and forwards-/backwards-compatible improvements may be quite small. If Windows 10 knew you had a blank or even a black screen of death, it would try to fix it. If it can’t fix it, it should switch to the Windows Recovery Environment, otherwise known as Windows RE or WinRE, which boils down to two options: 1) Start Windows in safe mode using the code on the internal hard drive, then use the troubleshooting routines to fix it. 2) Use code on an external device such as a recovery DVD or USB thumbdrive to start Windows, and then repair or replace the code on the internal hard drive. So, your first aim should be to get to WinRE. From there you can get to safe mode and use the troubleshooting and repair options.</p>
-          <p>Microsoft has spent a lot of time (and money) trying to make Windows self-repairing, partly because it generally gets the blame when other programs – or users – try to improve” it. Given that tens of thousands of expert programmers have worked on the code over the past 30 years, the number of safe, simple, significant and forwards-/backwards-compatible improvements may be quite small. If Windows 10 knew you had a blank or even a black screen of death, it would try to fix it. If it can’t fix it, it should switch to the Windows Recovery Environment, otherwise known as Windows RE or WinRE, which boils down to two options: 1) Start Windows in safe mode using the code on the internal hard drive, then use the troubleshooting routines to fix it. 2) Use code on an external device such as a recovery DVD or USB thumbdrive to start Windows, and then repair or replace the code on the internal hard drive. So, your first aim should be to get to WinRE. From there you can get to safe mode and use the troubleshooting and repair options.</p>
-          <p>A Google Docs scam that appears to be widespread began landing in users’ inboxes on Wednesday in what seemed to be a sophisticated phishing or malware attack. The deceptive invitation to edit a Google Doc – the popular app used for writing and sharing files – appeared to be spreading rapidly, with a subject line stating a contact has shared a document on Google Docs with you”. If users click the Open in Docs” button in the email, it takes them to a legitimate Google sign-in screen that asks to continue in Google Docs”. Clicking on that link grants permission to a bogus third-party app to possibly access contacts and email, which could allow the spam to spread to additional contacts. Google has said it is aware of the issue and investigating it.</p>
-          <p>The company encouraged users to report the email as phishing within Gmail. We have taken action to protect users against an email impersonating Google Docs, and have disabled offending accounts,” a spokesperson said in a statement. We’ve removed the fake pages, pushed updates through Safe Browsing, and our abuse team is working to prevent this kind of spoofing from happening again.” The company did not immediately respond to requests for comment on how many people had been affected by the attack and where it may have originated. Numerous journalists have reported receiving the phishing email, including multiple Guardian reporters. One message to the Guardian came from a maryland.gov account associated with law enforcement and was addressed to, and blind-copied the reporter. Reporters at BuzzFeed, Hearst, New York Magazine, Vice and Gizmodo Media have also reported receiving the scam. Phishing scams typically involve emails, ads or websites that appear to be real and ask for personal information, such as usernames, passwords, social security numbers, bank account data or birthdays. Google says it does not send out emails asking for this type of data and encourages users not to click on any links and to report suspicious messages. As the Verge noted, Wednesday’s attack seemed to be more advanced than standard email phishing scams, because it doesn’t simply take users to a bogus Google page to collect a password, but instead is working within Google’s system with a third-party web app that has a deceptive name. If users have already granted permission through the phishing email, they can go to their settings and revoke the app. More people are reading the Guardian than ever, but far fewer are paying for it. Advertising revenues across the media are falling fast. And unlike many news organisations, we haven’t put up a paywall – we want to keep our journalism as open as we can. So you can see why we need to ask for your help. The Guardian’s independent, investigative journalism takes a lot of time, money and hard work to produce. But we do it because we believe our perspective matters – because it might well be your perspective, too.</p> -->
-        </div>
-      </section>
-      <!-- End Content -->
-
-      <!-- Footer -->
-      <div class="g-bg-black-opacity-0_9 g-color-white-opacity-0_8 g-py-60">
-        <div class="container">
-          <div class="row">
-            <!-- Footer Content -->
-            <div class="col-lg-3 col-md-6 g-mb-40 g-mb-0--lg">
-              <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
-                <h2 class="u-heading-v2__title h6 text-uppercase mb-0">About Us</h2>
-              </div>
-
-              <p>About Unify dolor sit amet, consectetur adipiscing elit. Maecenas eget nisl id libero tincidunt sodales.</p>
-            </div>
-            <!-- End Footer Content -->
-
-            <!-- Footer Content -->
-            <div class="col-lg-3 col-md-6 g-mb-40 g-mb-0--lg">
-              <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
-                <h2 class="u-heading-v2__title h6 text-uppercase mb-0">Latest Posts</h2>
-              </div>
-
-              <article>
-                <h3 class="h6 g-mb-2">
-                  <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">Incredible template</a>
-                </h3>
-                <div class="small g-color-white-opacity-0_6">May 8, 2017</div>
-              </article>
-
-              <hr class="g-brd-white-opacity-0_1 g-my-10">
-
-              <article>
-                <h3 class="h6 g-mb-2">
-                  <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">New features</a>
-                </h3>
-                <div class="small g-color-white-opacity-0_6">June 23, 2017</div>
-              </article>
-
-              <hr class="g-brd-white-opacity-0_1 g-my-10">
-
-              <article>
-                <h3 class="h6 g-mb-2">
-                  <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">New terms and conditions</a>
-                </h3>
-                <div class="small g-color-white-opacity-0_6">September 15, 2017</div>
-              </article>
-            </div>
-            <!-- End Footer Content -->
-
-            <!-- Footer Content -->
-            <div class="col-lg-3 col-md-6 g-mb-40 g-mb-0--lg">
-              <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
-                <h2 class="u-heading-v2__title h6 text-uppercase mb-0">Useful Links</h2>
-              </div>
-
-              <nav class="text-uppercase1">
-                <ul class="list-unstyled g-mt-minus-10 mb-0">
-                  <li class="g-pos-rel g-brd-bottom g-brd-white-opacity-0_1 g-py-10">
-                    <h4 class="h6 g-pr-20 mb-0">
-                      <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">About Us</a>
-                      <i class="fa fa-angle-right g-absolute-centered--y g-right-0"></i>
-                    </h4>
-                  </li>
-                  <li class="g-pos-rel g-brd-bottom g-brd-white-opacity-0_1 g-py-10">
-                    <h4 class="h6 g-pr-20 mb-0">
-                      <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">Portfolio</a>
-                      <i class="fa fa-angle-right g-absolute-centered--y g-right-0"></i>
-                    </h4>
-                  </li>
-                  <li class="g-pos-rel g-brd-bottom g-brd-white-opacity-0_1 g-py-10">
-                    <h4 class="h6 g-pr-20 mb-0">
-                      <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">Our Services</a>
-                      <i class="fa fa-angle-right g-absolute-centered--y g-right-0"></i>
-                    </h4>
-                  </li>
-                  <li class="g-pos-rel g-brd-bottom g-brd-white-opacity-0_1 g-py-10">
-                    <h4 class="h6 g-pr-20 mb-0">
-                      <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">Latest Jobs</a>
-                      <i class="fa fa-angle-right g-absolute-centered--y g-right-0"></i>
-                    </h4>
-                  </li>
-                  <li class="g-pos-rel g-py-10">
-                    <h4 class="h6 g-pr-20 mb-0">
-                      <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">Contact Us</a>
-                      <i class="fa fa-angle-right g-absolute-centered--y g-right-0"></i>
-                    </h4>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <!-- End Footer Content -->
-
-            <!-- Footer Content -->
-            <div class="col-lg-3 col-md-6">
-              <div class="u-heading-v2-3--bottom g-brd-white-opacity-0_8 g-mb-20">
-                <h2 class="u-heading-v2__title h6 text-uppercase mb-0">Our Contacts</h2>
-              </div>
-
-              <address class="g-bg-no-repeat g-font-size-12 mb-0" style="background-image: url(../../assets/img/maps/map2.png);">
-                <!-- Location -->
-                <div class="d-flex g-mb-20">
-                  <div class="g-mr-10">
-                    <span class="u-icon-v3 u-icon-size--xs g-bg-white-opacity-0_1 g-color-white-opacity-0_6">
-                      <i class="fa fa-map-marker"></i>
-                    </span>
-                  </div>
-                  <p class="mb-0">795 Folsom Ave, Suite 600, <br> San Francisco, CA 94107 795</p>
-                </div>
-                <!-- End Location -->
-
-                <!-- Phone -->
-                <div class="d-flex g-mb-20">
-                  <div class="g-mr-10">
-                    <span class="u-icon-v3 u-icon-size--xs g-bg-white-opacity-0_1 g-color-white-opacity-0_6">
-                      <i class="fa fa-phone"></i>
-                    </span>
-                  </div>
-                  <p class="mb-0">(+123) 456 7890 <br> (+123) 456 7891</p>
-                </div>
-                <!-- End Phone -->
-
-                <!-- Email and Website -->
-                <div class="d-flex g-mb-20">
-                  <div class="g-mr-10">
-                    <span class="u-icon-v3 u-icon-size--xs g-bg-white-opacity-0_1 g-color-white-opacity-0_6">
-                      <i class="fa fa-globe"></i>
-                    </span>
-                  </div>
-                  <p class="mb-0">
-                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="mailto:info@htmlstream.com">info@htmlstream.com</a>
-                    <br>
-                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">www.htmlstream.com</a>
-                  </p>
-                </div>
-                <!-- End Email and Website -->
-              </address>
-            </div>
-            <!-- End Footer Content -->
-          </div>
-        </div>
-      </div>
-      <!-- End Footer -->
-
-      <!-- Copyright Footer -->
-      <footer class="g-bg-gray-dark-v1 g-color-white-opacity-0_8 g-py-20">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-8 text-center text-md-left g-mb-10 g-mb-0--md">
-              <div class="d-lg-flex">
-                <small class="d-block g-font-size-default g-mr-10 g-mb-10 g-mb-0--md">2017 © All Rights Reserved.</small>
-                <ul class="u-list-inline">
-                  <li class="list-inline-item">
-                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">Privacy Policy</a>
-                  </li>
-                  <li class="list-inline-item">
-                    <span>|</span>
-                  </li>
-                  <li class="list-inline-item">
-                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">Terms of Use</a>
-                  </li>
-                  <li class="list-inline-item">
-                    <span>|</span>
-                  </li>
-                  <li class="list-inline-item">
-                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">License</a>
-                  </li>
-                  <li class="list-inline-item">
-                    <span>|</span>
-                  </li>
-                  <li class="list-inline-item">
-                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="#">Support</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="col-md-4 align-self-center">
-              <ul class="list-inline text-center text-md-right mb-0">
-                <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
-                  <a href="#" class="g-color-white-opacity-0_5 g-color-white--hover">
-                    <i class="fa fa-facebook"></i>
-                  </a>
-                </li>
-                <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="" data-original-title="Skype">
-                  <a href="#" class="g-color-white-opacity-0_5 g-color-white--hover">
-                    <i class="fa fa-skype"></i>
-                  </a>
-                </li>
-                <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="" data-original-title="Linkedin">
-                  <a href="#" class="g-color-white-opacity-0_5 g-color-white--hover">
-                    <i class="fa fa-linkedin"></i>
-                  </a>
-                </li>
-                <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pinterest">
-                  <a href="#" class="g-color-white-opacity-0_5 g-color-white--hover">
-                    <i class="fa fa-pinterest"></i>
-                  </a>
-                </li>
-                <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
-                  <a href="#" class="g-color-white-opacity-0_5 g-color-white--hover">
-                    <i class="fa fa-twitter"></i>
-                  </a>
-                </li>
-                <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="" data-original-title="Dribbble">
-                  <a href="#" class="g-color-white-opacity-0_5 g-color-white--hover">
-                    <i class="fa fa-dribbble"></i>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
-      <!-- End Copyright Footer -->
-
-      <!-- Go To Top -->
-      <a class="js-go-to u-go-to-v1" href="#"
-         data-type="fixed"
-         data-position='{
-           "bottom": 15,
-           "right": 15
-         }'
-         data-offset-top="300"
-         data-compensation="#js-header"
-         data-show-effect="zoomIn">
-        <i class="hs-icon hs-icon-arrow-top"></i>
-      </a>
-      <!-- End Go To Top -->
+        </section>
+        @await Html.PartialAsync("~/Views/Shared/_Footer.cshtml")
+        <a class="js-go-to u-go-to-v1" href="#" data-type="fixed" data-position='{"bottom": 15,"right": 15}'
+            data-offset-top="300" data-compensation="#js-header" data-show-effect="zoomIn">
+            <i class="hs-icon hs-icon-arrow-top"></i>
+        </a>
     </main>
-
-    <!-- JS Global Compulsory -->
-    <script src="../../assets/vendor/jquery/jquery.min.js"></script>
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js" asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery" crossorigin="anonymous" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal" crossorigin="anonymous"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
     <script src="../../assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
     <script src="../../assets/vendor/popper.js/popper.min.js"></script>
     <script src="../../assets/vendor/bootstrap/bootstrap.min.js"></script>
-
-    <!-- JS Implementing Plugins -->
     <script src="../../assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
-
-    <!-- JS Unify -->
     <script src="../../assets/js/hs.core.js"></script>
     <script src="../../assets/js/components/hs.header.js"></script>
     <script src="../../assets/js/helpers/hs.hamburgers.js"></script>
     <script src="../../assets/js/components/hs.go-to.js"></script>
-
-    <!-- JS Custom -->
     <script src="../../assets/js/custom.js"></script>
-
-    <!-- JS Plugins Init. -->
+    @RenderSection("Scripts", required: false)
     <script>
-      $(document).on('ready', function () {
-        // initialization of go to
-        $.HSCore.components.HSGoTo.init('.js-go-to');
-      });
-
-      $(window).on('load', function () {
-        // initialization of header
-        $.HSCore.components.HSHeader.init($('#js-header'));
-        $.HSCore.helpers.HSHamburgers.init('.hamburger');
-
-        // initialization of HSMegaMenu component
-        $('.js-mega-menu').HSMegaMenu({
-          event: 'hover',
-          pageContainer: $('.container'),
-          breakpoint: 991
+        $(document).on('ready', function () {
+            $.HSCore.components.HSGoTo.init('.js-go-to');
         });
-      });
+
+        $(window).on('load', function () {
+            $.HSCore.components.HSHeader.init($('#js-header'));
+            $.HSCore.helpers.HSHamburgers.init('.hamburger');
+            $('.js-mega-menu').HSMegaMenu({
+                event: 'hover',
+                pageContainer: $('.container'),
+                breakpoint: 991
+            });
+        });
     </script>
-  </body>
+</body>
+
 </html>

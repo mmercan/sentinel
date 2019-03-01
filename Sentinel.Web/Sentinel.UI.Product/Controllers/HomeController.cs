@@ -14,8 +14,12 @@ namespace Sentinel.UI.Product.Controllers
         {
             return View();
         }
-
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult Layout()
         {
             return View();
         }
