@@ -26,8 +26,7 @@ const MENUITEMS: Menu[] = [
     name: 'HOME',
     type: 'link',
     icon: 'basic-accelerator'
-  },
-  {
+  }, {
     state: 'authentication',
     name: 'AUTHENTICATION',
     type: 'sub',
@@ -50,8 +49,7 @@ const MENUITEMS: Menu[] = [
         name: 'LOCKSCREEN'
       },
     ]
-  },
-  {
+  }, {
     state: 'product',
     name: 'Products',
     type: 'sub',
@@ -66,8 +64,37 @@ const MENUITEMS: Menu[] = [
         name: 'Analytics'
       }
     ]
-  },
-  {
+  }, {
+    state: 'vendor',
+    name: 'Vendors',
+    type: 'sub',
+    icon: 'basic-helm',
+    children: [
+      {
+        state: 'list',
+        name: 'list'
+      },
+      {
+        state: 'add',
+        name: 'Add'
+      }
+    ]
+  }, {
+    state: 'category',
+    name: 'Categories',
+    type: 'sub',
+    icon: 'basic-folder',
+    children: [
+      {
+        state: 'list',
+        name: 'list'
+      },
+      {
+        state: 'add',
+        name: 'Add'
+      }
+    ]
+  }, {
     state: 'docs',
     name: 'DOCS',
     type: 'link',

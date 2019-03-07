@@ -11,6 +11,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 
+
 namespace Mercan.Common.Mongo
 {
     public class MangoBaseRepo<T> where T : new()

@@ -26,8 +26,13 @@ export const routes: Routes = [{
   }, {
     path: 'product',
     loadChildren: './product/product.module#ProductModule'
-  },
-  {
+  }, {
+    path: 'vendor',
+    loadChildren: './vendor/vendor.module#VendorModule'
+  }, {
+    path: 'category',
+    loadChildren: './category/category.module#CategoryModule'
+  }, {
     path: 'settings',
     component: SettingsComponent,
     //   loadChildren: './settings/settings.module#SettingsModule'

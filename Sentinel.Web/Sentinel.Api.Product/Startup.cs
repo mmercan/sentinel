@@ -126,13 +126,12 @@ namespace Sentinel.Api.Product
                {
                    options.Configuration = redisconn;
                    options.InstanceName = "productapi";
-
                });
             }
 
-            services.Configure<MangoBaseRepoSettings>(Configuration.GetSection("Mongodb"));
-
-            services.TryAdd(new ServiceDescriptor(typeof(MangoBaseRepo<ProductInfoDtoV2>), typeof(MangoBaseRepo<ProductInfoDtoV2>), ServiceLifetime.Scoped));
+            // services.Configure<MangoBaseRepoSettings>(Configuration.GetSection("Mongodb"));
+            services.AddMangoRepo<ProductInfoDtoV2>(Configuration.GetSection("Mongodb"));
+            // services.TryAdd(new ServiceDescriptor(typeof(MangoBaseRepo<ProductInfoDtoV2>), typeof(MangoBaseRepo<ProductInfoDtoV2>), ServiceLifetime.Scoped));
 
 
             services.AddScoped<ProductRepo>();
@@ -218,7 +217,6 @@ namespace Sentinel.Api.Product
             app.UseStaticFiles();
 
             var mongoClient = new MongoClient(Configuration["Mongodb:ConnectionString"]);
-            // var mongoClient = new MongoClient("mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary");
             var MongoDblogs = mongoClient.GetDatabase("logs");
 
 
