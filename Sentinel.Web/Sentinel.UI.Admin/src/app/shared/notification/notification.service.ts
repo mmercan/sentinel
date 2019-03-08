@@ -34,7 +34,7 @@ export class NotificationService {
     const notif: Notification = {
       id: 1,
       title: 'welcome',
-      description: 'Welcome to Dashroad',
+      description: 'Welcome to Dashroad 2019-03-08-01',
       date: new Date(),
 
     };

@@ -95,8 +95,10 @@ namespace Mercan.Common.Mongo
                 Task.WaitAll(check);
                 if (!check.Result)
                 {
-
                     MongoDb.CreateCollection(collectionName);
+                    var collection = MongoDb.GetCollection<T>(collectionName);
+                    InitialDatabase(collection);
+                    return collection;
                 }
                 return MongoDb.GetCollection<T>(collectionName);
             }
@@ -232,6 +234,10 @@ namespace Mercan.Common.Mongo
                     });
                 }
             }
+        }
+        public virtual void InitialDatabase(IMongoCollection<T> collection)
+        {
+
         }
 
     }
