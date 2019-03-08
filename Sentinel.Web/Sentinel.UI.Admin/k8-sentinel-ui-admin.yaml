@@ -31,3 +31,6 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
+        env:
+        - name: imageversion
+          value: "__imageversion__"
