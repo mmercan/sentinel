@@ -58,7 +58,7 @@
 ### Sentinel.UI.STS  <a href="https://hub.docker.com/r/mmercan/sentinel-ui-sts/" target="_blank">Image</a>
 [![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.UI.STS)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=67)
 
-### Sentinel.UI.WordPress  <a href=""https://hub.docker.com/r/mmercan/sentinel-ui-wordpress/" target="_blank">Image</a>
+### Sentinel.UI.WordPress  <a href="https://hub.docker.com/r/mmercan/sentinel-ui-wordpress/" target="_blank">Image</a>
 [![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.UI.WordPress)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=68)
 
 ### Sentinel.Util.Kibana  <a href="https://hub.docker.com/r/mmercan/sentinel-util-kibana/" target="_blank">Image</a>
