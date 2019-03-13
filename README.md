@@ -1,67 +1,67 @@
-### Sentinel.Api.Billing   <a href="https://hub.docker.com/r/mmercan/sentinel-api-billing/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Api.Billing)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=72)
+### Sentinel.Api.Billing
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Api.Billing)](https://hub.docker.com/r/mmercan/sentinel-api-billing/)
 
-### Sentinel.Api.Comms   <a href="https://hub.docker.com/r/mmercan/sentinel-api-comms/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Api.Comms)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=49)
+### Sentinel.Api.Comms
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Api.Comms)](https://hub.docker.com/r/mmercan/sentinel-api-comms/)
 
-### Sentinel.Api.Member   <a href="https://hub.docker.com/r/mmercan/sentinel-api-member/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Api.Member)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=51)
+### Sentinel.Api.Member
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Api.Member)](https://hub.docker.com/r/mmercan/sentinel-api-member/)
 
-### Sentinel.Api.Product   <a href="https://hub.docker.com/r/mmercan/sentinel-api-product/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Api.Product)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=52)
+### Sentinel.Api.Product
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Api.Product)](https://hub.docker.com/r/mmercan/sentinel-api-product/)
 
-### Sentinel.Api.Scheduler   <a href="https://hub.docker.com/r/mmercan/sentinel-api-scheduler/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Api.Scheduler)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=53)
+### Sentinel.Api.Scheduler
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Api.Scheduler)](https://hub.docker.com/r/mmercan/sentinel-api-scheduler/)
 
-### Sentinel.Api.Shipping  <a href="https://hub.docker.com/r/mmercan/sentinel-api-shipping/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Api.Shipping)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=54)
+### Sentinel.Api.Shipping
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Api.Shipping)](https://hub.docker.com/r/mmercan/sentinel-api-shipping/)
 
-### Sentinel.Batch.Scheduler  <a href="https://hub.docker.com/r/mmercan/sentinel-batch-scheduler/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Batch.Scheduler)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=55)
+### Sentinel.Batch.Scheduler
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Batch.Scheduler)](https://hub.docker.com/r/mmercan/sentinel-batch-scheduler/)
 
-### Sentinel.Db.Elasticsearch  <a href="https://hub.docker.com/r/mmercan/sentinel-db-elasticsearch/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Db.Elasticsearch)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=59)
+### Sentinel.Db.Elasticsearch
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Db.Elasticsearch)](https://hub.docker.com/r/mmercan/sentinel-db-elasticsearch/)
 
-### Sentinel.Db.Mongodb  <a href="https://hub.docker.com/r/mmercan/sentinel-db-mongodb/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Db.Mongodb)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=60)
+### Sentinel.Db.Mongodb
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Db.Mongodb)](https://hub.docker.com/r/mmercan/sentinel-db-mongodb/)
 
-### Sentinel.Db.Mysql  <a href="https://hub.docker.com/r/mmercan/sentinel-db-mysql/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Db.Mysql)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=61)
+### Sentinel.Db.Mysql
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Db.Mysql)](https://hub.docker.com/r/mmercan/sentinel-db-mysql/)
 
-### Sentinel.Db.Redis  <a href="https://hub.docker.com/r/mmercan/sentinel-db-redis/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Db.Redis)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=62)
+### Sentinel.Db.Redis
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Db.Redis)](https://hub.docker.com/r/mmercan/sentinel-db-redis/)
 
-### Sentinel.Db.Sql  <a href="https://hub.docker.com/r/mmercan/sentinel-db-sql/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Db.Sql)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=63)
+### Sentinel.Db.Sql
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Db.Sql)](https://hub.docker.com/r/mmercan/sentinel-db-sql/)
 
-### Sentinel.Handler.Comms  <a href="https://hub.docker.com/r/mmercan/sentinel-handler-comms/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Handler.Comms)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=56)
+### Sentinel.Handler.Comms
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Handler.Comms)](https://hub.docker.com/r/mmercan/sentinel-handler-comms/)
 
-### Sentinel.Handler.Product  <a href="https://hub.docker.com/r/mmercan/sentinel-handler-product/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Handler.Product)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=57)
+### Sentinel.Handler.Product
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Handler.Product)](https://hub.docker.com/r/mmercan/sentinel-handler-product/)
 
-### Sentinel.Handler.ProductOrder  <a href="https://hub.docker.com/r/mmercan/sentinel-handler-productorder/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Handler.ProductOrder)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=58)
+### Sentinel.Handler.ProductOrder
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Handler.ProductOrder)](https://hub.docker.com/r/mmercan/sentinel-handler-productorder/)
 
-### Sentinel.Service.Nats  <a href="https://hub.docker.com/r/mmercan/sentinel-service-nats/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Service.Nats)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=64)
+### Sentinel.Service.Nats
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Service.Nats)](https://hub.docker.com/r/mmercan/sentinel-service-nats/)
 
-### Sentinel.Service.Rabbitmq  <a href="https://hub.docker.com/r/mmercan/sentinel-service-rabbitmq/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Service.Rabbitmq)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=65)
+### Sentinel.Service.Rabbitmq
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Service.Rabbitmq)](https://hub.docker.com/r/mmercan/sentinel-service-rabbitmq/)
 
-### Sentinel.UI.Admin  <a href="https://hub.docker.com/r/mmercan/sentinel-ui-admin/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.UI.Admin)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=66)
+### Sentinel.UI.Admin
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.UI.Admin)](https://hub.docker.com/r/mmercan/sentinel-ui-admin/)
 
-### Sentinel.UI.Product  <a href="https://hub.docker.com/r/mmercan/sentinel-ui-product/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.UI.Product)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=50)
+### Sentinel.UI.Product
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.UI.Product)](https://hub.docker.com/r/mmercan/sentinel-ui-product/)
 
-### Sentinel.UI.STS  <a href="https://hub.docker.com/r/mmercan/sentinel-ui-sts/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.UI.STS)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=67)
+### Sentinel.UI.STS
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.UI.STS)](https://hub.docker.com/r/mmercan/sentinel-ui-sts/)
 
-### Sentinel.UI.WordPress  <a href="https://hub.docker.com/r/mmercan/sentinel-ui-wordpress/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.UI.WordPress)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=68)
+### Sentinel.UI.WordPress
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.UI.WordPress)](https://hub.docker.com/r/mmercan/sentinel-ui-wordpress/)
 
-### Sentinel.Util.Kibana  <a href="https://hub.docker.com/r/mmercan/sentinel-util-kibana/" target="_blank">Image</a>
-[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Util.Kibana)](https://mrtmrcn.visualstudio.com/sentinel/_build/latest?definitionId=70)
+### Sentinel.Util.Kibana
+[![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Util.Kibana)](https://hub.docker.com/r/mmercan/sentinel-util-kibana/)
 
 
