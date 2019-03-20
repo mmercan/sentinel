@@ -13,7 +13,7 @@ set-location -Path $appFolder
 dotnet new console
 dotnet add package "NATS.Client" -v 0.8.1
 dotnet add package "STAN.Client" -v 0.1.4
-dotnet add package "Microsoft.AspNetCore.App" -v 2.1.2
+dotnet add package "Microsoft.AspNetCore.App" -v 2.2.0
 
 dotnet add package "Microsoft.Extensions.Configuration"
 

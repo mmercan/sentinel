@@ -38,6 +38,7 @@ using MongoDB.Driver;
 using Serilog.Sinks.Elasticsearch;
 using CorrelationId;
 using Sentinel.Model.Product.Dto;
+using Serilog.Formatting.Elasticsearch;
 
 namespace Sentinel.Api.Product
 {
@@ -144,7 +145,8 @@ namespace Sentinel.Api.Product
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvcCore().AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
             services.AddAuthentication();
             // .AddAzureAD(options => Configuration.Bind("AzureAd", options));
             ConfigureJwtAuthService(services);

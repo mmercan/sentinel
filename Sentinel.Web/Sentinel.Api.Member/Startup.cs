@@ -97,7 +97,10 @@ namespace Sentinel.Api.Member
             });
 
 
-            services.AddMvcCore().AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
+            //services.AddMvcCore().AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
+
             services.AddAuthentication();
             // .AddAzureAD(options => Configuration.Bind("AzureAd", options));
             ConfigureJwtAuthService(services);
@@ -106,11 +109,11 @@ namespace Sentinel.Api.Member
 
             services.AddMvc(options =>
             {
-           // var policy = new AuthorizationPolicyBuilder()
-           //     .RequireAuthenticatedUser()
-           //     .Build();
-           // options.Filters.Add(new AuthorizeFilter(policy));
-       })
+                // var policy = new AuthorizationPolicyBuilder()
+                //     .RequireAuthenticatedUser()
+                //     .Build();
+                // options.Filters.Add(new AuthorizeFilter(policy));
+            })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>

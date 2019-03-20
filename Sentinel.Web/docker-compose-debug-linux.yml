@@ -346,7 +346,16 @@ services:
       dockerfile: dockerfile-linux
     ports:
       - "5501:80"
-  
+  sentinel-ml-tensorflow:
+    image: mmercan/sentinel-ml-tensorflow:${TAGVersion}-dev-linux
+    build:
+      context: ./Sentinel.ML.Tensorflow/
+      dockerfile: dockerfile-linux
+    ports:
+      - "8888:8888"
+      - "6006:6006"
+    volumes:
+      - ./Sentinel.ML.Tensorflow/notebooks:/tf
   
   
   

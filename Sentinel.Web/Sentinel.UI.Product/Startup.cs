@@ -25,7 +25,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 namespace Sentinel.UI.Product
 {
     public class Startup
@@ -39,10 +42,10 @@ namespace Sentinel.UI.Product
 
         public void ConfigureJwtAuthService(IServiceCollection services)
         {
-             var audienceConfig = Configuration.GetSection("Tokens");
-             var symmetricKeyAsBase64 = audienceConfig["Secret"];
-             var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
-             var signingKey = new SymmetricSecurityKey(keyByteArray);
+            var audienceConfig = Configuration.GetSection("Tokens");
+            var symmetricKeyAsBase64 = audienceConfig["Secret"];
+            var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
+            var signingKey = new SymmetricSecurityKey(keyByteArray);
 
             var tokenValidationParameters = new TokenValidationParameters
             {
@@ -76,20 +79,22 @@ namespace Sentinel.UI.Product
               cfg.Authority = Configuration["AzureAd:Instance"] + "/" + Configuration["AzureAD:TenantId"];
               cfg.Audience = Configuration["AzureAd:ClientId"];
           })
-            .AddJwtBearer("sts",cfg =>
+            .AddJwtBearer("sts", cfg =>
+             {
+                 cfg.TokenValidationParameters = tokenValidationParameters;
+             });
+            //use both jwt schemas interchangeably  https://stackoverflow.com/questions/49694383/use-multiple-jwt-bearer-authentication
+            services.AddAuthorization(options =>
             {
-                cfg.TokenValidationParameters = tokenValidationParameters;
+                options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().AddAuthenticationSchemes("azure", "sts").Build();
             });
-           //use both jwt schemas interchangeably  https://stackoverflow.com/questions/49694383/use-multiple-jwt-bearer-authentication
-           services.AddAuthorization(options =>
-           {
-               options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().AddAuthenticationSchemes("azure", "sts").Build();
-           });
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IServiceCollection>(services);
+            services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -97,9 +102,13 @@ namespace Sentinel.UI.Product
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddHealthChecks()
+            .AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
+            .AddCheck("MyDBCheck", new SqlConnectionHealthCheck("Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;"))
+            .AddCheck<DIHealthCheck>("DIHealthCheck");
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-           services.AddSignalR();
+            services.AddSignalR();
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -138,7 +147,7 @@ namespace Sentinel.UI.Product
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,IApiVersionDescriptionProvider provider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
             {
@@ -181,10 +190,10 @@ namespace Sentinel.UI.Product
                             description.GroupName.ToUpperInvariant());
                     }
                 });
-             app.UseCors("MyPolicy");
+            app.UseCors("MyPolicy");
             app.UseCookiePolicy();
 
-app.UseAuthentication();
+            app.UseAuthentication();
             app.UseSignalR(routes =>
             {
                 routes.MapHub<ChatHub>("/hub/chat");
@@ -197,6 +206,30 @@ app.UseAuthentication();
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
+            app.UseHealthChecks("/healthz", new HealthCheckOptions()
+            {
+                // This custom writer formats the detailed status as JSON.
+                ResponseWriter = WriteResponse,
+            });
+
+        }
+
+        private static Task WriteResponse(HttpContext httpContext, HealthReport result)
+        {
+            httpContext.Response.ContentType = "application/json";
+
+            var json = new JObject(
+                new JProperty("status", result.Status.ToString()),
+                new JProperty("results", new JObject(result.Entries.Select(pair =>
+                    new JProperty(pair.Key, new JObject(
+                        new JProperty("status", pair.Value.Status.ToString()),
+                        new JProperty("description", pair.Value.Description),
+                        new JProperty("data", new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value)))),
+                        new JProperty("exception", pair.Value.Exception?.Message) //new JObject(pair.Value.Exception.Select(p => new JProperty(p.Key, p.Value))))
+                                                    ))))));
+            return httpContext.Response.WriteAsync(json.ToString(Formatting.Indented));
         }
     }
 }

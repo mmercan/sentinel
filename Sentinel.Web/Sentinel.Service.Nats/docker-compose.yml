@@ -7,6 +7,6 @@ services:
       context: ./
       dockerfile: dockerfile-linux
     ports:
-      - "8222:8222"
-      - "4222:4222"
+      - "8888:8888"
+      - "6006:6006"
 

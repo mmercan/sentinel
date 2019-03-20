@@ -9,9 +9,40 @@
             "request": "launch",
             "preLaunchTask": "Sentinel.Api.Product.build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Sentinel.Web/Sentinel.Api.Product/bin/local/Debug/netcoreapp2.1/Sentinel.Api.Product.dll",
+            "program": "${workspaceFolder}/Sentinel.Web/Sentinel.Api.Product/bin/local/Debug/netcoreapp2.2/Sentinel.Api.Product.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Sentinel.Web/Sentinel.Api.Product",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": true,
+                "args": "${auto-detect-url}",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        }, {
+            "name": "Sentinel.UI.Product Launch",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "Sentinel.UI.Product.build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/Sentinel.Web/Sentinel.UI.Product/bin/local/Debug/netcoreapp2.2/Sentinel.UI.Product.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Sentinel.Web/Sentinel.UI.Product",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
@@ -40,7 +71,7 @@
             "request": "launch",
             "preLaunchTask": "Sentinel.UI.STS.build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Sentinel.Web/Sentinel.UI.STS/bin/local/Debug/netcoreapp2.1/Sentinel.UI.Sts.dll",
+            "program": "${workspaceFolder}/Sentinel.Web/Sentinel.UI.STS/bin/local/Debug/netcoreapp2.2/Sentinel.UI.Sts.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Sentinel.Web/Sentinel.UI.STS",
             "stopAtEntry": false,
@@ -71,7 +102,7 @@
             "request": "launch",
             "preLaunchTask": "Sentinel.Api.Comms.build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Sentinel.Web/Sentinel.Api.Comms/bin/local/Debug/netcoreapp2.1/Sentinel.Api.Comms.dll",
+            "program": "${workspaceFolder}/Sentinel.Web/Sentinel.Api.Comms/bin/local/Debug/netcoreapp2.2/Sentinel.Api.Comms.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Sentinel.Web/Sentinel.Api.Comms",
             "stopAtEntry": false,

@@ -10,6 +10,15 @@
         ],
         "problemMatcher": "$msCompile"
     }, {
+        "label": "Sentinel.UI.Product.build",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build",
+            "${workspaceFolder}/Sentinel.Web/Sentinel.UI.Product/Sentinel.UI.Product.csproj"
+        ],
+        "problemMatcher": "$msCompile"
+    }, {
         "label": "Sentinel.UI.STS.build",
         "command": "dotnet",
         "type": "process",

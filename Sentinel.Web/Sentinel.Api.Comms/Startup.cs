@@ -99,7 +99,10 @@ namespace Sentinel.Api.Comms
             });
 
 
-            services.AddMvcCore().AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
+            //services.AddMvcCore().AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
+
             services.AddSignalR();
             services.AddAuthentication();
             // .AddAzureAD(options => Configuration.Bind("AzureAd", options));

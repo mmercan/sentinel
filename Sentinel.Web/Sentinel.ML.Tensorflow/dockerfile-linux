@@ -1,0 +1,5 @@
+FROM tensorflow/tensorflow:nightly-py3-jupyter
+RUN apt-get update && apt-get install -y 
+RUN apt-get install vim -y 
+# RUN tensorboard --logdir=path/to/log-directory
+# RUN  python -c "import tensorflow as tf; tf.enable_eager_execution(); print(tf.reduce_sum(tf.random_normal([1000, 1000])))"
