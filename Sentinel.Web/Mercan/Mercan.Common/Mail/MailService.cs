@@ -60,7 +60,7 @@ namespace Mercan.Common.Mail
 
                 }
 
-                if (options.Value.Port == null)
+                if (options?.Value?.Port == null)
                 {
                     logger.LogDebug("options.Value.Port Null");
                 }

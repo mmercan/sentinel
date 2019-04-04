@@ -119,6 +119,10 @@ namespace Sentinel.Api.Product
                 }
             });
 
+            services.AddMiniProfiler(options =>
+                options.RouteBasePath = "/profiler"
+            );
+
             if (InDocker)
             {
 
@@ -264,6 +268,9 @@ namespace Sentinel.Api.Product
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseCorrelationId();
+
+            app.UseMiniProfiler();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

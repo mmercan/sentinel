@@ -26,9 +26,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Mercan.HealthChecks.Common.Checks;
+
 namespace Sentinel.UI.Product
 {
     public class Startup
@@ -52,18 +54,14 @@ namespace Sentinel.UI.Product
                 // The signing key must match!
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = signingKey,
-
                 // Validate the JWT Issuer (iss) claim
                 ValidateIssuer = true,
                 ValidIssuer = audienceConfig["Issuer"],
-
                 // Validate the JWT Audience (aud) claim
                 ValidateAudience = true,
                 ValidAudience = audienceConfig["Audience"],
-
                 // Validate the token expiry
                 ValidateLifetime = true,
-
                 ClockSkew = TimeSpan.Zero
             };
 
@@ -72,13 +70,13 @@ namespace Sentinel.UI.Product
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-          .AddJwtBearer("azure", cfg =>
-          {
-              cfg.RequireHttpsMetadata = false;
-              cfg.SaveToken = true;
-              cfg.Authority = Configuration["AzureAd:Instance"] + "/" + Configuration["AzureAD:TenantId"];
-              cfg.Audience = Configuration["AzureAd:ClientId"];
-          })
+            .AddJwtBearer("azure", cfg =>
+            {
+                cfg.RequireHttpsMetadata = false;
+                cfg.SaveToken = true;
+                cfg.Authority = Configuration["AzureAd:Instance"] + "/" + Configuration["AzureAD:TenantId"];
+                cfg.Audience = Configuration["AzureAd:ClientId"];
+            })
             .AddJwtBearer("sts", cfg =>
              {
                  cfg.TokenValidationParameters = tokenValidationParameters;
@@ -103,6 +101,7 @@ namespace Sentinel.UI.Product
             });
 
             services.AddHealthChecks()
+             .AddProcessList()
             .AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
             .AddCheck("MyDBCheck", new SqlConnectionHealthCheck("Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;"))
             .AddCheck<DIHealthCheck>("DIHealthCheck");
@@ -208,10 +207,19 @@ namespace Sentinel.UI.Product
             });
 
 
-            app.UseHealthChecks("/healthz", new HealthCheckOptions()
+            app.UseHealthChecks("/Health/IsAliveAndWell", new HealthCheckOptions()
             {
                 // This custom writer formats the detailed status as JSON.
                 ResponseWriter = WriteResponse,
+            });
+
+            app.Map("/Health/IsAlive", (ap) =>
+            {
+                ap.Run(async context =>
+                {
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync("{\"IsAlive\":true}");
+                });
             });
 
         }

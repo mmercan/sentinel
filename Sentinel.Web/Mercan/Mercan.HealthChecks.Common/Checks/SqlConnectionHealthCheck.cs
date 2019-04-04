@@ -1,7 +1,7 @@
 using System.Data.Common;
 using System.Data.SqlClient;
 
-namespace Sentinel.UI.Product
+namespace Mercan.HealthChecks.Common.Checks
 {
     public class SqlConnectionHealthCheck : DbConnectionHealthCheck
     {

@@ -17,7 +17,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
-    <PackageReference Include="Polly" Version="7.0.3" />
+    <PackageReference Include="Polly" Version="7.1.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
@@ -32,6 +32,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Mercan\Mercan.Common\Mercan.Common.csproj" />
     <ProjectReference Include="..\Sentinel.Common\Sentinel.Model\Sentinel.Model.csproj" />
+    <ProjectReference Include="..\mercan\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj" />
   </ItemGroup>
 
 </Project>

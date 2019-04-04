@@ -10,4 +10,5 @@ resources
 **/obj/
 **/Logs/
 **/node_modules/
+**/.vs
 Sentinel.Web/Sentinel.elk.Logstash/data/cars.csv

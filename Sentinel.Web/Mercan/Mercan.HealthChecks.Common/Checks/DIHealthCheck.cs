@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 
 
 
-namespace Sentinel.UI.Product
+namespace Mercan.HealthChecks.Common.Checks
 {
     // Simulates a health check for an application dependency that takes a while to initialize.
     // This is part of the readiness/liveness probe sample.
@@ -38,7 +38,7 @@ namespace Sentinel.UI.Product
                 typeof(Microsoft.Extensions.Options.IOptionsSnapshot<>),
                 typeof(Microsoft.Extensions.Options.IOptionsMonitor<>),
                 typeof(Microsoft.Extensions.Options.IOptionsFactory<>),
-                typeof(Microsoft.Extensions.Logging.Configuration.ILoggerProviderConfiguration<>),
+                // typeof(Microsoft.Extensions.Logging.Configuration.ILoggerProviderConfiguration<>),
                 };
             try
             {

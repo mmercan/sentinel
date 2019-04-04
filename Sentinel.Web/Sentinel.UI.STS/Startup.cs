@@ -92,8 +92,8 @@ namespace Sentinel.UI.Sts
             });
 
 
-            services.AddMvcCore().AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            // services.AddMvcCore().AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -109,6 +109,11 @@ namespace Sentinel.UI.Sts
                 o.DefaultApiVersion = new ApiVersion(1, 0);
                 o.ApiVersionReader = new HeaderApiVersionReader("api-version");
             });
+            services.AddVersionedApiExplorer(options =>
+           {
+               options.GroupNameFormat = "'v'VVV";
+               options.SubstituteApiVersionInUrl = true;
+           });
 
             services.AddSwaggerGen(options =>
             {
