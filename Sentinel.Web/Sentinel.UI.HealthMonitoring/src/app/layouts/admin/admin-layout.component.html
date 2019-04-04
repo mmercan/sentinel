@@ -1,0 +1,284 @@
+<ng-sidebar-container class="app" [ngClass]="{'mode-boxed': isBoxed, 'sidebar-opened': isOpened, 'theme-light': theme == 'light', 'theme-dark': theme == 'dark', 'mode-push': _mode == 'push', 'mode-dock': _mode == 'dock', 'mode-over': _mode == 'over', 'mode-slide': _mode == 'slide', 'no-footer': options?.removeFooter, 'map-header': options?.mapHeader}">
+  <ng-sidebar [(opened)]="isOpened" [(mode)]="_mode" [position]="'left'" [dockedSize]="'80px'" [autoCollapseWidth]="'991'"
+    [closeOnClickOutside]="isOver()" [showBackdrop]="isOver()" [sidebarClass]="'sidebar-panel'" #sidebar>
+    <nav class="navbar custom-navbar main-brand">
+      <a class="navbar-brand mr-auto" [routerLink]="['/']">
+        <img src="assets/images/logo.png" class="navbar-brand-logo" alt="">
+        <span class="docked-hidden">&nbsp;Health Monitoring</span>
+      </a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a href="javascript:;" class="nav-link" (click)="toogleSidebar()">
+            <i class="hamburger-icon v2" *ngIf="_mode === 'over' && !isOver()">
+              <span></span>
+            </i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- main navigation -->
+    <nav class="menu">
+      <ul class="navigation" appAccordion>
+        <li class="navigation-item" appAccordionLink *ngFor="let menuitem of menuItems.getAll()" group="{{menuitem.state}}">
+          <a class="navigation-link" appAccordionToggle [routerLink]="['/', menuitem.state]" *ngIf="menuitem.type === 'link'">
+            <i class="icon icon-{{ menuitem.icon }}"></i>
+            <span>{{ menuitem.name }}</span>
+            <span class="mr-auto"></span>
+            <span class="badge badge-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
+          </a>
+          <a class="navigation-link" appAccordionToggle href="{{menuitem.state}}" *ngIf="menuitem.type === 'extLink'">
+            <i class="icon icon-{{ menuitem.icon }}"></i>
+            <span>{{ menuitem.name }}</span>
+            <span class="mr-auto"></span>
+            <span class="badge badge-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
+          </a>
+          <a class="navigation-link" appAccordionToggle href="{{menuitem.state}}" target="_blank" *ngIf="menuitem.type === 'extTabLink'">
+            <i class="icon icon-{{ menuitem.icon }}"></i>
+            <span>{{ menuitem.name }}</span>
+            <span class="mr-auto"></span>
+            <span class="badge badge-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
+          </a>
+          <a class="navigation-link" appAccordionToggle href="javascript:;" *ngIf="menuitem.type === 'sub'">
+            <i class="icon icon-{{ menuitem.icon }}"></i>
+            <span>{{ menuitem.name }}</span>
+            <span class="mr-auto"></span>
+            <span class="badge badge-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
+            <i class="menu-caret icon icon-arrows-right"></i>
+          </a>
+          <ul class="navigation-submenu" *ngIf="menuitem.type === 'sub'">
+            <li class="navigation-item" *ngFor="let childitem of menuitem.children" routerLinkActive="open">
+              <a [routerLink]="['/', menuitem.state, childitem.state ]" class="navigation-link relative">{{
+                childitem.name }}</a>
+            </li>
+          </ul>
+        </li>
+        <li class="navigation-item">
+          <hr class="mt-0 mb-0" />
+        </li>
+        <li class="navigation-item">
+          <a class="navigation-link" (click)="addMenuItem()">
+            <i class="icon icon-basic-add"></i>
+            <span>Add</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /main navigation -->
+  </ng-sidebar>
+
+  <div ng-sidebar-content class="app-inner">
+    <nav class="navbar custom-navbar bg-faded main-header">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a href="javascript:;" class="nav-link" (click)="toogleSidebar()">
+            <i class="hamburger-icon v2">
+              <span></span>
+            </i>
+          </a>
+        </li>
+      </ul>
+      <span class="navbar-heading hidden-xs-down">{{options?.heading}}</span>
+      <span class="mr-auto"></span>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link">
+            <i *IfOnline="false" class="fa fa-lg fa-plane" alt="offline" title="offline" (click)="sendnotification('Error','Offline','you are offline but app still works')"></i>
+            <i *IfOnline class="fa fa-lg fa-wifi" alt="online" title="online" (click)="sendnotification('Info','online','all good your are online')"></i>
+          </a>
+        </li>
+        <li class="nav-item" ngbDropdown *ifAuthenticated>
+          <a href="javascript:;" class="nav-link" ngbDropdownToggle>
+            <!-- <app-user-avatar class="navbar-avatar rounded-circle" alt="user" title="user"></app-user-avatar> -->
+            <app-user-avatar [height]="26" class="navbar-avatar rounded-circle" alt="user" title="user"></app-user-avatar>
+            <!-- <img src="assets/images/avatar.jpg" class="navbar-avatar rounded-circle" alt="user" title="user"> -->
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" [routerLink]="['/user/settings']">
+              <i class="icon icon-basic-settings mr-3"></i>
+              <span>Settings</span>
+            </a>
+            <a class="dropdown-item" [routerLink]="['/user']">
+              <i class="icon icon-basic-postcard mr-3"></i>
+              <span>Profile</span>
+            </a>
+            <a class="dropdown-item" [routerLink]="['/user/notificationsettings']">
+              <i class="icon icon-basic-message-multiple mr-3"></i>
+              <span>Notification Settings</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript:;" (click)="signout()">
+              <i class="icon icon-arrows-switch-vertical mr-3"></i>
+              <span>Signout</span>
+            </a>
+          </div>
+        </li>
+        <li class="nav-item" *ifAuthenticated="false">
+          <a class="nav-link" [routerLink]="['/authentication/signin']">
+            <i class="fa fa-lg fa-user " alt="Log-in" title="Log-in  "></i>
+          </a>
+        </li>
+        <li class="nav-item" ngbDropdown #notificationDrop="ngbDropdown" (openChange)='notificationOpened($event)'>
+          <a href="javascript:;" class="nav-link" ngbDropdownToggle>
+            <i class="fi flaticon-notification"></i>
+            <span class="badge badge-danger">{{notificationCount}}</span>
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right notifications">
+            <div class="notifications-wrapper">
+              <a *ngFor="let notif of activeNotifications" class="dropdown-item">
+                <a href="javascript:;" class="pull-right" (click)="removeNotification(notif)">
+                  <i class="fi flaticon-close"></i>
+                </a>
+                {{notif.title}}
+                <small *ngIf="notif.description">
+                  <br> {{notif.description}}</small>
+                <span class="time">{{notif.humanizeDate}}</span>
+              </a>
+            </div>
+            <div class="notification-footer">Notifications</div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="javascript:;" class="nav-link" appToggleFullscreen>
+            <i class="fi flaticon-fullscreen"></i>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <span class="nav-divider"></span>
+        </li>
+        <li class="nav-item">
+          <a href="javascript:;" class="nav-link" (click)="openSearch(search)">
+            <i class="fi flaticon-search"></i>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+
+    <div class="main-content">
+      <router-outlet></router-outlet>
+      <nav class="navbar custom-navbar navbar-light main-footer small">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:;">
+              <span>Copyright &copy; 2017</span>
+              <span class="ff-headers text-uppercase">Health Monitoring</span>. All rights reserved
+            </a>
+          </li>
+        </ul>
+        <ul class="navbar-nav hidden-xs-down">
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:;">Made with love on Earth</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+</ng-sidebar-container>
+
+<ng-template #search let-c="close" let-d="dismiss">
+  <form class="search__form" action="">
+    <input class="search-input" name="search" type="search" placeholder="Search..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" autofocus="true" />
+    <p class="text-muted">
+      <small>
+        <strong>Hit enter to search or ESC to close</strong>
+      </small>
+    </p>
+  </form>
+  <div class="search-suggestions">
+    <h6 class="text-uppercase">
+      <strong>Suggestions?</strong>
+    </h6>
+    <p class="text-primary">#medical #analytics #fitness #transport #ui #dashboard #admin #bootstrap #angular
+      #typescript</p>
+  </div>
+  <!-- <button type="button" class="search-close" aria-label="Close search form" (click)="d('Cross click')">
+    <i class="fi flaticon-close"></i>
+  </button> -->
+</ng-template>
+
+
+<div class="configuration hidden-sm-down" [ngClass]="{'active': showSettings}">
+  <div class="configuration-cog" (click)="showSettings = !showSettings">
+    <i class="icon icon-basic-mixer2"></i>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      Template Options
+    </div>
+    <div class="card-body">
+      <small class="ff-headers text-uppercase mb-3">
+        <strong>Explore Sidebar API</strong>
+      </small>
+      <div class="custom-controls-stacked mb-2">
+        <label class="custom-control custom-checkbox">
+          <input class="custom-control-input" name="radio-stacked" type="radio" value="push" [(ngModel)]="_mode"
+            (change)="isOpened = true; mode = _mode">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Push mode</span>
+        </label>
+        <label class="custom-control custom-checkbox">
+          <input class="custom-control-input" name="radio-stacked" type="radio" value="dock" [(ngModel)]="_mode"
+            (change)="isOpened = true; mode = _mode">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Docked mode</span>
+        </label>
+        <label class="custom-control custom-checkbox">
+          <input class="custom-control-input" name="radio-stacked" type="radio" value="over" [(ngModel)]="_mode"
+            (change)="isOpened = true; mode = _mode">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Over content mode</span>
+        </label>
+        <label class="custom-control custom-checkbox">
+          <input class="custom-control-input" name="radio-stacked" type="radio" value="slide" [(ngModel)]="_mode"
+            (change)="isOpened = true; mode = _mode">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Slide mode</span>
+        </label>
+      </div>
+
+      <small class="ff-headers text-uppercase mb-3">
+        <strong>Select A Layout</strong>
+      </small>
+      <div class="d-flex align-items-center">
+        <label class="custom-control custom-checkbox mb-2">
+          <input type="checkbox" class="custom-control-input" [(ngModel)]="isBoxed">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Boxed</span>
+        </label>
+      </div>
+      <div class="d-flex align-items-center mb-2">
+        <label class="custom-control custom-checkbox mb-2">
+          <input type="checkbox" class="custom-control-input" [ngModel]="options?.removeFooter" (ngModelChange)="options.removeFooter=$event">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Remove footer</span>
+        </label>
+      </div>
+
+      <small class="ff-headers text-uppercase mb-3">
+        <strong>Select A Theme</strong>
+      </small>
+      <div class="custom-controls-stacked mb-2">
+        <label class="custom-control custom-checkbox">
+          <input class="custom-control-input" name="radio-stacked" type="radio" value="light" [(ngModel)]="theme">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Light theme</span>
+        </label>
+        <label class="custom-control custom-checkbox">
+          <input class="custom-control-input" name="radio-stacked" type="radio" value="dark" [(ngModel)]="theme">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Dark theme</span>
+        </label>
+      </div>
+
+      <!-- <small class="ff-headers text-uppercase mb-3"><strong>Select A Language</strong></small>
+      <div class="d-flex align-items-center">
+        <select class="custom-select" [(ngModel)]="currentLang" #langSelect="ngModel" (ngModelChange)="translate.use(currentLang)" placeholder="Select language" style="min-width: 50%;">
+          <option *ngFor="let lang of translate.getLangs()" [value]="lang">{{ lang }}</option>
+        </select>
+      </div> -->
+    </div>
+  </div>
+</div>

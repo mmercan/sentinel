@@ -1,0 +1,20 @@
+<h1>Notification settings</h1>
+<form>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" name="email" [(ngModel)]="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+      placeholder="Enter email">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+
+  <input name="" id="" class="btn btn-primary" type="button" value="Cliams" (click)="callClaimns()">
+
+  <mat-slide-toggle [disabled]="pushNotification.disabled?'':null" (change)="pushChanged($event)" [checked]="pushNotification.subscribed">Push Notifications</mat-slide-toggle>
+  <div *ngIf="pushNotification.browserSupports" class="alert alert-success" role="alert">
+    <strong></strong> Your Browser supports Push Notifications.
+  </div>
+  <div *ngIf="!pushNotification.browserSupports" class="alert alert-danger" role="alert">
+    <strong>Change your Browser</strong> Your Browser doesn't support Push Notifications yet
+  </div>
+
+</form>

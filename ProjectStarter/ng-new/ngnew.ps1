@@ -17,8 +17,8 @@ function Unzip($zipfile, $outdir) {
     }
 }
 
-
-$folder = "Sentinel.UI.Admin"
+$folder ="Sentinel.UI.HealthMonitoring"
+# $folder = "Sentinel.UI.Admin"
 $scriptpath = $MyInvocation.MyCommand.Path 
 $dir = Split-Path $scriptpath
 
