@@ -32,6 +32,7 @@
     <PackageReference Include="WebPush-netcore" Version="1.0.2" /> 
     <PackageReference Include="CorrelationId" Version="2.1.0"/>
     <PackageReference Include="EasyNetQ" Version="3.3.7"/>
+    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.0.165" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mercan\Mercan.Common\Mercan.Common.csproj"/>
