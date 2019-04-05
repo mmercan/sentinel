@@ -1,17 +1,17 @@
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
-  name: tls-secret-product-prod
+  name: tls-secret-api-product-prod
 spec:
-  secretName: tls-secret-product-prod
+  secretName: tls-secret-api-product-prod
   dnsNames:
-  - product.myrcan.com
+  - productapi.myrcan.com
   acme:
     config:
     - http01:
         ingressClass: nginx
       domains:
-      - product.myrcan.com
+      - productapi.myrcan.com
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
@@ -19,7 +19,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: sentinel-product-ingress
+  name: sentinel-api-product-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
     certmanager.k8s.io/cluster-issuer: letsencrypt-prod
@@ -27,10 +27,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - product.myrcan.com
-    secretName: tls-secret-product-prod
+    - productapi.myrcan.com
+    secretName: tls-secret-api-product-prod
   rules:
-  - host: product.myrcan.com
+  - host: productapi.myrcan.com
     http:
       paths:
       - path: /
