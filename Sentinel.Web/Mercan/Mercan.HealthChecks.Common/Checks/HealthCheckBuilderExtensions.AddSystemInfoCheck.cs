@@ -15,7 +15,7 @@ namespace Mercan.HealthChecks.Common.Checks
 {
     // Simulates a health check for an application dependency that takes a while to initialize.
     // This is part of the readiness/liveness probe sample.
-    public class AddSystemInfoCheck : IHealthCheck
+    public class SystemInfoHealthChecks : IHealthCheck
     {
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
         {

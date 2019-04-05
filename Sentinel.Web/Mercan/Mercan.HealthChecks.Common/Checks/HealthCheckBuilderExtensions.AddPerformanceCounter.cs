@@ -15,25 +15,25 @@ namespace Mercan.HealthChecks.Common.Checks
 {
     // Simulates a health check for an application dependency that takes a while to initialize.
     // This is part of the readiness/liveness probe sample.
-    public class AddPerformanceCounter : IHealthCheck
+    public class PerformanceCounterHealthChecks : IHealthCheck
     {
         private string wmiClassName;
         private string column;
         private string[] columns;
 
-        public AddPerformanceCounter(string wmiClassName)
+        public PerformanceCounterHealthChecks(string wmiClassName)
         {
             this.wmiClassName = wmiClassName;
         }
 
-        public AddPerformanceCounter(string wmiClassName, string column)
+        public PerformanceCounterHealthChecks(string wmiClassName, string column)
         {
             this.wmiClassName = wmiClassName;
             this.column = column;
         }
 
 
-        public AddPerformanceCounter(string wmiClassName, params string[] columns)
+        public PerformanceCounterHealthChecks(string wmiClassName, params string[] columns)
         {
             this.wmiClassName = wmiClassName;
             this.columns = columns;

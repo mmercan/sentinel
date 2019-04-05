@@ -230,10 +230,12 @@ namespace Sentinel.UI.Product
 
             var json = new JObject(
                 new JProperty("status", result.Status.ToString()),
+                new JProperty("duration", result.TotalDuration),
                 new JProperty("results", new JObject(result.Entries.Select(pair =>
                     new JProperty(pair.Key, new JObject(
                         new JProperty("status", pair.Value.Status.ToString()),
                         new JProperty("description", pair.Value.Description),
+                        new JProperty("duration", pair.Value.Duration),
                         new JProperty("data", new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value)))),
                         new JProperty("exception", pair.Value.Exception?.Message) //new JObject(pair.Value.Exception.Select(p => new JProperty(p.Key, p.Value))))
                                                     ))))));
