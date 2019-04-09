@@ -15,9 +15,17 @@ namespace Mercan.HealthChecks.Common.Checks
 {
     // Simulates a health check for an application dependency that takes a while to initialize.
     // This is part of the readiness/liveness probe sample.
+
+    public static partial class HealthCheckBuilderExtensions
+    {
+        public static IHealthChecksBuilder AddDIHealthCheck(this IHealthChecksBuilder builder, IServiceCollection services)
+        {
+            return builder.AddCheck($"DIHealthCheck", new DIHealthCheck(services));
+        }
+    }
     public class DIHealthCheck : IHealthCheck
     {
-        public static readonly string HealthCheckName = "ditree";
+        public static readonly string HealthCheckName = "DIHealthCheck";
         private IServiceCollection services;
 
         public DIHealthCheck(IServiceCollection services)

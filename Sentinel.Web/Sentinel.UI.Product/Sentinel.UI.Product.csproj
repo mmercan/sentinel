@@ -33,6 +33,7 @@
     <ProjectReference Include="..\Mercan\Mercan.Common\Mercan.Common.csproj" />
     <ProjectReference Include="..\Sentinel.Common\Sentinel.Model\Sentinel.Model.csproj" />
     <ProjectReference Include="..\Mercan\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj" />
+    <ProjectReference Include="..\Mercan\Mercan.HealthChecks.Mongo\Mercan.HealthChecks.Mongo.csproj" />
   </ItemGroup>
 
 </Project>

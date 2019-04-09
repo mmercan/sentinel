@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -24,7 +25,6 @@ namespace Mercan.HealthChecks.Common.Checks
             if (clientOptions is Microsoft.Extensions.Configuration.ConfigurationSection)
             {
                 sectionPath = (clientOptions as Microsoft.Extensions.Configuration.ConfigurationSection).Path;
-
             }
 
             clientOptions.Bind(config);
@@ -42,7 +42,6 @@ namespace Mercan.HealthChecks.Common.Checks
 
                     string description = path + " is succeesful with response : " + response;
                     return HealthCheckResult.Healthy(description);
-
                 }
                 catch (Exception ex)
                 {
@@ -51,7 +50,7 @@ namespace Mercan.HealthChecks.Common.Checks
                     if (Message == null) { Message = ex.Message; }
                     string description = Message;
                     IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { path, " failed with exception " + Message }, { "BaseAddress", config?.BaseAddress } };
-                    return HealthCheckResult.Unhealthy(description, null,data);
+                    return HealthCheckResult.Unhealthy(description, null, data);
                 }
             });
             return builder;
@@ -60,7 +59,6 @@ namespace Mercan.HealthChecks.Common.Checks
 
         public static IHealthChecksBuilder AddApiIsAliveAndWell(this IHealthChecksBuilder builder, IConfiguration clientOptions, string isAliveAndWellUrl = "Health/IsAliveAndWell", TimeSpan? cacheDuration = null)
         {
-
             ApiServiceConfiguration config = new ApiServiceConfiguration();
             clientOptions.Bind(config);
             string path = string.Format(config.BaseAddress + isAliveAndWellUrl);
@@ -75,7 +73,6 @@ namespace Mercan.HealthChecks.Common.Checks
 
                     string description = path + " is succeesful";
                     return HealthCheckResult.Healthy(description);
-
                 }
                 catch (Exception ex)
                 {
@@ -84,7 +81,7 @@ namespace Mercan.HealthChecks.Common.Checks
                     if (Message == null) { Message = ex.Message; }
                     string description = Message;
                     IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { path, " failed with exception " + Message }, { "BaseAddress", config?.BaseAddress } };
-                    return HealthCheckResult.Unhealthy(description, null,data);
+                    return HealthCheckResult.Unhealthy(description, null, data);
                 }
             });
             return builder;
@@ -132,6 +129,8 @@ namespace Mercan.HealthChecks.Common.Checks
         /// Gets or sets the client certificate's thumbprint
         /// </summary>
         public string CertificateThumbprint { get; set; }
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
     }
 
 
@@ -157,11 +156,17 @@ namespace Mercan.HealthChecks.Common.Checks
             {
                 handler.ClientCertificates.Add(certificate);
             }
+
             _httpClient = new HttpClient(handler)
             {
                 BaseAddress = new Uri(_options.BaseAddress)
             };
 
+            string token = GetToken();
+            if (token != null)
+            {
+                _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            }
             foreach (System.Collections.Generic.KeyValuePair<string, string> header in _options.DefaultRequestHeaders)
             {
                 if (!string.IsNullOrEmpty(header.Key))
@@ -169,6 +174,35 @@ namespace Mercan.HealthChecks.Common.Checks
                     _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
                 }
             }
+        }
+
+        public string GetToken()
+        {
+            string token = null;
+            if (!string.IsNullOrEmpty(_options.ClientSecret) && !string.IsNullOrEmpty(_options.ClientId))
+            {
+                string clientId = _options.ClientId;
+                string secret = _options.ClientSecret;
+                string adId = "e1870496-eab8-42d0-8eb9-75fa94cfc3b8";
+                string url = $"https://login.microsoftonline.com/{adId}/oauth2/token?resource={clientId}";
+                var httpClient = new HttpClient();
+
+                var dict = new Dictionary<string, string>();
+                dict.Add("grant_type", "client_credentials");
+                dict.Add("client_id", clientId);
+                dict.Add("client_secret", secret);
+
+                var httpContent = new FormUrlEncodedContent(dict);
+                httpContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
+                var clientTask = httpClient.PostAsync(url, httpContent);
+                clientTask.Wait();
+                var ContentTask = clientTask.Result.Content.ReadAsStringAsync();
+                ContentTask.Wait();
+
+                JObject o = JObject.Parse(ContentTask.Result);
+                token = o["access_token"].ToString();
+            }
+            return token;
         }
 
         private X509Certificate2 CreateClientCertificate()

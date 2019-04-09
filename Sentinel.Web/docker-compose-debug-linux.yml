@@ -17,6 +17,24 @@ services:
       - Mongodb__CollectionName=product
       - Mongodb__IdField=Id
       - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+      - RabbitMQConnection=host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10
+      - SMTP__Server=sentinel-util-mailhog
+      - SMTP__Port=1025
+      - SMTP__UserName=mail@mail.com
+      - SMTP__Password=password123
+      - ELASTICSEARCH_URL=http://40.117.115.1:9200
+      - sentinel-ui-sts__ClientOptions__BaseAddress=http://localhost:5000/
+      - sentinel-ui-sts__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-ui-sts__ClientOptions__ClientSecret=replacewithEnvVarible
+      - sentinel-api-member__ClientOptions__BaseAddress=http://localhost:5002/
+      - sentinel-api-member__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-member__ClientOptions__ClientSecret=replacewithEnvVarible
+      - sentinel-api-product__ClientOptions__BaseAddress=http://localhost:5003/
+      - sentinel-api-product__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-product__ClientOptions__ClientSecret=replacewithEnvVarible
+      - sentinel-api-comms__ClientOptions__BaseAddress=http://localhost:5004/
+      - sentinel-api-comms__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-comms__ClientOptions__ClientSecret=replacewithEnvVarible
     # volumes:
     #   - SentinelWeb:/src
     volumes:

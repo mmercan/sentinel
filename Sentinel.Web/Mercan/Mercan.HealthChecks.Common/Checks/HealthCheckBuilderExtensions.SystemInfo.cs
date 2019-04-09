@@ -17,7 +17,7 @@ namespace Mercan.HealthChecks.Common.Checks
             {
                 IDictionary<string, Object> data = new Dictionary<string, object>();
                 data.Add("TotalMemoryMB", RunQueryMB("SELECT MaxCapacity FROM Win32_PhysicalMemoryArray", "MaxCapacity"));
-                data.Add("Win32_PerfRawData_PerfOS_Memory", RunQueryMB("SELECT * FROM Win32_PerfRawData_PerfOS_Memory"));
+                // data.Add("Win32_PerfRawData_PerfOS_Memory", RunQueryMB("SELECT * FROM Win32_PerfRawData_PerfOS_Memory"));
 
                 data.Add("PrivateMemorySize64", Process.GetCurrentProcess().PrivateMemorySize64 / 1024);
                 data.Add("VirtualMemorySize64", Process.GetCurrentProcess().VirtualMemorySize64 / 1024);
@@ -66,7 +66,7 @@ namespace Mercan.HealthChecks.Common.Checks
             {
                 //IDictionary<string, Object> data = new Dictionary<string, object>();
                 //data.Add("TotalMemoryMB", RunQueryMB("SELECT MaxCapacity FROM Win32_PhysicalMemoryArray", "MaxCapacity"));
-                IDictionary<string, Object> data = RunQueryforData("SELECT " + columns + " FROM " + WMIClassName);
+                IDictionary<string, Object> data = RunQueryforData("SELECT " + columnsJoined + " FROM " + WMIClassName);
                 ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
                 string description = $"PerformanceCounter for " + WMIClassName + " Columns " + columnsJoined;
                 return HealthCheckResult.Healthy(description, rodata);
@@ -124,15 +124,16 @@ namespace Mercan.HealthChecks.Common.Checks
         public static object RunQueryMB(string query)
         {
             //List<PropertyDataCollection> data = new List<PropertyDataCollection>();
-            PropertyDataCollection data = null;
+            //PropertyDataCollection data = null;
+            Dictionary<string, object> data = new Dictionary<string, object>();
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
             foreach (ManagementObject WniPART in searcher.Get())
             {
-                data = WniPART.Properties;
-                //foreach(var prop in WniPART.Properties)
-                //{
-                //    prop.next
-                //}
+                // data = WniPART.Properties;
+                foreach (var prop in WniPART.Properties)
+                {
+                    data.Add(prop.Name, prop.Value);
+                }
             }
             return data;
         }
@@ -143,10 +144,9 @@ namespace Mercan.HealthChecks.Common.Checks
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
             foreach (ManagementObject WniPART in searcher.Get())
             {
-
                 foreach (var prop in WniPART.Properties)
                 {
-                    data.Add(prop.Name, prop.Value);
+                    data.Add(prop.Name, prop.Value?.ToString());
                 }
             }
             return data;

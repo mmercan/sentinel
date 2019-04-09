@@ -30,6 +30,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Mercan.HealthChecks.Common.Checks;
+using Mercan.HealthChecks.Mongo;
 
 namespace Sentinel.UI.Product
 {
@@ -102,9 +103,22 @@ namespace Sentinel.UI.Product
 
             services.AddHealthChecks()
              .AddProcessList()
-            .AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
-            .AddCheck("MyDBCheck", new SqlConnectionHealthCheck("Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;"))
-            .AddCheck<DIHealthCheck>("DIHealthCheck");
+             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory")
+             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
+             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
+             .AddSystemInfoCheck()
+             .AddPrivateMemorySizeCheck(10000000)
+            //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
+            .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
+            .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "api/healthcheck/isalive")
+            .AddApiIsAlive(Configuration.GetSection("sentinel-api-member:ClientOptions"), "api/healthcheck/isalive")
+            .AddApiIsAlive(Configuration.GetSection("sentinel-api-product:ClientOptions"), "api/healthcheck/isalive")
+            .AddApiIsAlive(Configuration.GetSection("sentinel-api-comms:ClientOptions"), "api/healthcheck/isalive")
+            .AddMongoHealthCheck(Configuration["Mongodb:ConnectionString"])
+            .AddRabbitMQHealthCheck(Configuration["RedisConnection"])
+            .AddRedisHealthCheck(Configuration["RabbitMQConnection"])
+            .AddDIHealthCheck(services);
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSignalR();
@@ -236,6 +250,7 @@ namespace Sentinel.UI.Product
                         new JProperty("status", pair.Value.Status.ToString()),
                         new JProperty("description", pair.Value.Description),
                         new JProperty("duration", pair.Value.Duration),
+
                         new JProperty("data", new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value)))),
                         new JProperty("exception", pair.Value.Exception?.Message) //new JObject(pair.Value.Exception.Select(p => new JProperty(p.Key, p.Value))))
                                                     ))))));

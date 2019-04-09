@@ -20,7 +20,7 @@ namespace Sentinel.Api.Product.Controllers
     [ApiVersion("2.0")]
     [Route("api/HealthCheck")]
     [ApiExplorerSettings(GroupName = @"Health Check")]
-    [Authorize]
+   // [Authorize]
     public class HealthCheckController : Controller
     {
         ILogger<HealthCheckController> _logger;

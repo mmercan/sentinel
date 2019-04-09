@@ -94,16 +94,16 @@ namespace Mercan.HealthChecks.Common.Checks
 
         public static object RunQueryMB(string query)
         {
-            //List<PropertyDataCollection> data = new List<PropertyDataCollection>();
-            PropertyDataCollection data = null;
+            Dictionary<string,string> data = new Dictionary<string, string>();
+           // PropertyDataCollection data = null;
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
             foreach (ManagementObject WniPART in searcher.Get())
             {
-                data = WniPART.Properties;
-                //foreach(var prop in WniPART.Properties)
-                //{
-                //    prop.next
-                //}
+               // data = WniPART.Properties;
+                foreach(var prop in WniPART.Properties)
+                {
+                    data.Add(prop.Name, prop.Value.ToString());
+                }
             }
             return data;
         }
