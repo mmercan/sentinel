@@ -107,7 +107,9 @@ namespace Sentinel.UI.Product
              .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
              .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
              .AddSystemInfoCheck()
-             .AddPrivateMemorySizeCheck(10000000)
+            // .AddPrivateMemorySizeCheck(10000000)
+            .AddWorkingSetCheck(10000000)
+
             //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
             .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
             .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "api/healthcheck/isalive")

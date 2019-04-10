@@ -8,8 +8,7 @@ using System.Collections.ObjectModel;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-
-
+using Microsoft.Extensions.Logging;
 
 namespace Mercan.HealthChecks.Common.Checks
 {
@@ -20,17 +19,21 @@ namespace Mercan.HealthChecks.Common.Checks
     {
         public static IHealthChecksBuilder AddDIHealthCheck(this IHealthChecksBuilder builder, IServiceCollection services)
         {
-            return builder.AddCheck($"DIHealthCheck", new DIHealthCheck(services));
+            //return builder.AddCheck($"DIHealthCheck", new DIHealthCheck(services));
+            return builder.AddTypeActivatedCheck<DIHealthCheck>($"DIHealthCheck",null, null,"message from caller");
         }
     }
     public class DIHealthCheck : IHealthCheck
     {
         public static readonly string HealthCheckName = "DIHealthCheck";
         private IServiceCollection services;
+        private ILogger<DIHealthCheck> logger;
 
-        public DIHealthCheck(IServiceCollection services)
+        public DIHealthCheck(IServiceCollection services, ILogger<DIHealthCheck> logger, string message)
         {
             this.services = services;
+            this.logger = logger;
+            logger.LogCritical("DIHealthCheck Init" + message);
         }
 
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
