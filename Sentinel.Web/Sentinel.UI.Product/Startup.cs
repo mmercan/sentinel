@@ -117,8 +117,8 @@ namespace Sentinel.UI.Product
             .AddApiIsAlive(Configuration.GetSection("sentinel-api-product:ClientOptions"), "api/healthcheck/isalive")
             .AddApiIsAlive(Configuration.GetSection("sentinel-api-comms:ClientOptions"), "api/healthcheck/isalive")
             .AddMongoHealthCheck(Configuration["Mongodb:ConnectionString"])
-            .AddRabbitMQHealthCheck(Configuration["RedisConnection"])
-            .AddRedisHealthCheck(Configuration["RabbitMQConnection"])
+            .AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
+            .AddRedisHealthCheck(Configuration["RedisConnection"])
             .AddDIHealthCheck(services);
 
 

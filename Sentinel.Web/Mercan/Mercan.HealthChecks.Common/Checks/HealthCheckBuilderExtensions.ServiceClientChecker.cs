@@ -183,7 +183,7 @@ namespace Mercan.HealthChecks.Common.Checks
                 }
                 catch (Exception ex)
                 {
-
+                    logger.LogCritical("GetToken Throw Exception" + ex.Message);
                 }
             }
             return token;
@@ -272,20 +272,6 @@ namespace Mercan.HealthChecks.Common.Checks
             {
                 throw new ArgumentNullException(nameof(path));
             }
-
-            // var client_ = new System.Net.Http.HttpClient();
-            // using (var request_ = new System.Net.Http.HttpRequestMessage())
-            // {
-            //     request_.Method = new System.Net.Http.HttpMethod("GET");
-            //     request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            //     request_.RequestUri = new System.Uri(path, System.UriKind.RelativeOrAbsolute);
-
-            //     var response_ = client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead).GetAwaiter().GetResult();
-            //     var responseText_ = await response_.Content.ReadAsStringAsync();
-            //     logger.LogCritical("response from the addHere " + responseText_);
-            // }
-
-
             string responseText = string.Empty;
             logger.LogCritical("Request is Ready to Send to " + path);
             using (HttpRequestMessage request = new HttpRequestMessage(httpMethod, path))
@@ -328,25 +314,28 @@ namespace Mercan.HealthChecks.Common.Checks
         }
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
-            try
+            return await Task.Run(() =>
             {
-                InitClient();
+                try
+                {
+                    InitClient();
 
-                var task = SendStringAsync(path, HttpMethod.Get);
-                task.Wait();
-                string response = task.Result;
-                string description = path + " is succeesful with response : " + response;
-                return HealthCheckResult.Healthy(description);
-            }
-            catch (Exception ex)
-            {
-                var Message = ex.InnerException?.InnerException?.Message;
-                if (Message == null) { Message = ex.InnerException?.Message; }
-                if (Message == null) { Message = ex.Message; }
-                string description = Message;
-                IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { path, " failed with exception " + Message }, { "BaseAddress", _options?.BaseAddress } };
-                return HealthCheckResult.Unhealthy(description, null, data);
-            }
+                    var task = SendStringAsync(path, HttpMethod.Get);
+                    task.Wait();
+                    string response = task.Result;
+                    string description = path + " is succeesful with response : " + response;
+                    return HealthCheckResult.Healthy(description);
+                }
+                catch (Exception ex)
+                {
+                    var Message = ex.InnerException?.InnerException?.Message;
+                    if (Message == null) { Message = ex.InnerException?.Message; }
+                    if (Message == null) { Message = ex.Message; }
+                    string description = Message;
+                    IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { path, " failed with exception " + Message }, { "BaseAddress", _options?.BaseAddress } };
+                    return HealthCheckResult.Unhealthy(description, null, data);
+                }
+            });
         }
     }
 
