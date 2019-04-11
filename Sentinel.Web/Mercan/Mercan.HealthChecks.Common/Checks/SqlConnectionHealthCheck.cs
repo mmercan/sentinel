@@ -21,7 +21,7 @@ namespace Mercan.HealthChecks.Common.Checks
     public class SqlConnectionHealthCheck : DbConnectionHealthCheck
     {
         private static readonly string DefaultTestQuery = "Select 1";
-        private ILogger<SqlConnectionHealthCheck> logger
+        private ILogger<SqlConnectionHealthCheck> logger;
         public SqlConnectionHealthCheck(ILogger<SqlConnectionHealthCheck> logger, string connectionString)
             : this(connectionString, testQuery: DefaultTestQuery)
         {
