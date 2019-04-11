@@ -9,15 +9,17 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.ObjectModel;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 
 namespace Mercan.HealthChecks.Common.Checks
 {
-
     public static partial class HealthCheckBuilderExtensions
     {
-        // Default URL check
-
         public static IHealthChecksBuilder AddApiIsAlive(this IHealthChecksBuilder builder, IConfiguration clientOptions, string isAliveUrl = "Health/IsAlive", TimeSpan? cacheDuration = null)
         {
             ApiServiceConfiguration config = new ApiServiceConfiguration();
@@ -26,69 +28,62 @@ namespace Mercan.HealthChecks.Common.Checks
             {
                 sectionPath = (clientOptions as Microsoft.Extensions.Configuration.ConfigurationSection).Path;
             }
-
             clientOptions.Bind(config);
-            //clientOptions.Path
             string path = string.Format(config.BaseAddress + isAliveUrl);
-
-            builder.AddCheck($"ApiIsAlive {path} {sectionPath}", () =>
-            {
-                try
-                {
-                    ServiceClientBase service = new ServiceClientBase(config);
-                    var task = service.SendStringAsync(path, HttpMethod.Get);
-                    task.Wait();
-                    string response = task.Result;
-
-                    string description = path + " is succeesful with response : " + response;
-                    return HealthCheckResult.Healthy(description);
-                }
-                catch (Exception ex)
-                {
-                    var Message = ex.InnerException?.InnerException?.Message;
-                    if (Message == null) { Message = ex.InnerException?.Message; }
-                    if (Message == null) { Message = ex.Message; }
-                    string description = Message;
-                    IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { path, " failed with exception " + Message }, { "BaseAddress", config?.BaseAddress } };
-                    return HealthCheckResult.Unhealthy(description, null, data);
-                }
-            });
-            return builder;
+            return builder.AddTypeActivatedCheck<ServiceClientBaseHealthCheck>($"ApiIsAlive {path} {sectionPath}", null, null, config, path);
+            // builder.AddCheck($"ApiIsAlive {path} {sectionPath}", () =>
+            // {
+            //     try
+            //     {
+            //         ServiceClientBase service = new ServiceClientBase(config);
+            //         var task = service.SendStringAsync(path, HttpMethod.Get);
+            //         task.Wait();
+            //         string response = task.Result;
+            //         string description = path + " is succeesful with response : " + response;
+            //         return HealthCheckResult.Healthy(description);
+            //     }
+            //     catch (Exception ex)
+            //     {
+            //         var Message = ex.InnerException?.InnerException?.Message;
+            //         if (Message == null) { Message = ex.InnerException?.Message; }
+            //         if (Message == null) { Message = ex.Message; }
+            //         string description = Message;
+            //         IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { path, " failed with exception " + Message }, { "BaseAddress", config?.BaseAddress } };
+            //         return HealthCheckResult.Unhealthy(description, null, data);
+            //     }
+            // });
+            // return builder;
         }
 
-
-        public static IHealthChecksBuilder AddApiIsAliveAndWell(this IHealthChecksBuilder builder, IConfiguration clientOptions, string isAliveAndWellUrl = "Health/IsAliveAndWell", TimeSpan? cacheDuration = null)
-        {
-            ApiServiceConfiguration config = new ApiServiceConfiguration();
-            clientOptions.Bind(config);
-            string path = string.Format(config.BaseAddress + isAliveAndWellUrl);
-            builder.AddCheck($"ApiIsAliveAndWell {path}", () =>
-            {
-                try
-                {
-                    ServiceClientBase service = new ServiceClientBase(config);
-                    var task = service.SendAsync<HealthCheckResult>(path, HttpMethod.Get);
-                    task.Wait();
-                    var items = task.Result;
-
-                    string description = path + " is succeesful";
-                    return HealthCheckResult.Healthy(description);
-                }
-                catch (Exception ex)
-                {
-                    var Message = ex.InnerException?.InnerException?.Message;
-                    if (Message == null) { Message = ex.InnerException?.Message; }
-                    if (Message == null) { Message = ex.Message; }
-                    string description = Message;
-                    IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { path, " failed with exception " + Message }, { "BaseAddress", config?.BaseAddress } };
-                    return HealthCheckResult.Unhealthy(description, null, data);
-                }
-            });
-            return builder;
-        }
-
+        // public static IHealthChecksBuilder AddApiIsAliveAndWell(this IHealthChecksBuilder builder, IConfiguration clientOptions, string isAliveAndWellUrl = "Health/IsAliveAndWell", TimeSpan? cacheDuration = null)
+        // {
+        //     ApiServiceConfiguration config = new ApiServiceConfiguration();
+        //     clientOptions.Bind(config);
+        //     string path = string.Format(config.BaseAddress + isAliveAndWellUrl);
+        //     builder.AddCheck($"ApiIsAliveAndWell {path}", () =>
+        //     {
+        //         try
+        //         {
+        //             ServiceClientBase service = new ServiceClientBase(config);
+        //             var task = service.SendAsync<HealthCheckResult>(path, HttpMethod.Get);
+        //             task.Wait();
+        //             var items = task.Result;
+        //             string description = path + " is succeesful";
+        //             return HealthCheckResult.Healthy(description);
+        //         }
+        //         catch (Exception ex)
+        //         {
+        //             var Message = ex.InnerException?.InnerException?.Message;
+        //             if (Message == null) { Message = ex.InnerException?.Message; }
+        //             if (Message == null) { Message = ex.Message; }
+        //             string description = Message;
+        //             IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { path, " failed with exception " + Message }, { "BaseAddress", config?.BaseAddress } };
+        //             return HealthCheckResult.Unhealthy(description, null, data);
+        //         }
+        //     });
+        //     return builder;
+        // }
     }
-
 
     public class ApiServiceConfiguration
     {
@@ -132,19 +127,21 @@ namespace Mercan.HealthChecks.Common.Checks
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }
     }
-
-
-    public class ServiceClientBase
+    public class ServiceClientBaseHealthCheck : IHealthCheck
     {
         private readonly ApiServiceConfiguration _options;
         private static HttpClient _httpClient;
-        //public const string ErrorToken = "[[BUPA]]";
         protected HttpClient Client { get => _httpClient; private set => _httpClient = value; }
-
-        public ServiceClientBase(ApiServiceConfiguration options)
+        ILogger<ServiceClientBaseHealthCheck> logger;
+        string path;
+        public ServiceClientBaseHealthCheck(ILogger<ServiceClientBaseHealthCheck> logger, ApiServiceConfiguration options, string path)
         {
             _options = options ?? throw new ArgumentNullException(nameof(options));
+            this.path = path;
+            this.logger = logger;
             InitClient();
+
+            logger.LogCritical("ServiceClientBaseHealthCheck Init Completed");
         }
 
         private void InitClient()
@@ -219,7 +216,6 @@ namespace Mercan.HealthChecks.Common.Checks
             }
             return certificate;
         }
-
         public HttpContent CreateContent<T>(T content)
         {
             string serialisedContent = JsonConvert.SerializeObject(content);
@@ -229,7 +225,6 @@ namespace Mercan.HealthChecks.Common.Checks
             httpContent.Headers.ContentType = MediaTypeHeaderValue.Parse(_options.RequestContentType);
             return httpContent;
         }
-
         private X509Certificate2 FindCertificateByThumbprint(string findValue)
         {
             X509Certificate2 certificate = null;
@@ -253,7 +248,6 @@ namespace Mercan.HealthChecks.Common.Checks
             }
             return certificate;
         }
-
         public async Task<TResponse> SendAsync<TResponse>(string path, HttpMethod httpMethod)
         {
             return await SendAsync<object, TResponse>(path, httpMethod, null);
@@ -270,13 +264,10 @@ namespace Mercan.HealthChecks.Common.Checks
 
             return responseContent;
         }
-
-
         public async Task<string> SendStringAsync(string path, HttpMethod httpMethod)
         {
             return await SendStringAsync<object>(path, httpMethod, null);
         }
-
         protected async Task<string> SendStringAsync<TContent>(string path, HttpMethod httpMethod, TContent content)
         {
             if (string.IsNullOrEmpty(path))
@@ -288,16 +279,28 @@ namespace Mercan.HealthChecks.Common.Checks
 
             return responseText;
         }
-
-
-
         public async Task<string> SendAsync<TContent>(string path, HttpMethod httpMethod, TContent content)
         {
             if (string.IsNullOrEmpty(path))
             {
                 throw new ArgumentNullException(nameof(path));
             }
+
+            // var client_ = new System.Net.Http.HttpClient();
+            // using (var request_ = new System.Net.Http.HttpRequestMessage())
+            // {
+            //     request_.Method = new System.Net.Http.HttpMethod("GET");
+            //     request_.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            //     request_.RequestUri = new System.Uri(path, System.UriKind.RelativeOrAbsolute);
+
+            //     var response_ = client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead).GetAwaiter().GetResult();
+            //     var responseText_ = await response_.Content.ReadAsStringAsync();
+            //     logger.LogCritical("response from the addHere " + responseText_);
+            // }
+
+
             string responseText = string.Empty;
+            logger.LogCritical("Request is Ready to Send to " + path);
             using (HttpRequestMessage request = new HttpRequestMessage(httpMethod, path))
             {
                 if (content != null)
@@ -311,6 +314,7 @@ namespace Mercan.HealthChecks.Common.Checks
                 try
                 {
                     response = await Client.SendAsync(request);
+                    logger.LogCritical("response is received " + path);
                     responseText = await response.Content.ReadAsStringAsync();
                 }
                 catch (Exception ex)
@@ -335,22 +339,24 @@ namespace Mercan.HealthChecks.Common.Checks
             }
             return responseText.Trim();
         }
-        public async Task<HealthCheckResult> HealthCheckAsync(string path)
+        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                string responseText = string.Empty;
-                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, path))
-                {
-                    HttpResponseMessage response = await Client.SendAsync(request);
-                    responseText = await response.Content.ReadAsStringAsync();
-                }
-                return JsonConvert.DeserializeObject<HealthCheckResult>(responseText); ;
+                var task = SendStringAsync(path, HttpMethod.Get);
+                task.Wait();
+                string response = task.Result;
+                string description = path + " is succeesful with response : " + response;
+                return HealthCheckResult.Healthy(description);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return HealthCheckResult.Unhealthy(e.Message);
-                // return new HealthCheckResult { Description = e.Message, HealthStatus = HealthCheckStatus.Unhealthy };
+                var Message = ex.InnerException?.InnerException?.Message;
+                if (Message == null) { Message = ex.InnerException?.Message; }
+                if (Message == null) { Message = ex.Message; }
+                string description = Message;
+                IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { path, " failed with exception " + Message }, { "BaseAddress", _options?.BaseAddress } };
+                return HealthCheckResult.Unhealthy(description, null, data);
             }
         }
     }

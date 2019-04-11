@@ -29,7 +29,7 @@ namespace Sentinel.Api.Member.Controllers
         {
             try
             {
-                return Ok();
+                return Ok("Member Api is Alive");
             }
             catch (Exception)
             {

@@ -48,7 +48,7 @@ namespace Sentinel.Api.Product.Controllers
             try
             {
                 this.kafkahandler.Listen();
-                return Ok();
+                 return Ok("Product Api is Alive");
             }
             catch (Exception ex)
             {

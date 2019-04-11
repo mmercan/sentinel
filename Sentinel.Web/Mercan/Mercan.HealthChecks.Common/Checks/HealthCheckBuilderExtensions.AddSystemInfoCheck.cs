@@ -1,5 +1,4 @@
 using System;
-using System;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -20,8 +19,8 @@ namespace Mercan.HealthChecks.Common.Checks
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
             IDictionary<string, Object> data = new Dictionary<string, object>();
-          //  data.Add("TotalMemoryMB", RunQueryMB("SELECT MaxCapacity FROM Win32_PhysicalMemoryArray", "MaxCapacity"));
-          //  data.Add("Win32_PerfRawData_PerfOS_Memory", RunQueryMB("SELECT * FROM Win32_PerfRawData_PerfOS_Memory"));
+            //  data.Add("TotalMemoryMB", RunQueryMB("SELECT MaxCapacity FROM Win32_PhysicalMemoryArray", "MaxCapacity"));
+            //  data.Add("Win32_PerfRawData_PerfOS_Memory", RunQueryMB("SELECT * FROM Win32_PerfRawData_PerfOS_Memory"));
 
             data.Add("PrivateMemorySize64", Process.GetCurrentProcess().PrivateMemorySize64 / 1024);
             data.Add("VirtualMemorySize64", Process.GetCurrentProcess().VirtualMemorySize64 / 1024);

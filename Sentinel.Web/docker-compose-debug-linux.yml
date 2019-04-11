@@ -23,13 +23,13 @@ services:
       - SMTP__UserName=mail@mail.com
       - SMTP__Password=password123
       - ELASTICSEARCH_URL=http://40.117.115.1:9200
-      - sentinel-ui-sts__ClientOptions__BaseAddress=http://localhost:5000/
+      - sentinel-ui-sts__ClientOptions__BaseAddress=http://sentinel-ui-sts/
       - sentinel-ui-sts__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
-      - sentinel-api-member__ClientOptions__BaseAddress=http://localhost:5002/
+      - sentinel-api-member__ClientOptions__BaseAddress=http://sentinel-api-member/
       - sentinel-api-member__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
-      - sentinel-api-product__ClientOptions__BaseAddress=http://localhost:5003/
+      - sentinel-api-product__ClientOptions__BaseAddress=http://sentinel-api-product/
       - sentinel-api-product__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
-      - sentinel-api-comms__ClientOptions__BaseAddress=http://localhost:5004/
+      - sentinel-api-comms__ClientOptions__BaseAddress=http://sentinel-api-comms/
       - sentinel-api-comms__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
     # volumes:
     #   - SentinelWeb:/src

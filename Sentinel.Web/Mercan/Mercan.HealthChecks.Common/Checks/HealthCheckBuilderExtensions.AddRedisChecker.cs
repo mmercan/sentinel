@@ -27,38 +27,21 @@ namespace Mercan.HealthChecks.Common.Checks
     {
         public static readonly string HealthCheckName = "AddRedisHealthCheck";
         string connectionString;
-
         public AddRedisHealthCheck(string connectionString)
         {
             this.connectionString = connectionString;
         }
-
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
-
-            bool failedAny = false;
-            int order = 0;
             IDictionary<string, Object> data = new Dictionary<string, object>();
-
-
             try
             {
-
-                //using (var bus = RabbitHutch.CreateBus(connectionString))
-                //{
-                //    bus.Publish("Test", "healthcheck.rabbitmq");
-                //    var connected = bus.IsConnected;
-                //    data.Add("Connected", bus.IsConnected);
-                //}
                 var redisconnection = ConnectionMultiplexer.Connect(connectionString);
                 var database = redisconnection.GetDatabase();
-
                 data.Add("Connected", redisconnection.IsConnected);
-
                 string description = "RedisHealthCheck is healthy";
                 ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
                 return HealthCheckResult.Healthy(description, rodata);
-
             }
             catch (Exception ex)
             {
@@ -66,7 +49,6 @@ namespace Mercan.HealthChecks.Common.Checks
                 ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
                 return HealthCheckResult.Unhealthy(description, data: rodata);
             }
-
         }
     }
 }
