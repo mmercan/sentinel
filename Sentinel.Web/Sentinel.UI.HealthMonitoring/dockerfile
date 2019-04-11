@@ -1,0 +1,32 @@
+FROM node:latest as develop
+RUN apt-get update && apt-get install -y vim
+EXPOSE 4200
+USER node
+RUN mkdir /home/node/.npm-global
+ENV PATH=/home/node/.npm-global/bin:$PATH
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+RUN npm install -g @angular/cli
+WORKDIR /var/www/html
+
+
+FROM node:latest as builder
+RUN apt-get update && apt-get install -y vim && apt-get -y install sudo
+EXPOSE 4200
+USER node
+RUN mkdir /home/node/.npm-global
+ENV PATH=/home/node/.npm-global/bin:$PATH
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+RUN npm install -g @angular/cli
+WORKDIR /home/node/health
+COPY Sentinel.UI.HealthMonitoring/ .
+USER root
+RUN sudo npm install
+RUN ng build --prod
+
+
+FROM nginx:alpine as prod
+EXPOSE 80
+COPY Sentinel.UI.HealthMonitoring/nginx.conf /etc/nginx/nginx.conf
+WORKDIR /usr/share/nginx/html
+COPY --from=builder /home/node/health/dist/ClientApp/ .
+# ENTRYPOINT ["npm", "run", "startdocker"]
