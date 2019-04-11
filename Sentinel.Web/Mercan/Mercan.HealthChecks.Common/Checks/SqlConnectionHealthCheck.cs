@@ -2,6 +2,8 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 
 namespace Mercan.HealthChecks.Common.Checks
 {
