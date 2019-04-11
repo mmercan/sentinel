@@ -36,3 +36,45 @@ spec:
           value: "Production"
         - name: DOTNET_RUNNING_IN_CONTAINER
           value: "true"
+        - name: RedisConnection
+          value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
+        - name: Mongodb__ConnectionString
+          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+        - name: Mongodb__DatabaseName
+          value: "sentinel"
+        - name: Mongodb__CollectionName
+          value: "product"
+        - name: Mongodb__IdField
+          value: "Id"
+        - name: SentinelConnection
+          value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
+        - name: kafkaUrl
+          value: "http://sentinel-util-kafka:9092"
+        - name: RabbitMQConnection
+          value: "host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10"
+        - name: SMTP__Server
+          value: sentinel-util-mailhog
+        - name: SMTP__Port
+          value: "1025"
+        - name: SMTP__UserName
+          value: "mail@mail.com"
+        - name: SMTP__Password
+          value: "password123"
+        - name: ELASTICSEARCH_URL
+          value: "http://40.117.115.1:9200"
+        - name: sentinel-ui-sts__ClientOptions__BaseAddress
+          value: "http://sentinel-ui-sts/"
+        - name: sentinel-ui-sts__ClientOptions__ClientId
+          value: "67d009b1-97fe-4963-84ff-3590b06df0da"
+        - name: sentinel-api-member__ClientOptions__BaseAddress
+          value: "http://sentinel-api-member/"
+        - name: sentinel-api-member__ClientOptions__ClientId
+          value: "67d009b1-97fe-4963-84ff-3590b06df0da"
+        - name: sentinel-api-product__ClientOptions__BaseAddress
+          value: "http://sentinel-api-product/"
+        - name: sentinel-api-product__ClientOptions__ClientId
+          value: "67d009b1-97fe-4963-84ff-3590b06df0da"
+        - name: sentinel-api-comms__ClientOptions__BaseAddress
+          value: "http://sentinel-api-comms/"
+        - name: sentinel-api-comms__ClientOptions__ClientId
+          value: "67d009b1-97fe-4963-84ff-3590b06df0da"
