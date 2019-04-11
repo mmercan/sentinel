@@ -31,28 +31,6 @@ namespace Mercan.HealthChecks.Common.Checks
             clientOptions.Bind(config);
             string path = string.Format(config.BaseAddress + isAliveUrl);
             return builder.AddTypeActivatedCheck<ServiceClientBaseHealthCheck>($"ApiIsAlive {path} {sectionPath}", null, null, config, path);
-            // builder.AddCheck($"ApiIsAlive {path} {sectionPath}", () =>
-            // {
-            //     try
-            //     {
-            //         ServiceClientBase service = new ServiceClientBase(config);
-            //         var task = service.SendStringAsync(path, HttpMethod.Get);
-            //         task.Wait();
-            //         string response = task.Result;
-            //         string description = path + " is succeesful with response : " + response;
-            //         return HealthCheckResult.Healthy(description);
-            //     }
-            //     catch (Exception ex)
-            //     {
-            //         var Message = ex.InnerException?.InnerException?.Message;
-            //         if (Message == null) { Message = ex.InnerException?.Message; }
-            //         if (Message == null) { Message = ex.Message; }
-            //         string description = Message;
-            //         IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { path, " failed with exception " + Message }, { "BaseAddress", config?.BaseAddress } };
-            //         return HealthCheckResult.Unhealthy(description, null, data);
-            //     }
-            // });
-            // return builder;
         }
 
         // public static IHealthChecksBuilder AddApiIsAliveAndWell(this IHealthChecksBuilder builder, IConfiguration clientOptions, string isAliveAndWellUrl = "Health/IsAliveAndWell", TimeSpan? cacheDuration = null)
@@ -136,12 +114,11 @@ namespace Mercan.HealthChecks.Common.Checks
         string path;
         public ServiceClientBaseHealthCheck(ILogger<ServiceClientBaseHealthCheck> logger, ApiServiceConfiguration options, string path)
         {
-            _options = options ?? throw new ArgumentNullException(nameof(options));
+            this._options = options ?? throw new ArgumentNullException(nameof(options));
             this.path = path;
             this.logger = logger;
-            InitClient();
-
-            logger.LogCritical("ServiceClientBaseHealthCheck Init Completed");
+            logger.LogCritical("BaseAddress :" + _options.BaseAddress);
+            logger.LogCritical("path :" + path);
         }
 
         private void InitClient()
@@ -353,6 +330,8 @@ namespace Mercan.HealthChecks.Common.Checks
         {
             try
             {
+                InitClient();
+
                 var task = SendStringAsync(path, HttpMethod.Get);
                 task.Wait();
                 string response = task.Result;
