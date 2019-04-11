@@ -176,28 +176,38 @@ namespace Mercan.HealthChecks.Common.Checks
         public string GetToken()
         {
             string token = null;
-            if (!string.IsNullOrEmpty(_options.ClientSecret) && !string.IsNullOrEmpty(_options.ClientId))
+            if (!(string.IsNullOrEmpty(_options.ClientSecret) || string.IsNullOrEmpty(_options.ClientId)))
             {
-                string clientId = _options.ClientId;
-                string secret = _options.ClientSecret;
-                string adId = "e1870496-eab8-42d0-8eb9-75fa94cfc3b8";
-                string url = $"https://login.microsoftonline.com/{adId}/oauth2/token?resource={clientId}";
-                var httpClient = new HttpClient();
 
-                var dict = new Dictionary<string, string>();
-                dict.Add("grant_type", "client_credentials");
-                dict.Add("client_id", clientId);
-                dict.Add("client_secret", secret);
+                logger.LogCritical("ClientSecret :" + _options.ClientSecret + " _options.ClientId: " + _options.ClientId);
+                try
+                {
+                    string clientId = _options.ClientId;
+                    string secret = _options.ClientSecret;
+                    string adId = "e1870496-eab8-42d0-8eb9-75fa94cfc3b8";
+                    string url = $"https://login.microsoftonline.com/{adId}/oauth2/token?resource={clientId}";
 
-                var httpContent = new FormUrlEncodedContent(dict);
-                httpContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
-                var clientTask = httpClient.PostAsync(url, httpContent);
-                clientTask.Wait();
-                var ContentTask = clientTask.Result.Content.ReadAsStringAsync();
-                ContentTask.Wait();
+                    var httpClient = new HttpClient();
 
-                JObject o = JObject.Parse(ContentTask.Result);
-                token = o["access_token"].ToString();
+                    var dict = new Dictionary<string, string>();
+                    dict.Add("grant_type", "client_credentials");
+                    dict.Add("client_id", clientId);
+                    dict.Add("client_secret", secret);
+
+                    var httpContent = new FormUrlEncodedContent(dict);
+                    httpContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
+                    var clientTask = httpClient.PostAsync(url, httpContent);
+                    clientTask.Wait();
+                    var ContentTask = clientTask.Result.Content.ReadAsStringAsync();
+                    ContentTask.Wait();
+
+                    JObject o = JObject.Parse(ContentTask.Result);
+                    token = o["access_token"].ToString();
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
             return token;
         }
