@@ -17,7 +17,7 @@ import { UserAvatarComponent } from './authentication/user-avatar/user-avatar.co
 
 import { IfOnlineDirective } from './offline/if-online.directive';
 import { OfflineNotificationService } from './offline/offline-notification.service';
-
+import { HealthcheckDataStoreService } from './data-store/healthcheck-data-store/healthcheck-data-store.service';
 
 import { Ng4FilterPipe } from './pipes/filter/ng4-filter.pipe';
 
@@ -35,7 +35,7 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [AppConfig, AdalService, LocalAuthService, AuthService, MenuItems, NotificationService, AdalInterceptor,
-        OfflineNotificationService, AdalGuard]
+        OfflineNotificationService, HealthcheckDataStoreService, AdalGuard]
     };
   }
 }

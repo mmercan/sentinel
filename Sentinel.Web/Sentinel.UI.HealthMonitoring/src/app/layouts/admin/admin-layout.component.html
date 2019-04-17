@@ -1,6 +1,8 @@
-<ng-sidebar-container class="app" [ngClass]="{'mode-boxed': isBoxed, 'sidebar-opened': isOpened, 'theme-light': theme == 'light', 'theme-dark': theme == 'dark', 'mode-push': _mode == 'push', 'mode-dock': _mode == 'dock', 'mode-over': _mode == 'over', 'mode-slide': _mode == 'slide', 'no-footer': options?.removeFooter, 'map-header': options?.mapHeader}">
-  <ng-sidebar [(opened)]="isOpened" [(mode)]="_mode" [position]="'left'" [dockedSize]="'80px'" [autoCollapseWidth]="'991'"
-    [closeOnClickOutside]="isOver()" [showBackdrop]="isOver()" [sidebarClass]="'sidebar-panel'" #sidebar>
+<ng-sidebar-container class="app"
+  [ngClass]="{'mode-boxed': isBoxed, 'sidebar-opened': isOpened, 'theme-light': theme == 'light', 'theme-dark': theme == 'dark', 'mode-push': _mode == 'push', 'mode-dock': _mode == 'dock', 'mode-over': _mode == 'over', 'mode-slide': _mode == 'slide', 'no-footer': options?.removeFooter, 'map-header': options?.mapHeader}">
+  <ng-sidebar [(opened)]="isOpened" [(mode)]="_mode" [position]="'left'" [dockedSize]="'80px'"
+    [autoCollapseWidth]="'991'" [closeOnClickOutside]="isOver()" [showBackdrop]="isOver()"
+    [sidebarClass]="'sidebar-panel'" #sidebar>
     <nav class="navbar custom-navbar main-brand">
       <a class="navbar-brand mr-auto" [routerLink]="['/']">
         <img src="assets/images/logo.png" class="navbar-brand-logo" alt="">
@@ -19,8 +21,10 @@
     <!-- main navigation -->
     <nav class="menu">
       <ul class="navigation" appAccordion>
-        <li class="navigation-item" appAccordionLink *ngFor="let menuitem of menuItems.getAll()" group="{{menuitem.state}}">
-          <a class="navigation-link" appAccordionToggle [routerLink]="['/', menuitem.state]" *ngIf="menuitem.type === 'link'">
+        <li class="navigation-item" appAccordionLink *ngFor="let menuitem of menuItems.getAll()"
+          group="{{menuitem.state}}">
+          <a class="navigation-link" appAccordionToggle [routerLink]="['/', menuitem.state]"
+            *ngIf="menuitem.type === 'link'">
             <i class="icon icon-{{ menuitem.icon }}"></i>
             <span>{{ menuitem.name }}</span>
             <span class="mr-auto"></span>
@@ -32,7 +36,8 @@
             <span class="mr-auto"></span>
             <span class="badge badge-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
           </a>
-          <a class="navigation-link" appAccordionToggle href="{{menuitem.state}}" target="_blank" *ngIf="menuitem.type === 'extTabLink'">
+          <a class="navigation-link" appAccordionToggle href="{{menuitem.state}}" target="_blank"
+            *ngIf="menuitem.type === 'extTabLink'">
             <i class="icon icon-{{ menuitem.icon }}"></i>
             <span>{{ menuitem.name }}</span>
             <span class="mr-auto"></span>
@@ -82,14 +87,17 @@
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link">
-            <i *IfOnline="false" class="fa fa-lg fa-plane" alt="offline" title="offline" (click)="sendnotification('Error','Offline','you are offline but app still works')"></i>
-            <i *IfOnline class="fa fa-lg fa-wifi" alt="online" title="online" (click)="sendnotification('Info','online','all good your are online')"></i>
+            <i *IfOnline="false" class="fa fa-lg fa-plane" alt="offline" title="offline"
+              (click)="sendnotification('Error','Offline','you are offline but app still works')"></i>
+            <i *IfOnline class="fa fa-lg fa-wifi" alt="online" title="online"
+              (click)="sendnotification('Info','online','all good your are online')"></i>
           </a>
         </li>
         <li class="nav-item" ngbDropdown *ifAuthenticated>
           <a href="javascript:;" class="nav-link" ngbDropdownToggle>
             <!-- <app-user-avatar class="navbar-avatar rounded-circle" alt="user" title="user"></app-user-avatar> -->
-            <app-user-avatar [height]="26" class="navbar-avatar rounded-circle" alt="user" title="user"></app-user-avatar>
+            <app-user-avatar [height]="26" class="navbar-avatar rounded-circle" alt="user" title="user">
+            </app-user-avatar>
             <!-- <img src="assets/images/avatar.jpg" class="navbar-avatar rounded-circle" alt="user" title="user"> -->
           </a>
           <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
@@ -157,7 +165,7 @@
 
     <div class="main-content">
       <router-outlet></router-outlet>
-      <nav class="navbar custom-navbar navbar-light main-footer small">
+      <!-- <nav class="navbar custom-navbar navbar-light main-footer small">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
             <a class="nav-link" href="javascript:;">
@@ -171,7 +179,7 @@
             <a class="nav-link" href="javascript:;">Made with love on Earth</a>
           </li>
         </ul>
-      </nav>
+      </nav> -->
     </div>
   </div>
 
@@ -251,7 +259,8 @@
       </div>
       <div class="d-flex align-items-center mb-2">
         <label class="custom-control custom-checkbox mb-2">
-          <input type="checkbox" class="custom-control-input" [ngModel]="options?.removeFooter" (ngModelChange)="options.removeFooter=$event">
+          <input type="checkbox" class="custom-control-input" [ngModel]="options?.removeFooter"
+            (ngModelChange)="options.removeFooter=$event">
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">Remove footer</span>
         </label>

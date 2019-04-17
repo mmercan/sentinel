@@ -20,7 +20,6 @@ namespace Mercan.HealthChecks.Common.Checks
     {
         public static IHealthChecksBuilder AddRedisHealthCheck(this IHealthChecksBuilder builder, string connectionString)
         {
-            // return builder.AddCheck($"AddRedisHealthCheck", new RabbitMQHealthCheck(connectionString));
             return builder.AddTypeActivatedCheck<RedisHealthCheck>($"RedisHealthCheck {connectionString}", null, null, connectionString);
         }
     }
@@ -37,6 +36,7 @@ namespace Mercan.HealthChecks.Common.Checks
             return await Task.Run(() =>
             {
                 IDictionary<string, Object> data = new Dictionary<string, object>();
+                data.Add("type", "RedisHealthCheck");
                 try
                 {
                     var redisconnection = ConnectionMultiplexer.Connect(connectionString);

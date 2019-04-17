@@ -24,11 +24,19 @@ namespace Mercan.HealthChecks.Common.Checks
     {
         private static readonly string DefaultTestQuery = "Select 1";
         private ILogger<SqlConnectionHealthCheck> logger;
-        public SqlConnectionHealthCheck(ILogger<SqlConnectionHealthCheck> logger, string connectionString)
+
+        public SqlConnectionHealthCheck(string connectionString)
             : this(connectionString, testQuery: DefaultTestQuery)
         {
-            this.logger = logger;
+            // this.logger = logger;
         }
+
+
+        // public SqlConnectionHealthCheck(ILogger<SqlConnectionHealthCheck> logger, string connectionString)
+        //     : this(connectionString, testQuery: DefaultTestQuery)
+        // {
+        //     this.logger = logger;
+        // }
 
         public SqlConnectionHealthCheck(string connectionString, string testQuery)
             : base(connectionString, testQuery ?? DefaultTestQuery)

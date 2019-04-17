@@ -28,35 +28,84 @@ const MENUITEMS: Menu[] = [
     icon: 'basic-accelerator'
   },
   {
-    state: 'authentication',
-    name: 'AUTHENTICATION',
+    state: 'provider',
+    name: 'Provider',
     type: 'sub',
     icon: 'basic-lock-open',
     children: [
       {
-        state: 'signin',
-        name: 'SIGNIN'
+        state: 'dev',
+        name: 'dev'
       },
       {
-        state: 'signup',
-        name: 'SIGNUP'
+        state: 'test',
+        name: 'test'
       },
       {
-        state: 'forgot',
-        name: 'FORGOT'
+        state: 'euat',
+        name: 'euat'
       },
       {
-        state: 'lockscreen',
-        name: 'LOCKSCREEN'
+        state: 'perf',
+        name: 'perf'
       },
     ]
   },
   {
-    state: 'docs',
-    name: 'DOCS',
-    type: 'link',
-    icon: 'basic-sheet-txt'
-  }
+    state: 'apollo',
+    name: 'Apollo',
+    type: 'sub',
+    icon: 'basic-lock-open',
+    children: [
+      {
+        state: 'dev',
+        name: 'dev'
+      },
+      {
+        state: 'test',
+        name: 'test'
+      },
+      {
+        state: 'euat',
+        name: 'euat'
+      },
+      {
+        state: 'perf',
+        name: 'perf'
+      },
+    ]
+  },
+
+  // {
+  //   state: 'authentication',
+  //   name: 'AUTHENTICATION',
+  //   type: 'sub',
+  //   icon: 'basic-lock-open',
+  //   children: [
+  //     {
+  //       state: 'signin',
+  //       name: 'SIGNIN'
+  //     },
+  //     {
+  //       state: 'signup',
+  //       name: 'SIGNUP'
+  //     },
+  //     {
+  //       state: 'forgot',
+  //       name: 'FORGOT'
+  //     },
+  //     {
+  //       state: 'lockscreen',
+  //       name: 'LOCKSCREEN'
+  //     },
+  //   ]
+  // },
+  // {
+  //   state: 'docs',
+  //   name: 'DOCS',
+  //   type: 'link',
+  //   icon: 'basic-sheet-txt'
+  // }
 ];
 
 @Injectable()

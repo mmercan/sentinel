@@ -27,6 +27,7 @@ namespace Mercan.HealthChecks.Common.Checks
             builder.AddCheck($"PerformanceCounter for " + WMIClassName, () =>
             {
                 IDictionary<string, Object> data = RunQueryforData("SELECT * FROM " + WMIClassName); //Win32_PerfRawData_PerfOS_Memory
+                data.Add("type", "PerformanceCounterList");
                 ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
                 string description = "PerformanceCounter for " + WMIClassName;
                 return HealthCheckResult.Healthy(description, rodata);
@@ -39,6 +40,7 @@ namespace Mercan.HealthChecks.Common.Checks
             builder.AddCheck($"PerformanceCounter for " + WMIClassName + " Column " + Column, () =>
             {
                 IDictionary<string, Object> data = RunQueryforData("SELECT " + Column + " FROM " + WMIClassName); ////Win32_PerfRawData_PerfOS_Memory
+                data.Add("type", "AddPerformanceCounter");
                 ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
                 string description = "PerformanceCounter for " + WMIClassName + " Column " + Column;
                 return HealthCheckResult.Healthy(description, rodata);
@@ -53,6 +55,7 @@ namespace Mercan.HealthChecks.Common.Checks
             builder.AddCheck($"PerformanceCounter for " + WMIClassName + " Columns " + columnsJoined, () =>
             {
                 IDictionary<string, Object> data = RunQueryforData("SELECT " + columnsJoined + " FROM " + WMIClassName);
+                data.Add("type", "PerformanceCounterList");
                 ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
                 string description = $"PerformanceCounter for " + WMIClassName + " Columns " + columnsJoined;
                 return HealthCheckResult.Healthy(description, rodata);
@@ -86,7 +89,6 @@ namespace Mercan.HealthChecks.Common.Checks
             }
             return data;
         }
-
         public static Dictionary<string, object> RunQueryforData(string query)
         {
             Dictionary<string, object> data = new Dictionary<string, object>();
@@ -112,6 +114,7 @@ namespace Mercan.HealthChecks.Common.Checks
             return await Task.Run(() =>
             {
                 IDictionary<string, Object> data = new Dictionary<string, object>();
+                data.Add("type", "SystemInfoHealthChecks");
                 try { data.Add("PrivateMemorySize (KB)", Process.GetCurrentProcess().PrivateMemorySize64 / 1024); } catch (Exception ex) { data.Add("PrivateMemorySize64", ex.Message); }
                 try { data.Add("VirtualMemorySize (KB)", Process.GetCurrentProcess().VirtualMemorySize64 / 1024); } catch (Exception ex) { data.Add("VirtualMemorySize64", ex.Message); }
                 try { data.Add("BasePriority", Process.GetCurrentProcess().BasePriority); } catch (Exception ex) { data.Add("BasePriority", ex.Message); }

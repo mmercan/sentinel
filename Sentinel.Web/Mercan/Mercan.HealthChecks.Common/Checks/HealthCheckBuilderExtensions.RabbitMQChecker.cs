@@ -38,6 +38,7 @@ namespace Mercan.HealthChecks.Common.Checks
             return await Task.Run(() =>
             {
                 IDictionary<string, Object> data = new Dictionary<string, object>();
+                data.Add("type", "RabbitMQHealthCheck");
                 try
                 {
                     using (var bus = RabbitHutch.CreateBus(connectionString))

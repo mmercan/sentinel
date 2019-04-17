@@ -36,7 +36,8 @@ namespace Mercan.HealthChecks.Common
                 catch (Exception ex)
                 {
                     Dictionary<string, object> data = new Dictionary<string, object> { { "url", _url } };
-                    return HealthCheckResult.Unhealthy($"Exception during check: {ex.GetType().FullName}", null,data);
+                    data.Add("type", "UrlChecker");
+                    return HealthCheckResult.Unhealthy($"Exception during check: {ex.GetType().FullName}", null, data);
                 }
             }
         }
@@ -52,28 +53,27 @@ namespace Mercan.HealthChecks.Common
         {
             HealthStatus status = response.IsSuccessStatusCode ? HealthStatus.Healthy : HealthStatus.Unhealthy;
             Dictionary<string, object> data = new Dictionary<string, object>
-            {
-                { "url", response.RequestMessage.RequestUri.ToString() },
-                { "status", (int)response.StatusCode },
-                { "reason", response.ReasonPhrase },
-                { "body", await response.Content?.ReadAsStringAsync() }
-            };
-            return new HealthCheckResult(status, $"status code {response.StatusCode} ({(int)response.StatusCode})",null, data);
+                {
+                    { "url", response.RequestMessage.RequestUri.ToString()},
+                    { "status", (int) response.StatusCode },
+                    { "reason", response.ReasonPhrase },
+                    { "body", await response.Content?.ReadAsStringAsync() },
+                    { "type", "UrlChecker"}
+                };
+            return new HealthCheckResult(status, $"status code {response.StatusCode} ({(int)response.StatusCode})", null, data);
         }
 
         public static async ValueTask<HealthCheckResult> ComposeHealthCheckStatus(HttpResponseMessage response)
         {
             HealthStatus status = response.IsSuccessStatusCode ? HealthStatus.Healthy : HealthStatus.Unhealthy;
             string responseContent = await response.Content?.ReadAsStringAsync();
-
-
-
             Dictionary<string, object> data = new Dictionary<string, object>
                 {
-                    { "url", response.RequestMessage.RequestUri.ToString() },
-                    { "status", (int)response.StatusCode },
+                    { "url", response.RequestMessage.RequestUri.ToString()},
+                    { "status", (int) response.StatusCode },
                     { "reason", response.ReasonPhrase },
-                    { "body", responseContent }
+                    { "body", responseContent },
+                    { "type", "UrlChecker"}
                 };
             return new HealthCheckResult(status, $"status code {response.StatusCode} ({(int)response.StatusCode})", null, data);
         }

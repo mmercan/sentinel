@@ -29,6 +29,7 @@
               "src/sw-toolbox.js"
             ],
             "styles": [
+              "src/assets/docs/bootstrap.min.css",
               "src/styles.scss",
               "src/assets/fonts/linea/styles.css",
               "src/assets/fonts/header/_flaticon.scss",

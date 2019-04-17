@@ -44,6 +44,7 @@ namespace Mercan.HealthChecks.Common.Checks
                 bool failedAny = false;
                 int order = 0;
                 IDictionary<string, Object> data = new Dictionary<string, object>();
+                data.Add("type", "DIHealthCheck");
 
                 List<Type> exceptions = new List<Type>{
                 typeof(Microsoft.Extensions.Options.IOptions<>),

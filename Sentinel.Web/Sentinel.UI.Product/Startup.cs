@@ -6,9 +6,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
-// using Sentinel.UI.Product.Models;
-// using Sentinel.UI.Product.DbContexts;
-// using Sentinel.UI.Product.Repositories;
 using Serilog;
 using Serilog.Events;
 using Swashbuckle.AspNetCore.Swagger;
@@ -111,7 +108,7 @@ namespace Sentinel.UI.Product
             .AddWorkingSetCheck(10000000)
 
             //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
-            .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
+            // .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
             .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "api/healthcheck/isalive")
             .AddApiIsAlive(Configuration.GetSection("sentinel-api-member:ClientOptions"), "api/healthcheck/isalive")
             .AddApiIsAlive(Configuration.GetSection("sentinel-api-product:ClientOptions"), "api/healthcheck/isalive")
@@ -195,34 +192,29 @@ namespace Sentinel.UI.Product
             // move  UseDefaultFiles to first line
             // app.UseFileServer();
             app.UseDefaultFiles();
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
+            app.UseSwagger(e =>
+            {
+                e.PreSerializeFilters.Add((doc, req) =>
                 {
-                    foreach (var description in provider.ApiVersionDescriptions)
-                    {
-                        options.SwaggerEndpoint(
-                            $"/swagger/{description.GroupName}/swagger.json",
-                            description.GroupName.ToUpperInvariant());
-                    }
+                    doc.Paths.Add("/Health/IsAliveAndWell", new PathItem { Get = new Operation { Tags = new List<string> { "HealthCheck" }, Produces = new string[] { "application/json" } } });
+                    doc.Paths.Add("/Health/IsAlive", new PathItem { Get = new Operation { Tags = new List<string> { "HealthCheck" }, Produces = new string[] { "application/json" } } });
                 });
+            });
+
+            app.UseSwaggerUI(options =>
+            {
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+                }
+            });
+
             app.UseCors("MyPolicy");
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChatHub>("/hub/chat");
-            });
-
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
-
-
+            app.UseSignalR(routes => { routes.MapHub<ChatHub>("/hub/chat"); });
+            app.UseMvc(routes => { routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}"); });
             app.UseHealthChecks("/Health/IsAliveAndWell", new HealthCheckOptions()
             {
                 // This custom writer formats the detailed status as JSON.
@@ -237,7 +229,6 @@ namespace Sentinel.UI.Product
                     await context.Response.WriteAsync("{\"IsAlive\":true}");
                 });
             });
-
         }
 
         private static Task WriteResponse(HttpContext httpContext, HealthReport result)

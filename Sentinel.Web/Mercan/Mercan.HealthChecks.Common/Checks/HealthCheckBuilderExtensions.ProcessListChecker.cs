@@ -28,6 +28,7 @@ namespace Mercan.HealthChecks.Common.Checks
             return await Task.Run(() =>
             {
                 IDictionary<string, Object> data = new Dictionary<string, object>();
+                data.Add("type", "ProcessListHealthChecks"); 
                 UInt32 totalsize = 0;
                 int number = 0;
                 foreach (var aProc in Process.GetProcesses())

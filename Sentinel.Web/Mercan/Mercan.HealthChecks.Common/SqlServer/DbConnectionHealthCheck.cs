@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,10 +33,16 @@ namespace Mercan.HealthChecks.Common.Checks
 
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
+            Dictionary<string, object> data = new Dictionary<string, object> ();
             using (var connection = CreateConnection(ConnectionString))
             {
                 try
                 {
+                    data.Add("database", connection.Database);
+                    data.Add("dataSource", connection.DataSource);
+                    data.Add("type", "DbConnection");
+                    data.Add("dbtype", connection.GetType().Name);
+
                     await connection.OpenAsync(cancellationToken);
 
                     if (TestQuery != null)
@@ -48,11 +55,11 @@ namespace Mercan.HealthChecks.Common.Checks
                 }
                 catch (DbException ex)
                 {
-                    return new HealthCheckResult(status: context.Registration.FailureStatus, exception: ex);
+                    return new HealthCheckResult(status: context.Registration.FailureStatus, exception: ex,data: data);
                 }
             }
 
-            return HealthCheckResult.Healthy();
+            return HealthCheckResult.Healthy("DbConnection is Healhty", data);
         }
     }
 }

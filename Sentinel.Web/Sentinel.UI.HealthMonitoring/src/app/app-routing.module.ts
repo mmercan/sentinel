@@ -22,6 +22,9 @@ export const routes: Routes = [{
   }, {
     path: 'docs',
     loadChildren: './docs/docs.module#DocsModule'
+  }, {
+    path: ':programname/:envname',
+    loadChildren: './env-dashboard/env-dashboard.module#EnvDashboardModule'
   }]
 }, {
   path: '',
