@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonDataStoreService } from '../common-data-store/common-data-store.service';
-import { HealthReport, HealthReportEntry } from './Interfaces/health-report';
+import { HealthReport, HealthReportEntry } from './interfaces/health-report';
 import { AppConfig } from '../../../app.config';
 import { CommonDataStoreInterface } from '../common-data-store/common-data-store-interface';
 import { AuthService } from '../../authentication/auth.service';
