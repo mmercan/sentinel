@@ -760,19 +760,40 @@
 </div>
 
 
-
-
-
-<app-add-max-value-check></app-add-max-value-check>
-<app-add-min-value-check></app-add-min-value-check>
-<app-db-connection-health-checks></app-db-connection-health-checks>
-<app-di-health-check></app-di-health-check>
-<app-mongo-health-check></app-mongo-health-check>
-<app-performance-counter-list></app-performance-counter-list>
-<app-process-list-health-checks></app-process-list-health-checks>
-<app-rabbit-mq-health-check></app-rabbit-mq-health-check>
-<app-service-client-base-health-check></app-service-client-base-health-check>
-<app-system-info-health-checks></app-system-info-health-checks>
+<div *ngIf="report.results">
+  <div class="row" *ngFor="let result of report.results">
+    <div class="col-sm-6 col-md-3" *ngIf="result &&  result.type && result.type==='AddMaxValueCheck'">
+      <app-add-max-value-check [healthCheckResult]="result"></app-add-max-value-check>
+    </div>
+    <div class="col-sm-6 col-md-3" *ngIf="result &&  result.type && result.type==='AddMinValueCheck'">
+      <app-add-min-value-check [healthCheckResult]="result"></app-add-min-value-check>
+    </div>
+    <div class="col-sm-6 col-md-3" *ngIf="result &&  result.type && result.type==='DbConnection'">
+      <app-db-connection-health-checks [healthCheckResult]="result"></app-db-connection-health-checks>
+    </div>
+    <div class="col-sm-6 col-md-3" *ngIf="result &&  result.type && result.type==='DIHealthCheck'">
+      <app-di-health-check [healthCheckResult]="result"></app-di-health-check>
+    </div>
+    <div class="col-sm-6 col-md-3" *ngIf="result &&  result.type && result.type==='MongoHealthCheck'">
+      <app-mongo-health-check [healthCheckResult]="result"></app-mongo-health-check>
+    </div>
+    <div class="col-sm-6 col-md-3" *ngIf="result &&  result.type && result.type==='PerformanceCounter'">
+      <app-performance-counter-list [healthCheckResult]="result"></app-performance-counter-list>
+    </div>
+    <div class="col-sm-6 col-md-3" *ngIf="result &&  result.type && result.type==='ProcessListHealthChecks'">
+      <app-process-list-health-checks [healthCheckResult]="result"></app-process-list-health-checks>
+    </div>
+    <div class="col-sm-6 col-md-3" *ngIf="result &&  result.type && result.type==='RabbitMQHealthCheck'">
+      <app-rabbit-mq-health-check [healthCheckResult]="result"></app-rabbit-mq-health-check>
+    </div>
+    <div class="col-sm-6 col-md-3" *ngIf="result &&  result.type && result.type==='ServiceClientBaseHealthCheck'">
+      <app-service-client-base-health-check [healthCheckResult]="result"></app-service-client-base-health-check>
+    </div>
+    <div class="col-sm-6 col-md-3" *ngIf="result &&  result.type && result.type==='SystemInfoHealthChecks'">
+      <app-system-info-health-checks [healthCheckResult]="result"></app-system-info-health-checks>
+    </div>
+  </div>
+</div>
 programname {{programname}}
 <br />
 envname {{envname}}

@@ -8,9 +8,9 @@ describe('AddMinValueCheckComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddMinValueCheckComponent ]
+      declarations: [AddMinValueCheckComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

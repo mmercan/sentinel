@@ -5,7 +5,9 @@ export interface HealthReport {
 }
 
 export interface HealthReportEntry {
+    name: string;
     status: string;
+    type: string;
     description: string;
     duration: string;
     data: any;

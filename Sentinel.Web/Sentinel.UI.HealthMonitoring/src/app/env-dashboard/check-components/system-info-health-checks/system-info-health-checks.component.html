@@ -1,3 +1,25 @@
-<p>
-  system-info-health-checks works!
-</p>
+<div *ngIf="healthCheckResult" class="card card-primary card-inverse">
+  <div class="card-header card-widget"
+    [ngClass]="{'bg-green':healthCheckResult.status === 'Healthy','bg-red':healthCheckResult.status === 'Unhealthy','bg-yellow':healthCheckResult.status === 'Degraded'}">
+    <div (click)="isCollapsed=!isCollapsed" class="widget-bg-icon icon icon-arrows-circle-up"></div>
+    <div class="block">
+      <h5 class="mb-0"><strong>System Info</strong></h5>
+      <p></p>
+    </div>
+  </div>
+  <div class="card-body" [ngbCollapse]="isCollapsed">
+
+    <dl *ngFor="let data of healthCheckResult.data | keyvalue">
+      <dt *ngIf="data.value!=undefined && data.value!=0 && data.key !='type'"> {{data.key}}</dt>
+      <dd *ngIf="data.value!=undefined && data.value!=0 && data.key !='type'"> {{data.value}}</dd>
+    </dl>
+
+    <dl *ngIf="healthCheckResult.exception">
+      <dt>exception</dt>
+      <dd>{{healthCheckResult.exception}}</dd>
+    </dl>
+    <!-- <p>
+      {{healthCheckResult | json}}
+    </p> -->
+  </div>
+</div>

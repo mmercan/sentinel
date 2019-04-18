@@ -161,6 +161,41 @@ services:
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     # ports:
     #   - "5004:80"
+  sentinel-api-healthmonitoring:      
+    image: sentinel-api-healthmonitoring:${TAGVersion}-dev-linux
+    build:
+      target: develop
+      context: .
+      dockerfile: Sentinel.Api.HealthMonitoring/dockerfile-linux
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
+      - Mongodb__ConnectionString=mongodb://root:hbMnztmZ4w9JJTGZ@168.62.62.82:27017/admin?readPreference=primary
+      - Mongodb__DatabaseName=sentinel
+      - Mongodb__CollectionName=product
+      - Mongodb__IdField=Id
+      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+      - RabbitMQConnection=host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10
+      - SMTP__Server=sentinel-util-mailhog
+      - SMTP__Port=1025
+      - SMTP__UserName=mail@mail.com
+      - SMTP__Password=password123
+      - ELASTICSEARCH_URL=http://40.117.115.1:9200
+      - sentinel-ui-sts__ClientOptions__BaseAddress=http://sentinel-ui-sts/
+      - sentinel-ui-sts__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-member__ClientOptions__BaseAddress=http://sentinel-api-member/
+      - sentinel-api-member__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-product__ClientOptions__BaseAddress=http://sentinel-api-product/
+      - sentinel-api-product__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-comms__ClientOptions__BaseAddress=http://sentinel-api-comms/
+      - sentinel-api-comms__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+    volumes:
+      - .:/src
+    entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
+    ports:
+      - "5006:80"
   sentinel-ui-sts:      
     image: sentinel-ui-sts:${TAGVersion}-dev-linux
     build:

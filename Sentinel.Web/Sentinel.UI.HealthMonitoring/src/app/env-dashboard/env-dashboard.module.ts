@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { EnvDashboardRoutingModule } from './env-dashboard-routing.module';
 import { ProgDashboardComponent } from './prog-dashboard/prog-dashboard.component';
@@ -21,7 +22,8 @@ import { MongoHealthCheckComponent } from './check-components/mongo-health-check
   imports: [
     CommonModule,
     EnvDashboardRoutingModule,
-    SharedModule
+    SharedModule,
+    NgbCollapseModule
   ],
   declarations: [ProgDashboardComponent, DiHealthCheckComponent, ProcessListHealthChecksComponent, PerformanceCounterListComponent,
     SystemInfoHealthChecksComponent, AddMaxValueCheckComponent, AddMinValueCheckComponent, DbConnectionHealthChecksComponent,

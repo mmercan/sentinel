@@ -1,3 +1,23 @@
-<p>
-  db-connection-health-checks works!
-</p>
+<div *ngIf="healthCheckResult" class="card card-primary card-inverse">
+  <div class="card-header card-widget"
+    [ngClass]="{'bg-green':healthCheckResult.status === 'Healthy','bg-red':healthCheckResult.status === 'Unhealthy','bg-yellow':healthCheckResult.status === 'Degraded'}">
+    <div (click)="isCollapsed=!isCollapsed" class="widget-bg-icon icon icon-arrows-circle-up"></div>
+    <div class="block">
+      <h5 class="mb-0"><strong>DB Connection</strong></h5>
+      <p></p>
+    </div>
+  </div>
+  <div class="card-body" [ngbCollapse]="isCollapsed">
+    <dl>
+      <dt>Name</dt>
+      <dd>{{healthCheckResult.name}}</dd>
+      <dt>Max</dt>
+      <dd>{{healthCheckResult.data.max}}</dd>
+      <dt>Current</dt>
+      <dd>{{healthCheckResult.data.current}}</dd>
+    </dl>
+    <p>
+      {{healthCheckResult | json}}
+    </p>
+  </div>
+</div>

@@ -26,11 +26,23 @@ namespace Mercan.HealthChecks.Common.Checks
         {
             builder.AddCheck($"PerformanceCounter for " + WMIClassName, () =>
             {
-                IDictionary<string, Object> data = RunQueryforData("SELECT * FROM " + WMIClassName); //Win32_PerfRawData_PerfOS_Memory
-                data.Add("type", "PerformanceCounterList");
-                ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
-                string description = "PerformanceCounter for " + WMIClassName;
-                return HealthCheckResult.Healthy(description, rodata);
+                try
+                {
+                    IDictionary<string, Object> data = RunQueryforData("SELECT * FROM " + WMIClassName); //Win32_PerfRawData_PerfOS_Memory
+                    data.Add("type", "PerformanceCounter");
+                    data.Add("wmiClassName", WMIClassName);
+                    ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
+                    string description = "PerformanceCounter for " + WMIClassName;
+                    return HealthCheckResult.Healthy(description, rodata);
+                }
+                catch (PlatformNotSupportedException ex)
+                {
+                    return HealthCheckResult.Degraded(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" } });
+                }
+                catch (Exception ex)
+                {
+                    return HealthCheckResult.Unhealthy(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" } });
+                }
             });
             return builder;
         }
@@ -39,11 +51,23 @@ namespace Mercan.HealthChecks.Common.Checks
         {
             builder.AddCheck($"PerformanceCounter for " + WMIClassName + " Column " + Column, () =>
             {
-                IDictionary<string, Object> data = RunQueryforData("SELECT " + Column + " FROM " + WMIClassName); ////Win32_PerfRawData_PerfOS_Memory
-                data.Add("type", "AddPerformanceCounter");
-                ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
-                string description = "PerformanceCounter for " + WMIClassName + " Column " + Column;
-                return HealthCheckResult.Healthy(description, rodata);
+                try
+                {
+                    IDictionary<string, Object> data = RunQueryforData("SELECT " + Column + " FROM " + WMIClassName); ////Win32_PerfRawData_PerfOS_Memory
+                    data.Add("type", "PerformanceCounter");
+                    data.Add("wmiClassName", WMIClassName);
+                    data.Add("column", Column);
+                    ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
+                    string description = "PerformanceCounter for " + WMIClassName + " Column " + Column;
+                    return HealthCheckResult.Healthy(description, rodata);
+                }
+                catch(PlatformNotSupportedException ex){
+                    return HealthCheckResult.Degraded(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" } });
+                }
+                catch (Exception ex)
+                {
+                    return HealthCheckResult.Unhealthy(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" } });
+                }
             });
             return builder;
         }
@@ -54,11 +78,24 @@ namespace Mercan.HealthChecks.Common.Checks
             string columnsJoined = string.Join(",", columns);
             builder.AddCheck($"PerformanceCounter for " + WMIClassName + " Columns " + columnsJoined, () =>
             {
-                IDictionary<string, Object> data = RunQueryforData("SELECT " + columnsJoined + " FROM " + WMIClassName);
-                data.Add("type", "PerformanceCounterList");
-                ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
-                string description = $"PerformanceCounter for " + WMIClassName + " Columns " + columnsJoined;
-                return HealthCheckResult.Healthy(description, rodata);
+                try
+                {
+                    IDictionary<string, Object> data = RunQueryforData("SELECT " + columnsJoined + " FROM " + WMIClassName);
+                    data.Add("type", "PerformanceCounter");
+                    data.Add("wmiClassName", WMIClassName);
+                    data.Add("column", columnsJoined);
+                    ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
+                    string description = $"PerformanceCounter for " + WMIClassName + " Columns " + columnsJoined;
+                    return HealthCheckResult.Healthy(description, rodata);
+                }
+                catch (PlatformNotSupportedException ex)
+                {
+                    return HealthCheckResult.Degraded(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" } });
+                }
+                catch (Exception ex)
+                {
+                    return HealthCheckResult.Unhealthy(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" } });
+                }
             });
             return builder;
         }
