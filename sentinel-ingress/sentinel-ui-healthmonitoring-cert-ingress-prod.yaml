@@ -37,3 +37,11 @@ spec:
         backend:
           serviceName: sentinel-ui-healthmonitoring
           servicePort: 80
+      - path: /health/
+        backend:
+          serviceName: sentinel-api-healthmonitoring
+          servicePort: 80
+      - path: /api/
+        backend:
+          serviceName: sentinel-api-healthmonitoring
+          servicePort: 80
