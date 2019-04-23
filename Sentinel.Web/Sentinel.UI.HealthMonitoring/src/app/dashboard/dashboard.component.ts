@@ -9,12 +9,6 @@ import { HttpClient } from '@angular/common/http';
 export class DashboardComponent {
 
   constructor(private httpClient: HttpClient) {
-    httpClient.get('/blah.json').subscribe(data => {
-
-    },
-      error => {
-
-      }
-    );
+    // httpClient.get('/blah.json').subscribe(data => { },     error => { });
   }
 }

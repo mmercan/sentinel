@@ -44,6 +44,15 @@ export class AppConfig {
       keyVaultBaseUrlLocation: 'KeyVault:BaseUrl',
       keyVaultClientIdLocation: 'KeyVault:ClientId'
     },
+    HealthCheck: {
+      baseUrl: window.location.hostname === 'localhost'
+        ? 'http://localhost:5006/' : 'https://healthmonitoring.myrcan.com/api/',
+      appsettingsFolderLocation: window.location.hostname === 'localhost'
+        ? 'C:\\Users\\mmercan\\Desktop\\BAU\\Bupa.Api.BFF.SSP\\Bupa.Api.BFF.SSP.CRM' : 'D:\\home\\site\\wwwroot',
+      keyVaultCertThumbPrintLocation: 'KeyVault:CertThumbPrint',
+      keyVaultBaseUrlLocation: 'KeyVault:BaseUrl',
+      keyVaultClientIdLocation: 'KeyVault:ClientId'
+    },
     SignalR: {
       pingServerUrl: window.location.hostname === 'localhost'
         ? 'http://localhost:62657/ping' : '/KeyVaultChecker/ping',

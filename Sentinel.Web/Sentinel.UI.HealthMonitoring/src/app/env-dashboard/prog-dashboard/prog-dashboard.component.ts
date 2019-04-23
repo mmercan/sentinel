@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HealthcheckDataStoreService } from '../../shared/data-store/healthcheck-data-store/healthcheck-data-store.service';
 import { HealthReport, HealthReportEntry } from '../../shared/data-store/healthcheck-data-store/interfaces/health-report';
+import { AppConfig, authenticationType, logLevel } from '../../app.config';
 @Component({
   selector: 'app-prog-dashboard',
   templateUrl: './prog-dashboard.component.html',
@@ -11,7 +12,7 @@ export class ProgDashboardComponent implements OnInit {
   programname = '';
   envname = '';
   report: HealthReport = { duration: null, results: [], status: null };
-  constructor(private route: ActivatedRoute, private healthDataService: HealthcheckDataStoreService) {
+  constructor(private route: ActivatedRoute, private healthDataService: HealthcheckDataStoreService, private appConfig: AppConfig) {
   }
 
   ngOnInit() {
@@ -35,7 +36,7 @@ export class ProgDashboardComponent implements OnInit {
         }
 
       );
-      this.healthDataService.getAll('http://localhost:5006/health/isaliveandwell');
+      this.healthDataService.getAll(this.appConfig.config.HealthCheck.baseUrl + 'health/isaliveandwell');
     });
 
   }
