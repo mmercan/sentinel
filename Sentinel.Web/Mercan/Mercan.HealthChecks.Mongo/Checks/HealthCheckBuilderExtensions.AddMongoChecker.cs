@@ -53,6 +53,15 @@ namespace Mercan.HealthChecks.Mongo
                 try
                 {
                     mongoClient = new MongoClient(connectionString);
+
+                    var server = mongoClient.Settings.Server.Host;
+
+                    var servers = string.Join(",", mongoClient.Settings.Servers.Select(p => p.Host));
+                    if (!string.IsNullOrWhiteSpace(servers))
+                    {
+                        data.Add("servers", servers);
+                    }
+
                     var databases = mongoClient.ListDatabaseNames();
                     foreach (var database in databases.ToList())
                     {

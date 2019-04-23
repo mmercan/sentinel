@@ -324,7 +324,7 @@ namespace Mercan.HealthChecks.Common.Checks
                     task.Wait();
                     string response = task.Result;
                     string description = path + " is succeesful with response : " + response;
-                    IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { "type", "ServiceClientBaseHealthCheck" }, { "BaseAddress", _options?.BaseAddress } };
+                    IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { "type", "ServiceClientBaseHealthCheck" }, { "BaseAddress", _options?.BaseAddress }, { "Path", path } };
                     return HealthCheckResult.Healthy(description, data);
                 }
                 catch (Exception ex)
@@ -333,7 +333,7 @@ namespace Mercan.HealthChecks.Common.Checks
                     if (Message == null) { Message = ex.InnerException?.Message; }
                     if (Message == null) { Message = ex.Message; }
                     string description = Message;
-                    IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { "type", "ServiceClientBaseHealthCheck" }, { path, " failed with exception " + Message }, { "BaseAddress", _options?.BaseAddress } };
+                    IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { "type", "ServiceClientBaseHealthCheck" }, { path, " failed with exception " + Message }, { "BaseAddress", _options?.BaseAddress }, { "Path", path } };
                     return HealthCheckResult.Unhealthy(description, null, data);
                 }
             });

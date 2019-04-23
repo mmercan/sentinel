@@ -2,6 +2,8 @@ export interface HealthReport {
     status: string;
     duration: string;
     results: HealthReportEntry[];
+    url?: string;
+    servicename?: string;
 }
 
 export interface HealthReportEntry {

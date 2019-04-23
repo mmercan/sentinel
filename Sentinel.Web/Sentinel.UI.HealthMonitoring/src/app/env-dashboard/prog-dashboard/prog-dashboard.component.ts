@@ -20,10 +20,6 @@ export class ProgDashboardComponent implements OnInit {
       this.programname = params['programname'];
       this.envname = params['envname'];
 
-      // data => {
-      //   this.report = data;
-      // }
-
       this.healthDataService.dataset.subscribe(
         data => {
           console.log('success', data);
@@ -36,7 +32,7 @@ export class ProgDashboardComponent implements OnInit {
         }
 
       );
-      this.healthDataService.getAll(this.appConfig.config.HealthCheck.baseUrl + 'health/isaliveandwell');
+      this.healthDataService.getAll(this.appConfig.config.HealthCheck.baseUrl + 'health/isaliveandwell', 'HealthMonitoring Api');
     });
 
   }

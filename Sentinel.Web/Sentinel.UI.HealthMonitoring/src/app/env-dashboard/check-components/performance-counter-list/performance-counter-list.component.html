@@ -1,10 +1,16 @@
 <div *ngIf="healthCheckResult" class="card card-primary card-inverse">
-  <div class="card-header card-widget"
+  <div style="text-transform:inherit" class="card-header card-widget"
     [ngClass]="{'bg-green':healthCheckResult.status === 'Healthy','bg-red':healthCheckResult.status === 'Unhealthy','bg-yellow':healthCheckResult.status === 'Degraded'}">
-    <div (click)="isCollapsed=!isCollapsed" class="widget-bg-icon icon icon-arrows-circle-up"></div>
+    <div style="cursor:pointer; top:7px" (click)="isCollapsed=!isCollapsed"
+      class="widget-bg-icon icon icon-arrows-circle-up">
+    </div>
     <div class="block">
       <h5 class="mb-0"><strong>Performance Counter</strong></h5>
-      <p></p>
+      <p>
+        <span *ngIf="!healthCheckResult.data.column && healthCheckResult.data.wmiClassName">
+          {{healthCheckResult.data.wmiClassName}} </span>
+        <span *ngIf="healthCheckResult.data.column"> {{healthCheckResult.data.column}} </span>
+      </p>
     </div>
   </div>
   <div class="card-body" [ngbCollapse]="isCollapsed">

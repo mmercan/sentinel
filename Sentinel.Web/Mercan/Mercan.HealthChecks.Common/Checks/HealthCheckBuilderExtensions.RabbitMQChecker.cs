@@ -46,6 +46,18 @@ namespace Mercan.HealthChecks.Common.Checks
                         bus.Publish("Test", "healthcheck.rabbitmq");
                         var connected = bus.IsConnected;
                         data.Add("Connected", bus.IsConnected);
+
+
+
+                      var items =  connectionString.Split(';');
+                        foreach(var item in items)
+                        {
+                            var parts = item.Trim().Split('=');
+                            if(parts!=null && !string.IsNullOrWhiteSpace(parts[0]) && parts[0].Trim().ToLower() == "host" && !string.IsNullOrWhiteSpace(parts[1]))
+                            {
+                                data.Add("host", parts[1].Trim());
+                            }
+                        }
                     }
                     string description = "RabbitMQHealthCheck is healthy";
                     ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);

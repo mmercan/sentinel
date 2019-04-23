@@ -37,11 +37,11 @@ namespace Mercan.HealthChecks.Common.Checks
                 }
                 catch (PlatformNotSupportedException ex)
                 {
-                    return HealthCheckResult.Degraded(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" } });
+                    return HealthCheckResult.Degraded(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" }, { "wmiClassName", WMIClassName } });
                 }
                 catch (Exception ex)
                 {
-                    return HealthCheckResult.Unhealthy(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" } });
+                    return HealthCheckResult.Unhealthy(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" }, { "wmiClassName", WMIClassName } });
                 }
             });
             return builder;
@@ -62,11 +62,11 @@ namespace Mercan.HealthChecks.Common.Checks
                     return HealthCheckResult.Healthy(description, rodata);
                 }
                 catch(PlatformNotSupportedException ex){
-                    return HealthCheckResult.Degraded(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" } });
+                    return HealthCheckResult.Degraded(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" }, { "wmiClassName", WMIClassName }, { "column", Column } });
                 }
                 catch (Exception ex)
                 {
-                    return HealthCheckResult.Unhealthy(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" } });
+                    return HealthCheckResult.Unhealthy(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" }, { "wmiClassName", WMIClassName }, { "column", Column } });
                 }
             });
             return builder;
@@ -75,7 +75,7 @@ namespace Mercan.HealthChecks.Common.Checks
 
         public static IHealthChecksBuilder AddPerformanceCounter(this IHealthChecksBuilder builder, String WMIClassName, params string[] columns)
         {
-            string columnsJoined = string.Join(",", columns);
+            string columnsJoined = string.Join(", ", columns);
             builder.AddCheck($"PerformanceCounter for " + WMIClassName + " Columns " + columnsJoined, () =>
             {
                 try
@@ -90,11 +90,11 @@ namespace Mercan.HealthChecks.Common.Checks
                 }
                 catch (PlatformNotSupportedException ex)
                 {
-                    return HealthCheckResult.Degraded(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" } });
+                    return HealthCheckResult.Degraded(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" }, { "wmiClassName", WMIClassName }, { "column", columnsJoined } });
                 }
                 catch (Exception ex)
                 {
-                    return HealthCheckResult.Unhealthy(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" } });
+                    return HealthCheckResult.Unhealthy(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" }, { "wmiClassName", WMIClassName }, { "column", columnsJoined } });
                 }
             });
             return builder;

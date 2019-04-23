@@ -26,11 +26,13 @@ export class HealthcheckDataStoreService {
     this.dataset = this._dataset.asObservable();
   }
 
-  getAll(baseUrl: string) {
+  getAll(baseUrl: string, servicename: string) {
     // const obs = Observable.create(observer => {
 
     this.http.get<HealthReport>(baseUrl).pipe(map(response => response)).subscribe(data => {
-      // this.dataStore.dataset = data;
+      data.url = baseUrl;
+      data.servicename = servicename;
+      this.dataStore.dataset = data;
       // setTimeout(_ => this._dataset.next(Object.assign({}, this.dataStore).dataset));
       this._dataset.next(Object.assign({}, this.dataStore).dataset);
 
@@ -39,6 +41,8 @@ export class HealthcheckDataStoreService {
     }, error => {
       if (error.status === 503) {
         console.log('Could not load items.' + JSON.stringify(error));
+        error.error.url = baseUrl;
+        error.error.servicename = servicename;
         this.dataStore.dataset = error.error;
         this._dataset.next(Object.assign({}, this.dataStore).dataset);
       } else {
