@@ -28,7 +28,8 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Mercan.HealthChecks.Common.Checks;
 using Mercan.HealthChecks.Mongo;
-
+using Mercan.HealthChecks.RabbitMQ;
+using Mercan.HealthChecks.Redis;
 namespace Sentinel.UI.Product
 {
     public class Startup

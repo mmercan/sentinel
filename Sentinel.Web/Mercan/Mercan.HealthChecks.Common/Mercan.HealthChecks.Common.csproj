@@ -3,12 +3,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="EasyNetQ" Version="3.4.5"/>
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2"/>
-    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="3.4.0"/>
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="2.2.0"/>
     <PackageReference Include="Polly" Version="7.1.0"/>
-    <PackageReference Include="StackExchange.Redis" Version="2.0.588"/>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2"/>
     <PackageReference Include="System.Data.SqlClient" Version="4.6.0"/>
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0"/>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0"/>
@@ -16,5 +14,6 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0"/>
     <PackageReference Include="System.Management" Version="4.5.0"/>
     <PackageReference Include="Microsoft.Identity.Client" Version="2.7.1"/>
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.1"/>
   </ItemGroup>
 </Project>

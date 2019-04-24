@@ -8,10 +8,9 @@ using System.Collections.ObjectModel;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using EasyNetQ;
 using StackExchange.Redis;
 
-namespace Mercan.HealthChecks.Common.Checks
+namespace Mercan.HealthChecks.Redis
 {
     // Simulates a health check for an application dependency that takes a while to initialize.
     // This is part of the readiness/liveness probe sample.

@@ -27,6 +27,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.IO;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Mercan.HealthChecks.Common.Checks;
 
 namespace Sentinel.UI.Sts
 {
@@ -91,6 +96,23 @@ namespace Sentinel.UI.Sts
                 options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().AddAuthenticationSchemes("azure", "local").Build();
             });
 
+            services.AddHealthChecks()
+            .AddProcessList()
+            .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory")
+            .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
+            .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
+            .AddSystemInfoCheck();
+            // .AddWorkingSetCheck(10000000)
+            // //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
+            // .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
+            // .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "api/healthcheck/isalive")
+            // .AddApiIsAlive(Configuration.GetSection("sentinel-api-member:ClientOptions"), "api/healthcheck/isalive")
+            // .AddApiIsAlive(Configuration.GetSection("sentinel-api-product:ClientOptions"), "api/healthcheck/isalive")
+            // .AddApiIsAlive(Configuration.GetSection("sentinel-api-comms:ClientOptions"), "api/healthcheck/isalive")
+            // .AddMongoHealthCheck(Configuration["Mongodb:ConnectionString"])
+            // .AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
+            // .AddRedisHealthCheck(Configuration["RedisConnection"])
+            // .AddDIHealthCheck(services);
 
             // services.AddMvcCore().AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -170,7 +192,32 @@ namespace Sentinel.UI.Sts
             // move  UseDefaultFiles to first line
             // app.UseFileServer();
             app.UseDefaultFiles();
-            app.UseSwagger();
+
+            app.UseSwagger(e =>
+            {
+                e.PreSerializeFilters.Add((doc, req) =>
+                {
+                    doc.Paths.Add("/Health/IsAliveAndWell", new PathItem
+                    {
+                        Get = new Operation
+                        {
+                            Tags = new List<string> { "HealthCheck" },
+                            Produces = new string[] { "application/json" }
+                        }
+                    });
+
+                    doc.Paths.Add("/Health/IsAlive", new PathItem
+                    {
+                        Get = new Operation
+                        {
+                            Tags = new List<string> { "HealthCheck" },
+                            Produces = new string[] { "application/json" }
+                        }
+                    });
+                });
+            });
+
+
             app.UseSwaggerUI(options =>
                 {
                     foreach (var description in provider.ApiVersionDescriptions)
@@ -191,6 +238,59 @@ namespace Sentinel.UI.Sts
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseHealthChecks("/Health/IsAliveAndWell", new HealthCheckOptions()
+            {
+                // This custom writer formats the detailed status as JSON.
+                ResponseWriter = WriteResponse,
+            });
+
+            app.Map("/Health/IsAlive", (ap) =>
+            {
+                ap.Run(async context =>
+                {
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync("{\"IsAlive\":true}");
+                });
+            });
         }
+
+        private static Task WriteResponse(HttpContext httpContext, HealthReport result)
+        {
+            httpContext.Response.ContentType = "application/json";
+            //As Dictionary
+            // var json = new JObject(
+            //     new JProperty("status", result.Status.ToString()),
+            //     new JProperty("duration", result.TotalDuration),
+            //     new JProperty("results", new JObject(result.Entries.Select(pair =>
+            //         new JProperty(pair.Key, new JObject(
+            //             new JProperty("status", pair.Value.Status.ToString()),
+            //             new JProperty("description", pair.Value.Description),
+            //             new JProperty("duration", pair.Value.Duration),
+
+            //             new JProperty("data", new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value)))),
+            //             new JProperty("exception", pair.Value.Exception?.Message) //new JObject(pair.Value.Exception.Select(p => new JProperty(p.Key, p.Value))))
+            //                                         ))))));
+            // return httpContext.Response.WriteAsync(json.ToString(Formatting.Indented));
+
+
+            //As Array
+            var json = new JObject(
+                new JProperty("status", result.Status.ToString()),
+                new JProperty("duration", result.TotalDuration),
+                new JProperty("results", new JArray(result.Entries.Select(pair =>
+                  new JObject(
+                       new JProperty("name", pair.Key.ToString()),
+                       new JProperty("status", pair.Value.Status.ToString()),
+                       new JProperty("description", pair.Value.Description),
+                       new JProperty("duration", pair.Value.Duration),
+                       new JProperty("type", pair.Value.Data.FirstOrDefault(p => p.Key == "type").Value),
+                       new JProperty("data", new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value)))),
+                       new JProperty("exception", pair.Value.Exception?.Message)
+                 )
+                 ))));
+            return httpContext.Response.WriteAsync(json.ToString(Formatting.Indented));
+        }
+
     }
 }

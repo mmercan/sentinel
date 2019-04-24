@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using EasyNetQ;
 
-namespace Mercan.HealthChecks.Common.Checks
+namespace Mercan.HealthChecks.RabbitMQ
 {
     // Simulates a health check for an application dependency that takes a while to initialize.
     // This is part of the readiness/liveness probe sample.
@@ -49,11 +49,11 @@ namespace Mercan.HealthChecks.Common.Checks
 
 
 
-                      var items =  connectionString.Split(';');
-                        foreach(var item in items)
+                        var items = connectionString.Split(';');
+                        foreach (var item in items)
                         {
                             var parts = item.Trim().Split('=');
-                            if(parts!=null && !string.IsNullOrWhiteSpace(parts[0]) && parts[0].Trim().ToLower() == "host" && !string.IsNullOrWhiteSpace(parts[1]))
+                            if (parts != null && !string.IsNullOrWhiteSpace(parts[0]) && parts[0].Trim().ToLower() == "host" && !string.IsNullOrWhiteSpace(parts[1]))
                             {
                                 data.Add("host", parts[1].Trim());
                             }

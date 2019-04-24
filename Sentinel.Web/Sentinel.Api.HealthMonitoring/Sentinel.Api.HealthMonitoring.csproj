@@ -1,11 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
-
-
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -28,12 +25,12 @@
     <PackageReference Include="WebPush-netcore" Version="1.0.2" />
   </ItemGroup>
 
-
   <ItemGroup>
     <ProjectReference Include="..\Mercan\Mercan.Common\Mercan.Common.csproj" />
     <ProjectReference Include="..\Sentinel.Common\Sentinel.Model\Sentinel.Model.csproj" />
     <ProjectReference Include="..\Mercan\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj" />
     <ProjectReference Include="..\Mercan\Mercan.HealthChecks.Mongo\Mercan.HealthChecks.Mongo.csproj" />
+    <ProjectReference Include="..\Mercan\Mercan.HealthChecks.RabbitMQ\Mercan.HealthChecks.RabbitMQ.csproj" />
+    <ProjectReference Include="..\Mercan\Mercan.HealthChecks.Redis\Mercan.HealthChecks.Redis.csproj" />
   </ItemGroup>
-
 </Project>
