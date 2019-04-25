@@ -1,16 +1,14 @@
-programname {{programname}}
-<br />
-envname {{envname}}
-<br />
+<div class="container-fluid">
 
-<div>
+  programname {{programname}}
+  <br />
+  envname {{envname}}
+  <br />
 
-
-  <div class="row">
-    <div *ngIf="report.results" class="col-sm-6 col-md-3">
-      <div class="card card-primary card-inverse">
-        <div class="card-header card-widget"
-          [ngClass]="{'bg-green':report.status === 'Healthy','bg-red':report.status === 'Unhealthy','bg-yellow':report.status === 'Degraded'}">
+  <div class="row flex-row flex-nowrap">
+    <div *ngFor="let report of reportSet" class="col-sm-6 col-md-3">
+      <div *ngIf="report.results" class="card card-primary card-inverse">
+        <div class="card-header card-widget" [ngClass]="{'bg-green':report.status === 'Healthy','bg-red':report.status === 'Unhealthy','bg-yellow':report.status === 'Degraded'}">
           <!-- <div style="cursor:pointer; top:7px" class="widget-bg-icon icon icon-arrows-circle-up"> </div> -->
           <div class="block">
             <h5 class="mb-0"><strong>{{report.servicename}}</strong></h5>
@@ -51,7 +49,16 @@ envname {{envname}}
         <div *ngIf="result &&  result.type && result.type==='SystemInfoHealthChecks'">
           <app-system-info-health-checks [healthCheckResult]="result"></app-system-info-health-checks>
         </div>
+
+
       </div>
     </div>
+    <div class="col-sm-6 col-md-3" style="height: 1500px">blah 1</div>
+    <div class="col-sm-6 col-md-3">blah 2</div>
+    <div class="col-sm-6 col-md-3">blah 3</div>
+    <div class="col-sm-6 col-md-3" style="height: 1500px">blah 4</div>
+    <div class="col-sm-6 col-md-3" style="height: 1500px">blah 5</div>
+    <div class="col-sm-6 col-md-3" style="height: 1500px">blah 6</div>
+    <div class="col-sm-6 col-md-3" style="height: 1500px">blah 7</div>
   </div>
 </div>

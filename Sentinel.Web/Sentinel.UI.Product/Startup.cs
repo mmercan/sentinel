@@ -235,19 +235,37 @@ namespace Sentinel.UI.Product
         private static Task WriteResponse(HttpContext httpContext, HealthReport result)
         {
             httpContext.Response.ContentType = "application/json";
+            //As Dictionary
+            // var json = new JObject(
+            //     new JProperty("status", result.Status.ToString()),
+            //     new JProperty("duration", result.TotalDuration),
+            //     new JProperty("results", new JObject(result.Entries.Select(pair =>
+            //         new JProperty(pair.Key, new JObject(
+            //             new JProperty("status", pair.Value.Status.ToString()),
+            //             new JProperty("description", pair.Value.Description),
+            //             new JProperty("duration", pair.Value.Duration),
 
+            //             new JProperty("data", new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value)))),
+            //             new JProperty("exception", pair.Value.Exception?.Message) //new JObject(pair.Value.Exception.Select(p => new JProperty(p.Key, p.Value))))
+            //                                         ))))));
+            // return httpContext.Response.WriteAsync(json.ToString(Formatting.Indented));
+
+
+            //As Array
             var json = new JObject(
                 new JProperty("status", result.Status.ToString()),
                 new JProperty("duration", result.TotalDuration),
-                new JProperty("results", new JObject(result.Entries.Select(pair =>
-                    new JProperty(pair.Key, new JObject(
-                        new JProperty("status", pair.Value.Status.ToString()),
-                        new JProperty("description", pair.Value.Description),
-                        new JProperty("duration", pair.Value.Duration),
-
-                        new JProperty("data", new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value)))),
-                        new JProperty("exception", pair.Value.Exception?.Message) //new JObject(pair.Value.Exception.Select(p => new JProperty(p.Key, p.Value))))
-                                                    ))))));
+                new JProperty("results", new JArray(result.Entries.Select(pair =>
+                  new JObject(
+                       new JProperty("name", pair.Key.ToString()),
+                       new JProperty("status", pair.Value.Status.ToString()),
+                       new JProperty("description", pair.Value.Description),
+                       new JProperty("duration", pair.Value.Duration),
+                       new JProperty("type", pair.Value.Data.FirstOrDefault(p => p.Key == "type").Value),
+                       new JProperty("data", new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value)))),
+                       new JProperty("exception", pair.Value.Exception?.Message)
+                 )
+                 ))));
             return httpContext.Response.WriteAsync(json.ToString(Formatting.Indented));
         }
     }

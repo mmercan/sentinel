@@ -12,6 +12,7 @@ import { AdalService } from './authentication/adal-auth/adal.service';
 import { AdalGuard } from './authentication/adal-auth/adal.guard';
 import { LocalAuthService } from './authentication/local-auth/local-auth.service';
 import { AuthService } from './authentication/auth.service';
+import { HealthcheckDataStoreSetService } from './data-store/healthcheck-data-store/healthcheck-data-store-set.service';
 import { IfAuthenticatedDirective } from './authentication/if-authenticated/if-authenticated.directive';
 import { UserAvatarComponent } from './authentication/user-avatar/user-avatar.component';
 
@@ -35,7 +36,7 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [AppConfig, AdalService, LocalAuthService, AuthService, MenuItems, NotificationService, AdalInterceptor,
-        OfflineNotificationService, HealthcheckDataStoreService, AdalGuard]
+        OfflineNotificationService, HealthcheckDataStoreService, HealthcheckDataStoreSetService, AdalGuard]
     };
   }
 }
