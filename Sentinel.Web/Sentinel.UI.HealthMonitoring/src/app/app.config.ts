@@ -51,23 +51,23 @@ export class AppConfig {
         name: 'HealthMonitoring Api'
       }, {
         isaliveandwell: window.location.hostname === 'localhost' ? 'http://localhost:5004/health/isaliveandwell'
-          : 'https://comms.myrcan.com/api/health/isaliveandwell',
+          : 'https://comms.myrcan.com/health/isaliveandwell',
         name: 'Comms Api'
       }, {
         isaliveandwell: window.location.hostname === 'localhost' ? 'http://localhost:5002/health/isaliveandwell'
-          : 'https://member.myrcan.com/api/health/isaliveandwell',
+          : 'https://member.myrcan.com/health/isaliveandwell',
         name: 'Member Api'
       }, {
         isaliveandwell: window.location.hostname === 'localhost' ? 'http://localhost:5003/health/isaliveandwell'
-          : 'https://productapi.myrcan.com//api/health/isaliveandwell',
+          : 'https://productapi.myrcan.com/health/isaliveandwell',
         name: 'Product Api'
       }, {
         isaliveandwell: window.location.hostname === 'localhost' ? 'http://localhost:5005/health/isaliveandwell'
-          : 'https://product.myrcan.com.myrcan.com/api/health/isaliveandwell',
+          : 'https://product.myrcan.com/health/isaliveandwell',
         name: 'Product UI'
       }, {
         isaliveandwell: window.location.hostname === 'localhost' ? 'http://localhost:5000/health/isaliveandwell'
-          : 'https://auth.myrcan.com/api/health/isaliveandwell',
+          : 'https://auth.myrcan.com/health/isaliveandwell',
         name: 'STS UI'
       }],
       baseUrl: window.location.hostname === 'localhost' ? 'http://localhost:5006/' : 'https://healthmonitoring.myrcan.com/api/',
