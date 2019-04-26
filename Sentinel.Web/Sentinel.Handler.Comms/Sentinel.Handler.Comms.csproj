@@ -5,6 +5,7 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0"/>
@@ -14,7 +15,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="2.2.0"/>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0"/>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0"/>
-    <PackageReference Include="Polly" Version="7.0.3" />
+    <PackageReference Include="Polly" Version="7.*" />
     <PackageReference Include="NATS.Client" Version="0.8.1"/>
     <PackageReference Include="Serilog" Version="2.8.0"/>
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2"/>
@@ -29,6 +30,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sentinel.Common\Sentinel.Model\Sentinel.Model.csproj"/>
-     <ProjectReference Include="..\Mercan\Mercan.Common\Mercan.Common.csproj"/>
+    <ProjectReference Include="..\Mercan\Mercan.Common\Mercan.Common.csproj"/>
+    <ProjectReference Include="..\Mercan\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj" />
+    <ProjectReference Include="..\Mercan\Mercan.HealthChecks.Mongo\Mercan.HealthChecks.Mongo.csproj" />
   </ItemGroup>
 </Project>

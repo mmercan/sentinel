@@ -112,7 +112,6 @@ namespace Sentinel.Api.Comms
             .AddSystemInfoCheck();
             // // .AddPrivateMemorySizeCheck(10000000)
             // .AddWorkingSetCheck(10000000)
-
             // //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
             // .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
             // .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "api/healthcheck/isalive")

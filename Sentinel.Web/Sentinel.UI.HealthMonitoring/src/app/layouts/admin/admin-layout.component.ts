@@ -52,6 +52,9 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   notificationCount = 0;
   @ViewChild('sidebar') sidebar;
   @ViewChild('notificationDrop') notificationDrop;
+  params: any;
+  programName: any;
+  envName: any;
 
   constructor(
     public menuItems: MenuItems,
@@ -113,11 +116,18 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         activeRoute = activeRoute.firstChild;
       }
       this.options = activeRoute.snapshot.data;
+      this.params = activeRoute.snapshot.params;
     });
 
     if (this.options) {
       if (this.options.hasOwnProperty('heading')) {
         this.setTitle(this.appConfig.config.title);
+      }
+      if (this.params.hasOwnProperty('programname')) {
+        this.programName = this.params['programname'];
+      }
+      if (this.params.hasOwnProperty('envname')) {
+        this.envName = this.params['envname'];
       }
     }
   }
