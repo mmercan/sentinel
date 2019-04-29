@@ -20,6 +20,7 @@ RUN npm install -g @angular/cli
 WORKDIR /home/node/health
 COPY Sentinel.UI.HealthMonitoring/ .
 USER root
+RUN curl -o /home/node/health/node_modules/node-sass/vendor/linux-x64-67/binding.node 'https://github.com/sass/node-sass/releases/download/v4.11.0/linux-x64-67_binding.node'
 RUN sudo npm install
 RUN ng build --prod
 
