@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Bupa.Common.HealthChecks
+namespace Mercan.Common.HealthChecks
 {
     public static class ConnectionStringHelper
     {
