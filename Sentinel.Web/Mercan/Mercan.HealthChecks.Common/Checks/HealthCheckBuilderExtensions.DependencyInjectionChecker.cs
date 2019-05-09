@@ -20,7 +20,7 @@ namespace Mercan.HealthChecks.Common.Checks
         public static IHealthChecksBuilder AddDIHealthCheck(this IHealthChecksBuilder builder, IServiceCollection services)
         {
             //return builder.AddCheck($"DIHealthCheck", new DIHealthCheck(services));
-            return builder.AddTypeActivatedCheck<DIHealthCheck>($"DIHealthCheck", null, null, "message from caller");
+            return builder.AddTypeActivatedCheck<DIHealthCheck>($"DIHealthCheck", null, null, services);
         }
     }
     public class DIHealthCheck : IHealthCheck
@@ -29,11 +29,11 @@ namespace Mercan.HealthChecks.Common.Checks
         private IServiceCollection services;
         private ILogger<DIHealthCheck> logger;
 
-        public DIHealthCheck(IServiceCollection services, ILogger<DIHealthCheck> logger, string message)
+        public DIHealthCheck(ILogger<DIHealthCheck> logger, IServiceCollection services)
         {
             this.services = services;
             this.logger = logger;
-            logger.LogCritical("DIHealthCheck Init" + message);
+            logger.LogCritical("DIHealthCheck Init");
         }
 
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))

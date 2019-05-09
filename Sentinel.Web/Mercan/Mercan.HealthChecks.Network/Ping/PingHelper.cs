@@ -10,7 +10,6 @@ namespace Mercan.HealthChecks.Network.Ping
 {
     public class PingHelper
     {
-
         public string TcpPing(string endPoint)
         {
             if (endPoint.Split(':').Count() != 2)
