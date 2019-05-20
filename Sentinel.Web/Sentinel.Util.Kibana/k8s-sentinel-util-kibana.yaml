@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: sentinel-elk-kibana-configmap
-  namespace: default
+  # Sentinel.Util.Mailhog
 data:
   kibana.yml: |
     server.name: sentinel-elk-kibana
