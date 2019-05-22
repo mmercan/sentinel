@@ -1,9 +1,9 @@
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
-  name: tls-secret-prod
+  name: tls-secret-ui-admin-prod
 spec:
-  secretName: tls-secret-prod
+  secretName: tls-secret-ui-admin-prod
   dnsNames:
   - admin.myrcan.com
   acme:
@@ -28,7 +28,7 @@ spec:
   tls:
   - hosts:
     - admin.myrcan.com
-    secretName: tls-secret-prod
+    secretName: tls-secret-ui-admin-prod
   rules:
   - host: admin.myrcan.com
     http:

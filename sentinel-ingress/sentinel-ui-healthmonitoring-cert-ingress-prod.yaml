@@ -28,7 +28,7 @@ spec:
   tls:
   - hosts:
     - healthmonitoring.myrcan.com
-    secretName: tls-secret-ui-healthmonitoring
+    secretName: tls-secret-ui-healthmonitoring-prod
   rules:
   - host: healthmonitoring.myrcan.com
     http:

@@ -10,3 +10,4 @@ $servicePrincipalGuid = "<Guid Number of AAD app witch can write to Resource Gro
 # helm init --service-account tiller --upgrade
 # az aks install-connector --resource-group $resouceGruoup --name $aksName --connector-name virtual-kubelet --os-type Both
 # kubectl get nodes
+
