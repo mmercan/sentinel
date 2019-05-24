@@ -7,7 +7,6 @@ import { CommonDataStoreInterface } from '../common-data-store/common-data-store
 import { AuthService } from '../../authentication/auth.service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { constants } from 'os';
 
 
 @Injectable({
