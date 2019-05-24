@@ -105,8 +105,8 @@ namespace Sentinel.Api.HealthMonitoring
              .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
              .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
              .AddSystemInfoCheck()
-            // .AddPrivateMemorySizeCheck(10000000)
-            .AddWorkingSetCheck(10000000)
+            .AddPrivateMemorySizeCheckMB(1000)
+            .AddWorkingSetCheckKB(250000)
 
             //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
             .SqlConnectionHealthCheck(Configuration["SentinelConnection"])

@@ -8,6 +8,10 @@
       <div *ngIf="report.results" class="card card-primary card-inverse">
         <div class="card-header card-widget" [ngClass]="{'bg-green':report.status === 'Healthy','bg-red':report.status === 'Unhealthy','bg-yellow':report.status === 'Degraded'}">
           <!-- <div style="cursor:pointer; top:7px" class="widget-bg-icon icon icon-arrows-circle-up"> </div> -->
+          <div *ngIf="report.status === 'Loading'">
+            <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+          </div>
           <div class="block">
             <h5 class="mb-0"><strong>{{report.servicename}}</strong></h5>
             <p></p>
@@ -46,6 +50,9 @@
         </div>
         <div *ngIf="result &&  result.type && result.type==='SystemInfoHealthChecks'">
           <app-system-info-health-checks [healthCheckResult]="result"></app-system-info-health-checks>
+        </div>
+        <div *ngIf="result &&  result.type && result.type==='IsAliveRequestFailed'">
+          <app-is-alive-request-failed-check [healthCheckResult]="result"></app-is-alive-request-failed-check>
         </div>
 
 

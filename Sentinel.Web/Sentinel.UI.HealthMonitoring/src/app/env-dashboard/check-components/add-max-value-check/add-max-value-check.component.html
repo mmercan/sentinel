@@ -15,9 +15,9 @@
         <dt>Name</dt>
         <dd>{{healthCheckResult.name}}</dd>
         <dt>Max</dt>
-        <dd>{{healthCheckResult.data.max}}</dd>
+        <dd>{{healthCheckResult.data.max | number}}</dd>
         <dt>Current</dt>
-        <dd>{{healthCheckResult.data.current}}</dd>
+        <dd>{{healthCheckResult.data.current  | number}}</dd>
       </dl>
       <p>
         {{healthCheckResult | json}}

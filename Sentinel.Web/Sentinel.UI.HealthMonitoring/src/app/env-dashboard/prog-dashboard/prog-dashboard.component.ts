@@ -35,11 +35,18 @@ export class ProgDashboardComponent implements OnInit {
 
       );
       // this.healthDataService.getAll(this.appConfig.config.HealthCheck.baseUrl + 'health/isaliveandwell', 'HealthMonitoring Api');
-
-      this.appConfig.config.HealthCheck.urls.forEach(element => {
-        this.healthcheckDataStoreSetService.AddHealthCheck(element.isaliveandwell, element.name);
-      });
       //  this.appConfig.config.HealthCheck.urls
+      this.healthcheckDataStoreSetService.GetHealthCheckUrls(this.programname, this.envname).subscribe(urls => {
+        if (urls && urls.length) {
+          urls.forEach(element => {
+            this.healthcheckDataStoreSetService.AddHealthCheck(element.isaliveandwell, element.name);
+          });
+        }
+      });
+      // this.appConfig.config.HealthCheck.urls.forEach(element => {
+      //   this.healthcheckDataStoreSetService.AddHealthCheck(element.isaliveandwell, element.name);
+      // });
+
     });
 
   }

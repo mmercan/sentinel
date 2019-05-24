@@ -15,3 +15,8 @@ export interface HealthReportEntry {
     data: any;
     exception: string;
 }
+
+export interface HealthReportUrl {
+    isaliveandwell: string;
+    name: string;
+}
