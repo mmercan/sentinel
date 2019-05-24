@@ -1,17 +1,17 @@
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
-  name: tls-secret-ui-healthmonitoring-prod
+  name: tls-secret-api-healthmonitoring-prod
 spec:
-  secretName: tls-secret-ui-healthmonitoring-prod
+  secretName: tls-secret-api-healthmonitoring-prod
   dnsNames:
-  - healthmonitoring.myrcan.com
+  - healthmonitoringapi.myrcan.com
   acme:
     config:
     - http01:
         ingressClass: nginx
       domains:
-      - healthmonitoring.myrcan.com
+      - healthmonitoringapi.myrcan.com
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
@@ -19,7 +19,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: sentinel-ui-healthmonitoring-ingress
+  name: sentinel-api-healthmonitoring-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
     certmanager.k8s.io/cluster-issuer: letsencrypt-prod
@@ -27,15 +27,15 @@ metadata:
 spec:
   tls:
   - hosts:
-    - healthmonitoring.myrcan.com
-    secretName: tls-secret-ui-healthmonitoring-prod
+    - healthmonitoringapi.myrcan.com
+    secretName: tls-secret-api-healthmonitoring-prod
   rules:
-  - host: healthmonitoring.myrcan.com
+  - host: healthmonitoringapi.myrcan.com
     http:
       paths:
       - path: /
         backend:
-          serviceName: sentinel-ui-healthmonitoring
+          serviceName: sentinel-api-healthmonitoring
           servicePort: 80
       # - path: /api/
       #   backend:
