@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 
-@Injectable()
+// @Injectable()
 export class CommonDataStoreService<T> {
     public dataset: Observable<T[]>;
     // public keyProperyName: string;

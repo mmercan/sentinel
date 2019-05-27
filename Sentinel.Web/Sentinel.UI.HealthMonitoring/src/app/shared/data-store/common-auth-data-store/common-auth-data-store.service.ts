@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { AuthService } from '../../authentication/auth.service';
 import { HttpClient } from '@angular/common/http';
 
-@Injectable()
+// @Injectable()
 export class CommonAuthDataStoreService<T> {
 
   public dataset: Observable<T[]>;

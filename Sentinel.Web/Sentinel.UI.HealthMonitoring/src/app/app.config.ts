@@ -47,7 +47,7 @@ export class AppConfig {
     HealthCheck: {
       urls: [{
         isaliveandwell: window.location.hostname === 'localhost' ? 'http://localhost:5006/health/isaliveandwell'
-          : 'https://healthmonitoring.myrcan.com/api/health/isaliveandwell',
+          : 'https://healthmonitoringapi.myrcan.com/health/isaliveandwell',
         name: 'HealthMonitoring Api'
       }, {
         isaliveandwell: window.location.hostname === 'localhost' ? 'http://localhost:5004/health/isaliveandwell'
