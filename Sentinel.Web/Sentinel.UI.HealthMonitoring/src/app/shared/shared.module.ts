@@ -14,7 +14,7 @@ import { LocalAuthService } from './authentication/local-auth/local-auth.service
 import { AuthService } from './authentication/auth.service';
 import { HealthcheckDataStoreSetService } from './data-store/healthcheck-data-store/healthcheck-data-store-set.service';
 import { IfAuthenticatedDirective } from './authentication/if-authenticated/if-authenticated.directive';
-import { UserAvatarComponent } from "./authentication/user-avatar/UserAvatarComponent";
+import { UserAvatarComponent } from './authentication/user-avatar/user-avatar.component';
 
 import { IfOnlineDirective } from './offline/if-online.directive';
 import { OfflineNotificationService } from './offline/offline-notification.service';

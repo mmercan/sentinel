@@ -37,8 +37,7 @@ export class UserAvatarComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.createLetterAvatar(data.profile.name, this.container, this.height);
                 }
             });
-        }
-        else {
+        } else {
             console.log('is Not Authenticated');
         }
     }
