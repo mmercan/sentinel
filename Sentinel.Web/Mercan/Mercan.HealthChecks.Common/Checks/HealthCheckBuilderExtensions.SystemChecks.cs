@@ -17,35 +17,34 @@ namespace Mercan.HealthChecks.Common.Checks
         // System checks
 
         public static IHealthChecksBuilder AddPrivateMemorySizeCheck(this IHealthChecksBuilder builder, long maxSize)
-            => AddMaxValueCheck(builder, $"PrivateMemorySize({maxSize})", maxSize, () => Process.GetCurrentProcess().PrivateMemorySize64);
+            => AddMaxValueCheck(builder, $"PrivateMemorySize({maxSize.ToString("N")})", maxSize, () => Process.GetCurrentProcess().PrivateMemorySize64);
 
         public static IHealthChecksBuilder AddPrivateMemorySizeCheckKB(this IHealthChecksBuilder builder, long maxSize)
-            => AddMaxValueCheck(builder, $"PrivateMemorySizeKB({maxSize})", maxSize, () => Process.GetCurrentProcess().PrivateMemorySize64 / 1024);
+            => AddMaxValueCheck(builder, $"PrivateMemorySize({maxSize.ToString("N")}KB)", maxSize, () => Process.GetCurrentProcess().PrivateMemorySize64 / 1024);
         public static IHealthChecksBuilder AddPrivateMemorySizeCheckMB(this IHealthChecksBuilder builder, long maxSize)
-            => AddMaxValueCheck(builder, $"PrivateMemorySizeMB({maxSize})", maxSize, () => Process.GetCurrentProcess().PrivateMemorySize64 / 1048576);
+            => AddMaxValueCheck(builder, $"PrivateMemorySize({maxSize.ToString("N")}MB)", maxSize, () => Process.GetCurrentProcess().PrivateMemorySize64 / 1048576);
 
 
         public static IHealthChecksBuilder AddVirtualMemorySizeCheck(this IHealthChecksBuilder builder, long maxSize)
-            => AddMaxValueCheck(builder, $"VirtualMemorySize({maxSize})", maxSize, () => Process.GetCurrentProcess().VirtualMemorySize64);
+            => AddMaxValueCheck(builder, $"VirtualMemorySize({maxSize.ToString("N")})", maxSize, () => Process.GetCurrentProcess().VirtualMemorySize64);
 
         public static IHealthChecksBuilder AddVirtualMemorySizeCheckKB(this IHealthChecksBuilder builder, long maxSize)
-            => AddMaxValueCheck(builder, $"VirtualMemorySizeKB({maxSize})", maxSize, () => Process.GetCurrentProcess().VirtualMemorySize64 / 1024);
+            => AddMaxValueCheck(builder, $"VirtualMemorySize({maxSize.ToString("N")}KB)", maxSize, () => Process.GetCurrentProcess().VirtualMemorySize64 / 1024);
 
         public static IHealthChecksBuilder AddVirtualMemorySizeCheckMB(this IHealthChecksBuilder builder, long maxSize)
-            => AddMaxValueCheck(builder, $"VirtualMemorySizeMB({maxSize})", maxSize, () => Process.GetCurrentProcess().VirtualMemorySize64 / 1048576);
+            => AddMaxValueCheck(builder, $"VirtualMemorySize({maxSize.ToString("N")}MB)", maxSize, () => Process.GetCurrentProcess().VirtualMemorySize64 / 1048576);
 
 
 
         public static IHealthChecksBuilder AddWorkingSetCheck(this IHealthChecksBuilder builder, long maxSize)
-            => AddMaxValueCheck(builder, $"WorkingSet({maxSize})", maxSize, () => Process.GetCurrentProcess().WorkingSet64);
-
-
-        public static IHealthChecksBuilder AddWorkingSetCheckMB(this IHealthChecksBuilder builder, long maxSize)
-                 => AddMaxValueCheck(builder, $"WorkingSetMB({maxSize})", maxSize, () => Process.GetCurrentProcess().WorkingSet64 / 1048576);
-
+            => AddMaxValueCheck(builder, $"WorkingSet({maxSize.ToString("N")})", maxSize, () => Process.GetCurrentProcess().WorkingSet64);
 
         public static IHealthChecksBuilder AddWorkingSetCheckKB(this IHealthChecksBuilder builder, long maxSize)
-                 => AddMaxValueCheck(builder, $"WorkingSetKB({maxSize})", maxSize, () => Process.GetCurrentProcess().WorkingSet64 / 1024);
+                 => AddMaxValueCheck(builder, $"WorkingSet({maxSize.ToString("N")}KB)", maxSize, () => Process.GetCurrentProcess().WorkingSet64 / 1024);
+
+        public static IHealthChecksBuilder AddWorkingSetCheckMB(this IHealthChecksBuilder builder, long maxSize)
+                 => AddMaxValueCheck(builder, $"WorkingSet({maxSize.ToString("N")}MB)", maxSize, () => Process.GetCurrentProcess().WorkingSet64 / 1048576);
+
 
     }
 }
