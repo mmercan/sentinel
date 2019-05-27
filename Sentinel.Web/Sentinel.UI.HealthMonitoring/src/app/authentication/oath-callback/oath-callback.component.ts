@@ -36,8 +36,9 @@ export class OathCallbackComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
-    this.getUserInfoSubscription.unsubscribe();
+    if (this.getUserInfoSubscription) { this.getUserInfoSubscription.unsubscribe(); }
   }
+
 }
 
 

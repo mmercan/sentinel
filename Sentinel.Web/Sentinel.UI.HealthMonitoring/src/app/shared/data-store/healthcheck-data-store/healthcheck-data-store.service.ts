@@ -55,7 +55,7 @@ export class HealthcheckDataStoreService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.httpGetSubscription.unsubscribe();
+    if (this.httpGetSubscription) { this.httpGetSubscription.unsubscribe(); }
   }
 
 }

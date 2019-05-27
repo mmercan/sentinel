@@ -53,6 +53,6 @@ export class AccordionDirective implements AfterContentChecked, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routerSubscription.unsubscribe();
+    if (this.routerSubscription) { this.routerSubscription.unsubscribe(); }
   }
 }

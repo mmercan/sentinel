@@ -69,6 +69,6 @@ export class UserAvatarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.getUserInfoSubscription.unsubscribe();
+        if (this.getUserInfoSubscription) { this.getUserInfoSubscription.unsubscribe(); }
     }
 }

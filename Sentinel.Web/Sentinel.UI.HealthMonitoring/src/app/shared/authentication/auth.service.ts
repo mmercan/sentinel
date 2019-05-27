@@ -10,7 +10,7 @@ import { LocalAuthService } from './local-auth/local-auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService  implements OnDestroy {
+export class AuthService implements OnDestroy {
   private tokeyKey = 'token';
   private internal: any;
   private token: string;
@@ -34,7 +34,7 @@ export class AuthService  implements OnDestroy {
   ) {
 
   }
-  
+
   private handleError(error: any, observer: any, errorMessage: string) {
     console.error('An error occurred', error);
     if (error && error['_body']) { // check response here.
@@ -91,7 +91,7 @@ export class AuthService  implements OnDestroy {
           data => { observer.next(data); },
           error => { observer.error(error); });
       } else {
-        this.getUserSubscription =  this.localAuthService.user.subscribe(
+        this.getUserSubscription = this.localAuthService.user.subscribe(
           data => { observer.next(data); },
           error => { observer.error(error); });
       }
@@ -119,7 +119,7 @@ export class AuthService  implements OnDestroy {
     const headers = this.initAuthHeaders();
     const obs = Observable.create(observer => {
       let result = null;
-   this.httpGetSubscription =  this.http.get(url, { headers: headers })
+      this.httpGetSubscription = this.http.get(url, { headers: headers })
         .subscribe(
           response => {
             if (response.json) {
@@ -219,10 +219,10 @@ export class AuthService  implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.getUserSubscription.unsubscribe();
-    this.httpGetSubscription.unsubscribe();
-    this.httpDeleteSubscription.unsubscribe();
-    this.httpPutSubscription.unsubscribe();
-    this.httpPostSubscription.unsubscribe();
+    if (this.getUserSubscription) { this.getUserSubscription.unsubscribe(); }
+    if (this.httpGetSubscription) { this.httpGetSubscription.unsubscribe(); }
+    if (this.httpDeleteSubscription) { this.httpDeleteSubscription.unsubscribe(); }
+    if (this.httpPutSubscription) { this.httpPutSubscription.unsubscribe(); }
+    if (this.httpPostSubscription) { this.httpPostSubscription.unsubscribe(); }
   }
 }

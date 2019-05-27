@@ -59,7 +59,7 @@ export class IfAuthenticatedDirective implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.checkLoginSubscription.unsubscribe();
+    if (this.checkLoginSubscription) { this.checkLoginSubscription.unsubscribe(); }
   }
 }
 

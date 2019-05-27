@@ -107,11 +107,11 @@ export class CommonDataStoreService<T> {
     }
 
     OnDestroy(): void {
-        this.httpGetSubscription.unsubscribe();
-        this.httpGetAllSubscription.unsubscribe();
-        this.httpPostSubscription.unsubscribe();
-        this.httpPutSubscription.unsubscribe();
-        this.httpDeleteSubscription.unsubscribe();
+        if (this.httpGetSubscription) { this.httpGetSubscription.unsubscribe(); }
+        if (this.httpGetAllSubscription) { this.httpGetAllSubscription.unsubscribe(); }
+        if (this.httpPostSubscription) { this.httpPostSubscription.unsubscribe(); }
+        if (this.httpPutSubscription) { this.httpPutSubscription.unsubscribe(); }
+        if (this.httpDeleteSubscription) { this.httpDeleteSubscription.unsubscribe(); }
     }
 
 }

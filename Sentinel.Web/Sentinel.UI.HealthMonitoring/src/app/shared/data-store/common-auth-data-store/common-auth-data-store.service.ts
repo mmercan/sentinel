@@ -108,9 +108,9 @@ export class CommonAuthDataStoreService<T>  {
   }
 
   OnDestroy(): void {
-    this.authGetSubscription.unsubscribe();
-    this.authPostSubscription.unsubscribe();
-    this.authPutSubscription.unsubscribe();
-    this.authDeleteSubscription.unsubscribe();
+    if (this.authGetSubscription) { this.authGetSubscription.unsubscribe(); }
+    if (this.authPostSubscription) { this.authPostSubscription.unsubscribe(); }
+    if (this.authPostSubscription) { this.authPostSubscription.unsubscribe(); }
+    if (this.authDeleteSubscription) { this.authDeleteSubscription.unsubscribe(); }
   }
 }

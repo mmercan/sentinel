@@ -102,10 +102,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(_ => this.runOnRouteChange());
   }
 
-  ngOnDestroy() {
-    this._router.unsubscribe();
-    this.notificationServiceSubscription.unsubscribe();
-  }
+
 
   runOnRouteChange(): void {
     if (this.isOver() || this.router.url === '/maps/fullscreen') {
@@ -191,5 +188,10 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   removeNotification(notification: Notification) {
     this.notificationService.remove(notification);
+  }
+
+  ngOnDestroy() {
+    if (this._router) { this._router.unsubscribe(); }
+    if (this.notificationServiceSubscription) { this.notificationServiceSubscription.unsubscribe(); }
   }
 }

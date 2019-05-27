@@ -56,9 +56,9 @@ export class ProgDashboardComponent implements OnInit, OnDestroy {
 
   }
   ngOnDestroy(): void {
-    this.routeparamsSubscription.unsubscribe();
-    this.GetHealthCheckUrlsSubscription.unsubscribe();
-    this.healthcheckDataStoreSetSubscription.unsubscribe();
+    if (this.routeparamsSubscription) { this.routeparamsSubscription.unsubscribe(); }
+    if (this.GetHealthCheckUrlsSubscription) { this.GetHealthCheckUrlsSubscription.unsubscribe(); }
+    if (this.healthcheckDataStoreSetSubscription) { this.healthcheckDataStoreSetSubscription.unsubscribe(); }
   }
 
 }

@@ -307,14 +307,14 @@ export class ConfigApiService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.getEnvironmentSubscription.unsubscribe();
-    this.getCertificatesSubscription.unsubscribe();
-    this.getConfigurationSubscription.unsubscribe();
-    this.EnvironmentHttpGetSubscription.unsubscribe();
-    this.getCertificatesHttpPosySubscription.unsubscribe();
-    this._getConfigurationSubscription.unsubscribe();
-    this.httpCallByConfigurationHttpPostSubscription.unsubscribe();
-    this._getConfigurationHttpPostSubscription.unsubscribe();
+    if (this.getEnvironmentSubscription) { this.getEnvironmentSubscription.unsubscribe(); }
+    if (this.getCertificatesSubscription) { this.getCertificatesSubscription.unsubscribe(); }
+    if (this.getConfigurationSubscription) { this.getConfigurationSubscription.unsubscribe(); }
+    if (this.EnvironmentHttpGetSubscription) { this.EnvironmentHttpGetSubscription.unsubscribe(); }
+    if (this.getCertificatesHttpPosySubscription) { this.getCertificatesHttpPosySubscription.unsubscribe(); }
+    if (this._getConfigurationSubscription) { this._getConfigurationSubscription.unsubscribe(); }
+    if (this.httpCallByConfigurationHttpPostSubscription) { this.httpCallByConfigurationHttpPostSubscription.unsubscribe(); }
+    if (this._getConfigurationHttpPostSubscription) { this._getConfigurationHttpPostSubscription.unsubscribe(); }
   }
 
 }
