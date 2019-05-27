@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../shared/authentication/auth.service';
 import { Router, CanActivate, RouterStateSnapshot } from '@angular/router';
 import { AppConfig } from '../../app.config';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-oath-callback',
   templateUrl: './oath-callback.component.html',
   styleUrls: ['./oath-callback.component.scss']
 })
-export class OathCallbackComponent implements OnInit {
+export class OathCallbackComponent implements OnInit, OnDestroy {
+  getUserInfoSubscription: Subscription;
+
 
   constructor(private router: Router, private authService: AuthService, private appConfig: AppConfig) {
 
@@ -15,7 +18,7 @@ export class OathCallbackComponent implements OnInit {
 
   ngOnInit() {
     if (this.authService.authenticated) {
-      this.authService.getUserInfo().subscribe(data => {
+      this.getUserInfoSubscription = this.authService.getUserInfo().subscribe(data => {
         console.log(data);
       });
 
@@ -29,6 +32,11 @@ export class OathCallbackComponent implements OnInit {
     } else {
       this.router.navigate(['login']);
     }
+  }
+
+
+  ngOnDestroy(): void {
+    this.getUserInfoSubscription.unsubscribe();
   }
 }
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AppConfig, authenticationType, logLevel } from '../../app.config';
 import { Subscription, Observable, Subject } from 'rxjs';
@@ -10,12 +10,17 @@ import { LocalAuthService } from './local-auth/local-auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService  implements OnDestroy {
   private tokeyKey = 'token';
   private internal: any;
   private token: string;
   private isLoggedinValue: boolean;
   private status = new Subject<boolean>();
+  getUserSubscription: Subscription;
+  httpGetSubscription: Subscription;
+  httpDeleteSubscription: Subscription;
+  httpPutSubscription: Subscription;
+  httpPostSubscription: Subscription;
   // public user: Observable<any>;
 
 
@@ -29,7 +34,7 @@ export class AuthService {
   ) {
 
   }
-
+  
   private handleError(error: any, observer: any, errorMessage: string) {
     console.error('An error occurred', error);
     if (error && error['_body']) { // check response here.
@@ -82,11 +87,11 @@ export class AuthService {
   getUserInfo(): Observable<any> {
     const obs = Observable.create(observer => {
       if (this.appConfig.config.authenticationType === authenticationType.Adal) {
-        this.adalService.getUser().subscribe(
+        this.getUserSubscription = this.adalService.getUser().subscribe(
           data => { observer.next(data); },
           error => { observer.error(error); });
       } else {
-        this.localAuthService.user.subscribe(
+        this.getUserSubscription =  this.localAuthService.user.subscribe(
           data => { observer.next(data); },
           error => { observer.error(error); });
       }
@@ -114,7 +119,7 @@ export class AuthService {
     const headers = this.initAuthHeaders();
     const obs = Observable.create(observer => {
       let result = null;
-      this.http.get(url, { headers: headers })
+   this.httpGetSubscription =  this.http.get(url, { headers: headers })
         .subscribe(
           response => {
             if (response.json) {
@@ -135,7 +140,7 @@ export class AuthService {
     const obs = Observable.create(observer => {
       const headers = this.initAuthHeaders();
       let result = null;
-      return this.http.post(url, body, { headers: headers })
+      this.httpPostSubscription = this.http.post(url, body, { headers: headers })
         .subscribe(
           response => {
             if (response.ok) {
@@ -160,7 +165,7 @@ export class AuthService {
     const obs = Observable.create(observer => {
       const headers = this.initAuthHeaders();
       let result = null;
-      return this.http.put(url, body, { headers: headers })
+      this.httpPutSubscription = this.http.put(url, body, { headers: headers })
         .subscribe(
           response => {
             if (response.ok) {
@@ -185,7 +190,7 @@ export class AuthService {
     const headers = this.initAuthHeaders();
     const obs = Observable.create(observer => {
       let result = null;
-      this.http.delete(url, { headers: headers })
+      this.httpDeleteSubscription = this.http.delete(url, { headers: headers })
         .subscribe(
           response => {
             if (response.json) {
@@ -211,5 +216,13 @@ export class AuthService {
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', 'Bearer ' + token);
     return headers;
+  }
+
+  ngOnDestroy(): void {
+    this.getUserSubscription.unsubscribe();
+    this.httpGetSubscription.unsubscribe();
+    this.httpDeleteSubscription.unsubscribe();
+    this.httpPutSubscription.unsubscribe();
+    this.httpPostSubscription.unsubscribe();
   }
 }

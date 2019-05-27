@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Http, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IConfiguration, IConfigItem } from './interfaces/i-configuration';
 
@@ -11,7 +11,8 @@ import { IAppsettingValidate } from './interfaces/i-appsetting-validate';
 import { AppConfig } from '../../../app.config';
 import { Notification, NotificationService } from '../../notification/notification.service';
 @Injectable()
-export class ConfigApiService {
+export class ConfigApiService implements OnDestroy {
+
   public appsettingValidates: Observable<IAppsettingValidate[]>;
   private _appsettingValidates: BehaviorSubject<IAppsettingValidate[]>;
 
@@ -30,6 +31,14 @@ export class ConfigApiService {
     appsettingValidates: IAppsettingValidate[];
     configuration: IConfiguration;
   };
+  getEnvironmentSubscription: Subscription;
+  getCertificatesSubscription: Subscription;
+  getConfigurationSubscription: Subscription;
+  EnvironmentHttpGetSubscription: Subscription;
+  getCertificatesHttpPosySubscription: Subscription;
+  _getConfigurationSubscription: Subscription;
+  httpCallByConfigurationHttpPostSubscription: Subscription;
+  _getConfigurationHttpPostSubscription: Subscription;
 
 
   constructor(protected http: Http, protected appConfig: AppConfig, protected notificationService: NotificationService) {
@@ -53,19 +62,13 @@ export class ConfigApiService {
     const keyVaultCertThumbPrintLocation = this.appConfig.config.Api.keyVaultCertThumbPrintLocation;
     const keyVaultClientIdLocation = this.appConfig.config.Api.keyVaultClientIdLocation;
     this.getAppsettingValidate();
-    this.getEnvironment()
-      .subscribe(data => { });
-    this.getCertificates(keyVaultCertThumbPrintLocation, keyVaultBaseUrlLocation, keyVaultClientIdLocation, appsettingsFolderLocation)
-      .subscribe(data => { });
+    this.getEnvironmentSubscription = this.getEnvironment().subscribe(data => { });
+    this.getCertificatesSubscription = this.getCertificates(keyVaultCertThumbPrintLocation,
+      keyVaultBaseUrlLocation, keyVaultClientIdLocation, appsettingsFolderLocation).subscribe(data => { });
 
 
-    this._getConfiguration(keyVaultCertThumbPrintLocation, keyVaultBaseUrlLocation, keyVaultClientIdLocation, appsettingsFolderLocation
-      , true)
-      .subscribe(data => {
-
-
-      });
-
+    this.getConfigurationSubscription = this._getConfiguration(keyVaultCertThumbPrintLocation, keyVaultBaseUrlLocation,
+      keyVaultClientIdLocation, appsettingsFolderLocation, true).subscribe(data => { });
   }
 
   getEnvironment(force?: boolean): Observable<IEnvironment> {
@@ -76,7 +79,7 @@ export class ConfigApiService {
       if (this.dataStore.environment && this.dataStore.environment.environmentName && !force) {
         observer.next(Object.assign({}, this.dataStore).environment);
       } else {
-        this.http.get(apiurl).pipe(map(response => response.json())).subscribe(data => {
+        this.EnvironmentHttpGetSubscription = this.http.get(apiurl).pipe(map(response => response.json())).subscribe(data => {
           this.dataStore.environment = data;
           this._environment.next(Object.assign({}, this.dataStore).environment);
           this.notificationService.showVerbose('Environment Varible Load completed', '');
@@ -107,13 +110,14 @@ export class ConfigApiService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
 
-        this.http.post(apiurl, postbody, options).pipe(map(response => response.json())).subscribe(data => {
-          this.dataStore.certificates = data;
-          this._certificates.next(Object.assign({}, this.dataStore).certificates);
-          this.notificationService.showVerbose('certificates Load completed', '');
+        this.getCertificatesHttpPosySubscription = this.http.post(apiurl, postbody, options).
+          pipe(map(response => response.json())).subscribe(data => {
+            this.dataStore.certificates = data;
+            this._certificates.next(Object.assign({}, this.dataStore).certificates);
+            this.notificationService.showVerbose('certificates Load completed', '');
 
-          observer.next(Object.assign({}, this.dataStore).certificates);
-        }, error => this.handleError(error, observer, 'certificates Load Failed'));
+            observer.next(Object.assign({}, this.dataStore).certificates);
+          }, error => this.handleError(error, observer, 'certificates Load Failed'));
       }
     });
     return obs;
@@ -126,7 +130,7 @@ export class ConfigApiService {
     const keyVaultCertThumbPrintLocation = this.appConfig.config.Api.keyVaultCertThumbPrintLocation;
     const keyVaultClientIdLocation = this.appConfig.config.Api.keyVaultClientIdLocation;
 
-    this._getConfiguration(
+    this._getConfigurationSubscription = this._getConfiguration(
       keyVaultCertThumbPrintLocation,
       keyVaultBaseUrlLocation,
       keyVaultClientIdLocation,
@@ -203,10 +207,11 @@ export class ConfigApiService {
       const headers = new Headers({ 'Content-Type': 'application/json' });
       const options = new RequestOptions({ headers: headers });
 
-      this.http.post(apiurl, postbody, options).pipe(map(response => response.json())).subscribe(data => {
-        this.notificationService.showVerbose('CallByConfiguration Load completed', '');
-        observer.next(data);
-      }, error => this.handleError(error, observer, 'CallByConfiguration Load Failed'));
+      this.httpCallByConfigurationHttpPostSubscription = this.http.post(apiurl, postbody, options)
+        .pipe(map(response => response.json())).subscribe(data => {
+          this.notificationService.showVerbose('CallByConfiguration Load completed', '');
+          observer.next(data);
+        }, error => this.handleError(error, observer, 'CallByConfiguration Load Failed'));
     });
     return obs;
   }
@@ -232,26 +237,27 @@ export class ConfigApiService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
 
-        this.http.post(apiurl, postbody, options).pipe(map(response => response.json())).subscribe(data => {
+        this._getConfigurationHttpPostSubscription = this.http.post(apiurl, postbody, options)
+          .pipe(map(response => response.json())).subscribe(data => {
 
-          let config = {};
-          if (data && data.activeConfigs && data.activeConfigs.length > 0) {
-            const activeConfigs: IConfigItem[] = data.activeConfigs;
-            config = this.ConvertFlattoObject(activeConfigs);
-            console.log('=================== itemobj starts ====================');
-            console.log(config);
-            console.log('=================== itemobj ends ====================');
-          } else {
-            this.handleError(data, observer, data.errorMessage);
-          }
-          data.activeConfigObject = config;
-          this.dataStore.configuration = data;
-          this.notificationService.showVerbose('config Load completed', '');
-          observer.next(Object.assign({}, this.dataStore).configuration);
-          this._configuration.next(Object.assign({}, this.dataStore).configuration);
+            let config = {};
+            if (data && data.activeConfigs && data.activeConfigs.length > 0) {
+              const activeConfigs: IConfigItem[] = data.activeConfigs;
+              config = this.ConvertFlattoObject(activeConfigs);
+              console.log('=================== itemobj starts ====================');
+              console.log(config);
+              console.log('=================== itemobj ends ====================');
+            } else {
+              this.handleError(data, observer, data.errorMessage);
+            }
+            data.activeConfigObject = config;
+            this.dataStore.configuration = data;
+            this.notificationService.showVerbose('config Load completed', '');
+            observer.next(Object.assign({}, this.dataStore).configuration);
+            this._configuration.next(Object.assign({}, this.dataStore).configuration);
 
-          this.matchValidatorstoAppSettings();
-        }, error => this.handleError(error, observer, 'config Load Failed'));
+            this.matchValidatorstoAppSettings();
+          }, error => this.handleError(error, observer, 'config Load Failed'));
       }
     });
     return obs;
@@ -298,6 +304,17 @@ export class ConfigApiService {
 
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.getEnvironmentSubscription.unsubscribe();
+    this.getCertificatesSubscription.unsubscribe();
+    this.getConfigurationSubscription.unsubscribe();
+    this.EnvironmentHttpGetSubscription.unsubscribe();
+    this.getCertificatesHttpPosySubscription.unsubscribe();
+    this._getConfigurationSubscription.unsubscribe();
+    this.httpCallByConfigurationHttpPostSubscription.unsubscribe();
+    this._getConfigurationHttpPostSubscription.unsubscribe();
   }
 
 }

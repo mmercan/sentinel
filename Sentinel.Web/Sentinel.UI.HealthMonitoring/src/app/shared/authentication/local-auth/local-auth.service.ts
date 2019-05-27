@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AppConfig } from '../../../app.config';
 import { Subscription, Observable, Subject } from 'rxjs';
@@ -7,14 +7,14 @@ import { Notification, NotificationService } from '../../notification/notificati
 @Injectable({
   providedIn: 'root'
 })
-export class LocalAuthService {
-
+export class LocalAuthService implements OnDestroy {
   private tokeyKey = 'token';
   private internal: any;
   private token: string;
   private isLoggedinValue: boolean;
   private status = new Subject<boolean>();
   public user: Observable<any>;
+  loginSubscription: Subscription;
 
   constructor(
     private appConfig: AppConfig,
@@ -63,7 +63,7 @@ export class LocalAuthService {
         headers: myHeaders
       });
 
-      this.http.post(this.appConfig.config.login.loginUrl, { Username: userName, Password: password }, opt)
+      this.loginSubscription = this.http.post(this.appConfig.config.login.loginUrl, { Username: userName, Password: password }, opt)
         .subscribe(response => {
           const result = response.json();
           const json = result as any;
@@ -134,5 +134,7 @@ export class LocalAuthService {
     return this.token;
   }
 
-
+  ngOnDestroy(): void {
+    this.loginSubscription.unsubscribe();
+  }
 }

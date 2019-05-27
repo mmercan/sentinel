@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AppConfig } from '../../../app.config';
 import { NotificationService } from '../../notification/notification.service';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
-export class HttpCallService {
+export class HttpCallService implements OnDestroy {
+  httpPostSubscription: Subscription;
 
   constructor(protected http: Http, protected appConfig: AppConfig, protected notificationService: NotificationService) {
     // this.dataStore = { environment: {}, certificates: [], configuration: {} };
@@ -29,11 +30,11 @@ export class HttpCallService {
       const headers = new Headers({ 'Content-Type': 'application/json' });
       const options = new RequestOptions({ headers: headers });
 
-      this.http.post(apiurl, postbody, options).pipe(map(response => response.json())).subscribe(data => {
-        console.log(data);
-
-        observer.next(data);
-      }, error => this.handleError(null, observer, 'certificates Load Failed'));
+      this.httpPostSubscription = this.http.post(apiurl, postbody, options).pipe(map(response => response.json()))
+        .subscribe(data => {
+          console.log(data);
+          observer.next(data);
+        }, error => this.handleError(null, observer, 'certificates Load Failed'));
     });
     return obs;
   }
@@ -46,6 +47,12 @@ export class HttpCallService {
     }
     this.notificationService.showError(errorMessage, <string>error, true);
     observer.error(error.message || error);
+  }
+
+  ngOnDestroy(): void {
+    if (this.httpPostSubscription) {
+      this.httpPostSubscription.unsubscribe();
+    }
   }
 }
 

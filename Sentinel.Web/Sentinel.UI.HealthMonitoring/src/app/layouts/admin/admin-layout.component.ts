@@ -55,6 +55,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   params: any;
   programName: any;
   envName: any;
+  notificationServiceSubscription: Subscription;
 
   constructor(
     public menuItems: MenuItems,
@@ -69,7 +70,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {
     this.mediaMatcher.addListener(mql => zone.run(() => this.mediaMatcher = mql));
 
-    this.notificationService.dataset.subscribe(result => {
+    this.notificationServiceSubscription = this.notificationService.dataset.subscribe(result => {
       if (result && result.length) {
         this.notificationCount = result.length;
         if (this.notificationDrop) {
@@ -103,6 +104,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy() {
     this._router.unsubscribe();
+    this.notificationServiceSubscription.unsubscribe();
   }
 
   runOnRouteChange(): void {

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 import { AppConfig } from '../../app.config';
 import { AuthService } from '../../shared/authentication/auth.service';
+import { Subscription } from 'rxjs';
 declare var Notification: any;
 
 @Component({
@@ -10,7 +11,7 @@ declare var Notification: any;
   templateUrl: './notification-settings.component.html',
   styleUrls: ['./notification-settings.component.scss']
 })
-export class NotificationSettingsComponent implements OnInit {
+export class NotificationSettingsComponent implements OnInit, OnDestroy {
   sw: ServiceWorkerRegistration;
   email = 'mmercan@outlook.com';
   claims = '';
@@ -21,6 +22,7 @@ export class NotificationSettingsComponent implements OnInit {
   };
 
   pushNotificationDisabled = false;
+  authGetSubscription: Subscription;
 
   constructor(private appConfig: AppConfig, private authService: AuthService) {
     if ('serviceWorker' in navigator && 'PushManager' in window) {
@@ -100,11 +102,15 @@ export class NotificationSettingsComponent implements OnInit {
     return outputArray;
   }
   callClaimns() {
-    this.authService.authGet('http://localhost:5000/api/token/claimsjwt')
+    this.authGetSubscription = this.authService.authGet('http://localhost:5000/api/token/claimsjwt')
       .subscribe(Response => {
         this.claims = Response;
       });
   }
 
+
+  ngOnDestroy(): void {
+    if (this.authGetSubscription) { this.authGetSubscription.unsubscribe(); }
+  }
 
 }

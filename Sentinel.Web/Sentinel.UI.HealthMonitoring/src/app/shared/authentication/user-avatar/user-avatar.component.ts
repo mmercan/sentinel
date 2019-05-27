@@ -1,18 +1,19 @@
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { AppConfig, authenticationType } from '../../../app.config';
 import { Jsonp } from '@angular/http';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-avatar',
   templateUrl: './user-avatar.component.html',
   styleUrls: ['./user-avatar.component.scss']
 })
-export class UserAvatarComponent implements OnInit, AfterViewInit {
-
+export class UserAvatarComponent implements OnInit, AfterViewInit, OnDestroy {
   // canvas: HTMLCanvasElement;
   // ctx: CanvasRenderingContext2D;
   container: any;
+  getUserInfoSubscription: Subscription;
   // cw: any;
   // ch: any;
 
@@ -39,7 +40,7 @@ export class UserAvatarComponent implements OnInit, AfterViewInit {
     if (this.authService.authenticated) {
       console.log('is Authenticated');
 
-      this.authService.getUserInfo().subscribe(data => {
+      this.getUserInfoSubscription = this.authService.getUserInfo().subscribe(data => {
         console.log(JSON.stringify(data));
 
         if (data.profile && data.profile.name) {
@@ -88,7 +89,9 @@ export class UserAvatarComponent implements OnInit, AfterViewInit {
 
     htmlElement.appendChild(canvas);
   }
-
+  ngOnDestroy(): void {
+    this.getUserInfoSubscription.unsubscribe();
+  }
 
 }
 

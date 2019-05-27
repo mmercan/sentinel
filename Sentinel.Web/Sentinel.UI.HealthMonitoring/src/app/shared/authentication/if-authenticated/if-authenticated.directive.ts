@@ -1,14 +1,17 @@
-import { Directive, EmbeddedViewRef, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, EmbeddedViewRef, Input, TemplateRef, ViewContainerRef, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Subscription } from 'rxjs';
 
 @Directive({
   selector: '[ifAuthenticated]'
 })
-export class IfAuthenticatedDirective {
+export class IfAuthenticatedDirective implements OnDestroy {
+
   private _context: IfAuthenticatedContext = new IfAuthenticatedContext();
   private _thenTemplateRef: TemplateRef<IfAuthenticatedContext> | null = null;
   private _thenViewRef: EmbeddedViewRef<IfAuthenticatedContext> | null = null;
   private CheckifUnauthenticated = false;
+  checkLoginSubscription: Subscription;
 
   constructor(private authService: AuthService, private _viewContainer: ViewContainerRef
     , templateRef: TemplateRef<IfAuthenticatedContext>) {
@@ -27,7 +30,7 @@ export class IfAuthenticatedDirective {
     } else {
       this._context.$implicit = this._context.ifAuthenticated = this.authService.checkLogin();
     }
-    this.authService.checkLogin().subscribe(
+    this.checkLoginSubscription = this.authService.checkLogin().subscribe(
       result => {
         if (this.CheckifUnauthenticated) {
           this._context.$implicit = this._context.ifAuthenticated = !result;
@@ -53,6 +56,10 @@ export class IfAuthenticatedDirective {
       this._viewContainer.clear();
       this._thenViewRef = null;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.checkLoginSubscription.unsubscribe();
   }
 }
 

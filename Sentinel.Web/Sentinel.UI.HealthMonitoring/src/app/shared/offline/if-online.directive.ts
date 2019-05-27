@@ -1,15 +1,18 @@
-import { Directive, EmbeddedViewRef, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, EmbeddedViewRef, Input, TemplateRef, ViewContainerRef, OnDestroy } from '@angular/core';
 import { OfflineNotificationService } from './offline-notification.service';
+import { Subscription } from 'rxjs';
 
 @Directive({
   selector: '[IfOnline]'
 })
-export class IfOnlineDirective {
+export class IfOnlineDirective implements OnDestroy {
+
   CheckifOffline = false;
 
   private _context: IfOnlineContext = new IfOnlineContext();
   private _thenTemplateRef: TemplateRef<IfOnlineContext> | null = null;
   private _thenViewRef: EmbeddedViewRef<IfOnlineContext> | null = null;
+  GetStatusSubscription: Subscription;
 
   constructor(private _viewContainer: ViewContainerRef
     , templateRef: TemplateRef<IfOnlineContext>, private offlineNotificationService: OfflineNotificationService) {
@@ -28,7 +31,7 @@ export class IfOnlineDirective {
     } else {
       this._context.$implicit = this._context.ifOnline = !this.offlineNotificationService.isOffline();
     }
-    this.offlineNotificationService.GetStatus().subscribe(
+    this.GetStatusSubscription = this.offlineNotificationService.GetStatus().subscribe(
       result => {
         if (this.CheckifOffline) {
           this._context.$implicit = this._context.ifOnline = result === 'offline';
@@ -54,6 +57,10 @@ export class IfOnlineDirective {
       this._viewContainer.clear();
       this._thenViewRef = null;
     }
+  }
+
+  ngOnDestroy(): void {
+    if (this.GetStatusSubscription) { this.GetStatusSubscription.unsubscribe(); }
   }
 }
 
