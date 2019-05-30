@@ -44,7 +44,7 @@ spec:
         - name: Mongodb__IdField
           value: "Id"
         - name: SentinelConnection
-          value: "Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=Sentinel2018;"
+          value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
         - name: kafkaUrl
           value: "http://sentinel-util-kafka:9092"
         - name: NATS_URL

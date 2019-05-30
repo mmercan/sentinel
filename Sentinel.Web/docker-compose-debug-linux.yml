@@ -16,7 +16,7 @@ services:
       - Mongodb__DatabaseName=sentinel
       - Mongodb__CollectionName=product
       - Mongodb__IdField=Id
-      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+      - SentinelConnection=Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=P@ssword1;
       - RabbitMQConnection=host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10
       - SMTP__Server=sentinel-util-mailhog
       - SMTP__Port=1025
@@ -58,7 +58,7 @@ services:
       - Mongodb__DatabaseName=sentinel
       - Mongodb__CollectionName=product
       - Mongodb__IdField=Id
-      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+      - SentinelConnection=Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=P@ssword1;
     # volumes:
     #   - SentinelWeb:/src
     volumes:
@@ -86,7 +86,7 @@ services:
       - Mongodb__DatabaseName=sentinel
       - Mongodb__CollectionName=product
       - Mongodb__IdField=Id
-      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+      - SentinelConnection=Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=P@ssword1;
     volumes:
       - .:/src
       #- C:\repos\sentinel\Sentinel.Web:/src
@@ -110,7 +110,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - DOTNET_RUNNING_IN_CONTAINER=true
-      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+      - SentinelConnection=Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=P@ssword1;
     # volumes:
     #   - SentinelWeb:/src
     volumes:
@@ -135,7 +135,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - DOTNET_RUNNING_IN_CONTAINER=true
-      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+      - SentinelConnection=Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=P@ssword1;
     volumes:
       - .:/src
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
@@ -176,7 +176,7 @@ services:
       - Mongodb__DatabaseName=sentinel
       - Mongodb__CollectionName=product
       - Mongodb__IdField=Id
-      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+      - SentinelConnection=Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=P@ssword1;
       - RabbitMQConnection=host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10
       - SMTP__Server=sentinel-util-mailhog
       - SMTP__Port=1025
@@ -212,7 +212,7 @@ services:
       - MongoConnection=mongodb://root:hbMnztmZ4w9JJTGZ@52.247.221.171:27017/admin?readPreference=primary
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - DOTNET_RUNNING_IN_CONTAINER=true
-      - SentinelConnection=Server=sqldb;Database=sentinel;User Id=sa;Password=Sentinel2018;
+      - SentinelConnection=Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=P@ssword1;
     # volumes:
     #   - SentinelWeb:/src
     volumes:
