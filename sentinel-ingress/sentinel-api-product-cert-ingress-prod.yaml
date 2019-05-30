@@ -5,13 +5,13 @@ metadata:
 spec:
   secretName: tls-secret-api-product-prod
   dnsNames:
-  - productapi.myrcan.com
+  - product.api.myrcan.com
   acme:
     config:
     - http01:
         ingressClass: nginx
       domains:
-      - productapi.myrcan.com
+      - product.api.myrcan.com
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
@@ -27,10 +27,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - productapi.myrcan.com
+    - product.api.myrcan.com
     secretName: tls-secret-api-product-prod
   rules:
-  - host: productapi.myrcan.com
+  - host: product.api.myrcan.com
     http:
       paths:
       - path: /
