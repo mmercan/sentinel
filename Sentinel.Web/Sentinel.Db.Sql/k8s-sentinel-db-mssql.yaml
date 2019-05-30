@@ -17,12 +17,12 @@ type: Opaque
 #   storageaccounttype: Standard_LRS
 #   kind: Managed
 ---
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   name: sentinel-mssql-db-data
-  annotations:
-    volume.beta.kubernetes.io/storage-class: default
+  # annotations:
+  #   volume.beta.kubernetes.io/storage-class: default
 spec:
   accessModes:
   - ReadWriteOnce
