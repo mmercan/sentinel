@@ -2,20 +2,32 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: "sentinel-mssql-ingress"
-  labels:
-    app: "sentinel-mssql-ingress"
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: true
 spec:
   rules:
-  - host:mssql.myrcan.com
+  - host: mssql.myrcan.com
     http:
       paths:
         - path: /
           backend:
             serviceName: sentinel-mssql-db
             servicePort: 1433
+---
+
+  # rules:
+  # - host: product.myrcan.com
+  #   http:
+  #     paths:
+  #     - path: /
+  #       backend:
+  #         serviceName: sentinel-ui-product
+  #         servicePort: 80
+
+
+
+
 ---
 # apiVersion: certmanager.k8s.io/v1alpha1
 # kind: Certificate
