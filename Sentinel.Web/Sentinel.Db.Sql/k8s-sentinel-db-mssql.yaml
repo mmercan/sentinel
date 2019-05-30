@@ -68,7 +68,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sentinel-mssql-db-deployment
+  name: sentinel-mssql-db
+  labels:
+    app: sentinel-mssql
 spec:
   selector:
     app: sentinel-mssql
