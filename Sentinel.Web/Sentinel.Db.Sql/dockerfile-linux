@@ -1,15 +1,39 @@
-FROM microsoft/mssql-server-linux:latest
+# FROM microsoft/mssql-server-linux:latest
+# RUN apt-get update && apt-get install -y  \
+#     curl \
+#     apt-transport-https
+# # https://docs.microsoft.com/en-us/sql/connect/odbc/linux/installing-the-microsoft-odbc-driver-for-sql-server-on-linux
+# RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+# RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
 
-RUN apt-get update && apt-get install -y  \
-    curl \
-    apt-transport-https
+# RUN apt-get install -y locales \
+#     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+#     && locale-gen
+# ENV PATH="/opt/mssql-tools/bin:${PATH}" 
 
-# https://docs.microsoft.com/en-us/sql/connect/odbc/linux/installing-the-microsoft-odbc-driver-for-sql-server-on-linux
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+FROM mcr.microsoft.com/mssql/server:2017-latest
+# Install Unzip
+RUN apt-get update  && apt-get install -y  && apt-get install unzip -y
 
-RUN apt-get install -y locales \
-    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
-    && locale-gen
+# Install SQLPackage for Linux and make it executable
+RUN wget -progress=bar:force -q -O sqlpackage.zip https://go.microsoft.com/fwlink/?linkid=873926 \
+    && unzip -qq sqlpackage.zip -d /opt/sqlpackage \
+    && chmod +x /opt/sqlpackage/sqlpackage
 
-ENV PATH="/opt/mssql-tools/bin:${PATH}" 
+# Add the DACPAC to the image
+COPY Northwind.dacpac /tmp/db.dacpac
+
+# Configure external build arguments to allow configurability.
+#ARG DBNAME=Database
+#ARG PASSWORD
+
+# Configure the required environmental variables
+ENV ACCEPT_EULA=Y
+ENV SA_PASSWORD=Pa$$w0rd
+ENV DBNAME=Northwind
+# Launch SQL Server, confirm startup is complete, deploy the DACPAC, then terminate SQL Server.
+# See https://stackoverflow.com/a/51589787/488695
+# RUN ( /opt/mssql/bin/sqlservr & ) | grep -q "Service Broker manager has started" 
+# RUN /opt/sqlpackage/sqlpackage /a:Publish /tsn:. /tdn:${DBNAME} /tu:sa /tp:$SA_PASSWORD /sf:/tmp/db.dacpac 
+# RUN rm /tmp/db.dacpac 
+# RUN pkill sqlservr

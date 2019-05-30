@@ -248,18 +248,20 @@ services:
       - "8080:8080"
       - "8081:8081"
 
-  # sentinel-sql-db:
-  #   image: sentinel-sql-db:01-dev-linux
-  #   build:
-  #     context: ./Sentinel.Db.Sql/
-  #     dockerfile: dockerfile-linux
-  #   ports:
-  #     - "1433:1433"
-  #   environment:
-  #     SA_PASSWORD: "P@ssword1$"
-  #     ACCEPT_EULA: "Y"
-  #   healthcheck:
-  #     test: sqlcmd -S sqldb -U SA -P 'P@ssword1$' -Q 'select 1'
+  sentinel-sql-db:
+    image: sentinel-sql-db:01-dev-linux
+    build:
+      context: ./Sentinel.Db.Sql/
+      dockerfile: dockerfile-linux
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - SA_PASSWORD=P@ssword1
+      - ACCEPT_EULA=Y
+      - DBNAME=Northwind
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: sqlcmd -S sqldb -U SA -P 'P@ssword1' -Q 'select 1'
   sentinel-db-redis:
     image: sentinel-db-redis:${TAGVersion}-dev-linux
     build:

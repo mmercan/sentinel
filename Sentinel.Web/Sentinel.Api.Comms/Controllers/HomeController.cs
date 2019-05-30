@@ -74,7 +74,7 @@ namespace Sentinel.Api.Comms.Controllers
         public void Run(ILogger<HomeController> logger, IConfiguration configuration)
         {
             payload = Encoding.ASCII.GetBytes("My Message");
-            Stopwatch sw = null;
+            // Stopwatch sw = null;
             banner();
 
             Options opts = ConnectionFactory.GetDefaultOptions();

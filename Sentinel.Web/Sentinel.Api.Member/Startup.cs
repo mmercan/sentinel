@@ -106,8 +106,8 @@ namespace Sentinel.Api.Member
             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory")
             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
-            .AddSystemInfoCheck();
-            // .AddWorkingSetCheck(10000000)
+            .AddSystemInfoCheck()
+            .AddWorkingSetCheckKB(300000);
 
             // //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
             // .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
