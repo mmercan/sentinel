@@ -5,13 +5,13 @@ metadata:
 spec:
   secretName: tls-secret-api-healthmonitoring-prod
   dnsNames:
-  - healthmonitoringapi.myrcan.com
+  - healthmonitoring.api.myrcan.com
   acme:
     config:
     - http01:
         ingressClass: nginx
       domains:
-      - healthmonitoringapi.myrcan.com
+      - healthmonitoring.api.myrcan.com
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
@@ -27,10 +27,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - healthmonitoringapi.myrcan.com
+    - healthmonitoring.api.myrcan.com
     secretName: tls-secret-api-healthmonitoring-prod
   rules:
-  - host: healthmonitoringapi.myrcan.com
+  - host: healthmonitoring.api.myrcan.com
     http:
       paths:
       - path: /
