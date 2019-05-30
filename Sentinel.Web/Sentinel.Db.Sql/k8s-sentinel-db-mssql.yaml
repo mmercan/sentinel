@@ -4,8 +4,8 @@ metadata:
   name: sentinel-mssql-db-secret
   # namespace: default
 data:
-  # Password is P@ssword1$ so update it with password of your choice  
-  SA_PASSWORD: MySentP@ssw0rd
+  # Password is MySentP@ssw0rd base64 encoded  
+  SA_PASSWORD: TXlTZW50UEBzc3cwcmQ=
 type: Opaque
 # ---
 # kind: StorageClass
