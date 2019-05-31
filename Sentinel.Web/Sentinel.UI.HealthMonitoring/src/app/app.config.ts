@@ -47,19 +47,19 @@ export class AppConfig {
     HealthCheck: {
       urls: [{
         isaliveandwell: window.location.hostname === 'localhost' ? 'http://localhost:5006/health/isaliveandwell'
-          : 'https://healthmonitoringapi.myrcan.com/health/isaliveandwell',
+          : 'https://healthmonitoring.api.myrcan.com/health/isaliveandwell',
         name: 'HealthMonitoring Api'
       }, {
         isaliveandwell: window.location.hostname === 'localhost' ? 'http://localhost:5004/health/isaliveandwell'
-          : 'https://comms.myrcan.com/health/isaliveandwell',
+          : 'https://comms.api.myrcan.com/health/isaliveandwell',
         name: 'Comms Api'
       }, {
         isaliveandwell: window.location.hostname === 'localhost' ? 'http://localhost:5002/health/isaliveandwell'
-          : 'https://member.myrcan.com/health/isaliveandwell',
+          : 'https://member.api.myrcan.com/health/isaliveandwell',
         name: 'Member Api'
       }, {
         isaliveandwell: window.location.hostname === 'localhost' ? 'http://localhost:5003/health/isaliveandwell'
-          : 'https://productapi.myrcan.com/health/isaliveandwell',
+          : 'https://product.api.myrcan.com/health/isaliveandwell',
         name: 'Product Api'
       }, {
         isaliveandwell: window.location.hostname === 'localhost' ? 'http://localhost:5005/health/isaliveandwell'
