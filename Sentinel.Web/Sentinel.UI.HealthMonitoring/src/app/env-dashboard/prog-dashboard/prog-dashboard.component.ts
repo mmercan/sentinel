@@ -35,6 +35,7 @@ export class ProgDashboardComponent implements OnInit, OnDestroy {
         },
         error => {
           console.log('oops', error);
+          const blah = '';
         }
 
       );

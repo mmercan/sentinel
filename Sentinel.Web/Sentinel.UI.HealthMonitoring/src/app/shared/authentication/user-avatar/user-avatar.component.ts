@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit, Input, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { AppConfig, authenticationType } from '../../../app.config';
-import { Jsonp } from '@angular/http';
 import { Subscription } from 'rxjs';
 
 @Component({

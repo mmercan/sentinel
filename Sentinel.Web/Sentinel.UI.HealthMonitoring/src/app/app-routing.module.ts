@@ -10,31 +10,31 @@ export const routes: Routes = [{
   component: AdminLayoutComponent,
   children: [{
     path: '',
-    loadChildren: './dashboard/dashboard.module#DashboardModule'
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
   }, {
     path: 'id_token',
-    loadChildren: './authentication/authentication.module#AuthenticationModule'
+    loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   {
     path: 'user',
-    loadChildren: './user/user.module#UserModule',
+    loadChildren: () => import('./user/user.module').then(m => m.UserModule),
     canLoad: [AdalGuard]
   }, {
     path: 'docs',
-    loadChildren: './docs/docs.module#DocsModule'
+    loadChildren: () => import('./docs/docs.module').then(m => m.DocsModule)
   }, {
     path: ':programname/:envname',
-    loadChildren: './env-dashboard/env-dashboard.module#EnvDashboardModule'
+    loadChildren: () => import('./env-dashboard/env-dashboard.module').then(m => m.EnvDashboardModule)
   }]
 }, {
   path: '',
   component: AuthLayoutComponent,
   children: [{
     path: 'authentication',
-    loadChildren: './authentication/authentication.module#AuthenticationModule'
+    loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   }, {
     path: 'error',
-    loadChildren: './error/error.module#ErrorModule'
+    loadChildren: () => import('./error/error.module').then(m => m.ErrorModule)
   }]
 }, {
   path: '**',

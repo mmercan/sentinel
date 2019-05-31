@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Http, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IConfiguration, IConfigItem } from './interfaces/i-configuration';
@@ -41,7 +41,7 @@ export class ConfigApiService implements OnDestroy {
   _getConfigurationHttpPostSubscription: Subscription;
 
 
-  constructor(protected http: Http, protected appConfig: AppConfig, protected notificationService: NotificationService) {
+  constructor(protected http: HttpClient, protected appConfig: AppConfig, protected notificationService: NotificationService) {
     this.dataStore = { environment: {}, certificates: [], appsettingValidates: [], configuration: {} };
 
     this._environment = <BehaviorSubject<any>>new BehaviorSubject({});
@@ -79,7 +79,7 @@ export class ConfigApiService implements OnDestroy {
       if (this.dataStore.environment && this.dataStore.environment.environmentName && !force) {
         observer.next(Object.assign({}, this.dataStore).environment);
       } else {
-        this.EnvironmentHttpGetSubscription = this.http.get(apiurl).pipe(map(response => response.json())).subscribe(data => {
+        this.EnvironmentHttpGetSubscription = this.http.get(apiurl).subscribe(data => {
           this.dataStore.environment = data;
           this._environment.next(Object.assign({}, this.dataStore).environment);
           this.notificationService.showVerbose('Environment Varible Load completed', '');
@@ -107,11 +107,11 @@ export class ConfigApiService implements OnDestroy {
           clientIdLocation: clientIdLocation,
           appsettingsFolderLocation: appsettingsFolderLocation
         });
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        const options = new RequestOptions({ headers: headers });
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-        this.getCertificatesHttpPosySubscription = this.http.post(apiurl, postbody, options).
-          pipe(map(response => response.json())).subscribe(data => {
+
+        this.getCertificatesHttpPosySubscription = this.http.post<ICertificate[]>(apiurl, postbody, { headers: headers })
+          .subscribe(data => {
             this.dataStore.certificates = data;
             this._certificates.next(Object.assign({}, this.dataStore).certificates);
             this.notificationService.showVerbose('certificates Load completed', '');
@@ -157,7 +157,7 @@ export class ConfigApiService implements OnDestroy {
     const obs = Observable.create(observer => {
       const myReader: FileReader = new FileReader();
       myReader.onloadend = (e) => {
-        const content = myReader.result;
+        const content = myReader.result.toString();
         const jsoncontent = JSON.parse(content);
         const configstr = JSON.stringify(jsoncontent);
         localStorage.setItem('app-settingsConfig', configstr);
@@ -204,11 +204,10 @@ export class ConfigApiService implements OnDestroy {
       }
 
       const postbody = JSON.stringify(body);
-      const headers = new Headers({ 'Content-Type': 'application/json' });
-      const options = new RequestOptions({ headers: headers });
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-      this.httpCallByConfigurationHttpPostSubscription = this.http.post(apiurl, postbody, options)
-        .pipe(map(response => response.json())).subscribe(data => {
+      this.httpCallByConfigurationHttpPostSubscription = this.http.post(apiurl, postbody, { headers: headers })
+        .subscribe(data => {
           this.notificationService.showVerbose('CallByConfiguration Load completed', '');
           observer.next(data);
         }, error => this.handleError(error, observer, 'CallByConfiguration Load Failed'));
@@ -234,11 +233,10 @@ export class ConfigApiService implements OnDestroy {
           clientIdLocation: clientIdLocation,
           appsettingsFolderLocation: appsettingsFolderLocation
         });
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        const options = new RequestOptions({ headers: headers });
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-        this._getConfigurationHttpPostSubscription = this.http.post(apiurl, postbody, options)
-          .pipe(map(response => response.json())).subscribe(data => {
+        this._getConfigurationHttpPostSubscription = this.http.post<IConfiguration>(apiurl, postbody, { headers: headers })
+          .subscribe(data => {
 
             let config = {};
             if (data && data.activeConfigs && data.activeConfigs.length > 0) {

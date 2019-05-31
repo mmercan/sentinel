@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppConfig } from '../../../app.config';
 import { NotificationService } from '../../notification/notification.service';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 export class HttpCallService implements OnDestroy {
   httpPostSubscription: Subscription;
 
-  constructor(protected http: Http, protected appConfig: AppConfig, protected notificationService: NotificationService) {
+  constructor(protected http: HttpClient, protected appConfig: AppConfig, protected notificationService: NotificationService) {
     // this.dataStore = { environment: {}, certificates: [], configuration: {} };
     // this._dataset = <BehaviorSubject<any>>new BehaviorSubject([]);
     // this.dataset = this._dataset.asObservable();
@@ -27,10 +27,8 @@ export class HttpCallService implements OnDestroy {
       //   appsettingsFolderLocation: appsettingsFolderLocation
       // }
 
-      const headers = new Headers({ 'Content-Type': 'application/json' });
-      const options = new RequestOptions({ headers: headers });
-
-      this.httpPostSubscription = this.http.post(apiurl, postbody, options).pipe(map(response => response.json()))
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      this.httpPostSubscription = this.http.post(apiurl, postbody, { headers: headers }) // .pipe(map(response => response.json()))
         .subscribe(data => {
           console.log(data);
           observer.next(data);

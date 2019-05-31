@@ -10,7 +10,7 @@ import { User } from '../interfaces/user-interface';
 export class SettingsComponent implements OnInit {
   ProfileImage: string;
   context: any;
-  @ViewChild('myCanvas') myCanvas;
+  @ViewChild('myCanvas', { static: true }) myCanvas;
   constructor() { }
 
   ngOnInit() {

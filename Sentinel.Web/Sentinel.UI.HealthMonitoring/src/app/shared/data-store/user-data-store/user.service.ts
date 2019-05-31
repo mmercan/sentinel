@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -23,7 +23,7 @@ export class ProductService implements OnDestroy {
   createSubscription: Subscription;
   loadSubscription: Subscription;
 
-  constructor(private http: Http, private authService: AuthService, private appConfig: AppConfig) {
+  constructor(private http: HttpClient, private authService: AuthService, private appConfig: AppConfig) {
     this.baseUrl = appConfig.config.Api.baseUrl + this.apilocation;
     this.dataStore = { items: [] };
     this._itemSource = <BehaviorSubject<any[]>>new BehaviorSubject([]);
@@ -31,14 +31,14 @@ export class ProductService implements OnDestroy {
   }
 
   loadAll() {
-    this.loadAllSubscription = this.http.get(this.baseUrl).pipe(map(response => response.json())).subscribe(data => {
+    this.loadAllSubscription = this.http.get<any[]>(this.baseUrl).subscribe(data => {
       this.dataStore.items = data;
       this._itemSource.next(Object.assign({}, this.dataStore).items);
     }, error => console.log('Could not load items.'));
   }
 
   load(id: number | string) {
-    this.loadSubscription = this.http.get(`${this.baseUrl}/${id}`).pipe(map(response => response.json())).subscribe(data => {
+    this.loadSubscription = this.http.get(`${this.baseUrl}/${id}`).subscribe(data => {
       let notFound = true;
 
       this.dataStore.items.forEach((item, index) => {
@@ -58,7 +58,7 @@ export class ProductService implements OnDestroy {
 
   create(item: any) {
     this.createSubscription = this.http.post(this.baseUrl, JSON.stringify(item))
-      .pipe(map(response => response.json())).subscribe(data => {
+      .subscribe(data => {
         this.dataStore.items.push(data);
         this._itemSource.next(Object.assign({}, this.dataStore).items);
       }, error => console.log('Could not create item.'));
@@ -66,7 +66,7 @@ export class ProductService implements OnDestroy {
 
   update(item: any) {
     this.updateSubscription = this.http.put(`${this.baseUrl}/${item[this.idField]}`, JSON.stringify(item))
-      .pipe(map(response => response.json())).subscribe(data => {
+      .subscribe(data => {
         this.dataStore.items.forEach((t, i) => {
           if (t[this.idField] === data[this.idField]) { this.dataStore.items[i] = data; }
         });

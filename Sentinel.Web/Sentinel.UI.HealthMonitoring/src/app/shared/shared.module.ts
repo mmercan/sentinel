@@ -1,12 +1,10 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { HttpModule } from '@angular/http';
-
 import { MenuItems } from './menu-items/menu-items';
 import { AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective } from './accordion';
 import { ToggleFullscreenDirective } from './fullscreen/toggle-fullscreen.directive';
 import { NotificationService } from './notification/notification.service';
 import { AppConfig, authenticationType, logLevel } from '../app.config';
-
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AdalInterceptor } from './authentication/adal-auth/adal.interceptor';
 import { AdalService } from './authentication/adal-auth/adal.service';
 import { AdalGuard } from './authentication/adal-auth/adal.guard';
@@ -24,7 +22,7 @@ import { Ng4FilterPipe } from './pipes/filter/ng4-filter.pipe';
 
 
 @NgModule({
-  imports: [HttpModule],
+  imports: [HttpClientModule],
   declarations: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
     IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe],
   exports: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,

@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -21,7 +21,7 @@ export class CommonDataStoreService<T> {
     httpDeleteSubscription: Subscription;
 
 
-    constructor(protected superhttp: Http, protected baseUrl: string, protected keyProperyName: string) {
+    constructor(protected http: HttpClient, protected baseUrl: string, protected keyProperyName: string) {
         // this.baseUrl = 'http://56e05c3213da80110013eba3.mockapi.io/api';
         this.dataStore = { dataset: [] };
         this._dataset = <BehaviorSubject<T[]>>new BehaviorSubject([]);
@@ -31,7 +31,7 @@ export class CommonDataStoreService<T> {
     getAll() {
         // const obs = Observable.create(observer => {
 
-        this.httpGetAllSubscription = this.superhttp.get(this.baseUrl).pipe(map(response => response.json())).subscribe(data => {
+        this.httpGetAllSubscription = this.http.get<T[]>(this.baseUrl).subscribe(data => {
             this.dataStore.dataset = data;
             // setTimeout(_ => this._dataset.next(Object.assign({}, this.dataStore).dataset));
             this._dataset.next(Object.assign({}, this.dataStore).dataset);
@@ -45,7 +45,7 @@ export class CommonDataStoreService<T> {
     }
 
     get(id: number | string) {
-        this.httpGetSubscription = this.superhttp.get(`${this.baseUrl}/${id}`).pipe(map(response => response.json())).subscribe(data => {
+        this.httpGetSubscription = this.http.get<T>(`${this.baseUrl}/${id}`).subscribe(data => {
             let notFound = true;
 
             this.dataStore.dataset.forEach((item, index) => {
@@ -76,8 +76,8 @@ export class CommonDataStoreService<T> {
     }
 
     create(item: T) {
-        this.httpPostSubscription = this.superhttp.post(this.baseUrl, JSON.stringify(item))
-            .pipe(map(response => response.json())).subscribe(data => {
+        this.httpPostSubscription = this.http.post<T>(this.baseUrl, JSON.stringify(item))
+            .subscribe(data => {
                 this.dataStore.dataset.push(data);
                 this._dataset.next(Object.assign({}, this.dataStore).dataset);
             }, error => console.log('Could not create items.'));
@@ -86,8 +86,8 @@ export class CommonDataStoreService<T> {
 
     update(item: T) {
         const id = this.getKeyField(item);
-        this.httpPutSubscription = this.superhttp.put(this.baseUrl, JSON.stringify(item))
-            .pipe(map(response => response.json())).subscribe(data => {
+        this.httpPutSubscription = this.http.put<T>(this.baseUrl, JSON.stringify(item))
+            .subscribe(data => {
                 this.dataStore.dataset.forEach((t, i) => {
                     if (this.getKeyField(t) === this.getKeyField(data)) { this.dataStore.dataset[i] = data; }
                 });
@@ -97,7 +97,7 @@ export class CommonDataStoreService<T> {
     }
 
     remove(id: number | string) {
-        this.httpDeleteSubscription = this.superhttp.delete(`${this.baseUrl}/${id}`).subscribe(response => {
+        this.httpDeleteSubscription = this.http.delete(`${this.baseUrl}/${id}`).subscribe(response => {
             this.dataStore.dataset.forEach((t, i) => {
                 if (this.getKeyField(t) === id) { this.dataStore.dataset.splice(i, 1); }
             });

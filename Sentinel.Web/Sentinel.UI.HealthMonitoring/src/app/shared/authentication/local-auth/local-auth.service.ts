@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppConfig } from '../../../app.config';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { Notification, NotificationService } from '../../notification/notification.service';
@@ -18,7 +18,7 @@ export class LocalAuthService implements OnDestroy {
 
   constructor(
     private appConfig: AppConfig,
-    private http: Http,
+    private http: HttpClient,
     private notificationService: NotificationService
   ) {
     if (this.checkLogin()) {
@@ -47,25 +47,19 @@ export class LocalAuthService implements OnDestroy {
     return this.status.asObservable();
   }
 
-
-
-
   login(userName: string, password: string): Observable<any> {
     const obs = Observable.create(observer => {
       if (!this.appConfig.config.login.loginUrl) {
         this.handleError(null, observer, 'Login url is empty');
       }
 
-      let opt: RequestOptions;
-      const myHeaders: Headers = new Headers;
-      myHeaders.set('Content-type', 'application/json');
-      opt = new RequestOptions({
-        headers: myHeaders
-      });
+      const headers: HttpHeaders = new HttpHeaders;
+      headers.set('Content-type', 'application/json');
 
-      this.loginSubscription = this.http.post(this.appConfig.config.login.loginUrl, { Username: userName, Password: password }, opt)
+      this.loginSubscription = this.http.post(this.appConfig.config.login.loginUrl,
+        { Username: userName, Password: password }, { headers: headers, observe: 'response' })
         .subscribe(response => {
-          const result = response.json();
+          const result = response;
           const json = result as any;
           sessionStorage.setItem('token', json.token);
 

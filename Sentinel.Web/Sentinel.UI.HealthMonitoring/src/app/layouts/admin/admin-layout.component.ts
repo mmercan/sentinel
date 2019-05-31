@@ -50,8 +50,8 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   idx: any;
   activeNotifications: Notification[] = [];
   notificationCount = 0;
-  @ViewChild('sidebar') sidebar;
-  @ViewChild('notificationDrop') notificationDrop;
+  @ViewChild('sidebar', { static: true }) sidebar;
+  @ViewChild('notificationDrop', { static: true }) notificationDrop;
   params: any;
   programName: any;
   envName: any;
@@ -68,7 +68,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     public appConfig: AppConfig,
     private notificationService: NotificationService,
   ) {
-    this.mediaMatcher.addListener(mql => zone.run(() => this.mediaMatcher = mql));
+    this.mediaMatcher.addListener(mql => zone.run(() => this.mediaMatcher = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`)));
 
     this.notificationServiceSubscription = this.notificationService.dataset.subscribe(result => {
       if (result && result.length) {

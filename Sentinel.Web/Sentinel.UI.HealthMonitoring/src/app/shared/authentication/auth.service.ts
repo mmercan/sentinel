@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppConfig, authenticationType, logLevel } from '../../app.config';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { Notification, NotificationService } from '../notification/notification.service';
@@ -27,7 +27,7 @@ export class AuthService implements OnDestroy {
 
   constructor(
     private appConfig: AppConfig,
-    private http: Http,
+    private http: HttpClient,
     private notificationService: NotificationService,
     private adalService: AdalService,
     private localAuthService: LocalAuthService
@@ -118,16 +118,16 @@ export class AuthService implements OnDestroy {
   authGet(url): Observable<any> {
     const headers = this.initAuthHeaders();
     const obs = Observable.create(observer => {
-      let result = null;
-      this.httpGetSubscription = this.http.get(url, { headers: headers })
+      // let result = null;
+      this.httpGetSubscription = this.http.get(url, { headers: headers, observe: 'response' })
         .subscribe(
           response => {
-            if (response.json) {
-              result = response.json();
-            } else if (response.text) {
-              result = response.text();
-            }
-            observer.next(result);
+            // if (response.json) {
+            //   result = response.json();
+            // } else if (response.text) {
+            //   result = response.text();
+            // }
+            observer.next(response.body);
           },
           error => { this.handleError(error, observer, 'Failed Get on' + url); }
         );
@@ -139,21 +139,20 @@ export class AuthService implements OnDestroy {
   authPost(url: string, body: any): Observable<any> {
     const obs = Observable.create(observer => {
       const headers = this.initAuthHeaders();
-      let result = null;
-      this.httpPostSubscription = this.http.post(url, body, { headers: headers })
+      //  let result = null;
+      this.httpPostSubscription = this.http.post(url, body, { headers: headers, observe: 'response' })
         .subscribe(
           response => {
             if (response.ok) {
-              if (response.text() === '') {
-                observer.next(result);
-              } else if (response.json) {
-                result = response.json();
-              } else if (response.text) {
-                result = response.text();
-              }
+              // if (response.text() === '') {
+              observer.next(response.body);
+              // } else if (response.json) {
+              //   result = response.json();
+              // } else if (response.text) {
+              //   result = response.text();
+              // }
             }
-
-            observer.next(result);
+            observer.next(response.body);
           },
           error => { this.handleError(error, observer, 'Failed Post on ' + url); }
         );
@@ -164,21 +163,22 @@ export class AuthService implements OnDestroy {
   authPut(url: string, body: any): Observable<any> {
     const obs = Observable.create(observer => {
       const headers = this.initAuthHeaders();
-      let result = null;
-      this.httpPutSubscription = this.http.put(url, body, { headers: headers })
+      // let result = null;
+      this.httpPutSubscription = this.http.put(url, body, { headers: headers, observe: 'response' })
         .subscribe(
           response => {
             if (response.ok) {
-              if (response.text() === '') {
-                observer.next(result);
-              } else if (response.json) {
-                result = response.json();
-              } else if (response.text) {
-                result = response.text();
-              }
+              // if (response.text() === '') {
+              //   observer.next(result);
+              // } else if (response.json) {
+              //   result = response.json();
+              // } else if (response.text) {
+              //   result = response.text();
+              // }
+              observer.next(response.body);
             }
 
-            observer.next(result);
+            observer.next(response.body);
           },
           error => { this.handleError(error, observer, 'Failed Put on ' + url); }
         );
@@ -189,16 +189,16 @@ export class AuthService implements OnDestroy {
   authDelete(url): Observable<any> {
     const headers = this.initAuthHeaders();
     const obs = Observable.create(observer => {
-      let result = null;
-      this.httpDeleteSubscription = this.http.delete(url, { headers: headers })
+      // let result = null;
+      this.httpDeleteSubscription = this.http.delete(url, { headers: headers, observe: 'response' })
         .subscribe(
           response => {
-            if (response.json) {
-              result = response.json();
-            } else if (response.text) {
-              result = response.text();
-            }
-            observer.next(result);
+            // if (response.json) {
+            //   result = response.json();
+            // } else if (response.text) {
+            //   result = response.text();
+            // }
+            observer.next(response.body);
           },
           error => { this.handleError(error, observer, 'Failed Delete on ' + url); }
         );
@@ -208,11 +208,11 @@ export class AuthService implements OnDestroy {
   }
 
 
-  private initAuthHeaders(): Headers {
+  private initAuthHeaders(): HttpHeaders {
     const token = this.getLocalToken();
     if (token == null) { throw new Error('No token'); }
 
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', 'Bearer ' + token);
     return headers;
