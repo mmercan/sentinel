@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Injectable, OnDestroy } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppConfig, authenticationType, logLevel } from '../../app.config';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { Notification, NotificationService } from '../notification/notification.service';
@@ -10,19 +10,24 @@ import { LocalAuthService } from './local-auth/local-auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService implements OnDestroy {
   private tokeyKey = 'token';
   private internal: any;
   private token: string;
   private isLoggedinValue: boolean;
   private status = new Subject<boolean>();
+  getUserSubscription: Subscription;
+  httpGetSubscription: Subscription;
+  httpDeleteSubscription: Subscription;
+  httpPutSubscription: Subscription;
+  httpPostSubscription: Subscription;
   // public user: Observable<any>;
 
 
 
   constructor(
     private appConfig: AppConfig,
-    private http: Http,
+    private http: HttpClient,
     private notificationService: NotificationService,
     private adalService: AdalService,
     private localAuthService: LocalAuthService
@@ -82,11 +87,11 @@ export class AuthService {
   getUserInfo(): Observable<any> {
     const obs = Observable.create(observer => {
       if (this.appConfig.config.authenticationType === authenticationType.Adal) {
-        this.adalService.getUser().subscribe(
+        this.getUserSubscription = this.adalService.getUser().subscribe(
           data => { observer.next(data); },
           error => { observer.error(error); });
       } else {
-        this.localAuthService.user.subscribe(
+        this.getUserSubscription = this.localAuthService.user.subscribe(
           data => { observer.next(data); },
           error => { observer.error(error); });
       }
@@ -113,16 +118,16 @@ export class AuthService {
   authGet(url): Observable<any> {
     const headers = this.initAuthHeaders();
     const obs = Observable.create(observer => {
-      let result = null;
-      this.http.get(url, { headers: headers })
+      // let result = null;
+      this.httpGetSubscription = this.http.get(url, { headers: headers, observe: 'response' })
         .subscribe(
           response => {
-            if (response.json) {
-              result = response.json();
-            } else if (response.text) {
-              result = response.text();
-            }
-            observer.next(result);
+            // if (response.json) {
+            //   result = response.json();
+            // } else if (response.text) {
+            //   result = response.text();
+            // }
+            observer.next(response.body);
           },
           error => { this.handleError(error, observer, 'Failed Get on' + url); }
         );
@@ -134,21 +139,20 @@ export class AuthService {
   authPost(url: string, body: any): Observable<any> {
     const obs = Observable.create(observer => {
       const headers = this.initAuthHeaders();
-      let result = null;
-      return this.http.post(url, body, { headers: headers })
+      //  let result = null;
+      this.httpPostSubscription = this.http.post(url, body, { headers: headers, observe: 'response' })
         .subscribe(
           response => {
             if (response.ok) {
-              if (response.text() === '') {
-                observer.next(result);
-              } else if (response.json) {
-                result = response.json();
-              } else if (response.text) {
-                result = response.text();
-              }
+              // if (response.text() === '') {
+              observer.next(response.body);
+              // } else if (response.json) {
+              //   result = response.json();
+              // } else if (response.text) {
+              //   result = response.text();
+              // }
             }
-
-            observer.next(result);
+            observer.next(response.body);
           },
           error => { this.handleError(error, observer, 'Failed Post on ' + url); }
         );
@@ -159,21 +163,22 @@ export class AuthService {
   authPut(url: string, body: any): Observable<any> {
     const obs = Observable.create(observer => {
       const headers = this.initAuthHeaders();
-      let result = null;
-      return this.http.put(url, body, { headers: headers })
+      // let result = null;
+      this.httpPutSubscription = this.http.put(url, body, { headers: headers, observe: 'response' })
         .subscribe(
           response => {
             if (response.ok) {
-              if (response.text() === '') {
-                observer.next(result);
-              } else if (response.json) {
-                result = response.json();
-              } else if (response.text) {
-                result = response.text();
-              }
+              // if (response.text() === '') {
+              //   observer.next(result);
+              // } else if (response.json) {
+              //   result = response.json();
+              // } else if (response.text) {
+              //   result = response.text();
+              // }
+              observer.next(response.body);
             }
 
-            observer.next(result);
+            observer.next(response.body);
           },
           error => { this.handleError(error, observer, 'Failed Put on ' + url); }
         );
@@ -184,16 +189,16 @@ export class AuthService {
   authDelete(url): Observable<any> {
     const headers = this.initAuthHeaders();
     const obs = Observable.create(observer => {
-      let result = null;
-      this.http.delete(url, { headers: headers })
+      // let result = null;
+      this.httpDeleteSubscription = this.http.delete(url, { headers: headers, observe: 'response' })
         .subscribe(
           response => {
-            if (response.json) {
-              result = response.json();
-            } else if (response.text) {
-              result = response.text();
-            }
-            observer.next(result);
+            // if (response.json) {
+            //   result = response.json();
+            // } else if (response.text) {
+            //   result = response.text();
+            // }
+            observer.next(response.body);
           },
           error => { this.handleError(error, observer, 'Failed Delete on ' + url); }
         );
@@ -203,13 +208,21 @@ export class AuthService {
   }
 
 
-  private initAuthHeaders(): Headers {
+  private initAuthHeaders(): HttpHeaders {
     const token = this.getLocalToken();
     if (token == null) { throw new Error('No token'); }
 
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', 'Bearer ' + token);
     return headers;
+  }
+
+  ngOnDestroy(): void {
+    if (this.getUserSubscription) { this.getUserSubscription.unsubscribe(); }
+    if (this.httpGetSubscription) { this.httpGetSubscription.unsubscribe(); }
+    if (this.httpDeleteSubscription) { this.httpDeleteSubscription.unsubscribe(); }
+    if (this.httpPutSubscription) { this.httpPutSubscription.unsubscribe(); }
+    if (this.httpPostSubscription) { this.httpPostSubscription.unsubscribe(); }
   }
 }

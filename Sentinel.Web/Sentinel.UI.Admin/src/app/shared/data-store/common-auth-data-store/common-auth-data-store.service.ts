@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../../authentication/auth.service';
 import { HttpClient } from '@angular/common/http';
 
 // @Injectable()
-export class CommonAuthDataStoreService<T> {
+export class CommonAuthDataStoreService<T>  {
 
   public dataset: Observable<T[]>;
   // public keyProperyName: string;
@@ -16,6 +15,10 @@ export class CommonAuthDataStoreService<T> {
   private dataStore: {
     dataset: T[]
   };
+  authGetSubscription: Subscription;
+  authPostSubscription: Subscription;
+  authPutSubscription: Subscription;
+  authDeleteSubscription: Subscription;
 
 
   constructor(private authService: AuthService, protected baseUrl: string, protected keyProperyName: string) {
@@ -28,7 +31,7 @@ export class CommonAuthDataStoreService<T> {
   getAll() {
     // const obs = Observable.create(observer => {
 
-    this.authService.authGet(this.baseUrl).subscribe(data => {
+    this.authGetSubscription = this.authService.authGet(this.baseUrl).subscribe(data => {
       this.dataStore.dataset = data;
       // setTimeout(_ => this._dataset.next(Object.assign({}, this.dataStore).dataset));
       this._dataset.next(Object.assign({}, this.dataStore).dataset);
@@ -73,7 +76,7 @@ export class CommonAuthDataStoreService<T> {
   }
 
   create(item: T) {
-    this.authService.authPost(this.baseUrl, JSON.stringify(item))
+    this.authPostSubscription = this.authService.authPost(this.baseUrl, JSON.stringify(item))
       .subscribe(data => {
         this.dataStore.dataset.push(data);
         this._dataset.next(Object.assign({}, this.dataStore).dataset);
@@ -83,7 +86,7 @@ export class CommonAuthDataStoreService<T> {
 
   update(item: T) {
     const id = this.getKeyField(item);
-    this.authService.authPut(this.baseUrl, JSON.stringify(item))
+    this.authPutSubscription = this.authService.authPut(this.baseUrl, JSON.stringify(item))
       .subscribe(data => {
         this.dataStore.dataset.forEach((t, i) => {
           if (this.getKeyField(t) === this.getKeyField(data)) { this.dataStore.dataset[i] = data; }
@@ -94,7 +97,7 @@ export class CommonAuthDataStoreService<T> {
   }
 
   remove(id: number | string) {
-    this.authService.authDelete(`${this.baseUrl}/${id}`).subscribe(response => {
+    this.authDeleteSubscription = this.authService.authDelete(`${this.baseUrl}/${id}`).subscribe(response => {
       this.dataStore.dataset.forEach((t, i) => {
         if (this.getKeyField(t) === id) { this.dataStore.dataset.splice(i, 1); }
       });
@@ -103,5 +106,10 @@ export class CommonAuthDataStoreService<T> {
     }, error => console.log('Could not delete item.'));
   }
 
-
+  OnDestroy(): void {
+    if (this.authGetSubscription) { this.authGetSubscription.unsubscribe(); }
+    if (this.authPostSubscription) { this.authPostSubscription.unsubscribe(); }
+    if (this.authPostSubscription) { this.authPostSubscription.unsubscribe(); }
+    if (this.authDeleteSubscription) { this.authDeleteSubscription.unsubscribe(); }
+  }
 }

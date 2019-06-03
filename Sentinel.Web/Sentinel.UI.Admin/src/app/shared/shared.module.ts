@@ -1,5 +1,5 @@
 import { NgModule, ModuleWithProviders, ANALYZE_FOR_ENTRY_COMPONENTS } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { DragulaModule } from 'ng2-dragula';
 import { CommonModule } from '@angular/common';

@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Injectable, OnDestroy } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppConfig } from '../../../app.config';
 import { Subscription, Observable, Subject } from 'rxjs';
 import { Notification, NotificationService } from '../../notification/notification.service';
@@ -7,18 +7,18 @@ import { Notification, NotificationService } from '../../notification/notificati
 @Injectable({
   providedIn: 'root'
 })
-export class LocalAuthService {
-
+export class LocalAuthService implements OnDestroy {
   private tokeyKey = 'token';
   private internal: any;
   private token: string;
   private isLoggedinValue: boolean;
   private status = new Subject<boolean>();
   public user: Observable<any>;
+  loginSubscription: Subscription;
 
   constructor(
     private appConfig: AppConfig,
-    private http: Http,
+    private http: HttpClient,
     private notificationService: NotificationService
   ) {
     if (this.checkLogin()) {
@@ -47,25 +47,19 @@ export class LocalAuthService {
     return this.status.asObservable();
   }
 
-
-
-
   login(userName: string, password: string): Observable<any> {
     const obs = Observable.create(observer => {
       if (!this.appConfig.config.login.loginUrl) {
         this.handleError(null, observer, 'Login url is empty');
       }
 
-      let opt: RequestOptions;
-      const myHeaders: Headers = new Headers;
-      myHeaders.set('Content-type', 'application/json');
-      opt = new RequestOptions({
-        headers: myHeaders
-      });
+      const headers: HttpHeaders = new HttpHeaders;
+      headers.set('Content-type', 'application/json');
 
-      this.http.post(this.appConfig.config.login.loginUrl, { Username: userName, Password: password }, opt)
+      this.loginSubscription = this.http.post(this.appConfig.config.login.loginUrl,
+        { Username: userName, Password: password }, { headers: headers, observe: 'response' })
         .subscribe(response => {
-          const result = response.json();
+          const result = response;
           const json = result as any;
           sessionStorage.setItem('token', json.token);
 
@@ -134,5 +128,7 @@ export class LocalAuthService {
     return this.token;
   }
 
-
+  ngOnDestroy(): void {
+    if (this.loginSubscription) { this.loginSubscription.unsubscribe(); }
+  }
 }
