@@ -34,7 +34,7 @@ import { SettingsComponent } from './settings/settings.component';
 
 
 @NgModule({
-  imports: [CommonModule, HttpModule, FormsModule, DragulaModule],
+  imports: [CommonModule, HttpClientModule, FormsModule, DragulaModule],
   declarations: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
     IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent, SettingsComponent],
   exports: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
