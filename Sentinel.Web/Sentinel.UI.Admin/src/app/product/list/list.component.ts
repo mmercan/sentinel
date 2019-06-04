@@ -12,7 +12,7 @@ export class ListComponent implements OnInit {
   public settings: any;
   public filters: any = {};
   public selectedItem: any;
-  public listtemplate = "<span> {{item.productCode}} Hello <input [(ngModel)]=\"item.productCode\"> </span>";
+  public listtemplate = '<span> {{item.productCode}} Hello <input [(ngModel)]=\"item.productCode\"> </span>';
   constructor(private productDS: ProductDataStoreService, private router: Router) { }
 
   rows = [];

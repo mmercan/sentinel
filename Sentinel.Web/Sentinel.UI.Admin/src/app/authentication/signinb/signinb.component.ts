@@ -23,7 +23,7 @@ export class SigninbComponent implements OnInit, AfterViewInit {
   // mouthStatus = 'small';
   // email;
 
-  @ViewChild('mySVG') mySVG: ElementRef;
+  @ViewChild('mySVG', { static: true }) mySVG: ElementRef;
 
   constructor() { }
   ngAfterViewInit() {

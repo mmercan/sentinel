@@ -5,7 +5,7 @@ import { ProductRoutingModule } from './product-routing.module';
 import { ListComponent } from './list/list.component';
 import { CreateComponent } from './create/create.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxDatatableModule } from '@mrtmrcn/ngx-datatable';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormsModule } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DynamicHTMLModule } from '../dynamic-html/dynamic-html.module';
@@ -15,7 +15,7 @@ import { DynamicHTMLModule } from '../dynamic-html/dynamic-html.module';
         ProductRoutingModule,
         SharedModule,
         NgbModule,
-        NgxDatatableModule,
+        NgxDatatableModule,  // (https://github.com/swimlane/ngx-datatable/issues/1693)
         FormsModule,
         ScrollingModule,
         DynamicHTMLModule

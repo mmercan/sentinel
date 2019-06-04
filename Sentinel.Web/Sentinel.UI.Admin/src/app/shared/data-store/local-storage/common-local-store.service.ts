@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-@Injectable()
+//@Injectable()
 export class CommonLocalStoreService<T> {
   public dataset: Observable<T>;
   private _dataset: BehaviorSubject<T>;

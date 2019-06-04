@@ -24,29 +24,20 @@
               </select>
             </div>
             <div class="d-none d-sx-none d-sm-block d-md-block" style="flex:1 0px">
-              <input class="form-control" style="height: 46px" type="search" [(ngModel)]="filters.productCode"
-                placeholder="Code" id="search-input">
+              <input class="form-control" style="height: 46px" type="search" [(ngModel)]="filters.productCode" placeholder="Code" id="search-input">
             </div>
             <div class="d-none d-sx-none d-sm-block d-md-block" style="flex:2 0px">
-              <input class="form-control" style="height: 46px" type="search" [(ngModel)]="filters.name" placeholder="Name"
-                id="search-input">
+              <input class="form-control" style="height: 46px" type="search" [(ngModel)]="filters.name" placeholder="Name" id="search-input">
             </div>
             <div class="d-flex">
               <div class="float-right">
-
-                <!-- <select class="form-control" style="height: 46px" name="paging" [(ngModel)]="paging">
-                  <option value="10">10</option>
-                  <option value="20">20</option>
-                  <option value="30">30</option>
-                </select> -->
                 <button class="btn btn-secondary" [ngClass]="{'active': pageView =='table'}" (click)="pageView='table'">
                   <i class="fa fa-table fa-2x"></i>
                 </button>
                 <button class="btn btn-secondary" [ngClass]="{'active': pageView =='list'}" (click)="pageView='list'">
                   <i class="fa fa-th-list fa-2x"></i>
                 </button>
-                <button class="btn btn-secondary" [ngClass]="{'active': pageView =='grid'}" (click)="pageView='grid'"
-                  style="margin-right: 20px">
+                <button class="btn btn-secondary" [ngClass]="{'active': pageView =='grid'}" (click)="pageView='grid'" style="margin-right: 20px">
                   <i class="fa fa-address-card-o fa-2x"></i>
                 </button>
                 <button class="btn btn-primary" (click)="newproduct()">
@@ -80,13 +71,8 @@
             </ngx-datatable>
           </div>
 
-          <ngx-datatable class="material" [rows]="rows | ng4Filter:filters" [loadingIndicator]="loadingIndicator"
-            [columns]="settings.selectedColumns" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-            [rowHeight]="'auto'" [reorderable]="reorderable"> </ngx-datatable>
-
-
-
-
+          <ngx-datatable class="material" [rows]="rows | ng4Filter:filters" [loadingIndicator]="loadingIndicator" [columns]="settings.selectedColumns" [columnMode]="'force'"
+            [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable"> </ngx-datatable>
         </div>
         <div *ngIf="pageView =='list'">
           <div class="card-body" *ngFor="let item of rows | ng4Filter:filters">

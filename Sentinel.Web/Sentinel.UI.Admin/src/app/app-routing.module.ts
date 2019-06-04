@@ -11,27 +11,27 @@ export const routes: Routes = [{
   component: AdminLayoutComponent,
   children: [{
     path: '',
-    loadChildren: './dashboard/dashboard.module#DashboardModule'
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
   }, {
     path: 'id_token',
-    loadChildren: './authentication/authentication.module#AuthenticationModule'
+    loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   {
     path: 'user',
-    loadChildren: './user/user.module#UserModule',
+    loadChildren: () => import('./user/user.module').then(m => m.UserModule),
     canLoad: [AdalGuard]
   }, {
     path: 'docs',
-    loadChildren: './docs/docs.module#DocsModule'
+    loadChildren: () => import('./docs/docs.module').then(m => m.DocsModule)
   }, {
     path: 'product',
-    loadChildren: './product/product.module#ProductModule'
+    loadChildren: () => import('./product/product.module').then(m => m.ProductModule)
   }, {
     path: 'vendor',
-    loadChildren: './vendor/vendor.module#VendorModule'
+    loadChildren: () => import('./vendor/vendor.module').then(m => m.VendorModule)
   }, {
     path: 'category',
-    loadChildren: './category/category.module#CategoryModule'
+    loadChildren: () => import('./category/category.module').then(m => m.CategoryModule)
   }, {
     path: 'settings',
     component: SettingsComponent,
@@ -43,10 +43,10 @@ export const routes: Routes = [{
   component: AuthLayoutComponent,
   children: [{
     path: 'authentication',
-    loadChildren: './authentication/authentication.module#AuthenticationModule'
+    loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   }, {
     path: 'error',
-    loadChildren: './error/error.module#ErrorModule'
+    loadChildren: () => import('./error/error.module').then(m => m.ErrorModule)
   }]
 }, {
   path: '**',

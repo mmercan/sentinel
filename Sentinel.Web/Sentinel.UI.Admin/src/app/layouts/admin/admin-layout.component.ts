@@ -52,8 +52,8 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   idx: any;
   activeNotifications: Notification[] = [];
   notificationCount = 0;
-  @ViewChild('sidebar') sidebar;
-  @ViewChild('notificationDrop') notificationDrop;
+  @ViewChild('sidebar', { static: true }) sidebar;
+  @ViewChild('notificationDrop', { static: true }) notificationDrop;
 
   constructor(
     public menuItems: MenuItems,
