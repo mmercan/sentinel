@@ -39,6 +39,13 @@ export class AppConfig {
       productApiBaseUrl: window.location.hostname === 'localhost' ? 'http://localhost:5003/api/' : 'https://product.api.myrcan.com/api/',
       memberApiBaseUrl: window.location.hostname === 'localhost' ? 'http://localhost:5002/api/' : 'https://member.api.myrcan.com/api/',
       commApiBaseUrl: window.location.hostname === 'localhost' ? 'http://localhost:5004/api/' : 'https://comms.api.myrcan.com/api/',
+      baseUrl: window.location.hostname === 'localhost'
+        ? 'http://localhost:5003/api/' : '/api/',
+      appsettingsFolderLocation: window.location.hostname === 'localhost'
+        ? 'C:\\Users\\mmercan\\Desktop\\BAU\\Api.BFF.SSP\\Api.BFF.SSP.CRM' : 'D:\\home\\site\\wwwroot',
+      keyVaultCertThumbPrintLocation: 'KeyVault:CertThumbPrint',
+      keyVaultBaseUrlLocation: 'KeyVault:BaseUrl',
+      keyVaultClientIdLocation: 'KeyVault:ClientId'
     },
     SignalR: {
       pingServerUrl: window.location.hostname === 'localhost'
