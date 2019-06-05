@@ -50,5 +50,8 @@ $apiFolder = Join-Path -Path $dir -ChildPath .\dockapp
 #docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-api-product sentinel-ui-sts
 
 # docker-compose -f docker-compose-debug-linux.yml up --build --force-recreate --renew-anon-volumes sentinel-util-mailhog sentinel-db-mongodb  sentinel-db-redis sentinel-ui-sts sentinel-api-product sentinel-api-comms sentinel-handler-comms sentinel-db-elasticsearch sentinel-util-kibana
-docker-compose.exe -f docker-compose-debug-linux_secrets.yml -f docker-compose-debug-linux.yml up sentinel-util-mailhog sentinel-db-redis sentinel-db-mongodb sentinel-api-product sentinel-api-comms sentinel-api-member sentinel-handler-comms sentinel-handler-product sentinel-service-rabbitmq sentinel-db-mysql sentinel-ui-wordpress sentinel-ui-product sentinel-api-healthmonitoring
+#docker-compose.exe -f docker-compose-debug-linux_secrets.yml -f docker-compose-debug-linux.yml up sentinel-util-mailhog sentinel-db-redis sentinel-db-mongodb sentinel-api-product sentinel-api-comms sentinel-api-member sentinel-handler-comms sentinel-handler-product sentinel-service-rabbitmq sentinel-db-mysql sentinel-ui-wordpress sentinel-ui-product sentinel-api-healthmonitoring
 # missing services sentinel-ui-sts sentinel-util-kibana sentinel-service-nats sentinel-db-elasticsearch sentinel-ml-tensorflow sentinel-sql-db
+
+
+docker-compose.exe -f docker-compose-debug-linux_secrets.yml -f docker-compose-debug-linux.yml build sentinel-api-comms-build
