@@ -11,6 +11,11 @@ ENV WORKDIR /home/workspace
 # Define working directory.
 WORKDIR ${WORKDIR}
 
+# Install OpenJDK 8
+RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list && \
+    apt-get update && \
+    apt-get install -y -t jessie-backports openjdk-8-jre-headless ca-certificates-java
+
 # Install Node and NPM 
 RUN sudo apt-get update && \
     sudo apt-get install nodejs && \
