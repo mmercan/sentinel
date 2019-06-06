@@ -8,7 +8,19 @@ ENV PROJECT sentinel-comms
 RUN dotnet tool install --global dotnet-sonarscanner
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
-# Pull base image.
+
+
+RUN apt-get update && \
+    apt-get install -y curl  && \
+    apt-get install -y nodejs && \
+    curl -sL https://deb.nodesource.com/setup_6.x | bash && \
+    apt-get install nodejs && \
+    node -v npm && npm -v
+
+
+
+
+# # Pull base image.
 # FROM microsoft/dotnet:2.2-sdk
 
 # ENV SONAR_SCANNER_VERSION 2.8
@@ -26,15 +38,15 @@ ENV PATH="${PATH}:/root/.dotnet/tools"
 # ENV PATH="${PATH}:/root/.dotnet/tools"
 
 # RUN dotnet sonarscanner begin /k:$PROJECT /d:sonar.host.url=$SONAR_HOST /d:sonar.login="291e97953a3742b000a056732d73dce5ef439985"
-#   dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST
+# #   dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST
 # RUN dotnet sonarscanner end /d:sonar.login="291e97953a3742b000a056732d73dce5ef439985"
 
-# Define working directory.
+# # Define working directory.
 # WORKDIR ${WORKDIR}
 
-# RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+# # RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
 
-# Install Node and NPM 
+# # Install Node and NPM 
 # RUN apt-get update && \
 #     apt-get install -y curl  && \
 #     apt-get install -y nodejs && \
@@ -43,35 +55,35 @@ ENV PATH="${PATH}:/root/.dotnet/tools"
 #     node -v npm && npm -v
 
 
-# curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
-# apt-get install -y nodejs && \
-# apt-get install -y npm && \
+# #curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
+# #apt-get install -y nodejs && \
+# #apt-get install -y npm && \
 
-# Install OpenJDK 8
-# RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list && \
-#     apt-get update && \
-#     apt-get install -y -t jessie-backports openjdk-8-jre-headless ca-certificates-java
+# # Install OpenJDK 8
+# # RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list && \
+# #     apt-get update && \
+# #     apt-get install -y -t jessie-backports openjdk-8-jre-headless ca-certificates-java
 
-# Install dependencies
-# RUN apt-get -yqq update && \
-#     apt-get -yqq --no-install-recommends install git bzip2 curl unzip && \
-#     npm install -g gulp bower && \
-#     npm cache clean && \
-#     apt-get -yqq autoremove && \
-#     apt-get -yqq clean && \
-#     rm -rf /var/lib/apt/lists/* /var/cache/* /tmp/* /var/tmp/*
+# # Install dependencies
+# # RUN apt-get -yqq update && \
+# #     apt-get -yqq --no-install-recommends install git bzip2 curl unzip && \
+# #     npm install -g gulp bower && \
+# #     npm cache clean && \
+# #     apt-get -yqq autoremove && \
+# #     apt-get -yqq clean && \
+# #     rm -rf /var/lib/apt/lists/* /var/cache/* /tmp/* /var/tmp/*
 
-# # Allow root for bower
-# RUN echo '{ "allow_root": true }' > /root/.bowerrc
+# # # Allow root for bower
+# # RUN echo '{ "allow_root": true }' > /root/.bowerrc
 
-# # Download sonar
-# RUN curl --insecure -OL https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/${SONAR_SCANNER_PACKAGE} && \
-#     unzip ${SONAR_SCANNER_PACKAGE} -d /home && \
-#     rm ${SONAR_SCANNER_PACKAGE}
+# # # Download sonar
+# # RUN curl --insecure -OL https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/${SONAR_SCANNER_PACKAGE} && \
+# #     unzip ${SONAR_SCANNER_PACKAGE} -d /home && \
+# #     rm ${SONAR_SCANNER_PACKAGE}
 
-# RUN addgroup sonar && \
-#     useradd -s /usr/sbin/nologin -d ${SONAR_SCANNER_HOME} -g sonar sonar && \
-#     chown -R sonar:sonar ${SONAR_SCANNER_HOME} && \
-#     chown -R sonar:sonar ${WORKDIR}
+# # RUN addgroup sonar && \
+# #     useradd -s /usr/sbin/nologin -d ${SONAR_SCANNER_HOME} -g sonar sonar && \
+# #     chown -R sonar:sonar ${SONAR_SCANNER_HOME} && \
+# #     chown -R sonar:sonar ${WORKDIR}
 
-# USER sonar
+# # USER sonar
