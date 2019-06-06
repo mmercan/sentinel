@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Api.Product", "Sentinel.Api.Product\Sentinel.Api.Product.csproj", "{0301FBFE-51FA-4953-B5AF-C6C407520D72}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mercan", "mercan", "{851BFF8B-B848-4DA6-AF8B-CD093AD4A711}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mercan", "Mercan", "{851BFF8B-B848-4DA6-AF8B-CD093AD4A711}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Common", "mercan\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj", "{3B3CD0C0-652A-4BB5-86DE-1F268CD9BFD7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Common", "Mercan\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj", "{3B3CD0C0-652A-4BB5-86DE-1F268CD9BFD7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.Common", "Mercan\Mercan.Common\Mercan.Common.csproj", "{5B849F66-5D75-4B0F-B847-FBC6E53F7F66}"
 EndProject
