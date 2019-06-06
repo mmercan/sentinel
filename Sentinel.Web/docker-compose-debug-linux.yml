@@ -122,9 +122,9 @@ services:
     depends_on:
       - sentinel-db-redis
   sentinel-api-comms-build:      
-    image: sentinel-api-comms:${TAGVersion}-build-linux
+    image: sentinel-api-comms:${TAGVersion}-test-linux
     build:
-      target: build
+      target: test
       context: .
       dockerfile: Sentinel.Api.Comms/dockerfile-linux
     environment:
@@ -135,16 +135,11 @@ services:
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - DOTNET_RUNNING_IN_CONTAINER=true
       - SentinelConnection=Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=P@ssword1;
-    # volumes:
-    #   - SentinelWeb:/src
-    # volumes:
-    #   - .:/src
-    # #  - C:\repos\sentinel\Sentinel.Web:/src
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
-    ports:
-      - "5004:80"
-    depends_on:
-      - sentinel-db-redis
+    # ports:
+    #   - "5004:80"
+    # depends_on:
+    #   - sentinel-db-redis
   sentinel-handler-comms:      
     image: sentinel-handler-comms:${TAGVersion}-dev-linux
     build:

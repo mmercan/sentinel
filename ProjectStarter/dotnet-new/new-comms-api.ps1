@@ -6,7 +6,7 @@ $scriptpath = $MyInvocation.MyCommand.Path
 $dir = Split-Path $scriptpath
 $appRootFolder = Join-Path -Path $dir -ChildPath ..\..\Sentinel.Web\
 $appFolder = Join-Path -Path $dir -ChildPath ..\..\Sentinel.Web\$folder
-
+$testFolder = Join-Path -Path $dir -ChildPath ..\..\Sentinel.Web\$folder
 
 new-item -type directory -path $appFolder -Force
 Write-Host "appFolder: $appFolder"
@@ -35,3 +35,15 @@ dotnet watch run
 
 #Add-corsswagger-startupcs
 
+
+######
+
+set-location -Path $testFolder
+
+dotnet new xunit
+dotnet add package coverlet.msbuild --version 2.0.1
+dotnet add package FluentAssertions --version 5.0.0
+
+dotnet add reference ..\$folder\"$folder".csproj
+
+set-location -Path $appFolder

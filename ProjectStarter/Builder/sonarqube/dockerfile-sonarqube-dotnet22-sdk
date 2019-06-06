@@ -8,8 +8,6 @@ ENV PROJECT sentinel-comms
 RUN dotnet tool install --global dotnet-sonarscanner
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
-
-
 RUN apt-get update && \
     apt-get install -y curl  && \
     apt-get install -y nodejs && \

@@ -2,20 +2,35 @@ FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
 WORKDIR /app
 EXPOSE 80
 
+
 FROM microsoft/dotnet:2.2-sdk AS develop
-# RUN apt-get update && apt-get install bash
-#RUN apk add --no-cache --update  openjdk8-jre  nss
-RUN apt-get update && apt-get install -y openjdk-8-jdk
 ENV DOTNET_USE_POLLING_FILE_WATCHER=1
 ENV ASPNETCORE_ENVIRONMENT=Development
-ENV SONAR_HOST http://sonar.myrcan.com
-
-ENV PROJECT sentinel-comms
-RUN dotnet tool install --global dotnet-sonarscanner
-ENV PATH="${PATH}:/root/.dotnet/tools"
-
 WORKDIR /src/Sentinel.Api.Comms
 EXPOSE 80
+
+
+FROM mmercan/sentinel-sonarqube-dotnet22-sdk AS test
+# ENV DOTNET_USE_POLLING_FILE_WATCHER=1
+# ENV ASPNETCORE_ENVIRONMENT=Development
+# ENV SONAR_HOST http://sonar.myrcan.com
+
+# RUN apt-get update && apt-get install -y openjdk-8-jdk
+# ENV PROJECT sentinel-comms
+# RUN dotnet tool install --global dotnet-sonarscanner
+# ENV PATH="${PATH}:/root/.dotnet/tools"
+
+WORKDIR /src
+COPY Sentinel.Api.Comms/Sentinel.Api.Comms.csproj Sentinel.Api.Comms/
+RUN dotnet restore Sentinel.Api.Comms/Sentinel.Api.Comms.csproj
+COPY . .
+WORKDIR /src/Sentinel.Api.Comms
+RUN dotnet sonarscanner begin /k:$PROJECT /d:sonar.host.url=$SONAR_HOST /d:sonar.login="291e97953a3742b000a056732d73dce5ef439985"
+RUN dotnet build Sentinel.Api.Comms.sln
+RUN dotnet test ../Sentinel.Api.Comms.Tests/Sentinel.Api.Comms.Tests.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../Sentinel.Api.Comms/testoutputs/
+RUN dotnet build-server shutdown
+RUN dotnet sonarscanner end /d:sonar.login="291e97953a3742b000a056732d73dce5ef439985" /d:sonar.cs.opencover.reportsPaths="testoutputs\coverage.opencover.xml" /d:sonar.coverage.exclusions="**Tests*.cs"
+
 
 FROM develop AS build
 WORKDIR /src
