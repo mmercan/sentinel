@@ -14,8 +14,8 @@ namespace Sentinel.Api.Comms.Controllers
 {
     public class HomeController : Controller
     {
-        ILogger<HomeController> logger;
-        private IConfiguration configuration;
+        readonly ILogger<HomeController> logger;
+        readonly private IConfiguration configuration;
 
         public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
@@ -24,28 +24,19 @@ namespace Sentinel.Api.Comms.Controllers
         }
         public IActionResult Index()
         {
-            // new Publisher().Run(logger, configuration);
             return View();
         }
 
 
-        private void sub()
-        {
-            // ConnectionFactory cf = new ConnectionFactory();
-            // IConnection c = cf.CreateConnection("nats://localhost:4222/");
-
-        }
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
