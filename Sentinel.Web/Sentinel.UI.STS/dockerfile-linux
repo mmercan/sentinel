@@ -27,16 +27,16 @@ RUN dotnet sonarscanner end /d:sonar.login=$SONARKEY
 
 FROM develop AS build
 WORKDIR /src
-COPY Sentinel.UI.STS/Sentinel.UI.Sts.csproj Sentinel.UI.STS/
-RUN dotnet restore Sentinel.UI.STS/Sentinel.UI.Sts.csproj
+COPY Sentinel.UI.STS/Sentinel.UI.STS.csproj Sentinel.UI.STS/
+RUN dotnet restore Sentinel.UI.STS/Sentinel.UI.STS.csproj
 COPY . .
 WORKDIR /src/Sentinel.UI.STS
-RUN dotnet build Sentinel.UI.Sts.csproj -c Release -o /app
+RUN dotnet build Sentinel.UI.STS.csproj -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish Sentinel.UI.Sts.csproj -c Release -o /app
+RUN dotnet publish Sentinel.UI.STS.csproj -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "Sentinel.UI.Sts.dll"]
+ENTRYPOINT ["dotnet", "Sentinel.UI.STS.dll"]
