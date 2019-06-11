@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  sentinel-util-seq:
+    image: mmercan/sentinel-util-seq:${TAGVersion}-prod-linux
+    build:
+      context: ./
+      dockerfile: dockerfile-linux
+    ports:
+      - "80:80"

@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentinel-util-seq
+  labels:
+    app: sentinel-util-seq
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  selector:
+    app: sentinel-util-seq
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sentinel-util-seq
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: sentinel-util-seq
+    spec:
+      containers:
+      - name: sentinel-util-seq
+        image: mmercan/sentinel-util-seq
+        ports:
+        - containerPort: 80

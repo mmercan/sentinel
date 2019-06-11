@@ -1,0 +1,3 @@
+FROM datalust/seq
+ENV ACCEPT_EULA=Y
+EXPOSE 80
