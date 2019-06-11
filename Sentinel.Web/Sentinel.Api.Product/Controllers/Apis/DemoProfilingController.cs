@@ -48,14 +48,18 @@ namespace Sentinel.Api.Product.Controllers
                 {
                     using (MiniProfiler.Current.CustomTiming("HTTP", "GET " + url1))
                     {
-                        var client = new WebClient();
-                        var reply = client.DownloadString(url1);
+                        using (var client = new WebClient())
+                        {
+                            var reply = client.DownloadString(url1);
+                        }
                     }
 
                     using (MiniProfiler.Current.CustomTiming("HTTP", "GET " + url2))
                     {
-                        var client = new WebClient();
-                        var reply = client.DownloadString(url2);
+                        using (var client = new WebClient())
+                        {
+                            var reply = client.DownloadString(url2);
+                        }
                     }
                 }
             }
