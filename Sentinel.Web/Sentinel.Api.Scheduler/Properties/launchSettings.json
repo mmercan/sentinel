@@ -1,0 +1,38 @@
+{
+    "iisSettings": {
+        "windowsAuthentication": false,
+        "anonymousAuthentication": true,
+        "iisExpress": {
+            "applicationUrl": "http://localhost:4551",
+            "sslPort": 44329
+        }
+    },
+    "profiles": {
+        "IIS Express": {
+            "commandName": "IISExpress",
+            "launchBrowser": true,
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        "Sentinel.Api.Scheduler": {
+            "commandName": "Project",
+            "launchBrowser": true,
+            "applicationUrl": "http://localhost:5008",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        "Kestrel (dotnet watch run)": {
+            "commandName": "Executable",
+            "executablePath": "C:\\Program Files\\dotnet\\dotnet.exe",
+            "commandLineArgs": "watch run",
+            "workingDirectory": "C:\\repos\\sentinel\\Sentinel.Web\\Sentinel.Api.Scheduler",
+            "launchBrowser": true,
+            "launchUrl": "https://localhost:5008/",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        }
+    }
+}

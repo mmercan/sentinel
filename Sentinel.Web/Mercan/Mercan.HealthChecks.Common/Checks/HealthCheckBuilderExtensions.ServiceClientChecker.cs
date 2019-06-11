@@ -110,8 +110,8 @@ namespace Mercan.HealthChecks.Common.Checks
         private readonly ApiServiceConfiguration _options;
         private static HttpClient _httpClient;
         protected HttpClient Client { get => _httpClient; private set => _httpClient = value; }
-        ILogger<ServiceClientBaseHealthCheck> logger;
-        string path;
+        readonly ILogger<ServiceClientBaseHealthCheck> logger;
+        readonly string path;
         public ServiceClientBaseHealthCheck(ILogger<ServiceClientBaseHealthCheck> logger, ApiServiceConfiguration options, string path)
         {
             this._options = options ?? throw new ArgumentNullException(nameof(options));

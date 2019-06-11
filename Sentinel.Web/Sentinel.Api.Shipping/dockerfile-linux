@@ -1,0 +1,42 @@
+FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM microsoft/dotnet:2.2-sdk AS develop
+ENV DOTNET_USE_POLLING_FILE_WATCHER=1
+ENV ASPNETCORE_ENVIRONMENT=Development
+WORKDIR /src/Sentinel.Api.Shipping
+EXPOSE 80
+
+
+FROM mmercan/sentinel-sonarqube-dotnet22-sdk AS test
+# ENV SONAR_HOST http://sonar.myrcan.com
+ENV PROJECT=Sentinel.Api.Shipping
+ENV VERSION=1.0
+ENV SONARKEY=291e97953a3742b000a056732d73dce5ef439985
+WORKDIR /src
+COPY Sentinel.Api.Shipping/Sentinel.Api.Shipping.csproj Sentinel.Api.Shipping/
+RUN dotnet restore Sentinel.Api.Shipping/Sentinel.Api.Shipping.csproj
+COPY . .
+RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap.js" /d:sonar.coverage.exclusions="**Tests*.cs"
+RUN dotnet build ./Sentinel.Api.Shipping/Sentinel.Api.Shipping.sln
+RUN dotnet test ./Sentinel.Api.Shipping/Sentinel.Api.Shipping.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/TestResults/
+RUN dotnet build-server shutdown
+RUN dotnet sonarscanner end /d:sonar.login=$SONARKEY
+
+
+FROM develop AS build
+WORKDIR /src
+COPY Sentinel.Api.Shipping/Sentinel.Api.Shipping.csproj Sentinel.Api.Shipping/
+RUN dotnet restore Sentinel.Api.Shipping/Sentinel.Api.Shipping.csproj
+COPY . .
+WORKDIR /src/Sentinel.Api.Shipping
+RUN dotnet build Sentinel.Api.Shipping.csproj -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish Sentinel.Api.Shipping.csproj -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "Sentinel.Api.Shipping.dll"]

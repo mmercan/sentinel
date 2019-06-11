@@ -121,6 +121,111 @@ services:
       - "5004:80"
     depends_on:
       - sentinel-db-redis
+  sentinel-api-billing:      
+    image: sentinel-api-billing:${TAGVersion}-dev-linux
+    build:
+      target: develop
+      context: .
+      dockerfile: Sentinel.Api.Billing/dockerfile-linux
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
+      - Mongodb__ConnectionString=mongodb://root:hbMnztmZ4w9JJTGZ@52.247.221.171:27017/admin?readPreference=primary
+      - Mongodb__DatabaseName=sentinel
+      - Mongodb__CollectionName=product
+      - Mongodb__IdField=Id
+      - SentinelConnection=Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=P@ssword1;
+      - RabbitMQConnection=host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10
+      - SMTP__Server=sentinel-util-mailhog
+      - SMTP__Port=1025
+      - SMTP__UserName=mail@mail.com
+      - SMTP__Password=password123
+      - ELASTICSEARCH_URL=http://52.183.4.219:9200
+      - sentinel-ui-sts__ClientOptions__BaseAddress=http://sentinel-ui-sts/
+      - sentinel-ui-sts__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-member__ClientOptions__BaseAddress=http://sentinel-api-member/
+      - sentinel-api-member__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-product__ClientOptions__BaseAddress=http://sentinel-api-product/
+      - sentinel-api-product__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-comms__ClientOptions__BaseAddress=http://sentinel-api-comms/
+      - sentinel-api-comms__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+    volumes:
+      - .:/src
+    entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
+    ports:
+      - "5007:80"
+  sentinel-api-scheduler:      
+    image: sentinel-api-scheduler:${TAGVersion}-dev-linux
+    build:
+      target: develop
+      context: .
+      dockerfile: Sentinel.Api.Scheduler/dockerfile-linux
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
+      - Mongodb__ConnectionString=mongodb://root:hbMnztmZ4w9JJTGZ@52.247.221.171:27017/admin?readPreference=primary
+      - Mongodb__DatabaseName=sentinel
+      - Mongodb__CollectionName=product
+      - Mongodb__IdField=Id
+      - SentinelConnection=Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=P@ssword1;
+      - RabbitMQConnection=host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10
+      - SMTP__Server=sentinel-util-mailhog
+      - SMTP__Port=1025
+      - SMTP__UserName=mail@mail.com
+      - SMTP__Password=password123
+      - ELASTICSEARCH_URL=http://52.183.4.219:9200
+      - sentinel-ui-sts__ClientOptions__BaseAddress=http://sentinel-ui-sts/
+      - sentinel-ui-sts__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-member__ClientOptions__BaseAddress=http://sentinel-api-member/
+      - sentinel-api-member__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-product__ClientOptions__BaseAddress=http://sentinel-api-product/
+      - sentinel-api-product__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-comms__ClientOptions__BaseAddress=http://sentinel-api-comms/
+      - sentinel-api-comms__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+    volumes:
+      - .:/src
+    entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
+    ports:
+      - "5008:80"
+  sentinel-api-shipping:      
+    image: sentinel-api-shipping:${TAGVersion}-dev-linux
+    build:
+      target: develop
+      context: .
+      dockerfile: Sentinel.Api.Shipping/dockerfile-linux
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - RedisConnection=sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword
+      - Mongodb__ConnectionString=mongodb://root:hbMnztmZ4w9JJTGZ@52.247.221.171:27017/admin?readPreference=primary
+      - Mongodb__DatabaseName=sentinel
+      - Mongodb__CollectionName=product
+      - Mongodb__IdField=Id
+      - SentinelConnection=Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=P@ssword1;
+      - RabbitMQConnection=host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10
+      - SMTP__Server=sentinel-util-mailhog
+      - SMTP__Port=1025
+      - SMTP__UserName=mail@mail.com
+      - SMTP__Password=password123
+      - ELASTICSEARCH_URL=http://52.183.4.219:9200
+      - sentinel-ui-sts__ClientOptions__BaseAddress=http://sentinel-ui-sts/
+      - sentinel-ui-sts__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-member__ClientOptions__BaseAddress=http://sentinel-api-member/
+      - sentinel-api-member__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-product__ClientOptions__BaseAddress=http://sentinel-api-product/
+      - sentinel-api-product__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+      - sentinel-api-comms__ClientOptions__BaseAddress=http://sentinel-api-comms/
+      - sentinel-api-comms__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
+    volumes:
+      - .:/src
+    entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
+    ports:
+      - "5009:80"
   sentinel-api-comms-build:      
     image: sentinel-api-comms:${TAGVersion}-test-linux
     build:

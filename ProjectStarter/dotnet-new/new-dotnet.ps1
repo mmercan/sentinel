@@ -53,9 +53,9 @@ function new-dotnet-Individual {
     dotnet add package "Microsoft.AspNetCore.Mvc.Versioning"
     dotnet add package "Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer"
 
-    dotnet add package "Microsoft.AspNetCore.Identity"  -v 2.1.2
-    dotnet add package "Microsoft.AspNetCore.Identity.UI"  -v 2.1.2
-    dotnet add package "Microsoft.AspNetCore.Identity.EntityFrameworkCore"  -v 2.1.2
+    dotnet add package "Microsoft.AspNetCore.Identity"  -v 2.2.0
+    dotnet add package "Microsoft.AspNetCore.Identity.UI"  -v 2.2.0
+    dotnet add package "Microsoft.AspNetCore.Identity.EntityFrameworkCore"  -v 2.2.0
 
     dotnet add package "AutoMapper.Extensions.Microsoft.DependencyInjection"
 }
@@ -77,9 +77,9 @@ function new-dotnet ([string]$port = 5000) {
     dotnet add package "Microsoft.AspNetCore.Mvc.Versioning"
     dotnet add package "Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer"
 
-    dotnet add package "Microsoft.AspNetCore.Identity" -v 2.1.2
-    dotnet add package "Microsoft.AspNetCore.Identity.UI"  -v 2.1.2
-    dotnet add package "Microsoft.AspNetCore.Identity.EntityFrameworkCore"  -v 2.1.2
+    dotnet add package "Microsoft.AspNetCore.Identity" -v 2.2.0
+    dotnet add package "Microsoft.AspNetCore.Identity.UI"  -v 2.2.0
+    dotnet add package "Microsoft.AspNetCore.Identity.EntityFrameworkCore"  -v 2.2.0
 
     dotnet add package "AutoMapper.Extensions.Microsoft.DependencyInjection"
 }

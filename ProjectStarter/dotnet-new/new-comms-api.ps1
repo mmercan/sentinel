@@ -19,7 +19,7 @@ Add-Api-ConfigureJwtAuthService-startupcs
 
 Add-HeathCheckApi
 Add-Dockerfile
-Add-watchrunlaunchSettings -port 5003
+Add-watchrunlaunchSettings -port 5004
 
 Add-TestApis
 
@@ -45,5 +45,8 @@ dotnet add package coverlet.msbuild --version 2.0.1
 dotnet add package FluentAssertions --version 5.0.0
 
 dotnet add reference ..\$folder\"$folder".csproj
+
+set-location -Path $appRootFolder
+dotnet sln add $testFolder
 
 set-location -Path $appFolder

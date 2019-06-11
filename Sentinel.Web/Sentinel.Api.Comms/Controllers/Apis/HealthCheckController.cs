@@ -13,8 +13,7 @@ namespace Sentinel.Api.Comms.Controllers
     [Route("api/HealthCheck")]
     public class HealthCheckController : Controller
     {
-
-        ILogger<HealthCheckController> _logger;
+        readonly ILogger<HealthCheckController> _logger;
 
         public HealthCheckController(ILogger<HealthCheckController> logger)
         {
