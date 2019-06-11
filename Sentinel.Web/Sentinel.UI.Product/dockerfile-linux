@@ -18,7 +18,7 @@ WORKDIR /src
 COPY Sentinel.UI.Product/Sentinel.UI.Product.csproj Sentinel.UI.Product/
 RUN dotnet restore Sentinel.UI.Product/Sentinel.UI.Product.csproj
 COPY . .
-RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap.js" /d:sonar.coverage.exclusions="**Tests*.cs"
+RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap.js, **/assets/**.scss, , **/assets/**.css" /d:sonar.coverage.exclusions="**Tests*.cs"
 RUN dotnet build ./Sentinel.UI.Product/Sentinel.UI.Product.sln
 RUN dotnet test ./Sentinel.UI.Product/Sentinel.UI.Product.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/TestResults/
 RUN dotnet build-server shutdown
