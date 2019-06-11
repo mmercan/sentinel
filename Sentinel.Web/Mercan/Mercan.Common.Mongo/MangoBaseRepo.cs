@@ -35,12 +35,9 @@ namespace Mercan.Common.Mongo
         public MangoBaseRepo(string connectionString, string databaseName, string collectionName, Expression<Func<T, object>> IdField = null)
         {
             string field = null;
-            if (IdField != null)
+            if (IdField != null && IdField.Body is MemberExpression)
             {
-                if (IdField.Body is MemberExpression)
-                {
-                    field = (IdField.Body as MemberExpression).Member.Name;
-                }
+                field = (IdField.Body as MemberExpression).Member.Name;
             }
             init(connectionString, databaseName, collectionName, field);
         }
@@ -241,7 +238,7 @@ namespace Mercan.Common.Mongo
         }
 
     }
-    public class gen<T> : IIdGenerator
+    public class Gen<T> : IIdGenerator
     {
         public object GenerateId(object container, object document)
         {
