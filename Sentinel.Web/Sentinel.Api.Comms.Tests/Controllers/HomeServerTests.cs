@@ -16,8 +16,9 @@ namespace Sentinel.Api.Comms.Tests.Controllers
         [InlineData("/")]
         [InlineData("/Home/Index")]
         [InlineData("/Home/About")]
-        [InlineData("/Home/Privacy")]
         [InlineData("/Home/Contact")]
+        [InlineData("/Home/Privacy")]
+        [InlineData("/Home/Error")]
         public void Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange

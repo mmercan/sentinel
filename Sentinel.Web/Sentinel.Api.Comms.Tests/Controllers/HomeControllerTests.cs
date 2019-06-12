@@ -24,12 +24,7 @@ namespace Sentinel.Api.Comms.Tests
         public void Home_Index_Returns_NoError()
         {
 
-            var appId = Environment.GetEnvironmentVariable("APPID");
-            var clientSecret = Environment.GetEnvironmentVariable("APPSECRET");
-            var adId = Environment.GetEnvironmentVariable("ADID");
-            output.WriteLine("appId is " + appId);
-            output.WriteLine("clientSecret is " + clientSecret);
-            output.WriteLine("adId is " + adId);
+
 
             TokenHelper helper = new TokenHelper();
             var secret = helper.GetToken();
@@ -40,7 +35,7 @@ namespace Sentinel.Api.Comms.Tests
 
             var home = new HomeController(logger, configuration);
             home.Index().Should().NotBeNull();//.ToString().Should().Be("Blah");
-            Assert.False(true);
+                                              // Assert.False(true);
 
         }
 

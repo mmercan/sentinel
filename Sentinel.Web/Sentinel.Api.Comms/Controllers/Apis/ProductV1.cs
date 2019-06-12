@@ -33,7 +33,7 @@ namespace Sentinel.Api.Comms.Controllers
             try
             {
                 // var repos = repo.GetAll().Select(mapper.Map<ProductInfo,ProductInfoDtoV1>);
-                return Ok();
+                return Ok("");
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ namespace Sentinel.Api.Comms.Controllers
                 // var result = mapper.Map<ProductInfo>(model);
                 // repo.Add(result);
                 // repo.SaveChanges();
-                return Created("", null);
+                return Created("", "null");
             }
             catch (Exception ex)
             {
@@ -77,7 +77,7 @@ namespace Sentinel.Api.Comms.Controllers
                 // var result = mapper.Map<ProductInfo>(model);
                 // repo.Update(result);
                 // repo.SaveChanges();
-                return Ok();
+                return Ok("");
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace Sentinel.Api.Comms.Controllers
         {
             try
             {
-                return Ok();
+                return Ok("");
             }
             catch (Exception ex)
             {
