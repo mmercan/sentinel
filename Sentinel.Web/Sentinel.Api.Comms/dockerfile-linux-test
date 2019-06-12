@@ -15,7 +15,7 @@ ENV SONARKEY=291e97953a3742b000a056732d73dce5ef439985
 ENV APPID=$buildtime_APPID
 ENV APPSECRET=$buildtime_APPSECRET
 ENV ADID=$buildtime_ADID
-ENV SentinelConnection=Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=P@ssword1;
+ENV SentinelConnection=Server=52.247.221.7;Database=sentinel;User Id=sa;Password=P@ssword1;
 
 
 WORKDIR /src
