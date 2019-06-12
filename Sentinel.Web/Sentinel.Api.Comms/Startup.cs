@@ -121,7 +121,7 @@ namespace Sentinel.Api.Comms
             // .AddMongoHealthCheck(Configuration["Mongodb:ConnectionString"])
             // .AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
             // .AddRedisHealthCheck(Configuration["RedisConnection"])
-            .AddDIHealthCheck(services);
+             .AddDIHealthCheck(services);
 
             //services.AddMvcCore().AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
