@@ -34,9 +34,9 @@ namespace Sentinel.Api.Comms.Tests.Helpers
 
             var ContentTask = resTask.Result.Content.ReadAsStringAsync();
             ContentTask.Wait();
-            return ContentTask.Result;
-            //JObject s = JObject.Parse(ContentTask.Result);
-            //return "Bearer " + (string)s["access_token"];
+            //return ContentTask.Result;
+            JObject s = JObject.Parse(ContentTask.Result);
+            return "Bearer " + (string)s["access_token"];
         }
     }
 }
