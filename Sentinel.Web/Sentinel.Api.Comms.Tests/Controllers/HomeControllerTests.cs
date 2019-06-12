@@ -23,10 +23,7 @@ namespace Sentinel.Api.Comms.Tests
         [Fact]
         public void Home_Index_Returns_NoError()
         {
-
-
-
-            TokenHelper helper = new TokenHelper();
+            TokenHelper helper = new TokenHelper(output);
             var secret = helper.GetToken();
             output.WriteLine("secret is " + secret);
             output.WriteLine("The third Element is ");

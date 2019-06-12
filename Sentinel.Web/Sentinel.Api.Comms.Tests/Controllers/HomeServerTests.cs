@@ -29,7 +29,7 @@ namespace Sentinel.Api.Comms.Tests.Controllers
         {
             // Arrange
             var client = factory.CreateClient();
-
+            //factory.WithWebHostBuilder()
             // Act
             var responseTask = client.GetAsync(url);
             responseTask.Wait();
