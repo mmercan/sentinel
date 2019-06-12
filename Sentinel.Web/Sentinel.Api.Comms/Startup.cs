@@ -109,9 +109,9 @@ namespace Sentinel.Api.Comms
             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory")
             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
-            .AddSystemInfoCheck();
-            // // .AddPrivateMemorySizeCheck(10000000)
-            // .AddWorkingSetCheck(10000000)
+            .AddSystemInfoCheck()
+            .AddPrivateMemorySizeCheckKB(30000)
+            .AddWorkingSetCheckKB(300000)
             // //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
             // .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
             // .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "api/healthcheck/isalive")
@@ -121,7 +121,7 @@ namespace Sentinel.Api.Comms
             // .AddMongoHealthCheck(Configuration["Mongodb:ConnectionString"])
             // .AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
             // .AddRedisHealthCheck(Configuration["RedisConnection"])
-            // .AddDIHealthCheck(services);
+            .AddDIHealthCheck(services);
 
             //services.AddMvcCore().AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
