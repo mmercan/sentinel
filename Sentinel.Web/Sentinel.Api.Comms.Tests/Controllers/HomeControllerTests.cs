@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Xunit.Abstractions;
 using FluentAssertions;
+using Sentinel.Api.Comms.Tests.Helpers;
 
 namespace Sentinel.Api.Comms.Tests
 {
@@ -22,13 +23,16 @@ namespace Sentinel.Api.Comms.Tests
         [Fact]
         public void Home_Index_Returns_NoError()
         {
+            TokenHelper helper = new TokenHelper();
+            var secret = helper.GetToken();
+            output.WriteLine("secret is " + secret);
             output.WriteLine("The third Element is ");
             ILogger<HomeController> logger = null;
             IConfiguration configuration = null;
 
             var home = new HomeController(logger, configuration);
             home.Index().Should().NotBeNull();//.ToString().Should().Be("Blah");
-            //  Assert.False(true);
+            Assert.False(true);
 
         }
 
