@@ -13,3 +13,4 @@ resources
 **/.vs
 Sentinel.Web/Sentinel.elk.Logstash/data/cars.csv
 Sentinel.Web/docker-compose-debug-linux_secrets.yml
+Sentinel.Web/test.ps1
