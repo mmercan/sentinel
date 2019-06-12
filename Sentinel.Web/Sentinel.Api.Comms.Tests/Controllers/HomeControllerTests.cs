@@ -23,6 +23,14 @@ namespace Sentinel.Api.Comms.Tests
         [Fact]
         public void Home_Index_Returns_NoError()
         {
+
+            var appId = Environment.GetEnvironmentVariable("APPID");
+            var clientSecret = Environment.GetEnvironmentVariable("APPSECRET");
+            var adId = Environment.GetEnvironmentVariable("ADID");
+            output.WriteLine("appId is " + appId);
+            output.WriteLine("clientSecret is " + clientSecret);
+            output.WriteLine("adId is " + adId);
+
             TokenHelper helper = new TokenHelper();
             var secret = helper.GetToken();
             output.WriteLine("secret is " + secret);
