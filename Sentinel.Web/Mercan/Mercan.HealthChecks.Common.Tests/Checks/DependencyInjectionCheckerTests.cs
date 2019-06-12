@@ -9,10 +9,10 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
         IServiceCollection services = new ServiceCollection();
 
         ILoggerFactory factory = new LoggerFactory();
-        factory.CreateLogger("blah");
+        // factory.CreateLogger("blah");
 
         //ILogger<DIHealthCheck> logger = new Logger<DIHealthCheck>(factory);
         //services.AddLogging
-         // DIHealthCheck healthcheck = new DIHealthCheck(services);
+        // DIHealthCheck healthcheck = new DIHealthCheck(services);
     }
 }

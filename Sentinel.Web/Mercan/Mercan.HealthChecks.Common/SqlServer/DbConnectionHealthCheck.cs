@@ -33,7 +33,7 @@ namespace Mercan.HealthChecks.Common.Checks
 
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Dictionary<string, object> data = new Dictionary<string, object> ();
+            Dictionary<string, object> data = new Dictionary<string, object>();
             using (var connection = CreateConnection(ConnectionString))
             {
                 try
@@ -55,7 +55,8 @@ namespace Mercan.HealthChecks.Common.Checks
                 }
                 catch (DbException ex)
                 {
-                    return new HealthCheckResult(status: context.Registration.FailureStatus, exception: ex,data: data);
+                    return new HealthCheckResult(status: HealthStatus.Unhealthy, exception: ex, data: data);
+                    // return new HealthCheckResult(status: context.Registration.FailureStatus, exception: ex,data: data);
                 }
             }
 
