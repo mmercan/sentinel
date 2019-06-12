@@ -25,7 +25,6 @@ namespace Mercan.HealthChecks.Common.Checks
     }
     public class DIHealthCheck : IHealthCheck
     {
-        public static readonly string HealthCheckName = "DIHealthCheck";
         private IServiceCollection services;
         private ILogger<DIHealthCheck> logger;
 
