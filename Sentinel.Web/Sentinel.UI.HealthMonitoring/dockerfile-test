@@ -1,0 +1,23 @@
+FROM node:11.0 as test
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y vim && apt-get -y install sudo
+RUN apt-get install -y openjdk-8-jdk
+RUN java -version
+RUN apt-get install -y --no-install-recommends chromium
+ENV CHROME_BIN=chromium
+EXPOSE 4200
+USER node
+RUN mkdir /home/node/.npm-global
+ENV PATH=/home/node/.npm-global/bin:$PATH
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+
+RUN npm install -g @angular/cli
+WORKDIR /home/node/health
+COPY Sentinel.UI.HealthMonitoring/ .
+USER root
+# RUN curl -o /home/node/health/node_modules/node-sass/vendor/linux-x64-67/binding.node 'https://github.com/sass/node-sass/releases/download/v4.11.0/linux-x64-67_binding.node'
+RUN sudo npm install
+RUN npm run test:ci
+RUN npm run sonar
+
+

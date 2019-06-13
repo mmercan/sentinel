@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PerformanceCounterListComponent } from './performance-counter-list.component';
+import { CommonModule } from '@angular/common';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('PerformanceCounterListComponent', () => {
   let component: PerformanceCounterListComponent;
@@ -8,9 +10,10 @@ describe('PerformanceCounterListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PerformanceCounterListComponent ]
+      imports: [CommonModule, NgbCollapseModule.forRoot()],
+      declarations: [PerformanceCounterListComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

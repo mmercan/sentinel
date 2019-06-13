@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IsAliveRequestFailedCheckComponent } from './is-alive-request-failed-check.component';
+import { CommonModule } from '@angular/common';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('IsAliveRequestFailedCheckComponent', () => {
   let component: IsAliveRequestFailedCheckComponent;
@@ -8,9 +10,10 @@ describe('IsAliveRequestFailedCheckComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IsAliveRequestFailedCheckComponent ]
+      imports: [CommonModule, NgbCollapseModule.forRoot()],
+      declarations: [IsAliveRequestFailedCheckComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MongoHealthCheckComponent } from './mongo-health-check.component';
+import { CommonModule } from '@angular/common';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('MongoHealthCheckComponent', () => {
   let component: MongoHealthCheckComponent;
@@ -8,9 +10,10 @@ describe('MongoHealthCheckComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MongoHealthCheckComponent ]
+      imports: [CommonModule, NgbCollapseModule.forRoot()],
+      declarations: [MongoHealthCheckComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

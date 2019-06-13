@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Sentinel.Api.Comms.Tests.Controllers
+namespace Sentinel.Api.Comms.Tests.IntegrationTests
 {
-    public class HomeServerTests : IClassFixture<WebApplicationFactory<Sentinel.Api.Comms.Startup>>
+    [Collection("WebApplicationFactory")]
+    public class HomeServerTests //: IClassFixture<WebApplicationFactory<Sentinel.Api.Comms.Startup>>
     {
         private WebApplicationFactory<Startup> factory;
         private ITestOutputHelper output;

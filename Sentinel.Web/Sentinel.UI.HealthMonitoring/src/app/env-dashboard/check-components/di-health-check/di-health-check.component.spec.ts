@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DiHealthCheckComponent } from './di-health-check.component';
+import { CommonModule } from '@angular/common';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('DiHealthCheckComponent', () => {
   let component: DiHealthCheckComponent;
@@ -8,9 +10,10 @@ describe('DiHealthCheckComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DiHealthCheckComponent ]
+      imports: [CommonModule, NgbCollapseModule.forRoot()],
+      declarations: [DiHealthCheckComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

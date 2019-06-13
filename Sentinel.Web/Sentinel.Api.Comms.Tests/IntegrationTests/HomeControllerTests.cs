@@ -8,7 +8,7 @@ using Xunit.Abstractions;
 using FluentAssertions;
 using Sentinel.Api.Comms.Tests.Helpers;
 
-namespace Sentinel.Api.Comms.Tests
+namespace Sentinel.Api.Comms.Tests.IntegrationTests
 {
 
 

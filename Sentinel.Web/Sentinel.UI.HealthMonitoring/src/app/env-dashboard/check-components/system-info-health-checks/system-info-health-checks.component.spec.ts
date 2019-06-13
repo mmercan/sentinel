@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SystemInfoHealthChecksComponent } from './system-info-health-checks.component';
+import { CommonModule } from '@angular/common';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('SystemInfoHealthChecksComponent', () => {
   let component: SystemInfoHealthChecksComponent;
@@ -8,9 +10,10 @@ describe('SystemInfoHealthChecksComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SystemInfoHealthChecksComponent ]
+      imports: [CommonModule, NgbCollapseModule.forRoot()],
+      declarations: [SystemInfoHealthChecksComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
