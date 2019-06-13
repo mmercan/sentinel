@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "sonar": "sonar-scanner",
-    "test:ci": "ng test --browser ChromeHeadlessCI --code-coverage=true --single-run=true"
+    "test:ci": "ng test --browsers ChromeHeadlessCI --code-coverage true --watch false"
   },
   "private": true,
   "dependencies": {
