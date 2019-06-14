@@ -94,8 +94,8 @@ export class ConfigApiService implements OnDestroy {
   getCertificates(certThumbPrintLocation: string, keyvaultBaseUrlLocation: string,
     clientIdLocation: string, appsettingsFolderLocation: string, force?: boolean): Observable<ICertificate[]> {
     const obs = Observable.create(observer => {
-      const baseurl = this.appConfig.config.Api.baseUrl;
-      const apiurl = baseurl + 'Certificates/List';
+      //const baseurl = this.appConfig.config.Api.baseUrl;
+      //const apiurl = baseurl + 'Certificates/List';
 
       if (this.dataStore.certificates && this.dataStore.certificates.length > 0 && !force) {
         observer.next(Object.assign({}, this.dataStore).certificates);
@@ -110,14 +110,14 @@ export class ConfigApiService implements OnDestroy {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
 
-        this.getCertificatesHttpPosySubscription = this.http.post<ICertificate[]>(apiurl, postbody, { headers: headers })
-          .subscribe(data => {
-            this.dataStore.certificates = data;
-            this._certificates.next(Object.assign({}, this.dataStore).certificates);
-            this.notificationService.showVerbose('certificates Load completed', '');
+        // this.getCertificatesHttpPosySubscription = this.http.post<ICertificate[]>(apiurl, postbody, { headers: headers })
+        //   .subscribe(data => {
+        //     this.dataStore.certificates = data;
+        //     this._certificates.next(Object.assign({}, this.dataStore).certificates);
+        //     this.notificationService.showVerbose('certificates Load completed', '');
 
-            observer.next(Object.assign({}, this.dataStore).certificates);
-          }, error => this.handleError(error, observer, 'certificates Load Failed'));
+        //     observer.next(Object.assign({}, this.dataStore).certificates);
+        //   }, error => this.handleError(error, observer, 'certificates Load Failed'));
       }
     });
     return obs;
