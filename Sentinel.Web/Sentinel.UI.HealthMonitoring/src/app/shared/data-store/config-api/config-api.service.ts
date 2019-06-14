@@ -67,8 +67,8 @@ export class ConfigApiService implements OnDestroy {
       keyVaultBaseUrlLocation, keyVaultClientIdLocation, appsettingsFolderLocation).subscribe(data => { });
 
 
-    this.getConfigurationSubscription = this._getConfiguration(keyVaultCertThumbPrintLocation, keyVaultBaseUrlLocation,
-      keyVaultClientIdLocation, appsettingsFolderLocation, true).subscribe(data => { });
+    // this.getConfigurationSubscription = this._getConfiguration(keyVaultCertThumbPrintLocation, keyVaultBaseUrlLocation,
+    //   keyVaultClientIdLocation, appsettingsFolderLocation, true).subscribe(data => { });
   }
 
   getEnvironment(force?: boolean): Observable<IEnvironment> {
@@ -130,12 +130,12 @@ export class ConfigApiService implements OnDestroy {
     const keyVaultCertThumbPrintLocation = this.appConfig.config.Api.keyVaultCertThumbPrintLocation;
     const keyVaultClientIdLocation = this.appConfig.config.Api.keyVaultClientIdLocation;
 
-    this._getConfigurationSubscription = this._getConfiguration(
-      keyVaultCertThumbPrintLocation,
-      keyVaultBaseUrlLocation,
-      keyVaultClientIdLocation,
-      appsettingsFolderLocation)
-      .subscribe(data => { });
+    // this._getConfigurationSubscription = this._getConfiguration(
+    //   keyVaultCertThumbPrintLocation,
+    //   keyVaultBaseUrlLocation,
+    //   keyVaultClientIdLocation,
+    //   appsettingsFolderLocation)
+    //   .subscribe(data => { });
 
     return this.configuration;
   }
@@ -215,51 +215,51 @@ export class ConfigApiService implements OnDestroy {
     return obs;
   }
 
-  private _getConfiguration(thumbPrintLocation: string, keyVaultBaseUrlLocation: string, clientIdLocation: string,
-    appsettingsFolderLocation: string, force?: boolean): Observable<any[]> {
+  // private _getConfiguration(thumbPrintLocation: string, keyVaultBaseUrlLocation: string, clientIdLocation: string,
+  //   appsettingsFolderLocation: string, force?: boolean): Observable<any[]> {
 
-    const obs = Observable.create(observer => {
-      const baseurl = this.appConfig.config.Api.baseUrl;
-      const apiurl = baseurl + 'AppConfiguration/GetConfigurationFromPath';
+  //   const obs = Observable.create(observer => {
+  //     const baseurl = this.appConfig.config.Api.baseUrl;
+  //     const apiurl = baseurl + 'AppConfiguration/GetConfigurationFromPath';
 
-      if (this.dataStore.configuration && this.dataStore.configuration.thumbprintFound && !force) {
-        observer.next(Object.assign({}, this.dataStore).configuration);
-        this._configuration.next(Object.assign({}, this.dataStore).configuration);
-      } else {
+  //     if (this.dataStore.configuration && this.dataStore.configuration.thumbprintFound && !force) {
+  //       observer.next(Object.assign({}, this.dataStore).configuration);
+  //       this._configuration.next(Object.assign({}, this.dataStore).configuration);
+  //     } else {
 
-        const postbody = JSON.stringify({
-          thumbPrintLocation: thumbPrintLocation,
-          keyVaultBaseUrlLocation: keyVaultBaseUrlLocation,
-          clientIdLocation: clientIdLocation,
-          appsettingsFolderLocation: appsettingsFolderLocation
-        });
-        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  //       const postbody = JSON.stringify({
+  //         thumbPrintLocation: thumbPrintLocation,
+  //         keyVaultBaseUrlLocation: keyVaultBaseUrlLocation,
+  //         clientIdLocation: clientIdLocation,
+  //         appsettingsFolderLocation: appsettingsFolderLocation
+  //       });
+  //       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-        this._getConfigurationHttpPostSubscription = this.http.post<IConfiguration>(apiurl, postbody, { headers: headers })
-          .subscribe(data => {
+  //       this._getConfigurationHttpPostSubscription = this.http.post<IConfiguration>(apiurl, postbody, { headers: headers })
+  //         .subscribe(data => {
 
-            let config = {};
-            if (data && data.activeConfigs && data.activeConfigs.length > 0) {
-              const activeConfigs: IConfigItem[] = data.activeConfigs;
-              config = this.ConvertFlattoObject(activeConfigs);
-              console.log('=================== itemobj starts ====================');
-              console.log(config);
-              console.log('=================== itemobj ends ====================');
-            } else {
-              this.handleError(data, observer, data.errorMessage);
-            }
-            data.activeConfigObject = config;
-            this.dataStore.configuration = data;
-            this.notificationService.showVerbose('config Load completed', '');
-            observer.next(Object.assign({}, this.dataStore).configuration);
-            this._configuration.next(Object.assign({}, this.dataStore).configuration);
+  //           let config = {};
+  //           if (data && data.activeConfigs && data.activeConfigs.length > 0) {
+  //             const activeConfigs: IConfigItem[] = data.activeConfigs;
+  //             config = this.ConvertFlattoObject(activeConfigs);
+  //             console.log('=================== itemobj starts ====================');
+  //             console.log(config);
+  //             console.log('=================== itemobj ends ====================');
+  //           } else {
+  //             this.handleError(data, observer, data.errorMessage);
+  //           }
+  //           data.activeConfigObject = config;
+  //           this.dataStore.configuration = data;
+  //           this.notificationService.showVerbose('config Load completed', '');
+  //           observer.next(Object.assign({}, this.dataStore).configuration);
+  //           this._configuration.next(Object.assign({}, this.dataStore).configuration);
 
-            this.matchValidatorstoAppSettings();
-          }, error => this.handleError(error, observer, 'config Load Failed'));
-      }
-    });
-    return obs;
-  }
+  //           this.matchValidatorstoAppSettings();
+  //         }, error => this.handleError(error, observer, 'config Load Failed'));
+  //     }
+  //   });
+  //   return obs;
+  // }
 
   private ConvertFlattoObject(flat: any): any {
     const result = {};
