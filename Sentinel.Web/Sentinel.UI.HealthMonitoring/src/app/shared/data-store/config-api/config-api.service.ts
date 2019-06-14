@@ -79,13 +79,12 @@ export class ConfigApiService implements OnDestroy {
       if (this.dataStore.environment && this.dataStore.environment.environmentName && !force) {
         observer.next(Object.assign({}, this.dataStore).environment);
       } else {
-        this.EnvironmentHttpGetSubscription = this.http.get(apiurl).subscribe(data => {
-          this.dataStore.environment = data;
-          this._environment.next(Object.assign({}, this.dataStore).environment);
-          this.notificationService.showVerbose('Environment Varible Load completed', '');
-
-          observer.next(Object.assign({}, this.dataStore).environment);
-        }, error => this.handleError(error, observer, 'Environment Varible Load Failed'));
+        // this.EnvironmentHttpGetSubscription = this.http.get(apiurl).subscribe(data => {
+        //   this.dataStore.environment = data;
+        //   this._environment.next(Object.assign({}, this.dataStore).environment);
+        //   this.notificationService.showVerbose('Environment Varible Load completed', '');
+        //   observer.next(Object.assign({}, this.dataStore).environment);
+        // }, error => this.handleError(error, observer, 'Environment Varible Load Failed'));
       }
     });
     return obs;
@@ -206,11 +205,11 @@ export class ConfigApiService implements OnDestroy {
       const postbody = JSON.stringify(body);
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-      this.httpCallByConfigurationHttpPostSubscription = this.http.post(apiurl, postbody, { headers: headers })
-        .subscribe(data => {
-          this.notificationService.showVerbose('CallByConfiguration Load completed', '');
-          observer.next(data);
-        }, error => this.handleError(error, observer, 'CallByConfiguration Load Failed'));
+      // this.httpCallByConfigurationHttpPostSubscription = this.http.post(apiurl, postbody, { headers: headers })
+      //   .subscribe(data => {
+      //     this.notificationService.showVerbose('CallByConfiguration Load completed', '');
+      //     observer.next(data);
+      //   }, error => this.handleError(error, observer, 'CallByConfiguration Load Failed'));
     });
     return obs;
   }
