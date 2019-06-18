@@ -78,7 +78,7 @@ namespace Sentinel.Api.Product.Controllers
             catch (Exception ex)
             {
                 logger.LogError("Failed to execute POST " + ex.Message);
-                return BadRequest();
+                return BadRequest("Save Failed");
             }
         }
 
