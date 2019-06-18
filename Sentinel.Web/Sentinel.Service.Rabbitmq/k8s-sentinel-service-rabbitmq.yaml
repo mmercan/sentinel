@@ -20,7 +20,7 @@ metadata:
   labels:
     app: sentinel-service-rabbitmq
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
   - protocol: TCP
     port: 5672
