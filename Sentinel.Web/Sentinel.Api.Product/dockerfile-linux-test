@@ -20,7 +20,7 @@ ENV Mongodb__ConnectionString="mongodb://root:hbMnztmZ4w9JJTGZ@52.247.221.171:27
 ENV Mongodb__DatabaseName=sentinel
 ENV Mongodb__CollectionName=product
 ENV Mongodb__IdField=Id
-
+ENV RabbitMQConnection="host=52.183.35.232;username=rabbitmq;password=rabbitmq"
 
 WORKDIR /src
 COPY Sentinel.Api.Product/Sentinel.Api.Product.csproj Sentinel.Api.Product/

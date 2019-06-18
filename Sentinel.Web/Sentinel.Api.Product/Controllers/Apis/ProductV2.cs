@@ -30,15 +30,17 @@ namespace Sentinel.Api.Product.Controllers
         ILogger<ProductV2Controller> logger;
         private readonly IMapper mapper;
         private readonly MangoBaseRepo<ProductInfoDtoV2> productInfoDtoV2base;
+        private readonly IBus bus;
         private ProductRepo productRepo;
 
         public ProductV2Controller(ILogger<ProductV2Controller> logger,
-        ProductRepo productRepo, IMapper mapper, MangoBaseRepo<ProductInfoDtoV2> mongobase)
+        ProductRepo productRepo, IMapper mapper, MangoBaseRepo<ProductInfoDtoV2> mongobase, IBus rabbitMQBus)
         {
             this.logger = logger;
             this.productRepo = productRepo;
             this.mapper = mapper;
             this.productInfoDtoV2base = mongobase;
+            this.bus = rabbitMQBus;
         }
 
         [HttpGet]
@@ -77,18 +79,18 @@ namespace Sentinel.Api.Product.Controllers
                 //productRepo.Add(result);
                 //productRepo.SaveChanges();
 
-                using (var bus = RabbitHutch.CreateBus("host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq"))
-                {
-                    bus.Publish(model, "product.newproduct");
-                    // bus.Publish(new ProductInfoDtoV2 { }, "product.newproduct");
+                // using (var bus = RabbitHutch.CreateBus("host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq"))
+                // {
+                bus.Publish(model, "product.newproduct");
+                // bus.Publish(new ProductInfoDtoV2 { }, "product.newproduct");
 
-                    // var response = bus.Request<ProductInfoDtoV2, MessageResponse>(model);
-                    // logger.LogCritical("ProductInfoDtoV2 response " + response.Message);
-                    //   var exchange =  bus.Advanced.ExchangeDeclare("Sentinel.Model.Product.ProductInfo, Sentinel.Model", ExchangeType.Topic, passive: false, durable: true, autoDelete: false);
-                    //   var topic =  bus.Advanced.QueueDeclare("Sentinel.Model.Product.ProductInfo, Sentinel.Model_product",passive:false,durable:true)
-                    //     bus.Advanced.Bind()
-                    // bus.Subscribe<ProductInfo>("product", Handler, x =>{ x.WithDurable(true); x.WithTopic("product.*");});
-                }
+                // var response = bus.Request<ProductInfoDtoV2, MessageResponse>(model);
+                // logger.LogCritical("ProductInfoDtoV2 response " + response.Message);
+                //   var exchange =  bus.Advanced.ExchangeDeclare("Sentinel.Model.Product.ProductInfo, Sentinel.Model", ExchangeType.Topic, passive: false, durable: true, autoDelete: false);
+                //   var topic =  bus.Advanced.QueueDeclare("Sentinel.Model.Product.ProductInfo, Sentinel.Model_product",passive:false,durable:true)
+                //     bus.Advanced.Bind()
+                // bus.Subscribe<ProductInfo>("product", Handler, x =>{ x.WithDurable(true); x.WithTopic("product.*");});
+                // }
 
 
                 return Created("", null);

@@ -44,6 +44,7 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Mercan.HealthChecks.Common.Checks;
+using EasyNetQ;
 
 namespace Sentinel.Api.Product
 {
@@ -144,6 +145,9 @@ namespace Sentinel.Api.Product
             // services.TryAdd(new ServiceDescriptor(typeof(MangoBaseRepo<ProductInfoDtoV2>), typeof(MangoBaseRepo<ProductInfoDtoV2>), ServiceLifetime.Scoped));
 
 
+
+
+            services.AddSingleton<IBus>(RabbitHutch.CreateBus(Configuration["RabbitMQConnection"]));
             services.AddScoped<ProductRepo>();
             // services.AddScoped<TriggerHandler>();
             services.AddTriggerHandler<TriggerHandler>();
