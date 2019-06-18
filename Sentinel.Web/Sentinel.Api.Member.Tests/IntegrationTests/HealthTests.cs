@@ -17,15 +17,12 @@ namespace Sentinel.Api.Member.Tests.IntegrationTests
     public class HealthTests
     {
         private WebApplicationFactory<Startup> factory;
-        AuthTokenFixture authTokenFixture;
         private ITestOutputHelper output;
 
-        public HealthTests(WebApplicationFactory<Startup> factory, AuthTokenFixture authTokenFixture, ITestOutputHelper output)
+        public HealthTests(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
         {
             this.factory = factory;
             this.output = output;
-            this.authTokenFixture = authTokenFixture;
-            //  output.WriteLine("Token Received "+  this.authTokenFixture.Token);
         }
 
 
