@@ -15,7 +15,7 @@ ENV APPID=$buildtime_APPID
 ENV APPSECRET=$buildtime_APPSECRET
 ENV ADID=$buildtime_ADID
 ENV SentinelConnection="Server=52.247.221.7;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
-ENV RedisConnection="sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
+ENV RedisConnection="52.247.233.71:6379,defaultDatabase=2,password=yourpassword"
 ENV Mongodb__ConnectionString="mongodb://root:hbMnztmZ4w9JJTGZ@52.247.221.171:27017/admin?readPreference=primary"
 ENV Mongodb__DatabaseName=sentinel
 ENV Mongodb__CollectionName=product
