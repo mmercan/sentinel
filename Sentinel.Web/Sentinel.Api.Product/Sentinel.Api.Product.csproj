@@ -3,12 +3,11 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
-  <PropertyGroup>
+  <!-- <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
-  </PropertyGroup>
-  <ItemGroup>
-
+  </PropertyGroup>-->
+  <ItemGroup> 
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
@@ -35,8 +34,6 @@
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.0.165" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mercan\Mercan.Common\Mercan.Common.csproj"/>
-    <ProjectReference Include="..\Mercan\Mercan.Common.Mongo\Mercan.Common.Mongo.csproj"/>
     <ProjectReference Include="..\Sentinel.Common\Sentinel.Model\Sentinel.Model.csproj"/>
     <ProjectReference Include="..\Sentinel.Common\Sentinel.Repos\Sentinel.Repos.csproj"/>
     <ProjectReference Include="..\Mercan\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj" />

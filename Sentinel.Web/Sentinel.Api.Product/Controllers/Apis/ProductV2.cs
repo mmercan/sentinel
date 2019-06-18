@@ -13,7 +13,7 @@ using Sentinel.Model.Product.Dto;
 using Sentinel.Model;
 using EasyNetQ;
 using EasyNetQ.Topology;
-using Mercan.Common.Mongo;
+// using Mercan.Common.Mongo;
 //using EasyNetQMessages;
 // using EasyNetQMessages.Polymorphic;
 
@@ -29,17 +29,17 @@ namespace Sentinel.Api.Product.Controllers
     {
         ILogger<ProductV2Controller> logger;
         private readonly IMapper mapper;
-        private readonly MangoBaseRepo<ProductInfoDtoV2> productInfoDtoV2base;
+        // private readonly MangoBaseRepo<ProductInfoDtoV2> productInfoDtoV2base;
         private readonly IBus bus;
         private ProductRepo productRepo;
 
         public ProductV2Controller(ILogger<ProductV2Controller> logger,
-        ProductRepo productRepo, IMapper mapper, MangoBaseRepo<ProductInfoDtoV2> mongobase, IBus rabbitMQBus)
+        ProductRepo productRepo, IMapper mapper, IBus rabbitMQBus)
         {
             this.logger = logger;
             this.productRepo = productRepo;
             this.mapper = mapper;
-            this.productInfoDtoV2base = mongobase;
+            //   this.productInfoDtoV2base = mongobase;
             this.bus = rabbitMQBus;
         }
 

@@ -29,7 +29,7 @@
             "commandLineArgs": "watch run",
             "workingDirectory": "C:\\repos\\sentinel\\Sentinel.Web\\Sentinel.Api.Comms",
             "launchBrowser": true,
-            "launchUrl": "https://localhost:5003/",
+            "launchUrl": "https://localhost:5004/",
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             }

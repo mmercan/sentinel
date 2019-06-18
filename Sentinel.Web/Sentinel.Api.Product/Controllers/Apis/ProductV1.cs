@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using Sentinel.Repos.Repositories;
 using Sentinel.Model.Product;
-using Mercan.Common.Filters;
+// using Mercan.Common.Filters;
 using Sentinel.Model.Product.Dto;
 
 namespace Sentinel.Api.Product.Controllers
@@ -18,7 +18,7 @@ namespace Sentinel.Api.Product.Controllers
     [Route("api/Product")]
     //[Route("api/v{version:apiVersion}/Product")]
     [ApiController]
-    [ValidateModel]
+    // [ValidateModel]
     public class ProductV1Controller : ControllerBase
     {
         ILogger<ProductV1Controller> logger;

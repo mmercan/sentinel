@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit.Abstractions;
 
-namespace Sentinel.Api.Product.Tests.Helpers
+namespace Sentinel.Api.HealthMonitoring.Tests.Helpers
 {
     public class AuthTokenFixture: IDisposable
     {

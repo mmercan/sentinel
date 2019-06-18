@@ -148,7 +148,7 @@ namespace Sentinel.Api.Comms.Tests.IntegrationTests
 
 
         [Theory]
-        [InlineData("/Health/IsAliveAndWell")]
+        //  [InlineData("/Health/IsAliveAndWell")]
         [InlineData("/Health/IsAlive")]
         public void Health_Checks(string url)
         {
@@ -170,4 +170,4 @@ namespace Sentinel.Api.Comms.Tests.IntegrationTests
         }
 
     }
-} 
+}

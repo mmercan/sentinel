@@ -31,7 +31,7 @@ using Sentinel.Repos.Repositories;
 using System.Reflection;
 using System.IO;
 using Microsoft.Extensions.Caching.Distributed;
-using Mercan.Common.Mongo;
+// using Mercan.Common.Mongo;
 using Mercan.Common;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using MongoDB.Driver;
@@ -141,7 +141,7 @@ namespace Sentinel.Api.Product
             }
 
             // services.Configure<MangoBaseRepoSettings>(Configuration.GetSection("Mongodb"));
-            services.AddMangoRepo<ProductInfoDtoV2>(Configuration.GetSection("Mongodb"));
+            //  services.AddMangoRepo<ProductInfoDtoV2>(Configuration.GetSection("Mongodb"));
             // services.TryAdd(new ServiceDescriptor(typeof(MangoBaseRepo<ProductInfoDtoV2>), typeof(MangoBaseRepo<ProductInfoDtoV2>), ServiceLifetime.Scoped));
 
 
@@ -225,9 +225,9 @@ namespace Sentinel.Api.Product
                     });
                 }
                 // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                options.IncludeXmlComments(xmlPath);
+                // var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                // var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                // options.IncludeXmlComments(xmlPath);
             });
         }
 
