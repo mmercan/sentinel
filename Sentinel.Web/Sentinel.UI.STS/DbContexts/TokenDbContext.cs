@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.IO;
-using Sentinel.UI.Sts.Models;
-namespace Sentinel.UI.Sts.DbContexts
+using Sentinel.UI.STS.Models;
+namespace Sentinel.UI.STS.DbContexts
 {
     public class TokenDbContext : DbContext
     {

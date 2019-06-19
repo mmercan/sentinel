@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Sentinel.UI.Sts.DbContexts;
-using Sentinel.UI.Sts.Models;
+using Sentinel.UI.STS.DbContexts;
+using Sentinel.UI.STS.Models;
 
-namespace Sentinel.UI.Sts.Repositories
+namespace Sentinel.UI.STS.Repositories
 {
     public class TokenRepository : ITokenRepository
     {

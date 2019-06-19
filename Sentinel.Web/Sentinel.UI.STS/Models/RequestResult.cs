@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Sentinel.UI.Sts.Models
+namespace Sentinel.UI.STS.Models
 {
     public class RequestResult
     {

@@ -24,7 +24,7 @@
         "type": "process",
         "args": [
             "build",
-            "${workspaceFolder}/Sentinel.UI.STS/Sentinel.UI.Sts.csproj"
+            "${workspaceFolder}/Sentinel.UI.STS/Sentinel.UI.STS.csproj"
         ],
         "problemMatcher": "$msCompile"
     }, {

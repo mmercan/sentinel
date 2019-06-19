@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <UserSecretsId>aspnet-Sentinel.UI.Sts-0F5E49ED-034C-446F-9774-66FB49CB823C</UserSecretsId>
+    <UserSecretsId>aspnet-Sentinel.UI.STS-0F5E49ED-034C-446F-9774-66FB49CB823C</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,5 +1,5 @@
-using Sentinel.UI.Sts.Models;
-namespace Sentinel.UI.Sts.Repositories
+using Sentinel.UI.STS.Models;
+namespace Sentinel.UI.STS.Repositories
 {
     public interface ITokenRepository
     {

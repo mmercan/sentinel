@@ -3,9 +3,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Sentinel.UI.Sts.Models;
-using Sentinel.UI.Sts.DbContexts;
-using Sentinel.UI.Sts.Repositories;
+using Sentinel.UI.STS.Models;
+using Sentinel.UI.STS.DbContexts;
+using Sentinel.UI.STS.Repositories;
 using Serilog;
 using Serilog.Events;
 using Swashbuckle.AspNetCore.Swagger;
@@ -22,7 +22,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Sentinel.UI.Sts.Data;
+using Sentinel.UI.STS.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -33,7 +33,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Mercan.HealthChecks.Common.Checks;
 
-namespace Sentinel.UI.Sts
+namespace Sentinel.UI.STS
 {
     public class Startup
     {
@@ -146,7 +146,7 @@ namespace Sentinel.UI.Sts
                     description.GroupName,
                     new Info()
                     {
-                        Title = $"Sentinel.UI.Sts API {description.ApiVersion}",
+                        Title = $"Sentinel.UI.STS API {description.ApiVersion}",
                         Version = description.ApiVersion.ToString()
                     });
                 }

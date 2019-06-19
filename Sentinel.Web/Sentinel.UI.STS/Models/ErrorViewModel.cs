@@ -1,6 +1,6 @@
 using System;
 
-namespace Sentinel.UI.Sts.Models
+namespace Sentinel.UI.STS.Models
 {
     public class ErrorViewModel
     {

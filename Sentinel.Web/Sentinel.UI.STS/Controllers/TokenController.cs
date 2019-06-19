@@ -1,5 +1,5 @@
-using Sentinel.UI.Sts.Models;
-using Sentinel.UI.Sts.Repositories;
+using Sentinel.UI.STS.Models;
+using Sentinel.UI.STS.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 
-namespace Sentinel.UI.Sts.Controllers
+namespace Sentinel.UI.STS.Controllers
 {
     [Route("api/[controller]")]
     public class TokenController : Controller

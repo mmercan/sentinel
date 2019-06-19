@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Sentinel.UI.Sts
+namespace Sentinel.UI.STS
 {
     public class Program
     {

@@ -71,7 +71,7 @@
             "request": "launch",
             "preLaunchTask": "Sentinel.UI.STS.build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Sentinel.UI.STS/bin/local/Debug/netcoreapp2.2/Sentinel.UI.Sts.dll",
+            "program": "${workspaceFolder}/Sentinel.UI.STS/bin/local/Debug/netcoreapp2.2/Sentinel.UI.STS.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Sentinel.UI.STS",
             "stopAtEntry": false,

@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Sentinel.UI.Sts.Models;
+using Sentinel.UI.STS.Models;
 
-namespace Sentinel.UI.Sts.Controllers
+namespace Sentinel.UI.STS.Controllers
 {
     public class HomeController : Controller
     {

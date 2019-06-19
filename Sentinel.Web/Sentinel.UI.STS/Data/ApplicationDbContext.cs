@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Sentinel.UI.Sts.Data
+namespace Sentinel.UI.STS.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

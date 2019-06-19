@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Sentinel.UI.Sts.DbContexts;
+using Sentinel.UI.STS.DbContexts;
 
-namespace Sentinel.UI.Sts.Migrations
+namespace Sentinel.UI.STS.Migrations
 {
     [DbContext(typeof(TokenDbContext))]
     partial class TokenDbContextModelSnapshot : ModelSnapshot
@@ -15,7 +15,7 @@ namespace Sentinel.UI.Sts.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.1-rtm-30846");
 
-            modelBuilder.Entity("Sentinel.UI.Sts.Models.TokenRepoModel", b =>
+            modelBuilder.Entity("Sentinel.UI.STS.Models.TokenRepoModel", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();

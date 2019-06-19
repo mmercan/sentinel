@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Sentinel.UI.Sts.Migrations
+namespace Sentinel.UI.STS.Migrations
 {
     public partial class tokenDbContext : Migration
     {

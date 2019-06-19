@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Sentinel.UI.Sts.Data.Migrations
+namespace Sentinel.UI.STS.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {
