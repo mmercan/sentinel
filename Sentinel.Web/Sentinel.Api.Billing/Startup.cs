@@ -40,26 +40,6 @@ namespace Sentinel.Api.Billing
             Configuration = configuration;
         }
 
-        public Startup(IConfiguration configuration)
-        {
-            this.Configuration = configuration;
-
-        }
-        public Startup(IConfiguration configuration)
-        {
-            this.Configuration = configuration;
-
-        }
-        public Startup(IConfiguration configuration)
-        {
-            this.Configuration = configuration;
-
-        }
-        public Startup(IConfiguration configuration)
-        {
-            this.Configuration = configuration;
-
-        }
         public IConfiguration Configuration { get; }
 
         public void ConfigureJwtAuthService(IServiceCollection services)
