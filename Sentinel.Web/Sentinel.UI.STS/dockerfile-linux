@@ -8,23 +8,6 @@ ENV ASPNETCORE_ENVIRONMENT=Development
 WORKDIR /src/Sentinel.UI.STS
 EXPOSE 80
 
-
-FROM mmercan/sentinel-sonarqube-dotnet22-sdk AS test
-# ENV SONAR_HOST http://sonar.myrcan.com
-ENV PROJECT=Sentinel.UI.STS
-ENV VERSION=1.0
-ENV SONARKEY=291e97953a3742b000a056732d73dce5ef439985
-WORKDIR /src
-COPY Sentinel.UI.STS/Sentinel.UI.STS.csproj Sentinel.UI.STS/
-RUN dotnet restore Sentinel.UI.STS/Sentinel.UI.STS.csproj
-COPY . .
-RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap.js" /d:sonar.coverage.exclusions="**Tests*.cs"
-RUN dotnet build ./Sentinel.UI.STS/Sentinel.UI.STS.sln
-RUN dotnet test ./Sentinel.UI.STS/Sentinel.UI.STS.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/TestResults/
-RUN dotnet build-server shutdown
-RUN dotnet sonarscanner end /d:sonar.login=$SONARKEY
-
-
 FROM develop AS build
 WORKDIR /src
 COPY Sentinel.UI.STS/Sentinel.UI.STS.csproj Sentinel.UI.STS/
