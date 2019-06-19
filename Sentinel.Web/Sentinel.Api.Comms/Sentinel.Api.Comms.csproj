@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mercan\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj" />
-    <ProjectReference Include="..\Mercan\Mercan.HealthChecks.Mongo\Mercan.HealthChecks.Mongo.csproj" />
+    <ProjectReference Include="..\HealthChecks\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj" />
+    <ProjectReference Include="..\HealthChecks\Mercan.HealthChecks.Mongo\Mercan.HealthChecks.Mongo.csproj" />
   </ItemGroup>
 </Project>

@@ -7,10 +7,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 
 namespace Mercan.HealthChecks.Mongo
@@ -19,11 +15,13 @@ namespace Mercan.HealthChecks.Mongo
     {
         public static IHealthChecksBuilder AddMongoHealthCheck(this IHealthChecksBuilder builder, string connectionString)
         {
-            return builder.AddCheck($"MongoHealthCheck {connectionString}", new MongoHealthCheck(connectionString));
+            // return builder.AddCheck($"MongoHealthCheck {connectionString}", new MongoHealthCheck(connectionString));
+            return builder.AddTypeActivatedCheck<MongoHealthCheck>($"MongoHealthCheck", null, null, connectionString);
         }
         public static IHealthChecksBuilder AddMongoHealthCheck(this IHealthChecksBuilder builder, string connectionString, string databaseName)
         {
-            return builder.AddCheck($"MongoHealthCheck {connectionString} {databaseName}", new MongoHealthCheck(connectionString, databaseName));
+            return builder.AddTypeActivatedCheck<MongoHealthCheck>($"MongoHealthCheck", null, null, connectionString, databaseName);
+            // return builder.AddCheck($"MongoHealthCheck {connectionString} {databaseName}", new MongoHealthCheck(connectionString, databaseName));
         }
     }
     public class MongoHealthCheck : IHealthCheck
@@ -32,7 +30,6 @@ namespace Mercan.HealthChecks.Mongo
         public MongoClient mongoClient { get; private set; }
         public string IdFieldName { get; private set; }
         private string collectionName;
-        public static readonly string HealthCheckName = "MongoHealthCheck";
         private string connectionString;
         private string databaseName;
         public MongoHealthCheck(string connectionString, string databaseName)
@@ -53,9 +50,7 @@ namespace Mercan.HealthChecks.Mongo
                 try
                 {
                     mongoClient = new MongoClient(connectionString);
-
                     var server = mongoClient.Settings.Server.Host;
-
                     var servers = string.Join(",", mongoClient.Settings.Servers.Select(p => p.Host));
                     if (!string.IsNullOrWhiteSpace(servers))
                     {
@@ -67,7 +62,6 @@ namespace Mercan.HealthChecks.Mongo
                     {
                         data.Add(database, database);
                     }
-                    // MongoDb = mongoClient.GetDatabase(databaseName);
                     string description = $"MongoDd {connectionString} is healthy";
                     ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
                     return HealthCheckResult.Healthy(description, rodata);

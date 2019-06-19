@@ -5,12 +5,10 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 using Xunit.Abstractions;
-using Sentinel.Api.Product;
-using Sentinel.Model.Product.Dto;
 using Newtonsoft.Json;
 using Sentinel.Api.HealthMonitoring;
 
-namespace Sentinel.Api.Product.Tests.IntegrationTests
+namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
 {
 
     [Collection("WebApplicationFactory")]

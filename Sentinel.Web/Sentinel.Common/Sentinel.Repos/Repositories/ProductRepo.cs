@@ -1,5 +1,5 @@
 using System;
-using Mercan.Common.Repos;
+using Mercan.Common.Data.Repos;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

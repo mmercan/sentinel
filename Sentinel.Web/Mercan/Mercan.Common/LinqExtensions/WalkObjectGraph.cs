@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace MMercan.Common.LinqExtensions
+namespace Mercan.Common.LinqExtensions
 {
     public static class WalkExtensions
     {

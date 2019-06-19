@@ -12,7 +12,7 @@ using Microsoft.Extensions.Options;
 using Confluent.Kafka;
 
 
-namespace Mercan.Common
+namespace Mercan.Common.Triggers
 {
     public class KafkaListener<T>
     {

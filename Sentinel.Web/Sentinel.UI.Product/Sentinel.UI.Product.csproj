@@ -32,10 +32,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Mercan\Mercan.Common\Mercan.Common.csproj" />
     <ProjectReference Include="..\Sentinel.Common\Sentinel.Model\Sentinel.Model.csproj" />
-    <ProjectReference Include="..\Mercan\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj" />
-    <ProjectReference Include="..\Mercan\Mercan.HealthChecks.Mongo\Mercan.HealthChecks.Mongo.csproj" />
-    <ProjectReference Include="..\Mercan\Mercan.HealthChecks.RabbitMQ\Mercan.HealthChecks.RabbitMQ.csproj" />
-    <ProjectReference Include="..\Mercan\Mercan.HealthChecks.Redis\Mercan.HealthChecks.Redis.csproj" />
+    <ProjectReference Include="..\HealthChecks\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj" />
+    <ProjectReference Include="..\HealthChecks\Mercan.HealthChecks.Mongo\Mercan.HealthChecks.Mongo.csproj" />
+    <ProjectReference Include="..\HealthChecks\Mercan.HealthChecks.RabbitMQ\Mercan.HealthChecks.RabbitMQ.csproj" />
+    <ProjectReference Include="..\HealthChecks\Mercan.HealthChecks.Redis\Mercan.HealthChecks.Redis.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,13 @@ namespace System.Linq
     public static class MedianByExtension
     {
 
-        private static int Partition<T>(this IList<T> list, int start, int end, Random rnd = null) where T : IComparable<T>
+
+        private static int Partition<T>(this IList<T> list, int start, int end) where T : IComparable<T>
+        {
+            return Partition(list, start, end, null);
+        }
+
+        private static int Partition<T>(this IList<T> list, int start, int end, Random rnd) where T : IComparable<T>
         {
             if (rnd != null)
                 list.Swap(end, rnd.Next(start, end));
@@ -34,7 +39,14 @@ namespace System.Linq
         /// Note: specified list would be mutated in the process.
         /// Reference: Introduction to Algorithms 3rd Edition, Corman et al, pp 216
         /// </summary>
-        public static T NthOrderStatistic<T>(this IList<T> list, int n, Random rnd = null) where T : IComparable<T>
+
+        public static T NthOrderStatistic<T>(this IList<T> list, int n) where T : IComparable<T>
+        {
+            return NthOrderStatistic(list, n, 0, list.Count - 1, null);
+        }
+
+
+        public static T NthOrderStatistic<T>(this IList<T> list, int n, Random rnd) where T : IComparable<T>
         {
             return NthOrderStatistic(list, n, 0, list.Count - 1, rnd);
         }

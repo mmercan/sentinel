@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mercan.Common.Repos
+namespace Mercan.Common.Data.Repos
 {
     public interface IRepository<T> where T : class
     {

@@ -10,13 +10,22 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class MailServiceExtension
     {
+        // public static IServiceCollection AddMailService(
+        //        this IServiceCollection serviceCollection,
+        //        MailServiceSettings options,
+        //        ServiceLifetime contextLifetime = ServiceLifetime.Scoped,
+        //        ServiceLifetime optionsLifetime = ServiceLifetime.Scoped)
+        // {
 
+        //     //serviceCollection.Configure<MangoBaseRepoSettings>(Configuration.GetSection("Mongodb"));
+        //     serviceCollection.Configure<MailServiceSettings>(o => o = options);
+        //     serviceCollection.AddSingleton<MailService>();
+        //     return serviceCollection;
+        // }
 
         public static IServiceCollection AddMailService(
                this IServiceCollection serviceCollection,
-               MailServiceSettings options,
-               ServiceLifetime contextLifetime = ServiceLifetime.Scoped,
-               ServiceLifetime optionsLifetime = ServiceLifetime.Scoped)
+               MailServiceSettings options)
         {
 
             //serviceCollection.Configure<MangoBaseRepoSettings>(Configuration.GetSection("Mongodb"));
@@ -29,9 +38,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddMailService(
         this IServiceCollection serviceCollection,
-       IConfiguration options,
-       ServiceLifetime contextLifetime = ServiceLifetime.Scoped,
-       ServiceLifetime optionsLifetime = ServiceLifetime.Scoped)
+       IConfiguration options)
         {
 
             //serviceCollection.Configure<MangoBaseRepoSettings>(Configuration.GetSection("Mongodb"));
@@ -41,9 +48,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         public static IServiceCollection AddMailService(
-        this IServiceCollection serviceCollection,
-       ServiceLifetime contextLifetime = ServiceLifetime.Scoped,
-       ServiceLifetime optionsLifetime = ServiceLifetime.Scoped)
+        this IServiceCollection serviceCollection)
         {
 
             //serviceCollection.Configure<MangoBaseRepoSettings>(Configuration.GetSection("Mongodb"));

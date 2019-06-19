@@ -12,9 +12,9 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
 // using MMercan.Common.Interfaces;
 
-namespace Mercan.Common.Repos
+namespace Mercan.Common.Data.Repos
 {
-    public class EFRepository<T> : IRepository<T>,IDisposable where T : class, new()
+    public class EFRepository<T> : IRepository<T>, IDisposable where T : class, new()
     {
         public readonly DbContext db;
         public readonly DbSet<T> dbSet;
@@ -129,7 +129,7 @@ namespace Mercan.Common.Repos
             {
                 return Byte.Parse(id);
             }
-            else if(t==typeof(long))
+            else if (t == typeof(long))
             {
                 return long.Parse(id);
             }
@@ -161,7 +161,7 @@ namespace Mercan.Common.Repos
                 {
                     throw ex.InnerException;
 
-                   
+
                 }
             }
         }
@@ -181,7 +181,7 @@ namespace Mercan.Common.Repos
             Expression r1 = Expression.Constant(id);
             Expression e11 = Expression.Equal(l1, r1);
 
-            MethodCallExpression whereExpression = Expression.Call(typeof(Queryable),"Where",
+            MethodCallExpression whereExpression = Expression.Call(typeof(Queryable), "Where",
                 new Type[] { queryable.ElementType },
                 queryable.Expression,
                 Expression.Lambda<Func<T, bool>>(e11, new ParameterExpression[] { pe }));
@@ -190,7 +190,7 @@ namespace Mercan.Common.Repos
             return results.FirstOrDefault();
         }
 
-       
+
 
         //public virtual T Find(object id)
         //{

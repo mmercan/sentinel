@@ -10,7 +10,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sentinel.Model\Sentinel.Model.csproj" />
-    <ProjectReference Include="..\..\Mercan\Mercan.Common\Mercan.Common.csproj" />
+    <ProjectReference Include="..\..\Mercan\Mercan.Common.Data\Mercan.Common.Data.csproj" />
   </ItemGroup>
   
 </Project>

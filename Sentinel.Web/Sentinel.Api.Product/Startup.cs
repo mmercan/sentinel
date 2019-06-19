@@ -150,7 +150,7 @@ namespace Sentinel.Api.Product
             services.AddSingleton<IBus>(RabbitHutch.CreateBus(Configuration["RabbitMQConnection"]));
             services.AddScoped<ProductRepo>();
             // services.AddScoped<TriggerHandler>();
-            services.AddTriggerHandler<TriggerHandler>();
+            //      services.AddTriggerHandler<TriggerHandler>();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.

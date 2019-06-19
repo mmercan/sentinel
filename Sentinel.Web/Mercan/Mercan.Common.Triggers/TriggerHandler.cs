@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 // using MMercan.Common.Interfaces;
 
-namespace Mercan.Common
+namespace Mercan.Common.Triggers
 {
     public class TriggerHandler
     {
@@ -49,31 +49,41 @@ namespace Mercan.Common
 
     public static class TriggerHandlerExtension
     {
+        public static IServiceCollection AddTriggerHandler<TContextService>(this IServiceCollection serviceCollection)
+                    => AddTriggerHandler<TContextService, TContextService>(serviceCollection,
+                     (Action<IServiceProvider, DbContextOptionsBuilder>)null, ServiceLifetime.Scoped, ServiceLifetime.Scoped);
 
-        public static IServiceCollection AddTriggerHandler<TContextService>(
-            this IServiceCollection serviceCollection, Action<DbContextOptionsBuilder> optionsAction = null,
-            ServiceLifetime contextLifetime = ServiceLifetime.Scoped, ServiceLifetime optionsLifetime = ServiceLifetime.Scoped)
+        public static IServiceCollection AddTriggerHandler<TContextService>
+        (this IServiceCollection serviceCollection, Action<DbContextOptionsBuilder> optionsAction, ServiceLifetime contextLifetime, ServiceLifetime optionsLifetime)
                             => AddTriggerHandler<TContextService, TContextService>(serviceCollection, optionsAction == null
                             ? (Action<IServiceProvider, DbContextOptionsBuilder>)null : (p, b) => optionsAction.Invoke(b), contextLifetime, optionsLifetime);
 
+        public static IServiceCollection AddTriggerHandler<TContextService>
+        (this IServiceCollection serviceCollection, Action<DbContextOptionsBuilder> optionsAction)
+                               => AddTriggerHandler<TContextService, TContextService>(serviceCollection, optionsAction == null
+                               ? (Action<IServiceProvider, DbContextOptionsBuilder>)null : (p, b) => optionsAction.Invoke(b), ServiceLifetime.Scoped, ServiceLifetime.Scoped);
+
+        public static IServiceCollection AddTriggerHandler<TContextService, TContextImplementation>(this IServiceCollection serviceCollection, Action<IServiceProvider, DbContextOptionsBuilder> optionsAction)
+                    where TContextImplementation : TContextService
+        {
+            serviceCollection.TryAdd(new ServiceDescriptor(typeof(TContextService), typeof(TContextImplementation), ServiceLifetime.Scoped));
+            serviceCollection.TryAdd(new ServiceDescriptor(typeof(KafkaListener<>), typeof(KafkaListener<>), ServiceLifetime.Scoped));
+            return serviceCollection;
+        }
+
         public static IServiceCollection AddTriggerHandler<TContextService, TContextImplementation>(
                     this IServiceCollection serviceCollection, Action<IServiceProvider, DbContextOptionsBuilder> optionsAction,
-                    ServiceLifetime contextLifetime = ServiceLifetime.Scoped, ServiceLifetime optionsLifetime = ServiceLifetime.Scoped)
+                    ServiceLifetime contextLifetime, ServiceLifetime optionsLifetime)
                     where TContextImplementation : TContextService
         {
             serviceCollection.TryAdd(new ServiceDescriptor(typeof(TContextService), typeof(TContextImplementation), contextLifetime));
-
             serviceCollection.TryAdd(new ServiceDescriptor(typeof(KafkaListener<>), typeof(KafkaListener<>), contextLifetime));
 
-
-
             //services.AddScoped(typeof(IStore<>), typeof(SqlStore<>));
-
             // var serviceProvider = serviceCollection.BuildServiceProvider();
             // //serviceProvider.GetService(typeof(TContextService));
             // var contentservice = serviceProvider.GetService<TContextService>();
             // System.Attribute[] attributes = System.Attribute.GetCustomAttributes(typeof(KafkaListener));
-
             // foreach (Attribute attribute in attributes)
             // {
             //     if (attribute is MenuItemAttribute)
@@ -82,20 +92,10 @@ namespace Mercan.Common
             //         MethodInfo[] methods = attribute.GetType().GetMethods();
             //     }
             // }
-
-
-
             // Type thisType = typeof(TContextService);
             // MethodInfo theMethod = thisType.GetMethod(TheCommandString);
             // theMethod.Invoke(contentservice, userParameters);
-
-
-
-
             return serviceCollection;
-
-
         }
-
     }
 }

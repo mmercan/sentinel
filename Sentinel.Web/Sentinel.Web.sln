@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Api.Product", "Sen
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mercan", "Mercan", "{851BFF8B-B848-4DA6-AF8B-CD093AD4A711}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Common", "Mercan\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj", "{3B3CD0C0-652A-4BB5-86DE-1F268CD9BFD7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Common", "HealthChecks\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj", "{3B3CD0C0-652A-4BB5-86DE-1F268CD9BFD7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.Common", "Mercan\Mercan.Common\Mercan.Common.csproj", "{5B849F66-5D75-4B0F-B847-FBC6E53F7F66}"
 EndProject
@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.UI.Product", "Sent
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.UI.STS", "Sentinel.UI.STS\Sentinel.UI.STS.csproj", "{CECDB48E-5DE2-4B1A-A539-8A2730B2E6F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Mongo", "Mercan\Mercan.HealthChecks.Mongo\Mercan.HealthChecks.Mongo.csproj", "{0AB3FF0E-61A7-437D-9D34-B3A594E71B19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Mongo", "HealthChecks\Mercan.HealthChecks.Mongo\Mercan.HealthChecks.Mongo.csproj", "{0AB3FF0E-61A7-437D-9D34-B3A594E71B19}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Api.Comms.Tests", "Sentinel.Api.Comms.Tests\Sentinel.Api.Comms.Tests.csproj", "{CA133E2C-2541-4EB4-A208-227941EEF7D1}"
 EndProject
@@ -41,33 +41,33 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.Common.Mongo.Tests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.Common.Mvc.Tests", "Mercan\Mercan.Common.Mvc.Tests\Mercan.Common.Mvc.Tests.csproj", "{86FD322F-0EF4-459B-A258-CDD4EC400915}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Common.Tests", "Mercan\Mercan.HealthChecks.Common.Tests\Mercan.HealthChecks.Common.Tests.csproj", "{3979DD70-58DF-4C5F-BC8A-A198C17B838F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Common.Tests", "HealthChecks\Mercan.HealthChecks.Common.Tests\Mercan.HealthChecks.Common.Tests.csproj", "{3979DD70-58DF-4C5F-BC8A-A198C17B838F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Elasticsearch", "Mercan\Mercan.HealthChecks.Elasticsearch\Mercan.HealthChecks.Elasticsearch.csproj", "{0534EDB5-52AD-401B-B182-BE975A8B0968}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Elasticsearch", "HealthChecks\Mercan.HealthChecks.Elasticsearch\Mercan.HealthChecks.Elasticsearch.csproj", "{0534EDB5-52AD-401B-B182-BE975A8B0968}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Elasticsearch.Tests", "Mercan\Mercan.HealthChecks.Elasticsearch.Tests\Mercan.HealthChecks.Elasticsearch.Tests.csproj", "{D05E5961-72BC-4188-B2A5-6F726CB1B965}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Elasticsearch.Tests", "HealthChecks\Mercan.HealthChecks.Elasticsearch.Tests\Mercan.HealthChecks.Elasticsearch.Tests.csproj", "{D05E5961-72BC-4188-B2A5-6F726CB1B965}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Mongo.Tests", "Mercan\Mercan.HealthChecks.Mongo.Tests\Mercan.HealthChecks.Mongo.Tests.csproj", "{D266FBF4-D795-4A34-8E01-5855687A0784}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Mongo.Tests", "HealthChecks\Mercan.HealthChecks.Mongo.Tests\Mercan.HealthChecks.Mongo.Tests.csproj", "{D266FBF4-D795-4A34-8E01-5855687A0784}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.MySql", "Mercan\Mercan.HealthChecks.MySql\Mercan.HealthChecks.MySql.csproj", "{7B53994C-317F-404C-A698-2D8D19DC871D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.MySql", "HealthChecks\Mercan.HealthChecks.MySql\Mercan.HealthChecks.MySql.csproj", "{7B53994C-317F-404C-A698-2D8D19DC871D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.MySql.Tests", "Mercan\Mercan.HealthChecks.MySql.Tests\Mercan.HealthChecks.MySql.Tests.csproj", "{08BC3C4D-2F23-4AAB-8FF4-39BDCD804346}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.MySql.Tests", "HealthChecks\Mercan.HealthChecks.MySql.Tests\Mercan.HealthChecks.MySql.Tests.csproj", "{08BC3C4D-2F23-4AAB-8FF4-39BDCD804346}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Nats", "Mercan\Mercan.HealthChecks.Nats\Mercan.HealthChecks.Nats.csproj", "{C903AA5E-5B1D-460A-A50C-A860F13C29E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Nats", "HealthChecks\Mercan.HealthChecks.Nats\Mercan.HealthChecks.Nats.csproj", "{C903AA5E-5B1D-460A-A50C-A860F13C29E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Nats.Tests", "Mercan\Mercan.HealthChecks.Nats.Tests\Mercan.HealthChecks.Nats.Tests.csproj", "{E46AA2C3-05B2-44D5-ACFA-8E03661B1270}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Nats.Tests", "HealthChecks\Mercan.HealthChecks.Nats.Tests\Mercan.HealthChecks.Nats.Tests.csproj", "{E46AA2C3-05B2-44D5-ACFA-8E03661B1270}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Network", "Mercan\Mercan.HealthChecks.Network\Mercan.HealthChecks.Network.csproj", "{41ADAFCC-A227-483D-9B5B-0E5AE851C72D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Network", "HealthChecks\Mercan.HealthChecks.Network\Mercan.HealthChecks.Network.csproj", "{41ADAFCC-A227-483D-9B5B-0E5AE851C72D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Network.Tests", "Mercan\Mercan.HealthChecks.Network.Tests\Mercan.HealthChecks.Network.Tests.csproj", "{55B69987-0D21-4EF6-8A3A-21F417065F96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Network.Tests", "HealthChecks\Mercan.HealthChecks.Network.Tests\Mercan.HealthChecks.Network.Tests.csproj", "{55B69987-0D21-4EF6-8A3A-21F417065F96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.RabbitMQ", "Mercan\Mercan.HealthChecks.RabbitMQ\Mercan.HealthChecks.RabbitMQ.csproj", "{24E237A4-3675-45F1-AE8C-0CCAE5B294BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.RabbitMQ", "HealthChecks\Mercan.HealthChecks.RabbitMQ\Mercan.HealthChecks.RabbitMQ.csproj", "{24E237A4-3675-45F1-AE8C-0CCAE5B294BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.RabbitMQ.Tests", "Mercan\Mercan.HealthChecks.RabbitMQ.Tests\Mercan.HealthChecks.RabbitMQ.Tests.csproj", "{1D6D535A-52E4-4D35-B678-328953BEC5C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.RabbitMQ.Tests", "HealthChecks\Mercan.HealthChecks.RabbitMQ.Tests\Mercan.HealthChecks.RabbitMQ.Tests.csproj", "{1D6D535A-52E4-4D35-B678-328953BEC5C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Redis", "Mercan\Mercan.HealthChecks.Redis\Mercan.HealthChecks.Redis.csproj", "{1EFF51DA-0BCC-41F8-96C5-67B49167C57F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Redis", "HealthChecks\Mercan.HealthChecks.Redis\Mercan.HealthChecks.Redis.csproj", "{1EFF51DA-0BCC-41F8-96C5-67B49167C57F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Redis.Tests", "Mercan\Mercan.HealthChecks.Redis.Tests\Mercan.HealthChecks.Redis.Tests.csproj", "{04499193-D21B-459A-8091-4FD54EA478B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Redis.Tests", "HealthChecks\Mercan.HealthChecks.Redis.Tests\Mercan.HealthChecks.Redis.Tests.csproj", "{04499193-D21B-459A-8091-4FD54EA478B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Api.Billing", "Sentinel.Api.Billing\Sentinel.Api.Billing.csproj", "{B511956B-A912-464B-BE7A-AF1377AE3249}"
 EndProject

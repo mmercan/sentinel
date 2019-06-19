@@ -1,5 +1,3 @@
-using Mercan.Common.Security;
-
 namespace Mercan.Common.Mail
 {
     public interface IMailServiceSettings

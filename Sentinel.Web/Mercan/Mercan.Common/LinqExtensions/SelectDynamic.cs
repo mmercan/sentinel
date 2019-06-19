@@ -33,11 +33,11 @@ namespace System.Linq
             static LinqRuntimeTypeBuilder()
             {
 
-#if NET452
-                moduleBuilder = Thread.GetDomain().DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run).DefineDynamicModule(assemblyName.Name);
-#else
+                // #if NET452
+                //                 moduleBuilder = Thread.GetDomain().DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run).DefineDynamicModule(assemblyName.Name);
+                // #else
                 moduleBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run).DefineDynamicModule(assemblyName.Name);
-#endif
+                // #endif
             }
 
             private static string GetTypeKey(Dictionary<string, Type> fields)
@@ -67,11 +67,11 @@ namespace System.Linq
                         typeBuilder.DefineField(field.Key, field.Value, FieldAttributes.Public);
 
 
-#if NET452
-                    builtTypes[className] = typeBuilder.CreateType();
-#else
+                    // #if NET452
+                    //                     builtTypes[className] = typeBuilder.CreateType();
+                    // #else
                     builtTypes[className] = typeBuilder.CreateTypeInfo().AsType();
-#endif
+                    //#endif
                     return builtTypes[className];
                 }
                 catch
