@@ -57,15 +57,18 @@ namespace Sentinel.UI.STS.Controllers
         public async Task<IActionResult> Auth([FromBody]AuthRequest authUserRequest)
         {
             logger.LogInformation("Grant Type is " + authUserRequest.GrantType);
-            if (authUserRequest == null)
+
+            if (!this.ModelState.IsValid)
             {
                 return Json(new
                 {
                     Code = "901",
-                    Message = "null of parameters",
+                    Message = "ModelState isnot valid",
                     // Data = null
                 });
             }
+
+
 
             if (authUserRequest.GrantType == "password")
             {

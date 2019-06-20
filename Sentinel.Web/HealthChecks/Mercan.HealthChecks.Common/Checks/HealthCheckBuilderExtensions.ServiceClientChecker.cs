@@ -33,34 +33,25 @@ namespace Mercan.HealthChecks.Common.Checks
             return builder.AddTypeActivatedCheck<ServiceClientBaseHealthCheck>($"ApiIsAlive {path} {sectionPath}", null, null, config, path);
         }
 
-        // public static IHealthChecksBuilder AddApiIsAliveAndWell(this IHealthChecksBuilder builder, IConfiguration clientOptions, string isAliveAndWellUrl = "Health/IsAliveAndWell", TimeSpan? cacheDuration = null)
-        // {
-        //     ApiServiceConfiguration config = new ApiServiceConfiguration();
-        //     clientOptions.Bind(config);
-        //     string path = string.Format(config.BaseAddress + isAliveAndWellUrl);
-        //     builder.AddCheck($"ApiIsAliveAndWell {path}", () =>
-        //     {
-        //         try
-        //         {
-        //             ServiceClientBase service = new ServiceClientBase(config);
-        //             var task = service.SendAsync<HealthCheckResult>(path, HttpMethod.Get);
-        //             task.Wait();
-        //             var items = task.Result;
-        //             string description = path + " is succeesful";
-        //             return HealthCheckResult.Healthy(description);
-        //         }
-        //         catch (Exception ex)
-        //         {
-        //             var Message = ex.InnerException?.InnerException?.Message;
-        //             if (Message == null) { Message = ex.InnerException?.Message; }
-        //             if (Message == null) { Message = ex.Message; }
-        //             string description = Message;
-        //             IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { path, " failed with exception " + Message }, { "BaseAddress", config?.BaseAddress } };
-        //             return HealthCheckResult.Unhealthy(description, null, data);
-        //         }
-        //     });
-        //     return builder;
-        // }
+        public static IHealthChecksBuilder AddApiIsAliveAndWell(this IHealthChecksBuilder builder, IConfiguration clientOptions, string isAliveAndWellUrl = "Health/IsAliveAndWell", TimeSpan? cacheDuration = null)
+        {
+
+            ApiServiceConfiguration config = new ApiServiceConfiguration();
+            string sectionPath = "";
+            if (clientOptions is Microsoft.Extensions.Configuration.ConfigurationSection)
+            {
+                sectionPath = (clientOptions as Microsoft.Extensions.Configuration.ConfigurationSection).Path;
+            }
+            clientOptions.Bind(config);
+            string path = string.Format(config.BaseAddress + isAliveAndWellUrl);
+            return builder.AddTypeActivatedCheck<ServiceClientBaseHealthCheck>($"ApiIsAlive {path} {sectionPath}", null, null, config, path);
+            // ServiceClientBase service = new ServiceClientBase(config);
+            // var task = service.SendAsync<HealthCheckResult>(path, HttpMethod.Get);
+            // task.Wait();
+            // var items = task.Result;
+            // string description = path + " is succeesful";
+            // return HealthCheckResult.Healthy(description);
+        }
     }
 
     public class ApiServiceConfiguration

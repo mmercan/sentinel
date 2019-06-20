@@ -19,9 +19,9 @@ namespace Sentinel.Repos.Repositories
             {
                 db.Database.EnsureCreated();
             }
-            catch
+            catch (Exception ex)
             {
-
+                logger.LogError("db.Database.EnsureCreated with Error", ex.Message);
             }
         }
     }

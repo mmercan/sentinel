@@ -20,7 +20,7 @@ namespace Mercan.HealthChecks.Common
             {
                 throw new ArgumentNullException(argumentName);
             }
-            else if (string.IsNullOrEmpty(value))
+            else if (value.Trim() == "")
             {
                 throw new ArgumentException("Value cannot be an empty string.", argumentName);
             }

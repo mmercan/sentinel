@@ -21,7 +21,7 @@ WORKDIR /src
 COPY Sentinel.Api.Scheduler/Sentinel.Api.Scheduler.csproj Sentinel.Api.Scheduler/
 RUN dotnet restore Sentinel.Api.Scheduler/Sentinel.Api.Scheduler.csproj
 COPY . .
-RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap.js" /d:sonar.coverage.exclusions="**Tests*.cs"
+RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap-reboot.css, **bootstrap.js" /d:sonar.coverage.exclusions="**Tests*.cs"
 RUN dotnet build ./Sentinel.Api.Scheduler/Sentinel.Api.Scheduler.sln
 RUN dotnet test ./Sentinel.Api.Scheduler/Sentinel.Api.Scheduler.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/TestResults/
 RUN dotnet build-server shutdown

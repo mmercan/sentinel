@@ -20,7 +20,7 @@ using EasyNetQ.Topology;
 
 namespace Sentinel.Api.Product.Controllers
 {
-    // [Authorize(AuthenticationSchemes = "azure")]
+    [Authorize(AuthenticationSchemes = "azure")]
     [ApiVersion("2.0")]
     [Route("api/Product")]
     //[Route("api/v{version:apiVersion}/Product")]

@@ -21,7 +21,7 @@ WORKDIR /src
 COPY Sentinel.Api.Shipping/Sentinel.Api.Shipping.csproj Sentinel.Api.Shipping/
 RUN dotnet restore Sentinel.Api.Shipping/Sentinel.Api.Shipping.csproj
 COPY . .
-RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap.js" /d:sonar.coverage.exclusions="**Tests*.cs"
+RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap-reboot.css, **bootstrap.js" /d:sonar.coverage.exclusions="**Tests*.cs"
 RUN dotnet build ./Sentinel.Api.Shipping/Sentinel.Api.Shipping.sln
 RUN dotnet test ./Sentinel.Api.Shipping/Sentinel.Api.Shipping.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/TestResults/
 RUN dotnet build-server shutdown
