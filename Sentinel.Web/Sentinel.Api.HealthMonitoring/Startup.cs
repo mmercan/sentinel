@@ -192,7 +192,6 @@ namespace Sentinel.Api.HealthMonitoring
             // move  UseDefaultFiles to first line
             // app.UseFileServer();
             app.UseDefaultFiles();
-
             app.UseSwagger(e =>
             {
                 e.PreSerializeFilters.Add((doc, req) =>

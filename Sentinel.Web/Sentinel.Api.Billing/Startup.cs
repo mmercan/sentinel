@@ -1,14 +1,10 @@
 using System;
-using Sentinel.Api.Billing.Hubs;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
-// using Sentinel.Api.Billing.Models;
-// using Sentinel.Api.Billing.DbContexts;
-// using Sentinel.Api.Billing.Repositories;
 using Serilog;
 using Serilog.Events;
 using Swashbuckle.AspNetCore.Swagger;
@@ -27,9 +23,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Mercan.HealthChecks.Common.Checks;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Mercan.HealthChecks.Common.Checks;
+using Mercan.HealthChecks.Mongo;
+using Mercan.HealthChecks.RabbitMQ;
+using Mercan.HealthChecks.Redis;
 
 namespace Sentinel.Api.Billing
 {
@@ -54,18 +53,14 @@ namespace Sentinel.Api.Billing
                 // The signing key must match!
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = signingKey,
-
                 // Validate the JWT Issuer (iss) claim
                 ValidateIssuer = true,
                 ValidIssuer = audienceConfig["Issuer"],
-
                 // Validate the JWT Audience (aud) claim
                 ValidateAudience = true,
                 ValidAudience = audienceConfig["Audience"],
-
                 // Validate the token expiry
                 ValidateLifetime = true,
-
                 ClockSkew = TimeSpan.Zero
             };
 
@@ -95,6 +90,8 @@ namespace Sentinel.Api.Billing
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IServiceCollection>(services);
+            services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -103,23 +100,24 @@ namespace Sentinel.Api.Billing
             });
 
             services.AddHealthChecks()
-            .AddProcessList()
-            .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory")
-            .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
-            .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
-            .AddSystemInfoCheck()
-            .AddPrivateMemorySizeCheckKB(300000)
-            .AddWorkingSetCheckKB(400000)
-            // //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
+             .AddProcessList()
+             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory")
+             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
+             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
+             .AddSystemInfoCheck()
+            //.AddPrivateMemorySizeCheckMB(1000)
+            .AddWorkingSetCheckKB(250000)
+
+            .AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
             // .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
-            // .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "api/healthcheck/isalive")
-            // .AddApiIsAlive(Configuration.GetSection("sentinel-api-member:ClientOptions"), "api/healthcheck/isalive")
-            // .AddApiIsAlive(Configuration.GetSection("sentinel-api-product:ClientOptions"), "api/healthcheck/isalive")
-            // .AddApiIsAlive(Configuration.GetSection("sentinel-api-comms:ClientOptions"), "api/healthcheck/isalive")
-            // .AddMongoHealthCheck(Configuration["Mongodb:ConnectionString"])
-            // .AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
-            // .AddRedisHealthCheck(Configuration["RedisConnection"])
-             .AddDIHealthCheck(services);
+            // .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "health/isalive")
+            // .AddApiIsAlive(Configuration.GetSection("sentinel-api-member:ClientOptions"), "health/isalive")
+            // .AddApiIsAlive(Configuration.GetSection("sentinel-api-product:ClientOptions"), "health/isalive")
+            // .AddApiIsAlive(Configuration.GetSection("sentinel-api-comms:ClientOptions"), "health/isalive")
+             .AddMongoHealthCheck(Configuration["Mongodb:ConnectionString"])
+             .AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
+             .AddRedisHealthCheck(Configuration["RedisConnection"])
+            .AddDIHealthCheck(services);
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -177,7 +175,7 @@ namespace Sentinel.Api.Billing
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSignalRJwtAuthentication();
+            //app.UseSignalRJwtAuthentication();
             var logger = new LoggerConfiguration()
             .ReadFrom.Configuration(Configuration)
             .Enrich.FromLogContext()
@@ -218,6 +216,7 @@ namespace Sentinel.Api.Billing
                     });
                 });
             });
+
             app.UseSwaggerUI(options =>
                 {
                     foreach (var description in provider.ApiVersionDescriptions)
@@ -229,12 +228,11 @@ namespace Sentinel.Api.Billing
                 });
             app.UseCors("MyPolicy");
             app.UseCookiePolicy();
-
             app.UseAuthentication();
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChatHub>("/hub/chat");
-            });
+            // app.UseSignalR(routes =>
+            // {
+            //     routes.MapHub<ChatHub>("/hub/chat");
+            // });
 
 
             app.UseMvc(routes =>

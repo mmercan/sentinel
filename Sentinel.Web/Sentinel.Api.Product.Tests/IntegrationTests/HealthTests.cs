@@ -17,20 +17,22 @@ namespace Sentinel.Api.Product.Tests.IntegrationTests
     public class HealthTests
     {
         private WebApplicationFactory<Startup> factory;
-        AuthTokenFixture authTokenFixture;
+
+        //private WebApplicationFactory<Startup> factory;
+        //AuthTokenFixture authTokenFixture;
         private ITestOutputHelper output;
 
-        public HealthTests(WebApplicationFactory<Startup> factory,AuthTokenFixture authTokenFixture ,ITestOutputHelper output)
+        public HealthTests(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
         {
             this.factory = factory;
             this.output = output;
-            this.authTokenFixture=authTokenFixture;
-         //  output.WriteLine("Token Received "+  this.authTokenFixture.Token);
+            //  this.authTokenFixture=authTokenFixture;
+            //  output.WriteLine("Token Received "+  this.authTokenFixture.Token);
         }
 
 
         [Theory]
-        [InlineData("/Health/IsAliveAndWell")]
+        // [InlineData("/Health/IsAliveAndWell")]
         [InlineData("/Health/IsAlive")]
         public void Health_Checks(string url)
         {

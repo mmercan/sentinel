@@ -7,13 +7,13 @@ using Xunit.Abstractions;
 
 namespace Sentinel.Api.Product.Tests.Helpers
 {
-    public class AuthTokenFixture: IDisposable
+    public class AuthTokenFixture : IDisposable
     {
 
         // private ITestOutputHelper output;
         public AuthTokenFixture()
         {
-          //  this.output = output;
+            //  this.output = output;
             Token = GetToken();
         }
 
@@ -44,7 +44,7 @@ namespace Sentinel.Api.Product.Tests.Helpers
             var ContentTask = resTask.Result.Content.ReadAsStringAsync();
             ContentTask.Wait();
             //return ContentTask.Result;
-           // output.WriteLine("content  " + ContentTask.Result);
+            // output.WriteLine("content  " + ContentTask.Result);
             JObject s = JObject.Parse(ContentTask.Result);
             client.Dispose();
             return "Bearer " + (string)s["access_token"];
@@ -52,9 +52,9 @@ namespace Sentinel.Api.Product.Tests.Helpers
 
         public void Dispose()
         {
-       
+
         }
 
-        public string Token{ get; private set; }
+        public string Token { get; private set; }
     }
 }

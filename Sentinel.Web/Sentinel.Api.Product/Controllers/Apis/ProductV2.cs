@@ -20,7 +20,7 @@ using EasyNetQ.Topology;
 
 namespace Sentinel.Api.Product.Controllers
 {
-    [Authorize(AuthenticationSchemes = "azure")]
+    // [Authorize(AuthenticationSchemes = "azure")]
     [ApiVersion("2.0")]
     [Route("api/Product")]
     //[Route("api/v{version:apiVersion}/Product")]
@@ -53,6 +53,8 @@ namespace Sentinel.Api.Product.Controllers
             {
                 var repos = productRepo.GetAll().Select(mapper.Map<ProductInfo, ProductInfoDtoV2>);
                 //var result = mapper.Map<List<ProductInfoDtoV2>>(repos);
+
+                bus.Publish(repos.FirstOrDefault(), "product.newproduct");
                 return Ok(repos);
             }
             catch (Exception ex)
