@@ -23,13 +23,12 @@ namespace Sentinel.Api.Product.Controllers
     {
         ILogger<ProductV1Controller> logger;
         private IMapper mapper;
-        private ProductRepo repo;
+    
 
-        public ProductV1Controller(ILogger<ProductV1Controller> logger, IMapper mapper, ProductRepo repo)
+        public ProductV1Controller(ILogger<ProductV1Controller> logger, IMapper mapper)
         {
             this.logger = logger;
             this.mapper = mapper;
-            this.repo = repo;
         }
 
         [HttpGet]
@@ -42,8 +41,8 @@ namespace Sentinel.Api.Product.Controllers
         {
             try
             {
-                var repos = repo.GetAll().Select(mapper.Map<ProductInfo, ProductInfoDtoV1>);
-                return Ok(repos);
+                //var repos = repo.GetAll().Select(mapper.Map<ProductInfo, ProductInfoDtoV1>);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -69,11 +68,12 @@ namespace Sentinel.Api.Product.Controllers
 
             try
             {
-                var mappedModel = mapper.Map<ProductInfo>(model);
-                var result = repo.Add(mappedModel);
-                repo.SaveChanges();
-                var mappedResult = mapper.Map<ProductInfoDtoV1>(result);
-                return Created("", mappedResult);
+                // var mappedModel = mapper.Map<ProductInfo>(model);
+                // var result = repo.Add(mappedModel);
+                // repo.SaveChanges();
+                // var mappedResult = mapper.Map<ProductInfoDtoV1>(result);
+                // return Created("", mappedResult);
+                return Created("", null);
             }
             catch (Exception ex)
             {
@@ -93,8 +93,8 @@ namespace Sentinel.Api.Product.Controllers
             try
             {
                 var mappedModel = mapper.Map<ProductInfo>(model);
-                repo.Update(mappedModel);
-                repo.SaveChanges();
+                // repo.Update(mappedModel);
+                // repo.SaveChanges();
                 return Ok();
             }
             catch (Exception ex)
