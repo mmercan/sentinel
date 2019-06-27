@@ -77,7 +77,14 @@ namespace Sentinel.Handler.Comms
                     services.AddSingleton<IScheduledTask, QuoteOfTheDayTask>();
                     services.AddScheduler();
 
-                    services.AddSingleton<IBus>(RabbitHutch.CreateBus(hostContext.Configuration.GetSection("RabbitMQConnection").Value));
+                    // services.AddSingleton<IBus>(RabbitHutch.CreateBus(hostContext.Configuration.GetSection("RabbitMQConnection").Value));
+
+
+                    services.AddSingleton<EasyNetQ.IBus>((ctx) =>
+                    {
+                        return RabbitHutch.CreateBus(hostContext.Configuration["RabbitMQConnection"]);
+                    });
+
                     services.AddHostedService<ProductSubscribeService>();
                     services.AddHostedService<ProductAsyncSubscribeService>();
                     services.AddHostedService<HealthMonitor>();

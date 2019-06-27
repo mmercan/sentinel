@@ -59,6 +59,7 @@ services:
       - Mongodb__CollectionName=product
       - Mongodb__IdField=Id
       - SentinelConnection=Server=sentinel-sql-db;Database=sentinel;User Id=sa;Password=P@ssword1;
+      - RabbitMQConnection=host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10
     # volumes:
     #   - SentinelWeb:/src
     volumes:

@@ -40,15 +40,15 @@ namespace Sentinel.Handler.Comms
         {
             try
             {
-                var RabbitMQConn = configuration.GetSection("RabbitMQConnection").Value;
-                logger.LogCritical("Async Connecting queue url : " + RabbitMQConn);
-                using (var bus = RabbitHutch.CreateBus(RabbitMQConn))
-                {
-                    logger.LogCritical("Connected to bus");
-                    bus.Subscribe<ProductInfoDtoV2>("productall", Handler, x => x.WithTopic("product.*"));
-                    Console.WriteLine("Listening on topic product.*");
-                    _ResetEvent.Wait();
-                }
+                // var RabbitMQConn = configuration.GetSection("RabbitMQConnection").Value;
+                // logger.LogCritical("Async Connecting queue url : " + RabbitMQConn);
+                // using (var bus = RabbitHutch.CreateBus(RabbitMQConn))
+                // {
+                logger.LogCritical("Connected to bus");
+                bus.Subscribe<ProductInfoDtoV2>("productall", Handler, x => x.WithTopic("product.*"));
+                Console.WriteLine("Listening on topic product.*");
+                _ResetEvent.Wait();
+                // }
             }
             catch (Exception ex)
             {

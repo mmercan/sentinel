@@ -14,30 +14,30 @@ namespace Sentinel.Handler.Comms
         private const string QUEUE_GROUP = "save-handler";
         ILogger<ProductChangeSubscribe> logger;
         IConfiguration configuration;
+        private IBus bus;
 
-
-        public ProductChangeSubscribe(ILogger<ProductChangeSubscribe> logger, IConfiguration configuration, ILoggerFactory loggerFactory)
+        public ProductChangeSubscribe(ILogger<ProductChangeSubscribe> logger, IConfiguration configuration, ILoggerFactory loggerFactory, IBus bus)
         {
             this.logger = logger;
             this.configuration = configuration;
-
+            this.bus = bus;
         }
 
         public void Subscribe()
         {
             try
             {
-                logger.LogCritical("RabbitmqSubscribe to message queue url: {0}", configuration["NATS_URL"]);
-                Console.WriteLine("RabbitmqSubscribe to message queue url: {0}", configuration["NATS_URL"]);
-                using (var bus = RabbitHutch.CreateBus("host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq"))
-                {
-                    //bus.
-                    bus.Subscribe<ProductInfo>("product", Handler, x => x.WithTopic("product.newproduct"));
+                // logger.LogCritical("RabbitmqSubscribe to message queue url: {0}", configuration["NATS_URL"]);
+                // Console.WriteLine("RabbitmqSubscribe to message queue url: {0}", configuration["NATS_URL"]);
+                // using (var bus = RabbitHutch.CreateBus("host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq"))
+                // {
+                //bus.
+                bus.Subscribe<ProductInfo>("product", Handler, x => x.WithTopic("product.newproduct"));
 
-                    // Console.WriteLine("Listening for (payment.*) messages. Hit <return> to quit.");
-                    // Console.ReadLine();
-                    // Console.WriteLine("terminated");
-                }
+                // Console.WriteLine("Listening for (payment.*) messages. Hit <return> to quit.");
+                // Console.ReadLine();
+                // Console.WriteLine("terminated");
+                // }
 
             }
             catch (Exception ex)

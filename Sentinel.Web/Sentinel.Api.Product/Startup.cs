@@ -37,6 +37,8 @@ using Serilog.Sinks.Elasticsearch;
 using CorrelationId;
 using Serilog.Formatting.Elasticsearch;
 using EasyNetQ;
+using Sentinel.Model.Product.Dto;
+using Sentinel.Model.Product;
 
 namespace Sentinel.Api.Product
 {
@@ -106,7 +108,7 @@ namespace Sentinel.Api.Product
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddDbContext<SentinelDbContext>(o => { o.UseInMemoryDatabase(databaseName: "memorydb"); });
+            //  services.AddDbContext<SentinelDbContext>(o => { o.UseInMemoryDatabase(databaseName: "memorydb"); });
             services.AddMiniProfiler(options => options.RouteBasePath = "/profiler");
             if (InDocker)
             {
@@ -118,17 +120,18 @@ namespace Sentinel.Api.Product
                });
             }
             // services.Configure<MangoBaseRepoSettings>(Configuration.GetSection("Mongodb"));
-            //  services.AddMangoRepo<ProductInfoDtoV2>(Configuration.GetSection("Mongodb"));
-            // services.TryAdd(new ServiceDescriptor(typeof(MangoBaseRepo<ProductInfoDtoV2>), typeof(MangoBaseRepo<ProductInfoDtoV2>), ServiceLifetime.Scoped));
+            services.AddMangoRepo<ProductInfoDtoV2>(Configuration.GetSection("Mongodb"));
+            services.AddMangoRepo<VendorInfo>(Configuration.GetSection("Mongodb"), "vendor");
+            services.AddMangoRepo<CategoryInfo>(Configuration.GetSection("Mongodb"), "category");
+            services.AddMangoRepo<TechnologyInfo>(Configuration.GetSection("Mongodb"), "technology");
+
+            //  services.TryAdd(new ServiceDescriptor(typeof(MangoBaseRepo<ProductInfoDtoV2>), typeof(MangoBaseRepo<ProductInfoDtoV2>), ServiceLifetime.Scoped));
 
 
             services.AddSingleton<EasyNetQ.IBus>((ctx) =>
             {
-                //IOtherService svc = ctx.GetService<IOtherService>();
-                //IOtherService svc = ctx.GetRequiredService<IOtherService>();
                 return RabbitHutch.CreateBus(Configuration["RabbitMQConnection"]);
             });
-            // services.AddSingleton<EasyNetQ.IBus>(RabbitHutch.CreateBus(Configuration["RabbitMQConnection"]));
             services.AddScoped<ProductRepo>();
             // services.AddScoped<TriggerHandler>();
             // services.AddTriggerHandler<TriggerHandler>();

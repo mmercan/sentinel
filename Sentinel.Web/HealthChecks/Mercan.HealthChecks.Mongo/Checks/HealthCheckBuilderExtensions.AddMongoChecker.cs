@@ -32,11 +32,11 @@ namespace Mercan.HealthChecks.Mongo
         private string collectionName;
         private string connectionString;
         private string databaseName;
-        public MongoHealthCheck(string connectionString, string databaseName)
-        {
-            this.connectionString = connectionString;
-            this.databaseName = databaseName;
-        }
+        // public MongoHealthCheck(string connectionString, string databaseName)
+        // {
+        //     this.connectionString = connectionString;
+        //     this.databaseName = databaseName;
+        // }
         public MongoHealthCheck(string connectionString)
         {
             this.connectionString = connectionString;

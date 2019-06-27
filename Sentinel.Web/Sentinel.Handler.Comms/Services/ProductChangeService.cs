@@ -16,12 +16,14 @@ namespace Sentinel.Handler.Comms.Services
         private readonly ILogger logger;
         //  private Timer _timer;
         private IConfiguration configuration;
+        private IBus bus;
 
-        public ProductChangeService(ILogger<TimedHostedService> logger, IConfiguration configuration)
+        public ProductChangeService(ILogger<TimedHostedService> logger, IConfiguration configuration, IBus bus)
         {
             this.logger = logger;
             logger.LogCritical("ProductChangeService Contructor trigered");
             this.configuration = configuration;
+               this.bus = bus;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -30,8 +32,8 @@ namespace Sentinel.Handler.Comms.Services
             {
                 logger.LogCritical("RabbitmqSubscribe to message queue url");
                 // using (var bus = RabbitHutch.CreateBus("host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10"))
-                using (var bus = RabbitHutch.CreateBus("host=localhost;username=rabbitmq;password=rabbitmq; timeout=10"))
-                {
+               // using (var bus = RabbitHutch.CreateBus("host=localhost;username=rabbitmq;password=rabbitmq; timeout=10"))
+               // {
                     logger.LogCritical("Connected to bus");
                     // bus.Subscribe<ProductInfo>("product", Handler, x => x.WithTopic("product.*"));
 
@@ -44,7 +46,7 @@ namespace Sentinel.Handler.Comms.Services
                     // Console.WriteLine("Listening for (payment.*) messages. Hit <return> to quit.");
                     // Console.ReadLine();
                     // Console.WriteLine("terminated");
-                }
+               // }
 
             }
             catch (Exception ex)

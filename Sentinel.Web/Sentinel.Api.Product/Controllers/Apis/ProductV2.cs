@@ -13,10 +13,10 @@ using Sentinel.Model.Product.Dto;
 using Sentinel.Model;
 using EasyNetQ;
 using EasyNetQ.Topology;
+using Mercan.Common.Mongo;
 // using Mercan.Common.Mongo;
 //using EasyNetQMessages;
 // using EasyNetQMessages.Polymorphic;
-
 
 namespace Sentinel.Api.Product.Controllers
 {
@@ -31,16 +31,35 @@ namespace Sentinel.Api.Product.Controllers
         private readonly IMapper mapper;
         // private readonly MangoBaseRepo<ProductInfoDtoV2> productInfoDtoV2base;
         private readonly IBus bus;
-        private ProductRepo productRepo;
+        private readonly MangoBaseRepo<ProductInfoDtoV2> mongoProductRepo;
+        // private ProductRepo productRepo;
 
         public ProductV2Controller(ILogger<ProductV2Controller> logger,
-        ProductRepo productRepo, IMapper mapper, IBus rabbitMQBus)
+        // ProductRepo productRepo,
+        MangoBaseRepo<ProductInfoDtoV2> mongoProductRepo,
+        MangoBaseRepo<VendorInfo> mongoVendorRepo,
+        MangoBaseRepo<CategoryInfo> mongoCategoryRepo,
+        MangoBaseRepo<TechnologyInfo> mongTechnologyRepo,
+        IMapper mapper, IBus rabbitMQBus)
         {
             this.logger = logger;
-            this.productRepo = productRepo;
+            //  this.productRepo = productRepo;
             this.mapper = mapper;
             //   this.productInfoDtoV2base = mongobase;
             this.bus = rabbitMQBus;
+            this.mongoProductRepo = mongoProductRepo;
+
+
+            var items1 = mongoProductRepo.GetAll().ToList();
+            var items2 = mongoVendorRepo.GetAll().ToList();
+            var items3 = mongoCategoryRepo.GetAll().ToList();
+            var items4 = mongTechnologyRepo.GetAll().ToList();
+
+
+            logger.LogCritical("mongoProductRepo " + items1.Count().ToString());
+            logger.LogCritical("mongoVendorRepo " + items2.Count().ToString());
+            logger.LogCritical("mongoCategoryRepo " + items3.Count().ToString());
+            logger.LogCritical("mongTechnologyRepo " + items4.Count().ToString());
         }
 
         [HttpGet]
@@ -51,11 +70,12 @@ namespace Sentinel.Api.Product.Controllers
         {
             try
             {
-                var repos = productRepo.GetAll().Select(mapper.Map<ProductInfo, ProductInfoDtoV2>);
-                //var result = mapper.Map<List<ProductInfoDtoV2>>(repos);
 
-                bus.Publish(repos.FirstOrDefault(), "product.newproduct");
-                return Ok(repos);
+                var items = mongoProductRepo.GetAll().ToList();
+                logger.LogCritical("MongoCount " + items.Count().ToString());
+                //  var repos = productRepo.GetAll().Select(mapper.Map<ProductInfo, ProductInfoDtoV2>);
+                //var result = mapper.Map<List<ProductInfoDtoV2>>(repos);
+                return Ok(items);
             }
             catch (Exception ex)
             {
@@ -116,8 +136,8 @@ namespace Sentinel.Api.Product.Controllers
             {
 
                 var result = mapper.Map<ProductInfo>(model);
-                productRepo.Update(result);
-                productRepo.SaveChanges();
+                //   productRepo.Update(result);
+                //   productRepo.SaveChanges();
                 return Ok();
             }
             catch (Exception)

@@ -24,7 +24,7 @@ namespace Sentinel.Handler.Comms
         {
             this.logger = logger;
             this.configuration = configuration;
-            //this.bus = bus;
+            this.bus = bus;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -41,27 +41,27 @@ namespace Sentinel.Handler.Comms
         {
             try
             {
-                var RabbitMQConn = configuration.GetSection("RabbitMQConnection").Value;
-                logger.LogCritical("Async Connecting queue url : " + RabbitMQConn);
-                using (var bus = RabbitHutch.CreateBus(RabbitMQConn))
-                {
-                    logger.LogCritical("Async Connected to bus");
-                    bus.SubscribeAsync<ProductInfoDtoV2>("product", message => Task.Factory.StartNew(() =>
+                // var RabbitMQConn = configuration.GetSection("RabbitMQConnection").Value;
+                // logger.LogCritical("Async Connecting queue url : " + RabbitMQConn);
+                // using (var bus = RabbitHutch.CreateBus(RabbitMQConn))
+                // {
+                logger.LogCritical("Async Connected to bus");
+                bus.SubscribeAsync<ProductInfoDtoV2>("product", message => Task.Factory.StartNew(() =>
+                 {
+                     Handler(message);
+                 }).ContinueWith(task =>
+                 {
+                     if (task.IsCompleted && !task.IsFaulted)
                      {
-                         Handler(message);
-                     }).ContinueWith(task =>
+                         logger.LogCritical("Finished processing all messages");
+                     }
+                     else
                      {
-                         if (task.IsCompleted && !task.IsFaulted)
-                         {
-                             logger.LogCritical("Finished processing all messages");
-                         }
-                         else
-                         {
-                             throw new EasyNetQException("Message processing exception - look in the default error queue (broker)");
-                         }
-                     }), x => x.WithTopic("product.newproduct"));
-                    _ResetEvent.Wait();
-                }
+                         throw new EasyNetQException("Message processing exception - look in the default error queue (broker)");
+                     }
+                 }), x => x.WithTopic("product.newproduct"));
+                _ResetEvent.Wait();
+                // }
             }
             catch (Exception ex)
             {

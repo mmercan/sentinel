@@ -10,6 +10,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 
 
 namespace Mercan.Common.Mongo
@@ -21,19 +22,32 @@ namespace Mercan.Common.Mongo
         public string IdFieldName { get; private set; }
         private string collectionName;
 
-        public MangoBaseRepo(IOptions<MangoBaseRepoSettings> options) : this(options.Value.ConnectionString, options.Value.DatabaseName, options.Value.CollectionName)
+        readonly ILogger<MangoBaseRepo<T>> logger;
+
+        public MangoBaseRepo(IOptions<MangoBaseRepoSettings<T>> options, ILogger<MangoBaseRepo<T>> logger, string collectionName) : this(options.Value.ConnectionString, options.Value.DatabaseName, collectionName, logger)
         {
 
         }
 
-        public MangoBaseRepo(string connectionString, string databaseName, string collectionName, string IdField)
+        public MangoBaseRepo(IOptions<MangoBaseRepoSettings<T>> options, ILogger<MangoBaseRepo<T>> logger) : this(options.Value.ConnectionString, options.Value.DatabaseName, options.Value.CollectionName, logger)
         {
+
+        }
+
+        public MangoBaseRepo(string connectionString, string databaseName, string collectionName, string IdField, ILogger<MangoBaseRepo<T>> logger)
+        {
+            this.logger = logger;
             init(connectionString, databaseName, collectionName, IdField);
         }
 
-
-        public MangoBaseRepo(string connectionString, string databaseName, string collectionName, Expression<Func<T, object>> IdField = null)
+        public MangoBaseRepo(string connectionString, string databaseName, string collectionName, ILogger<MangoBaseRepo<T>> logger) : this(connectionString, databaseName, collectionName, null as Expression<Func<T, object>>, logger)
         {
+
+        }
+
+        public MangoBaseRepo(string connectionString, string databaseName, string collectionName, Expression<Func<T, object>> IdField, ILogger<MangoBaseRepo<T>> logger)
+        {
+            this.logger = logger;
             string field = null;
             if (IdField != null && IdField.Body is MemberExpression)
             {
@@ -79,11 +93,14 @@ namespace Mercan.Common.Mongo
                 }
             }
 
+            logger.LogCritical(" collectionName " + collectionName);
+            // logger.LogCritical("mongoProductRepo " + items1.Count().ToString());
+            // logger.LogCritical("mongoProductRepo " + items1.Count().ToString());
+
             this.collectionName = collectionName;
             mongoClient = new MongoClient(connectionString);
             MongoDb = mongoClient.GetDatabase(databaseName);
         }
-
         public IMongoCollection<T> Items
         {
             get
@@ -100,15 +117,12 @@ namespace Mercan.Common.Mongo
                 return MongoDb.GetCollection<T>(collectionName);
             }
         }
-
-
-
         public IEnumerable<T> GetAll()
         {
+            var name = typeof(T).ToString();
+            logger.LogCritical(name + " collectionName " + collectionName);
             return Items.Find(FilterDefinition<T>.Empty).ToList();
         }
-
-
         public async Task<T> Get(BsonDocument filter)
         {
             return await Items.FindSync<T>(filter).FirstOrDefaultAsync();
@@ -117,7 +131,6 @@ namespace Mercan.Common.Mongo
         {
             return await Items.FindSync<T>(filter).FirstOrDefaultAsync();
         }
-
         public async Task<T> GetByIDAsync(object value)
         {
             if (IdFieldName != null)
@@ -130,25 +143,20 @@ namespace Mercan.Common.Mongo
                 throw new MissingFieldException("ID field not Defined, use Key or BsonId Attribute in your Model or define on the constructor");
             }
         }
-
         public async Task AddAsync(T item)
         {
             await Items.InsertOneAsync(item);
         }
-
         public async Task AddAsync(IEnumerable<T> items)
         {
             await Items.InsertManyAsync(items);
         }
-
-
         public async Task<ReplaceOneResult> UpdateAsync(object id, T item)
         {
             var filter = Builders<T>.Filter.Eq(IdFieldName, id);
             var result = await Items.ReplaceOneAsync(filter, item);
             return result;
         }
-
         public async Task<ReplaceOneResult> UpdateAsync(T item)
         {
             if (IdFieldName != null)
@@ -163,7 +171,6 @@ namespace Mercan.Common.Mongo
                 throw new MissingFieldException("ID field not Defined, use Key or BsonId Attribute in your Model or define on the constructor");
             }
         }
-
         public async Task RemoveAsync(object id)
         {
             if (IdFieldName == null) { throw new MissingFieldException("ID field not Defined, use Key or BsonId Attribute in your Model or define on the constructor"); }
@@ -171,7 +178,6 @@ namespace Mercan.Common.Mongo
             var filter = Builders<T>.Filter.Eq(IdFieldName, id);
             await Items.DeleteOneAsync(filter);
         }
-
         public async Task RemoveAsync(T item)
         {
             if (IdFieldName == null) { throw new MissingFieldException("ID field not Defined, use Key or BsonId Attribute in your Model or define on the constructor"); }
@@ -181,7 +187,6 @@ namespace Mercan.Common.Mongo
             var filter = Builders<T>.Filter.Eq(IdFieldName, id);
             await Items.DeleteOneAsync(filter);
         }
-
         public async Task<T> GetAsync<TProperty>(Expression<Func<T, TProperty>> property, object value)
         {
             if (property.Body is System.Linq.Expressions.MemberExpression)
@@ -194,24 +199,20 @@ namespace Mercan.Common.Mongo
             }
             else { return default(T); }
         }
-
         public async Task<bool> CollectionExistsAsync(string collectionName)
         {
             var filter = new BsonDocument("name", collectionName);
             var collections = await MongoDb.ListCollectionsAsync(new ListCollectionsOptions { Filter = filter });
             return (await collections.ToListAsync()).Any();
         }
-
         public async Task DropCollectionAsync(string collectionName)
         {
             await MongoDb.DropCollectionAsync(collectionName);
         }
-
         public void DropCollection(string collectionName)
         {
             MongoDb.DropCollection(collectionName);
         }
-
         private void CreateIdMap()
         {
             if (IdFieldName != null)
@@ -236,7 +237,6 @@ namespace Mercan.Common.Mongo
         {
 
         }
-
     }
     public class Gen<T> : IIdGenerator
     {
@@ -255,7 +255,7 @@ namespace Mercan.Common.Mongo
         }
     }
 
-    public class MangoBaseRepoSettings
+    public class MangoBaseRepoSettings<T> where T : new()
     {
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
