@@ -83,6 +83,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Api.Scheduler.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Api.Shipping.Tests", "Sentinel.Api.Shipping.Tests\Sentinel.Api.Shipping.Tests.csproj", "{F21F667F-ACDB-4E55-9417-4E54ED76ED5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Handler.Comms.Tests", "Sentinel.Handler.Comms.Tests\Sentinel.Handler.Comms.Tests.csproj", "{67E2E951-15D4-4636-AA41-F0CE70A1D31D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -552,6 +554,18 @@ Global
 		{F21F667F-ACDB-4E55-9417-4E54ED76ED5C}.Release|x64.Build.0 = Release|Any CPU
 		{F21F667F-ACDB-4E55-9417-4E54ED76ED5C}.Release|x86.ActiveCfg = Release|Any CPU
 		{F21F667F-ACDB-4E55-9417-4E54ED76ED5C}.Release|x86.Build.0 = Release|Any CPU
+		{67E2E951-15D4-4636-AA41-F0CE70A1D31D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67E2E951-15D4-4636-AA41-F0CE70A1D31D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67E2E951-15D4-4636-AA41-F0CE70A1D31D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{67E2E951-15D4-4636-AA41-F0CE70A1D31D}.Debug|x64.Build.0 = Debug|Any CPU
+		{67E2E951-15D4-4636-AA41-F0CE70A1D31D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{67E2E951-15D4-4636-AA41-F0CE70A1D31D}.Debug|x86.Build.0 = Debug|Any CPU
+		{67E2E951-15D4-4636-AA41-F0CE70A1D31D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67E2E951-15D4-4636-AA41-F0CE70A1D31D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67E2E951-15D4-4636-AA41-F0CE70A1D31D}.Release|x64.ActiveCfg = Release|Any CPU
+		{67E2E951-15D4-4636-AA41-F0CE70A1D31D}.Release|x64.Build.0 = Release|Any CPU
+		{67E2E951-15D4-4636-AA41-F0CE70A1D31D}.Release|x86.ActiveCfg = Release|Any CPU
+		{67E2E951-15D4-4636-AA41-F0CE70A1D31D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3B3CD0C0-652A-4BB5-86DE-1F268CD9BFD7} = {851BFF8B-B848-4DA6-AF8B-CD093AD4A711}
