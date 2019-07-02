@@ -21,7 +21,9 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
         {
 
             HealthCheckContext context = new HealthCheckContext();
-            var conection = Environment.GetEnvironmentVariable("SentinelConnection");
+
+
+            var conection = "Server=52.247.221.7;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;";  //Environment.GetEnvironmentVariable("SentinelConnection");
             SqlConnectionHealthCheck sql = new SqlConnectionHealthCheck(conection);
             var task = sql.CheckHealthAsync(context);
             task.Wait();
