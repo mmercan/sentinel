@@ -2,6 +2,7 @@ FROM mmercan/sentinel-sonarqube-dotnet22-sdk AS test
 ARG buildtime_APPID
 ARG buildtime_APPSECRET
 ARG buildtime_ADID
+ARG buildtime_SONARKEY
 # ENV DOTNET_USE_POLLING_FILE_WATCHER=1
 # ENV ASPNETCORE_ENVIRONMENT=Development
 # ENV SONAR_HOST http://sonar.myrcan.com
