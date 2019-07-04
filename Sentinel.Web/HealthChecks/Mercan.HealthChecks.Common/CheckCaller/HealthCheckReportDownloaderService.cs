@@ -13,7 +13,7 @@ namespace Mercan.HealthChecks.Common.CheckCaller
             this.client = client;
         }
 
-        public async Task<object> DownloadAsync(string url)
+        public async Task<string> DownloadAsync(string url)
         {
             var getitem = await client.GetAsync(url);
             if (!getitem.IsSuccessStatusCode)

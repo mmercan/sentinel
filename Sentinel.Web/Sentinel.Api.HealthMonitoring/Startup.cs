@@ -32,6 +32,11 @@ using Mercan.HealthChecks.Redis;
 using Mercan.HealthChecks.Common;
 using Sentinel.Api.HealthMonitoring.HostedServices;
 using EasyNetQ;
+using Mercan.HealthChecks.Common.CheckCaller;
+using System.Net.Http.Headers;
+using Polly;
+using System.Net.Http;
+using Polly.Extensions.Http;
 
 namespace Sentinel.Api.HealthMonitoring
 {
@@ -166,7 +171,35 @@ namespace Sentinel.Api.HealthMonitoring
             {
                 return RabbitHutch.CreateBus(Configuration["RabbitMQConnection"]);
             });
+            services.AddHttpClient<HealthCheckReportDownloaderService>("HealthCheckReportDownloader", options =>
+                        {
+                            //options.BaseAddress = new Uri(Configuration["CrmConnection:ServiceUrl"] + "api/data/v8.2/");
+                            options.Timeout = new TimeSpan(0, 2, 0);
+                            options.DefaultRequestHeaders.Add("OData-MaxVersion", "4.0");
+                            options.DefaultRequestHeaders.Add("OData-Version", "4.0");
+                            options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        })
+                        //.AddHttpMessageHandler<OAuthTokenHandler>()
+                        .AddPolicyHandler(GetRetryPolicy())
+                        .AddPolicyHandler(GetCircuitBreakerPolicy());
+
             // services.AddHostedService<HealthCheckSubscribeService>();
+        }
+
+
+        private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            return HttpPolicyExtensions
+              .HandleTransientHttpError()
+              .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+              .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+        }
+
+        private static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
