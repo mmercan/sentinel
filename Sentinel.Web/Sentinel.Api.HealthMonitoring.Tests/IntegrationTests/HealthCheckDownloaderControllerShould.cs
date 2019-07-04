@@ -52,5 +52,39 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
 
 
         }
+
+
+        [Theory]
+        [InlineData("blah")]
+        [InlineData("")]
+        public void FailIfUrlWrong(string url)
+        {
+            var fullurl = "api/HealthCheckDownloaderController?url=" + Uri.UnescapeDataString(url);
+            var client = factory.CreateClient();
+            // client.DefaultRequestHeaders.Add("api-version", "2.0");
+            // // client.DefaultRequestHeaders.Add("Accept", "text/plain, application/json, text/json");
+            // //client.DefaultRequestHeaders.Add("Accept", "application/json, text/json");
+
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+            // Act
+            client.Timeout = TimeSpan.FromMinutes(5);
+            var responseTask = client.GetAsync(fullurl);
+            responseTask.Wait();
+            var response = responseTask.Result;
+
+
+            Assert.False(response.IsSuccessStatusCode);
+            // Assert
+            //response.EnsureSuccessStatusCode(); // Status Code 200-299
+            // Assert.Equal("application/json; charset=utf-8",
+            //     response.Content.Headers.ContentType.ToString());
+            // var readstrTask = response.Content.ReadAsStringAsync();
+            // readstrTask.Wait();
+            // output.WriteLine(readstrTask.Result);
+            // Assert.True(false);
+
+
+        }
     }
 }
