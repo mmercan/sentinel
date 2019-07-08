@@ -16,13 +16,13 @@ namespace Sentinel.Api.Product.Tests.IntegrationTests
     [Collection("WebApplicationFactory")]
     public class HealthTests
     {
-        private WebApplicationFactory<Startup> factory;
+        private CustomWebApplicationFactory factory;
 
         //private WebApplicationFactory<Startup> factory;
         //AuthTokenFixture authTokenFixture;
         private ITestOutputHelper output;
 
-        public HealthTests(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
+        public HealthTests(CustomWebApplicationFactory factory, ITestOutputHelper output)
         {
             this.factory = factory;
             this.output = output;

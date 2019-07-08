@@ -12,7 +12,7 @@ namespace Sentinel.Api.HealthMonitoring.HostedServices
     public class HealthCheckSubscribeService : IHostedService, IDisposable
     {
 
-        private readonly string subscriptionId = "HealthCheck";
+        private string subscriptionId = "HealthCheck";
         IBus bus;
         private ManualResetEventSlim _ResetEvent = new ManualResetEventSlim(false);
         private readonly ILogger logger;

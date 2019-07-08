@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Sentinel.Api.HealthMonitoring;
+using Sentinel.Api.Product;
 using Microsoft.Extensions.Configuration;
 
-namespace Sentinel.Api.HealthMonitoring.Tests.Helpers
+namespace Sentinel.Api.Product.Tests.Helpers
 {
     public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
     {
@@ -11,12 +11,9 @@ namespace Sentinel.Api.HealthMonitoring.Tests.Helpers
         {
             builder
                 .UseStartup<Startup>()
-            // .ConfigureAppConfiguration(config =>config)
-            //.UseEnvironment("Development");
-
-             .ConfigureAppConfiguration(config => config
-                 .AddJsonFile("appsettings.DockerTest.json", true)
-             );
+                .ConfigureAppConfiguration(config => config
+                    .AddJsonFile("appsettings.docker.tests.json")
+                );
         }
     }
 }

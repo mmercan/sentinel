@@ -54,11 +54,11 @@ namespace Mercan.Common.AspNetCore.Middlewares
                 if (result?.Principal != null)
                 {
                     context.User = result.Principal;
-                    logger.LogCritical(scheme.Name + "Has the User");
+                    // logger.LogCritical(scheme.Name + "Has the User");
                 }
                 else
                 {
-                    logger.LogCritical(scheme.Name + "Has No User");
+                    //  logger.LogCritical(scheme.Name + "Has No User");
                 }
             }
             await _next(context);

@@ -14,3 +14,5 @@ resources
 Sentinel.Web/Sentinel.elk.Logstash/data/cars.csv
 Sentinel.Web/docker-compose-debug-linux_secrets.yml
 Sentinel.Web/test.ps1
+Sentinel.Web/Sentinel.Api.HealthMonitoring.zip
+Sentinel.Web/Sentinel.Api.HealthMonitoring.Tests.zip
