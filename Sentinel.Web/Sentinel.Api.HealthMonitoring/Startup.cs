@@ -77,17 +77,17 @@ namespace Sentinel.Api.HealthMonitoring
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-          .AddJwtBearer("azure", cfg =>
-          {
-              cfg.RequireHttpsMetadata = false;
-              cfg.SaveToken = true;
-              cfg.Authority = Configuration["AzureAd:Instance"] + "/" + Configuration["AzureAD:TenantId"];
-              cfg.Audience = Configuration["AzureAd:ClientId"];
-          })
+            .AddJwtBearer("azure", cfg =>
+            {
+                cfg.RequireHttpsMetadata = false;
+                cfg.SaveToken = true;
+                cfg.Authority = Configuration["AzureAd:Instance"] + "/" + Configuration["AzureAD:TenantId"];
+                cfg.Audience = Configuration["AzureAd:ClientId"];
+            })
             .AddJwtBearer("sts", cfg =>
-             {
-                 cfg.TokenValidationParameters = tokenValidationParameters;
-             });
+            {
+                cfg.TokenValidationParameters = tokenValidationParameters;
+            });
             //use both jwt schemas interchangeably  https://stackoverflow.com/questions/49694383/use-multiple-jwt-bearer-authentication
             services.AddAuthorization(options =>
             {
@@ -186,7 +186,6 @@ namespace Sentinel.Api.HealthMonitoring
             // services.AddHostedService<HealthCheckSubscribeService>();
         }
 
-
         private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
         {
             return HttpPolicyExtensions
@@ -215,6 +214,10 @@ namespace Sentinel.Api.HealthMonitoring
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCors("MyPolicy");
+            //app.UseAuthentication();
+            app.UseAllAuthentication();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -268,10 +271,8 @@ namespace Sentinel.Api.HealthMonitoring
                             description.GroupName.ToUpperInvariant());
                     }
                 });
-            app.UseCors("MyPolicy");
-            app.UseCookiePolicy();
-            app.UseAuthentication();
-
+                
+            // app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {
@@ -280,7 +281,7 @@ namespace Sentinel.Api.HealthMonitoring
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.UseHealthChecks("/Health/IsAliveAndWell", new HealthCheckOptions()
+            app.UseHealthChecksWithAuth("/Health/IsAliveAndWell", new HealthCheckOptions()
             {
                 // This custom writer formats the detailed status as JSON.
                 ResponseWriter = WriteResponses.WriteListResponse,

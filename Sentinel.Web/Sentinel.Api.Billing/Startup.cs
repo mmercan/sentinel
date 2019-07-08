@@ -70,6 +70,9 @@ namespace Sentinel.Api.Billing
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
+
+
+
           .AddJwtBearer("azure", cfg =>
           {
               cfg.RequireHttpsMetadata = false;
@@ -177,7 +180,7 @@ namespace Sentinel.Api.Billing
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            //app.UseSignalRJwtAuthentication();
+            // app.UseSignalRJwtAuthentication();
             var logger = new LoggerConfiguration()
             .ReadFrom.Configuration(Configuration)
             .Enrich.FromLogContext()

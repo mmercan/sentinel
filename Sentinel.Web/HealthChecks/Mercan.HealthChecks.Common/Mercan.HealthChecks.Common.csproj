@@ -15,5 +15,6 @@
     <PackageReference Include="System.Management" Version="4.5.0"/>
     <PackageReference Include="Microsoft.Identity.Client" Version="2.7.1"/>
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.1"/>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0"/>
   </ItemGroup>
 </Project>

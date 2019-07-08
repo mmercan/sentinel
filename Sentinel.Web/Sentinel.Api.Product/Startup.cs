@@ -157,6 +157,7 @@ namespace Sentinel.Api.Product
             .AddDIHealthCheck(services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            ConfigureJwtAuthService(services);
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -178,7 +179,7 @@ namespace Sentinel.Api.Product
                 options.GroupNameFormat = "'v'VVV";
                 options.SubstituteApiVersionInUrl = true;
             });
-            ConfigureJwtAuthService(services);
+            
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddCorrelationId();
