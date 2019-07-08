@@ -114,8 +114,7 @@ namespace Sentinel.Api.HealthMonitoring
              .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
              .AddSystemInfoCheck()
             //.AddPrivateMemorySizeCheckMB(1000)
-            .AddWorkingSetCheckKB(250000)
-
+            .AddWorkingSetCheckKB(450000)
             //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
             .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
             .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "health/isalive")
@@ -271,7 +270,7 @@ namespace Sentinel.Api.HealthMonitoring
                             description.GroupName.ToUpperInvariant());
                     }
                 });
-                
+
             // app.UseCookiePolicy();
 
             app.UseMvc(routes =>
