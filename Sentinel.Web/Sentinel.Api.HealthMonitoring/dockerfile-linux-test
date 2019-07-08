@@ -16,7 +16,12 @@ ENV APPID=$buildtime_APPID
 ENV APPSECRET=$buildtime_APPSECRET
 ENV ADID=$buildtime_ADID
 ENV SentinelConnection="Server=52.247.221.7;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
-
+ENV RabbitMQConnection="host=52.183.35.232;username=rabbitmq;password=rabbitmq"
+ENV RedisConnection="52.247.233.71:6379,defaultDatabase=2,password=yourpassword"
+ENV Mongodb__ConnectionString="mongodb://root:hbMnztmZ4w9JJTGZ@52.247.221.171:27017/admin?readPreference=primary"
+ENV Mongodb__DatabaseName=sentinel
+ENV Mongodb__CollectionName=product
+ENV Mongodb__IdField=Id
 
 WORKDIR /src
 COPY Sentinel.Api.HealthMonitoring/Sentinel.Api.HealthMonitoring.csproj Sentinel.Api.HealthMonitoring/
