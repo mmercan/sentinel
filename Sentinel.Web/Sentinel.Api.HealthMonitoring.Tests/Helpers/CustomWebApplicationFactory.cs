@@ -11,6 +11,8 @@ namespace Sentinel.Api.HealthMonitoring.Tests.Helpers
         {
             builder
                 .UseStartup<Startup>()
+            // .ConfigureLogging(c=>c.Services.Add())
+
             // .ConfigureAppConfiguration(config =>config)
             .UseEnvironment("DockerTest");
 
