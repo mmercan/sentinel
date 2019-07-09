@@ -49,6 +49,7 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
             var ibus = moqIbus.Object;
             HealthCheckSubscribeService profile = new HealthCheckSubscribeService(logger, ibus);
             return profile;
+
         }
 
         [Fact]
