@@ -77,17 +77,17 @@ namespace Sentinel.Api.HealthMonitoring
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-          .AddJwtBearer("azure", cfg =>
-          {
-              cfg.RequireHttpsMetadata = false;
-              cfg.SaveToken = true;
-              cfg.Authority = Configuration["AzureAd:Instance"] + "/" + Configuration["AzureAD:TenantId"];
-              cfg.Audience = Configuration["AzureAd:ClientId"];
-          })
+            .AddJwtBearer("azure", cfg =>
+            {
+                cfg.RequireHttpsMetadata = false;
+                cfg.SaveToken = true;
+                cfg.Authority = Configuration["AzureAd:Instance"] + "/" + Configuration["AzureAD:TenantId"];
+                cfg.Audience = Configuration["AzureAd:ClientId"];
+            })
             .AddJwtBearer("sts", cfg =>
-             {
-                 cfg.TokenValidationParameters = tokenValidationParameters;
-             });
+            {
+                cfg.TokenValidationParameters = tokenValidationParameters;
+            });
             //use both jwt schemas interchangeably  https://stackoverflow.com/questions/49694383/use-multiple-jwt-bearer-authentication
             services.AddAuthorization(options =>
             {
@@ -114,16 +114,16 @@ namespace Sentinel.Api.HealthMonitoring
              .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
              .AddSystemInfoCheck()
             //.AddPrivateMemorySizeCheckMB(1000)
-            .AddWorkingSetCheckKB(250000)
-
+            .AddWorkingSetCheckKB(450000)
             //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
             .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
-            .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "health/isalive")
+            // .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "health/isalive")
             .AddApiIsAlive(Configuration.GetSection("sentinel-api-member:ClientOptions"), "health/isalive")
             .AddApiIsAlive(Configuration.GetSection("sentinel-api-product:ClientOptions"), "health/isalive")
             .AddApiIsAlive(Configuration.GetSection("sentinel-api-comms:ClientOptions"), "health/isalive")
             .AddMongoHealthCheck(Configuration["Mongodb:ConnectionString"])
-            .AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
+           // .AddRabbitMQHealthCheckWithDiIBus()
+            //.AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
             .AddRedisHealthCheck(Configuration["RedisConnection"])
             .AddDIHealthCheck(services);
 
@@ -172,16 +172,16 @@ namespace Sentinel.Api.HealthMonitoring
                 return RabbitHutch.CreateBus(Configuration["RabbitMQConnection"]);
             });
             services.AddHttpClient<HealthCheckReportDownloaderService>("HealthCheckReportDownloader", options =>
-                        {
-                            //options.BaseAddress = new Uri(Configuration["CrmConnection:ServiceUrl"] + "api/data/v8.2/");
-                            options.Timeout = new TimeSpan(0, 2, 0);
-                            options.DefaultRequestHeaders.Add("OData-MaxVersion", "4.0");
-                            options.DefaultRequestHeaders.Add("OData-Version", "4.0");
-                            options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                        })
-                        //.AddHttpMessageHandler<OAuthTokenHandler>()
-                        .AddPolicyHandler(GetRetryPolicy())
-                        .AddPolicyHandler(GetCircuitBreakerPolicy());
+            {
+                //options.BaseAddress = new Uri(Configuration["CrmConnection:ServiceUrl"] + "api/data/v8.2/");
+                options.Timeout = new TimeSpan(0, 2, 0);
+                options.DefaultRequestHeaders.Add("OData-MaxVersion", "4.0");
+                options.DefaultRequestHeaders.Add("OData-Version", "4.0");
+                options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            })
+            //.AddHttpMessageHandler<OAuthTokenHandler>()
+            .AddPolicyHandler(GetRetryPolicy())
+            .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             // services.AddHostedService<HealthCheckSubscribeService>();
         }
@@ -215,6 +215,10 @@ namespace Sentinel.Api.HealthMonitoring
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCors("MyPolicy");
+            //app.UseAuthentication();
+            app.UseAllAuthentication();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -268,10 +272,8 @@ namespace Sentinel.Api.HealthMonitoring
                             description.GroupName.ToUpperInvariant());
                     }
                 });
-            app.UseCors("MyPolicy");
-            app.UseCookiePolicy();
-            app.UseAuthentication();
 
+            // app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {
@@ -280,7 +282,7 @@ namespace Sentinel.Api.HealthMonitoring
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.UseHealthChecks("/Health/IsAliveAndWell", new HealthCheckOptions()
+            app.UseHealthChecksWithAuth("/Health/IsAliveAndWell", new HealthCheckOptions()
             {
                 // This custom writer formats the detailed status as JSON.
                 ResponseWriter = WriteResponses.WriteListResponse,

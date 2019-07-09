@@ -15,7 +15,7 @@ namespace Sentinel.Api.HealthMonitoring.Tests.Helpers
             //.UseEnvironment("Development");
 
              .ConfigureAppConfiguration(config => config
-                 .AddJsonFile("appsettings.DockerTest.json", true)
+                 .AddJsonFile("appsettings.DockerTest.json")
              );
         }
     }

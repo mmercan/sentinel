@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sentinel.Common\Sentinel.Model\Sentinel.Model.csproj"/>
+    <ProjectReference Include="..\Mercan\Mercan.Common.AspNetCore\Mercan.Common.AspNetCore.csproj"/>
     <ProjectReference Include="..\HealthChecks\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj"/>
     <ProjectReference Include="..\HealthChecks\Mercan.HealthChecks.Mongo\Mercan.HealthChecks.Mongo.csproj"/>
     <ProjectReference Include="..\HealthChecks\Mercan.HealthChecks.RabbitMQ\Mercan.HealthChecks.RabbitMQ.csproj"/>

@@ -8,6 +8,7 @@ using Xunit.Abstractions;
 using Newtonsoft.Json;
 using Sentinel.Api.HealthMonitoring;
 using Sentinel.Api.HealthMonitoring.Tests.Helpers;
+using System.Net;
 
 namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
 {
@@ -54,7 +55,23 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
 
         [Theory]
         [InlineData("/Health/IsAliveAndWell")]
-        public void Health_ChecksWithAuth(string url)
+        public void HealthChecks_WithAuth_Fails(string url)
+        {
+            var client = factory.CreateClient();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            // Act
+            client.Timeout = TimeSpan.FromMinutes(5);
+            var responseTask = client.GetAsync(url);
+            responseTask.Wait();
+            var response = responseTask.Result;
+            // Assert
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+
+        [Theory]
+        [InlineData("/Health/IsAliveAndWell")]
+        public void Health_ChecksWithoutAuth(string url)
         {
             var client = factory.CreateClient();
             // client.DefaultRequestHeaders.Add("api-version", "2.0");
@@ -71,7 +88,7 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
             responseTask.Wait();
             var response = responseTask.Result;
             // Assert
-            // response.EnsureSuccessStatusCode(); // Status Code 200-299
+            response.EnsureSuccessStatusCode(); // Status Code 200-299
             // Assert.Equal("application/json; charset=utf-8",
             //     response.Content.Headers.ContentType.ToString());
         }
