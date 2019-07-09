@@ -122,7 +122,7 @@ namespace Sentinel.Api.HealthMonitoring
             .AddApiIsAlive(Configuration.GetSection("sentinel-api-product:ClientOptions"), "health/isalive")
             .AddApiIsAlive(Configuration.GetSection("sentinel-api-comms:ClientOptions"), "health/isalive")
             .AddMongoHealthCheck(Configuration["Mongodb:ConnectionString"])
-           // .AddRabbitMQHealthCheckWithDiIBus()
+            .AddRabbitMQHealthCheckWithDiIBus()
             //.AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
             .AddRedisHealthCheck(Configuration["RedisConnection"])
             .AddDIHealthCheck(services);
