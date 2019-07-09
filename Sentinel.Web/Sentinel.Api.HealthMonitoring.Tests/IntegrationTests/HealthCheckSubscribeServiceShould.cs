@@ -47,7 +47,7 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
             var moqIbus = new Mock<IBus>();
 
             var ibus = moqIbus.Object;
-            HealthCheckSubscribeService profile = new HealthCheckSubscribeService(logger, configuration, ibus);
+            HealthCheckSubscribeService profile = new HealthCheckSubscribeService(logger, ibus);
             return profile;
         }
 
