@@ -12,11 +12,11 @@ namespace Sentinel.Api.HealthMonitoring.Tests.Helpers
             builder
                 .UseStartup<Startup>()
             // .ConfigureAppConfiguration(config =>config)
-            //.UseEnvironment("Development");
+            .UseEnvironment("DockerTest");
 
-             .ConfigureAppConfiguration(config => config
-                 .AddJsonFile("appsettings.DockerTest.json")
-             );
+            //  .ConfigureAppConfiguration(config => config
+            //      .AddJsonFile("appsettings.DockerTest.json")
+            //  );
         }
     }
 }

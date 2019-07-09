@@ -42,12 +42,14 @@ namespace Sentinel.Api.HealthMonitoring
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            this.env = env;
         }
 
         public IConfiguration Configuration { get; }
+        private IHostingEnvironment env { get; }
 
         public void ConfigureJwtAuthService(IServiceCollection services)
         {
@@ -107,26 +109,30 @@ namespace Sentinel.Api.HealthMonitoring
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddHealthChecks()
-             .AddProcessList()
-             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory")
-             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
-             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
-             .AddSystemInfoCheck()
-            //.AddPrivateMemorySizeCheckMB(1000)
-            .AddWorkingSetCheckKB(450000)
-            //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
-            .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
-            // .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "health/isalive")
-            .AddApiIsAlive(Configuration.GetSection("sentinel-api-member:ClientOptions"), "health/isalive")
-            .AddApiIsAlive(Configuration.GetSection("sentinel-api-product:ClientOptions"), "health/isalive")
-            .AddApiIsAlive(Configuration.GetSection("sentinel-api-comms:ClientOptions"), "health/isalive")
-            .AddMongoHealthCheck(Configuration["Mongodb:ConnectionString"])
-            .AddRabbitMQHealthCheckWithDiIBus()
-            //.AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
-            .AddRedisHealthCheck(Configuration["RedisConnection"])
-            .AddDIHealthCheck(services);
+            var healthcheckBuilder = services.AddHealthChecks()
+               .AddProcessList()
+               .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory")
+               .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
+               .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
+               .AddSystemInfoCheck()
+              //.AddPrivateMemorySizeCheckMB(1000)
+              .AddWorkingSetCheckKB(450000)
+              //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
+              .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
+              // .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "health/isalive")
+              .AddApiIsAlive(Configuration.GetSection("sentinel-api-member:ClientOptions"), "health/isalive")
+              .AddApiIsAlive(Configuration.GetSection("sentinel-api-product:ClientOptions"), "health/isalive")
+              .AddApiIsAlive(Configuration.GetSection("sentinel-api-comms:ClientOptions"), "health/isalive")
+              .AddMongoHealthCheck(Configuration["Mongodb:ConnectionString"])
 
+              //.AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
+              .AddRedisHealthCheck(Configuration["RedisConnection"])
+              .AddDIHealthCheck(services);
+
+            if (env.EnvironmentName != "DockerTest")
+            {
+                healthcheckBuilder.AddRabbitMQHealthCheckWithDiIBus();
+            }
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSignalR();
@@ -203,7 +209,7 @@ namespace Sentinel.Api.HealthMonitoring
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
             {
