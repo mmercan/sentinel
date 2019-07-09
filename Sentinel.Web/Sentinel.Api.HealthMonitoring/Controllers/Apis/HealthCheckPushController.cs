@@ -13,8 +13,8 @@ namespace Sentinel.Api.HealthMonitoring.Controllers.Apis
     public class HealthCheckPushController : Controller
     {
 
-        ILogger<HealthCheckPushController> _logger;
-        private IBus bus;
+        private readonly ILogger<HealthCheckPushController> _logger;
+        private readonly IBus bus;
 
         public HealthCheckPushController(ILogger<HealthCheckPushController> logger, IBus bus)
         {

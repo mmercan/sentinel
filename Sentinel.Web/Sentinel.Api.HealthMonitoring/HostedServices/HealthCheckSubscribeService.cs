@@ -12,9 +12,9 @@ namespace Sentinel.Api.HealthMonitoring.HostedServices
     public class HealthCheckSubscribeService : IHostedService, IDisposable
     {
 
-        private string subscriptionId = "HealthCheck";
-        IBus bus;
-        private ManualResetEventSlim _ResetEvent = new ManualResetEventSlim(false);
+        private readonly string subscriptionId = "HealthCheck";
+        private readonly IBus bus;
+        private readonly ManualResetEventSlim _ResetEvent = new ManualResetEventSlim(false);
         private readonly ILogger logger;
         private readonly IConfiguration configuration;
         private Task _executingTask;
@@ -65,7 +65,11 @@ namespace Sentinel.Api.HealthMonitoring.HostedServices
         }
         private void Handler(ListResponse state)
         {
-            logger.LogCritical(this.GetType().FullName + " Async message ");
+            if(state!=null){
+                logger.LogCritical(this.GetType().FullName + " Async message ");
+            }else{
+                logger.LogCritical(this.GetType().FullName + " Async message with Null state");
+            }
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
@@ -77,6 +81,7 @@ namespace Sentinel.Api.HealthMonitoring.HostedServices
 
         public void Dispose()
         {
+            _executingTask.Dispose();
         }
 
     }

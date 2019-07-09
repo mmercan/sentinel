@@ -26,6 +26,7 @@
     <PackageReference Include="Polly.Extensions.Http" Version="3.0.0"/>
     <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0"/>
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="2.2.0"/>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.1"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sentinel.Common\Sentinel.Model\Sentinel.Model.csproj"/>
