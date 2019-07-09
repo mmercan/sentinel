@@ -12,7 +12,7 @@ namespace Sentinel.Api.HealthMonitoring
     public class ExceptionLoggerMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly DeveloperExceptionPageOptions _options;
+        private readonly IOptions<ExceptionLoggerOptions> _options;
         private readonly ILogger _logger;
 
         public ExceptionLoggerMiddleware(
