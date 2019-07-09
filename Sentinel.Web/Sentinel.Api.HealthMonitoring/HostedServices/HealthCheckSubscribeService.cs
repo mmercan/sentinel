@@ -81,7 +81,15 @@ namespace Sentinel.Api.HealthMonitoring.HostedServices
 
         public void Dispose()
         {
+            try{
+            if(_executingTask!=null){
             _executingTask.Dispose();
+            }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Exception: " + ex.Message);
+            }
         }
 
     }
