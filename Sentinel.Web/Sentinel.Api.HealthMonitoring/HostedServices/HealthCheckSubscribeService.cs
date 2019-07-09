@@ -30,10 +30,7 @@ namespace Sentinel.Api.HealthMonitoring.HostedServices
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _executingTask = Task.Factory.StartNew(new Action(SubscribeToTopicAsync), TaskCreationOptions.LongRunning);
-            if (_executingTask.IsCompleted)
-            {
-                return _executingTask;
-            }
+            if (_executingTask.IsCompleted){  return _executingTask;}
             return Task.CompletedTask;
         }
 
@@ -65,11 +62,7 @@ namespace Sentinel.Api.HealthMonitoring.HostedServices
         }
         private void Handler(ListResponse state)
         {
-            if(state!=null){
-                logger.LogCritical(this.GetType().FullName + " Async message ");
-            }else{
-                logger.LogCritical(this.GetType().FullName + " Async message with Null state");
-            }
+            logger.LogCritical(this.GetType().FullName + " Async message, Status: " + state?.Status);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
@@ -81,14 +74,9 @@ namespace Sentinel.Api.HealthMonitoring.HostedServices
 
         public void Dispose()
         {
-            try{
-                if(_executingTask!=null){
-                    _executingTask.Dispose();
-                }
-            }
-            catch (Exception ex)
+            if (_executingTask != null)
             {
-                logger.LogError("Exception: " + ex.Message);
+                _executingTask.Dispose();
             }
         }
 
