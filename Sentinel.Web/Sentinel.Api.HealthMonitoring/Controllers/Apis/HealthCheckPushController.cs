@@ -40,47 +40,5 @@ namespace Sentinel.Api.HealthMonitoring.Controllers.Apis
                 return BadRequest();
             }
         }
-
-        // [HttpPost]
-        // public IActionResult Post([FromBody] modelType model)
-        // {
-        //   try
-        //   {
-        //     return Created("", null);
-        //   }
-        //   catch (Exception)
-        //   {
-        //     _logger.LogError("Failed to execute POST");
-        //     return BadRequest();
-        //   }
-        // }
-
-        // [HttpPut]
-        // public IActionResult Put([FromBody] modelType model)
-        // {
-        //   try
-        //   {
-        //     return Ok();
-        //   }
-        //   catch (Exception)
-        //   {
-        //     _logger.LogError("Failed to execute PUT");
-        //     return BadRequest();
-        //   }
-        // }
-
-        // [HttpDelete]
-        // public IActionResult Delete(inputType id)
-        // {
-        //   try
-        //   {
-        //     return Ok();
-        //   }
-        //   catch (Exception)
-        //   {
-        //     _logger.LogError("Failed to execute DELETE");
-        //     return BadRequest();
-        //   }
-        // }
     }
 }

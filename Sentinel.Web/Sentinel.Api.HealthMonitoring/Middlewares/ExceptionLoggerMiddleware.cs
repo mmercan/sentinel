@@ -24,6 +24,7 @@ namespace Sentinel.Api.HealthMonitoring
 
             _logger = loggerFactory.CreateLogger<ExceptionLoggerMiddleware>();
             _next = next;
+            _options = options;
         }
 
         public async Task Invoke(HttpContext httpContext)
@@ -37,11 +38,7 @@ namespace Sentinel.Api.HealthMonitoring
 
                 var unhandledException = LoggerMessage.Define(LogLevel.Error, new EventId(1, "UnhandledException"), "An unhandled exception has occurred while executing the request.");
                 unhandledException(_logger, ex);
-
-
-                if (httpContext.Response.HasStarted)
-                {
-                }
+                //  if (httpContext.Response.HasStarted)                {                }
                 throw;
             }
         }

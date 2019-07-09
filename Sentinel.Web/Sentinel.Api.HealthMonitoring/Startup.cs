@@ -100,8 +100,6 @@ namespace Sentinel.Api.HealthMonitoring
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            // services.AddApplicationInsightsTelemetry(Configuration["ApplicationInsights:InstrumentationKey"]);
             services.AddSingleton<IServiceCollection>(services);
             services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<CookiePolicyOptions>(options =>
@@ -117,7 +115,6 @@ namespace Sentinel.Api.HealthMonitoring
                .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
                .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
                .AddSystemInfoCheck()
-              //.AddPrivateMemorySizeCheckMB(1000)
               .AddWorkingSetCheckKB(450000)
               //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
               .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
@@ -126,7 +123,6 @@ namespace Sentinel.Api.HealthMonitoring
               .AddApiIsAlive(Configuration.GetSection("sentinel-api-product:ClientOptions"), "health/isalive")
               .AddApiIsAlive(Configuration.GetSection("sentinel-api-comms:ClientOptions"), "health/isalive")
               .AddMongoHealthCheck(Configuration["Mongodb:ConnectionString"])
-
               //.AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
               .AddRedisHealthCheck(Configuration["RedisConnection"])
               .AddDIHealthCheck(services);
@@ -181,13 +177,13 @@ namespace Sentinel.Api.HealthMonitoring
             });
             services.AddHttpClient<HealthCheckReportDownloaderService>("HealthCheckReportDownloader", options =>
             {
-                //options.BaseAddress = new Uri(Configuration["CrmConnection:ServiceUrl"] + "api/data/v8.2/");
+                // options.BaseAddress = new Uri(Configuration["CrmConnection:ServiceUrl"] + "api/data/v8.2/");
                 options.Timeout = new TimeSpan(0, 2, 0);
                 options.DefaultRequestHeaders.Add("OData-MaxVersion", "4.0");
                 options.DefaultRequestHeaders.Add("OData-Version", "4.0");
                 options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             })
-            //.AddHttpMessageHandler<OAuthTokenHandler>()
+            // .AddHttpMessageHandler<OAuthTokenHandler>()
             .AddPolicyHandler(GetRetryPolicy())
             .AddPolicyHandler(GetCircuitBreakerPolicy());
 
@@ -225,7 +221,7 @@ namespace Sentinel.Api.HealthMonitoring
             }
 
             app.UseCors("MyPolicy");
-            //app.UseAuthentication();
+            // app.UseAuthentication();
             app.UseAllAuthentication();
 
             app.UseHttpsRedirection();
@@ -244,8 +240,6 @@ namespace Sentinel.Api.HealthMonitoring
             loggerFactory.AddSerilog();
             Log.Logger = logger.CreateLogger();
             app.UseExceptionLogger();
-            // move  UseDefaultFiles to first line
-            // app.UseFileServer();
             app.UseDefaultFiles();
             app.UseSwagger(e =>
             {
@@ -280,8 +274,6 @@ namespace Sentinel.Api.HealthMonitoring
                             description.GroupName.ToUpperInvariant());
                     }
                 });
-
-            // app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {

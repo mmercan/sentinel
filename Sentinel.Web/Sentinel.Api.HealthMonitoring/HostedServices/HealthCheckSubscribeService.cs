@@ -16,13 +16,11 @@ namespace Sentinel.Api.HealthMonitoring.HostedServices
         private readonly IBus bus;
         private readonly ManualResetEventSlim _ResetEvent = new ManualResetEventSlim(false);
         private readonly ILogger logger;
-        private readonly IConfiguration configuration;
         private Task _executingTask;
         private readonly CancellationTokenSource _stoppingCts = new CancellationTokenSource();
-        public HealthCheckSubscribeService(ILogger<HealthCheckSubscribeService> logger, IConfiguration configuration, IBus bus)
+        public HealthCheckSubscribeService(ILogger<HealthCheckSubscribeService> logger, IBus bus)
         {
             this.logger = logger;
-            this.configuration = configuration;
             this.bus = bus;
         }
 
@@ -30,7 +28,7 @@ namespace Sentinel.Api.HealthMonitoring.HostedServices
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _executingTask = Task.Factory.StartNew(new Action(SubscribeToTopicAsync), TaskCreationOptions.LongRunning);
-            if (_executingTask.IsCompleted){  return _executingTask;}
+            if (_executingTask.IsCompleted) { return _executingTask; }
             return Task.CompletedTask;
         }
 
