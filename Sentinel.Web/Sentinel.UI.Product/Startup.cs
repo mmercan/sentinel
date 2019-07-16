@@ -197,8 +197,26 @@ namespace Sentinel.UI.Product
             {
                 e.PreSerializeFilters.Add((doc, req) =>
                 {
-                    doc.Paths.Add("/Health/IsAliveAndWell", new PathItem { Get = new Operation { Tags = new List<string> { "HealthCheck" }, Produces = new string[] { "application/json" } } });
-                    doc.Paths.Add("/Health/IsAlive", new PathItem { Get = new Operation { Tags = new List<string> { "HealthCheck" }, Produces = new string[] { "application/json" } } });
+                    doc.Paths.Add("/Health/IsAliveAndWell", new PathItem
+                    {
+                        Get = new Operation
+                        {
+                            Tags = new List<string> { "HealthCheck" },
+                            Produces = new string[] { "application/json" },
+                            Responses = new Dictionary<string, Response>{
+                                {"200",new Response{Description="Success"}},
+                                {"503",new Response{Description="Failed"}}
+                            }
+                        }
+                    });
+                    doc.Paths.Add("/Health/IsAlive", new PathItem
+                    {
+                        Get = new Operation
+                        {
+                            Tags = new List<string> { "HealthCheck" },
+                            Produces = new string[] { "application/json" }
+                        }
+                    });
                 });
             });
 

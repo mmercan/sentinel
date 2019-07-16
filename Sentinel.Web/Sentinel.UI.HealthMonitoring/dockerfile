@@ -1,7 +1,7 @@
 # FROM node:latest as develop
 FROM node:11.0 as develop
 RUN apt-get update && apt-get install -y vim
-EXPOSE 4200
+EXPOSE 4300
 USER node
 RUN mkdir /home/node/.npm-global
 ENV PATH=/home/node/.npm-global/bin:$PATH
@@ -13,7 +13,7 @@ WORKDIR /var/www/html
 # FROM node:latest as builder
 FROM node:11.0 as builder
 RUN apt-get update && apt-get install -y vim && apt-get -y install sudo
-EXPOSE 4200
+EXPOSE 4300
 USER node
 RUN mkdir /home/node/.npm-global
 ENV PATH=/home/node/.npm-global/bin:$PATH

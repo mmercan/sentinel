@@ -260,7 +260,11 @@ namespace Sentinel.Api.Product
                         Get = new Operation
                         {
                             Tags = new List<string> { "HealthCheck" },
-                            Produces = new string[] { "application/json" }
+                            Produces = new string[] { "application/json" },
+                            Responses = new Dictionary<string, Response>{
+                                {"200",new Response{Description="Success"}},
+                                {"503",new Response{Description="Failed"}}
+                            }
                         }
                     });
 

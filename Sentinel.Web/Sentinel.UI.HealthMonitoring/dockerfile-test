@@ -5,7 +5,7 @@ RUN apt-get install -y openjdk-8-jdk
 RUN java -version
 RUN apt-get install -y --no-install-recommends chromium
 ENV CHROME_BIN=chromium
-EXPOSE 4200
+EXPOSE 4300
 USER node
 RUN mkdir /home/node/.npm-global
 ENV PATH=/home/node/.npm-global/bin:$PATH

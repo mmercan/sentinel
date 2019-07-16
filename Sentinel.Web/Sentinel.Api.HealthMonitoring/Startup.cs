@@ -241,16 +241,31 @@ namespace Sentinel.Api.HealthMonitoring
             Log.Logger = logger.CreateLogger();
             app.UseExceptionLogger();
             app.UseDefaultFiles();
+
+            var HealthReport = new Schema
+            {
+                Properties = new Dictionary<string, Schema>
+                        {
+                            {"status",new Schema{Type="string"}}
+                        }
+            };
             app.UseSwagger(e =>
             {
                 e.PreSerializeFilters.Add((doc, req) =>
                 {
+                    doc.Definitions.Add("HealthReport", HealthReport);
+
                     doc.Paths.Add("/Health/IsAliveAndWell", new PathItem
                     {
                         Get = new Operation
                         {
                             Tags = new List<string> { "HealthCheck" },
-                            Produces = new string[] { "application/json" }
+                            Produces = new string[] { "application/json" },
+                            Responses = new Dictionary<string, Response>{
+                                {"200",new Response{Description="Success",
+                                Schema = new Schema{Items=HealthReport}}},
+                                {"503",new Response{Description="Failed"}}
+                            }
                         }
                     });
 
