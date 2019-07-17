@@ -169,6 +169,14 @@ namespace Sentinel.Api.HealthMonitoring
                         Version = description.ApiVersion.ToString()
                     });
                 }
+                options.AddSecurityDefinition("BearerAuth", new ApiKeyScheme
+                {
+                    Description =
+                       "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
             });
 
             services.AddSingleton<EasyNetQ.IBus>((ctx) =>
@@ -242,17 +250,44 @@ namespace Sentinel.Api.HealthMonitoring
             app.UseExceptionLogger();
             app.UseDefaultFiles();
 
+
+            var HealthReportResult = new Schema
+            {
+                Properties = new Dictionary<string, Schema>
+                                {
+                                    {"name",new Schema{Type="string"}},
+                                    {"status",new Schema{Type="string"}},
+                                    {"duration",new Schema{Type="string"}},
+                                    {"description",new Schema{Type="string"}},
+                                    {"type",new Schema{Type="string"}},
+                                    {"data",new Schema{Type="object"}},
+                                    {"exception",new Schema{Type="string"}}
+                                }
+            };
+
             var HealthReport = new Schema
             {
                 Properties = new Dictionary<string, Schema>
                         {
-                            {"status",new Schema{Type="string"}}
+                            {"status",new Schema{Type="string"}},
+                            {"duration",new Schema{Type="string"}},
+                            {"results",new Schema{Type="array",
+                                Items=HealthReportResult
+                            }}
                         }
             };
+
+            var Security = new List<IDictionary<string, IEnumerable<string>>>();
+            Security.Add(new Dictionary<string, IEnumerable<string>>
+            {
+                { "BearerAuth", new List<string>()}
+            });
+
             app.UseSwagger(e =>
             {
                 e.PreSerializeFilters.Add((doc, req) =>
                 {
+
                     doc.Definitions.Add("HealthReport", HealthReport);
 
                     doc.Paths.Add("/Health/IsAliveAndWell", new PathItem
@@ -265,7 +300,19 @@ namespace Sentinel.Api.HealthMonitoring
                                 {"200",new Response{Description="Success",
                                 Schema = new Schema{Items=HealthReport}}},
                                 {"503",new Response{Description="Failed"}}
-                            }
+                            },
+                            Security = Security,
+                            //     Parameters = new List<IParameter>{
+                            //         new NonBodyParameter
+                            //         {
+                            //             Name = "Authorization",
+                            //             In = "header",
+                            //             Description = "access token",
+                            //             Required = true,
+                            //             Type = "string",
+                            //             Default = "Bearer "
+                            //         }
+                            //    }
                         }
                     });
 
@@ -274,7 +321,13 @@ namespace Sentinel.Api.HealthMonitoring
                         Get = new Operation
                         {
                             Tags = new List<string> { "HealthCheck" },
-                            Produces = new string[] { "application/json" }
+                            Produces = new string[] { "application/json" },
+                            Responses = new Dictionary<string, Response>{
+                                {"200",new Response{Description="Success",
+                                Schema = new Schema{}}},
+                                {"503",new Response{Description="Failed"}}
+                            },
+                            Security = Security,
                         }
                     });
                 });
