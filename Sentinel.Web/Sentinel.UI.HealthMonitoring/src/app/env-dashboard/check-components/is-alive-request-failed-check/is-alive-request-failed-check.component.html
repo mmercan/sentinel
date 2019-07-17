@@ -4,8 +4,11 @@
     <!-- <div style="cursor:pointer; top:7px" (click)="isCollapsed=!isCollapsed" class="widget-bg-icon icon icon-arrows-circle-up">
     </div> -->
     <div class="block">
-      <h5 class="mb-0"><strong>Request Failed</strong></h5>
+      <h5 *ngIf="healthCheckResult.data.status === 401" class="mb-0"><strong>Sign in First</strong></h5>
+      <h5 *ngIf="healthCheckResult.data.status === 404" class="mb-0"><strong>Url Not Found</strong></h5>
+      <h5 *ngIf="healthCheckResult.data.status != 401" class="mb-0"><strong>Request Failed</strong></h5>
       <p> {{healthCheckResult.data.url}}</p>
+      {{healthCheckResult | json}}
     </div>
   </div>
   <div class="card-body" [ngbCollapse]="isCollapsed">

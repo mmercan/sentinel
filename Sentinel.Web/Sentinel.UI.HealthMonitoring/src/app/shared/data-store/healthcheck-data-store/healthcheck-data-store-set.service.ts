@@ -43,7 +43,7 @@ export class HealthcheckDataStoreSetService implements OnDestroy {
           status: 'Unhealthy', servicename: servicename, duration: '0', results: [
             {
               type: 'IsAliveRequestFailed', description: '', duration: '0', status: 'Unhealthy',
-              name: 'Request Failed', data: { url: baseUrl }, exception: null
+              name: 'Request Failed', data: { url: baseUrl, status: error.status }, exception: null,
             }
           ]
         };

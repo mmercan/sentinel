@@ -23,7 +23,8 @@ export const routes: Routes = [{
     path: 'docs',
     loadChildren: () => import('./docs/docs.module').then(m => m.DocsModule)
   }, {
-    path: ':programname/:envname',
+    path: 'checks/:programname/:envname',
+    //path: 'provider/:envname',
     loadChildren: () => import('./env-dashboard/env-dashboard.module').then(m => m.EnvDashboardModule)
   }]
 }, {

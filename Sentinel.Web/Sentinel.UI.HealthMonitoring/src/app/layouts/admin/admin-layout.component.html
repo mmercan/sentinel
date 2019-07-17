@@ -48,8 +48,7 @@
           </a>
           <ul class="navigation-submenu" *ngIf="menuitem.type === 'sub'">
             <li class="navigation-item" *ngFor="let childitem of menuitem.children" routerLinkActive="open">
-              <a [routerLink]="['/', menuitem.state, childitem.state ]" class="navigation-link relative">{{
-                childitem.name }}</a>
+              <a href="{{'#/'+menuitem.state+'/'+childitem.state}}" class="navigation-link relative">{{childitem.name }}</a>
             </li>
           </ul>
         </li>

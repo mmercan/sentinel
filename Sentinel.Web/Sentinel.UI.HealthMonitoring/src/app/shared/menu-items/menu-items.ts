@@ -28,26 +28,26 @@ const MENUITEMS: Menu[] = [
     icon: 'basic-accelerator'
   },
   {
-    state: 'provider',
+    state: 'checks/provider',
     name: 'Provider',
     type: 'sub',
     icon: 'basic-lock-open',
     children: [
       {
         state: 'dev',
-        name: 'dev'
+        name: 'dev',
       },
       {
         state: 'test',
-        name: 'test'
+        name: 'test',
       },
       {
         state: 'euat',
-        name: 'euat'
+        name: 'euat',
       },
       {
         state: 'perf',
-        name: 'perf'
+        name: 'perf',
       },
     ]
   },
@@ -59,19 +59,19 @@ const MENUITEMS: Menu[] = [
     children: [
       {
         state: 'dev',
-        name: 'dev'
+        name: 'dev',
       },
       {
         state: 'test',
-        name: 'test'
+        name: 'test',
       },
       {
         state: 'euat',
-        name: 'euat'
+        name: 'euat',
       },
       {
         state: 'perf',
-        name: 'perf'
+        name: 'perf',
       },
     ]
   },

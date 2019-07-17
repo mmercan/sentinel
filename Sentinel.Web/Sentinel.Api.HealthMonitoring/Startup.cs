@@ -171,8 +171,7 @@ namespace Sentinel.Api.HealthMonitoring
                 }
                 options.AddSecurityDefinition("BearerAuth", new ApiKeyScheme
                 {
-                    Description =
-                       "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
                     In = "header",
                     Type = "apiKey"
