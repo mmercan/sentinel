@@ -1,14 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-
-import { HealthcheckDataStoreService } from './healthcheck-data-store.service';
-
-
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
-
-import { AppConfig, authenticationType, logLevel } from '../../../app.config';
-import { NotificationService } from '../../notification/notification.service';
+import { HttpClientModule } from '@angular/common/http';
+import { TestBed } from '@angular/core/testing';
+import { AppConfig } from '../../../app.config';
 import { AdalService } from '../../authentication/adal-auth/adal.service';
+import { NotificationService } from '../../notification/notification.service';
+import { HealthcheckDataStoreService } from './healthcheck-data-store.service';
 
 describe('HealthcheckDataStoreService', () => {
   beforeEach(() => TestBed.configureTestingModule({

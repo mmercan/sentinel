@@ -1,22 +1,18 @@
-import { Component, OnInit, OnDestroy, ViewChild, HostListener, NgZone, AfterViewInit } from '@angular/core';
-
+import { AfterViewInit, Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-
-import { MenuItems } from '../../shared/menu-items/menu-items';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
-
-import { OfflineNotificationService } from '../../shared/offline/offline-notification.service';
-import { NotificationService, Notification } from '../../shared/notification/notification.service';
-import { AuthService } from '../../shared/authentication/auth.service';
 import { AppConfig, authenticationType } from '../../app.config';
+import { AuthService } from '../../shared/authentication/auth.service';
+import { MenuItems } from '../../shared/menu-items/menu-items';
+import { Notification, NotificationService } from '../../shared/notification/notification.service';
+import { OfflineNotificationService } from '../../shared/offline/offline-notification.service';
 
 const SMALL_WIDTH_BREAKPOINT = 991;
 
-export interface Options {
+export interface IOptions {
   heading?: string;
   removeFooter?: boolean;
   mapHeader?: boolean;
@@ -25,7 +21,7 @@ export interface Options {
 @Component({
   selector: 'app-layout',
   templateUrl: './admin-layout.component.html',
-  styleUrls: ['./admin-layout.component.scss']
+  styleUrls: ['./admin-layout.component.scss'],
 })
 export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -33,7 +29,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   private mediaMatcher: MediaQueryList = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`);
 
   currentLang = 'en';
-  options: Options;
+  options: IOptions;
   theme = 'dark';
   showSettings = false;
   isDocked = false;
@@ -68,9 +64,9 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     public appConfig: AppConfig,
     private notificationService: NotificationService,
   ) {
-    this.mediaMatcher.addListener(mql => zone.run(() => this.mediaMatcher = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`)));
+    this.mediaMatcher.addListener(() => zone.run(() => this.mediaMatcher = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`)));
 
-    this.notificationServiceSubscription = this.notificationService.dataset.subscribe(result => {
+    this.notificationServiceSubscription = this.notificationService.dataset.subscribe((result) => {
       if (result && result.length) {
         this.notificationCount = result.length;
         if (this.notificationDrop) {
@@ -89,7 +85,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       this.isOpened = false;
     }
 
-    this._router = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+    this._router = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
       // Scroll to top on view load
       document.querySelector('.main-content').scrollTop = 0;
       this.runOnRouteChange();
@@ -99,10 +95,8 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(_ => this.runOnRouteChange());
+    setTimeout((_: any) => this.runOnRouteChange());
   }
-
-
 
   runOnRouteChange(): void {
     if (this.isOver() || this.router.url === '/maps/fullscreen') {
@@ -155,8 +149,8 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       icon: 'basic-webpage-txt',
       children: [
         { state: 'menu', name: 'MENU' },
-        { state: 'menu', name: 'MENU' }
-      ]
+        { state: 'menu', name: 'MENU' },
+      ],
     });
   }
 
