@@ -1,15 +1,14 @@
-import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IConfiguration, IConfigItem } from './interfaces/i-configuration';
-
-
-import { IEnvironment } from './interfaces/i-environment';
-import { ICertificate } from './interfaces/i-certificate';
-import { IAppsettingValidate } from './interfaces/i-appsetting-validate';
 import { AppConfig } from '../../../app.config';
 import { Notification, NotificationService } from '../../notification/notification.service';
+import { IAppsettingValidate } from './interfaces/i-appsetting-validate';
+import { ICertificate } from './interfaces/i-certificate';
+import { IConfigItem, IConfiguration } from './interfaces/i-configuration';
+import { IEnvironment } from './interfaces/i-environment';
+
 @Injectable()
 export class ConfigApiService implements OnDestroy {
 
@@ -39,7 +38,6 @@ export class ConfigApiService implements OnDestroy {
   _getConfigurationSubscription: Subscription;
   httpCallByConfigurationHttpPostSubscription: Subscription;
   _getConfigurationHttpPostSubscription: Subscription;
-
 
   constructor(protected http: HttpClient, protected appConfig: AppConfig, protected notificationService: NotificationService) {
     this.dataStore = { environment: {}, certificates: [], appsettingValidates: [], configuration: {} };

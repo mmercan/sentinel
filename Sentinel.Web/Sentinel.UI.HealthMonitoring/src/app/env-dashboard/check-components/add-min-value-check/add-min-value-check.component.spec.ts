@@ -10,7 +10,7 @@ describe('AddMinValueCheckComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, NgbCollapseModule.forRoot()],
-      declarations: [AddMinValueCheckComponent]
+      declarations: [AddMinValueCheckComponent],
     })
       .compileComponents();
   }));
@@ -18,7 +18,20 @@ describe('AddMinValueCheckComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddMinValueCheckComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    component.healthCheckResult = {
+      name: 'WorkingSet(450,000KB)',
+      status: 'Healthy',
+      description: 'min=450000, current=241556',
+      duration: '00:00:00.0016270',
+      type: 'AddMaxValueCheck',
+      data: {
+        type: 'AddMaxValueCheck',
+        max: 450000,
+        current: 241556,
+      },
+      exception: null,
+    },
+      fixture.detectChanges();
   });
 
   it('should create', () => {

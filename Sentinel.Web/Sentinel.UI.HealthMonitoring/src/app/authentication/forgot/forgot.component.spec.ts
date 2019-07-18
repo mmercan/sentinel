@@ -22,6 +22,7 @@ describe('ForgotComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ForgotComponent);
     component = fixture.componentInstance;
+
     fixture.detectChanges();
   });
 
