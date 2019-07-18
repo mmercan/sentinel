@@ -32,6 +32,26 @@ describe('AdminLayoutComponent', () => {
         expect(component).toBeTruthy();
     });
 
+    it('should set Title', () => {
+        expect(component.setTitle('Blah')).toBeUndefined(); //toBeTruthy();
+    });
+
+    it('should toogle Sidebar', () => {
+        expect(component.toogleSidebar()).toBeUndefined();
+    });
+
+    it('should check isOver', () => {
+        expect(component.isOver()).toBeDefined();
+    });
+
+    it('should add Menu Item', () => {
+        expect(component.addMenuItem()).toBeUndefined();
+    });
+
+    it('should add Menu Item', () => {
+        expect(component.sendnotification('Success', 'Do it', 'test worked')).toBeUndefined();
+    });
+
     // tslint:disable-next-line:no-commented-code
     // it('should submit', () => {
     //   expect(component.onSubmit()).toBeTruthy();
