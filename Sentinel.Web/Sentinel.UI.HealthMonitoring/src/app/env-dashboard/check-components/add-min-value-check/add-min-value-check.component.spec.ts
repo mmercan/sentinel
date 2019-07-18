@@ -30,8 +30,8 @@ describe('AddMinValueCheckComponent', () => {
         current: 241556,
       },
       exception: null,
-    },
-      fixture.detectChanges();
+    };
+    // fixture.detectChanges();
   });
 
   it('should create', () => {

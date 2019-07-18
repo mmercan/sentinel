@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+// import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddMaxValueCheckComponent } from './add-max-value-check.component';
@@ -9,7 +9,7 @@ describe('AddMaxValueCheckComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, NgbCollapseModule.forRoot()],
+      imports: [NgbCollapseModule.forRoot()],
       declarations: [AddMaxValueCheckComponent],
     })
       .compileComponents();

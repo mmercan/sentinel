@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+// import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { inject, TestBed } from '@angular/core/testing';
 
@@ -10,7 +10,7 @@ import { NotificationService } from '../../notification/notification.service';
 describe('ConfigApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, HttpClientModule],
+      imports: [HttpClientModule],
       providers: [NotificationService, AppConfig, ConfigApiService],
     });
   });
