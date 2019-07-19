@@ -32,4 +32,15 @@ describe('UserAvatarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should create avatar', () => {
+    const canvas = document.createElement('canvas');
+    // canvas: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement;
+    expect(component.createLetterAvatar('Matt Mercan', canvas, 32)).toBeUndefined();
+  });
+
+  it('should create avatar', () => {
+    expect(component.ngAfterViewInit()).toBeUndefined();
+  });
+
 });
