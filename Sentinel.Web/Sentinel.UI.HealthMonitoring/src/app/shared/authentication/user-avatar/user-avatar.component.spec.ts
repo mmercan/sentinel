@@ -60,4 +60,13 @@ describe('UserAvatarComponent', () => {
     expect(component.ngAfterViewInit()).toBeUndefined();
   });
 
+  it('should warn if not authenticated', () => {
+    const userService = fixture.debugElement.injector.get(AuthService);
+    // const saveSpy = spyOn(userService, 'authenticated').and.callThrough();
+
+    userService.authenticated = undefined;
+
+    expect(component.ngAfterViewInit()).toBeUndefined();
+  });
+
 });
