@@ -13,9 +13,7 @@ export class MockAuthService {
   authenticated: true;
 
   data = {
-    profile: {
-      name: 'Matt Mercan',
-    },
+    profile: { name: 'Matt Mercan' },
   };
 
   getUserInfo(): Observable<any> {
@@ -26,7 +24,6 @@ export class MockAuthService {
     return obs;
   }
 }
-
 
 describe('UserAvatarComponent', () => {
   let component: UserAvatarComponent;
