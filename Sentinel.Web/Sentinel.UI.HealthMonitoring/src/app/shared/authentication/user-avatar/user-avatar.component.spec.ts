@@ -1,14 +1,32 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { UserAvatarComponent } from './user-avatar.component';
-
-
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
-
 import { AppConfig, authenticationType, logLevel } from '../../../app.config';
-import { NotificationService } from '../../notification/notification.service';
 import { AdalService } from '../../authentication/adal-auth/adal.service';
+import { NotificationService } from '../../notification/notification.service';
+import { AuthService } from '../auth.service';
+import { UserAvatarComponent } from './user-avatar.component';
+import { Subscription, Observable } from 'rxjs';
+
+export class MockAuthService {
+  authenticated: true;
+
+  data = {
+    profile: {
+      name: 'Matt Mercan',
+    },
+  };
+
+  getUserInfo(): Observable<any> {
+    const obs = Observable.create((observer) => {
+      observer.next(this.data);
+      //  error => { observer.error(error); });
+    });
+    return obs;
+  }
+}
+
 
 describe('UserAvatarComponent', () => {
   let component: UserAvatarComponent;
@@ -18,7 +36,7 @@ describe('UserAvatarComponent', () => {
     TestBed.configureTestingModule({
       imports: [CommonModule, HttpClientModule, RouterModule.forRoot([])],
       declarations: [UserAvatarComponent],
-      providers: [AppConfig, NotificationService, AdalService]
+      providers: [AppConfig, NotificationService, AdalService, { provide: AuthService, useClass: MockAuthService }],
     })
       .compileComponents();
   }));

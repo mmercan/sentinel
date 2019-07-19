@@ -24,13 +24,10 @@ export class UserAvatarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.container = document.getElementById('canvas-container');
     if (this.authService.authenticated) {
       this.getUserInfoSubscription = this.authService.getUserInfo().subscribe((data) => {
-        console.log(JSON.stringify(data));
-
         if (data.profile && data.profile.name) {
           this.createLetterAvatar(data.profile.name, this.container, this.height);
         }
       });
-
     } else {
       console.log('is Not Authenticated');
     }
