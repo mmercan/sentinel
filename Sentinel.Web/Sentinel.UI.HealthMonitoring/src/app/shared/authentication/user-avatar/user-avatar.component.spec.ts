@@ -10,7 +10,8 @@ import { UserAvatarComponent } from './user-avatar.component';
 import { Subscription, Observable } from 'rxjs';
 
 export class MockAuthService {
-  authenticated: true;
+
+  public authenticated = true;
 
   data = {
     profile: { name: 'Matt Mercan' },
