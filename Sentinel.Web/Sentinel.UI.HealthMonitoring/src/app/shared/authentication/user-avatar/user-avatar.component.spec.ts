@@ -62,6 +62,7 @@ describe('UserAvatarComponent', () => {
 
   it('should warn if not authenticated', () => {
     const userService = fixture.debugElement.injector.get(AuthService);
+    // tslint:disable-next-line:no-commented-code
     // const saveSpy = spyOn(userService, 'authenticated').and.callThrough();
 
     userService.authenticated = undefined;
