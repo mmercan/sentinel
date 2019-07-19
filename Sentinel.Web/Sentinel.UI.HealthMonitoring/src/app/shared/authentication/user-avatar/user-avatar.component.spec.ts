@@ -36,7 +36,8 @@ describe('UserAvatarComponent', () => {
     TestBed.configureTestingModule({
       imports: [CommonModule, HttpClientModule, RouterModule.forRoot([])],
       declarations: [UserAvatarComponent],
-      providers: [AppConfig, NotificationService, AdalService, { provide: AuthService, useClass: MockAuthService }],
+      providers: [AppConfig, NotificationService, { provide: AdalService, useClass: MockAuthService },
+        { provide: AuthService, useClass: MockAuthService }],
     })
       .compileComponents();
   }));
