@@ -232,7 +232,11 @@ namespace Sentinel.Api.HealthMonitoring
             app.UseAllAuthentication();
 
             app.UseHttpsRedirection();
+            
+            app.UseFileServer();
             app.UseStaticFiles();
+            app.UseDefaultFiles();
+
             var logger = new LoggerConfiguration()
             .ReadFrom.Configuration(Configuration)
             .Enrich.FromLogContext()
@@ -342,12 +346,13 @@ namespace Sentinel.Api.HealthMonitoring
                     }
                 });
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            // app.UseMvc(routes =>
+            // {
+            //     routes.MapRoute(
+            //         name: "default",
+            //         template: "{controller=Home}/{action=Index}/{id?}");
+            // });
+            app.UseMvc();
 
             app.UseHealthChecksWithAuth("/Health/IsAliveAndWell", new HealthCheckOptions()
             {
