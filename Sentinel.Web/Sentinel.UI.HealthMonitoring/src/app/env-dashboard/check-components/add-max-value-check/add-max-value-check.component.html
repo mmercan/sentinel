@@ -4,8 +4,13 @@
     <div style="cursor:pointer; top:7px" (click)="isCollapsed=!isCollapsed" class="widget-bg-icon icon icon-arrows-circle-up">
     </div>
     <div class="block">
-      <h5 class="mb-0"><strong>Max</strong></h5>
-      <p></p>
+      <h5 class="mb-0"><strong>Max</strong>&nbsp;&nbsp;<small *ngIf="healthCheckResult.name">{{healthCheckResult.name}}</small>
+      </h5>
+      <p>
+        <span *ngIf="healthCheckResult.data && healthCheckResult.data.current">{{healthCheckResult.data.current | number}}</span>
+        &lt;
+        <span *ngIf="healthCheckResult.data && healthCheckResult.data.max">{{healthCheckResult.data.max | number}}</span>
+      </p>
     </div>
   </div>
   <div class="card-body" [ngbCollapse]="isCollapsed">
