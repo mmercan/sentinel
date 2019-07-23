@@ -30,7 +30,7 @@ namespace Sentinel.Api.Product.Tests.IntegrationTests
 
 
         [Theory]
-        [InlineData("/")]
+        //[InlineData("/")]
         [InlineData("/Home/Index")]
         [InlineData("/Home/About")]
         [InlineData("/Home/Contact")]
