@@ -5,13 +5,9 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Api.Comms", ".\Sentinel.Api.Comms.csproj", "{6224C484-3E23-4F06-A749-195C1E478110}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Common", "..\HealthChecks\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj", "{E31E66A8-543F-45C4-AB26-641C78EB147B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Mongo", "..\HealthChecks\Mercan.HealthChecks.Mongo\Mercan.HealthChecks.Mongo.csproj", "{8482D9C7-3315-4F4D-86E1-961D470EF443}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Api.Comms.Tests", "..\Sentinel.Api.Comms.Tests\Sentinel.Api.Comms.Tests.csproj", "{1A12E462-B84A-489E-9894-4E670DFCC370}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Common.Tests", "..\HealthChecks\Mercan.HealthChecks.Common.Tests\Mercan.HealthChecks.Common.Tests.csproj", "{18B564E1-38CC-427E-AC52-802ADC3C3E84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,18 +34,6 @@ Global
 		{6224C484-3E23-4F06-A749-195C1E478110}.Release|x64.Build.0 = Release|Any CPU
 		{6224C484-3E23-4F06-A749-195C1E478110}.Release|x86.ActiveCfg = Release|Any CPU
 		{6224C484-3E23-4F06-A749-195C1E478110}.Release|x86.Build.0 = Release|Any CPU
-		{E31E66A8-543F-45C4-AB26-641C78EB147B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E31E66A8-543F-45C4-AB26-641C78EB147B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E31E66A8-543F-45C4-AB26-641C78EB147B}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E31E66A8-543F-45C4-AB26-641C78EB147B}.Debug|x64.Build.0 = Debug|Any CPU
-		{E31E66A8-543F-45C4-AB26-641C78EB147B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E31E66A8-543F-45C4-AB26-641C78EB147B}.Debug|x86.Build.0 = Debug|Any CPU
-		{E31E66A8-543F-45C4-AB26-641C78EB147B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E31E66A8-543F-45C4-AB26-641C78EB147B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E31E66A8-543F-45C4-AB26-641C78EB147B}.Release|x64.ActiveCfg = Release|Any CPU
-		{E31E66A8-543F-45C4-AB26-641C78EB147B}.Release|x64.Build.0 = Release|Any CPU
-		{E31E66A8-543F-45C4-AB26-641C78EB147B}.Release|x86.ActiveCfg = Release|Any CPU
-		{E31E66A8-543F-45C4-AB26-641C78EB147B}.Release|x86.Build.0 = Release|Any CPU
 		{8482D9C7-3315-4F4D-86E1-961D470EF443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8482D9C7-3315-4F4D-86E1-961D470EF443}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8482D9C7-3315-4F4D-86E1-961D470EF443}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -74,17 +58,5 @@ Global
 		{1A12E462-B84A-489E-9894-4E670DFCC370}.Release|x64.Build.0 = Release|Any CPU
 		{1A12E462-B84A-489E-9894-4E670DFCC370}.Release|x86.ActiveCfg = Release|Any CPU
 		{1A12E462-B84A-489E-9894-4E670DFCC370}.Release|x86.Build.0 = Release|Any CPU
-		{18B564E1-38CC-427E-AC52-802ADC3C3E84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{18B564E1-38CC-427E-AC52-802ADC3C3E84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{18B564E1-38CC-427E-AC52-802ADC3C3E84}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{18B564E1-38CC-427E-AC52-802ADC3C3E84}.Debug|x64.Build.0 = Debug|Any CPU
-		{18B564E1-38CC-427E-AC52-802ADC3C3E84}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{18B564E1-38CC-427E-AC52-802ADC3C3E84}.Debug|x86.Build.0 = Debug|Any CPU
-		{18B564E1-38CC-427E-AC52-802ADC3C3E84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{18B564E1-38CC-427E-AC52-802ADC3C3E84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{18B564E1-38CC-427E-AC52-802ADC3C3E84}.Release|x64.ActiveCfg = Release|Any CPU
-		{18B564E1-38CC-427E-AC52-802ADC3C3E84}.Release|x64.Build.0 = Release|Any CPU
-		{18B564E1-38CC-427E-AC52-802ADC3C3E84}.Release|x86.ActiveCfg = Release|Any CPU
-		{18B564E1-38CC-427E-AC52-802ADC3C3E84}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
