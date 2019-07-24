@@ -23,10 +23,10 @@ WORKDIR /src
 COPY Sentinel.Api.Comms/Sentinel.Api.Comms.csproj Sentinel.Api.Comms/
 RUN dotnet restore Sentinel.Api.Comms/Sentinel.Api.Comms.csproj
 COPY . .
-RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/" /d:sonar.exclusions="**bootstrap.css, **bootstrap.js" /d:sonar.coverage.exclusions="**Tests*.cs"
+RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap-reboot.css, **bootstrap.js, **/wwwroot/**" /d:sonar.coverage.exclusions="**Tests*.cs"
 RUN dotnet build ./Sentinel.Api.Comms/Sentinel.Api.Comms.sln
-#RUN dotnet test ./Sentinel.Api.Comms/Sentinel.Api.Comms.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/TestResults/Sentinel.Api.Comms.xml
-RUN dotnet test ./HealthChecks/Mercan.HealthChecks.Common.Tests/Mercan.HealthChecks.Common.Tests.csproj  /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/TestResults/Mercan.HealthChecks.Common.Tests.xml
-RUN dotnet test ./Sentinel.Api.Comms.Tests/Sentinel.Api.Comms.Tests.csproj /p:CollectCoverage=true  /p:CoverletOutputFormat=opencover /p:CoverletOutput=/TestResults/Sentinel.Api.Comms.Tests.xml 
+RUN dotnet test ./Sentinel.Api.Comms/Sentinel.Api.Comms.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/TestResults/
+# RUN dotnet test ./HealthChecks/Mercan.HealthChecks.Common.Tests/Mercan.HealthChecks.Common.Tests.csproj  /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=/TestResults/Mercan.HealthChecks.Common.Tests.xml
+# RUN dotnet test ./Sentinel.Api.Comms.Tests/Sentinel.Api.Comms.Tests.csproj /p:CollectCoverage=true  /p:CoverletOutputFormat=opencover /p:CoverletOutput=/TestResults/Sentinel.Api.Comms.Tests.xml 
 RUN dotnet build-server shutdown
 RUN dotnet sonarscanner end /d:sonar.login=$SONARKEY
