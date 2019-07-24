@@ -35,10 +35,8 @@ namespace Sentinel.Api.HealthMonitoring
             }
             catch (Exception ex)
             {
-
                 var unhandledException = LoggerMessage.Define(LogLevel.Error, new EventId(1, "UnhandledException"), "An unhandled exception has occurred while executing the request.");
                 unhandledException(_logger, ex);
-                //  if (httpContext.Response.HasStarted)                {                }
                 throw;
             }
         }

@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace Mercan.HealthChecks.Common.Tests.Checks
 {
@@ -24,7 +26,7 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
         //     _mockCatalogueService = new Mock<ICatalogueService>();
         //     _catalogueController = new CatalogueController(_mockLogger.Object, _mockCatalogueService.Object);
 
-
+        [Fact]
         public void CreateANewInstance()
         {
 

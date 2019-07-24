@@ -8,19 +8,24 @@ using Sentinel.Api.HealthMonitoring.Models;
 
 namespace Sentinel.Api.HealthMonitoring.Controllers
 {
+
+    [Route("Home")]
     public class HomeController : Controller
     {
+        [Route("Index")]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Route("Privacy")]
         public IActionResult Privacy()
         {
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [Route("Error")]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
