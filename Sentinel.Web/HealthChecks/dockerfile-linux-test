@@ -23,7 +23,7 @@ WORKDIR /src
 # COPY Sentinel.Api.Comms/Sentinel.Api.Comms.csproj Sentinel.Api.Comms/
 # RUN dotnet restore Sentinel.Api.Comms/Sentinel.Api.Comms.csproj
 COPY . .
-RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/" /d:sonar.exclusions="**bootstrap.css, **bootstrap-reboot.css, **bootstrap.js, **/wwwroot/**" /d:sonar.coverage.exclusions="**Tests*.cs"
+RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap-reboot.css, **bootstrap.js, **/wwwroot/**" /d:sonar.coverage.exclusions="**Tests*.cs"
 RUN dotnet build ./HealthChecks/HealthChecks.sln
 
 RUN dotnet test ./HealthChecks/HealthChecks.sln  /p:CollectCoverage=true  /p:CoverletOutput=/TestResults/ /p:MergeWith=/TestResults/coverage.json
