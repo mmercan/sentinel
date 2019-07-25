@@ -5,7 +5,7 @@ ARG buildtime_ADID
 ARG buildtime_SONARKEY
 # ENV DOTNET_USE_POLLING_FILE_WATCHER=1
 # ENV ASPNETCORE_ENVIRONMENT=Development
-# ENV SONAR_HOST http://sonar.myrcan.com
+ENV SONAR_HOST http://sonar.myrcan.com
 # RUN apt-get update && apt-get install -y openjdk-8-jdk
 # ENV PROJECT sentinel-comms
 # RUN dotnet tool install --global dotnet-sonarscanner
