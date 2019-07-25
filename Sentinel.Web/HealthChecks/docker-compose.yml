@@ -6,7 +6,7 @@
         build:
           target: test
           context: ../
-          dockerfile: HealthChecks/dockerfile-linux
+          dockerfile: HealthChecks/dockerfile-linux-test
         environment:
           - ASPNETCORE_ENVIRONMENT=Production
           - DOTNET_USE_POLLING_FILE_WATCHER=1
