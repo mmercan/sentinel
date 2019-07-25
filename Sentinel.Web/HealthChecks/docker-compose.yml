@@ -8,7 +8,7 @@
           context: ../
           dockerfile: HealthChecks/dockerfile-linux-test
           args:
-            SONARKEY=fbf6f7c2fed68cbdc15fa82e269f973930831e3b
+            SONARKEY:fbf6f7c2fed68cbdc15fa82e269f973930831e3b
         environment:
           - ASPNETCORE_ENVIRONMENT=Production
           - DOTNET_USE_POLLING_FILE_WATCHER=1
