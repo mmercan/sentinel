@@ -1,0 +1,14 @@
+    version: '3.4'
+
+    services:
+      sentinel-healthchecks:      
+        image: mmercan/sentinel-healthchecks:${TAGVersion}-prod-linux
+        build:
+          target: test
+          context: ../
+          dockerfile: HealthChecks/dockerfile-linux
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Production
+          - DOTNET_USE_POLLING_FILE_WATCHER=1
+        volumes:
+          - /opt/vsts/work/_temp:/TestResults
