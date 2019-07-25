@@ -9,6 +9,6 @@
 
 
 
-dotnet test ./HealthChecks/HealthChecks.sln  /p:CollectCoverage=true  /p:CoverletOutput=/TestResults/ /p:MergeWith=/TestResults/coverage.json
+dotnet test ./HealthChecks/HealthChecks.sln  /p:CollectCoverage=true  /p:CoverletOutput=/TestResults/ /p:MergeWith=/TestResults/coverage.json --logger=trx -r /TestResults/
 dotnet test ./Sentinel.Empty.Tests/Sentinel.Empty.Tests.sln /p:CollectCoverage=true /p:MergeWith="/TestResults/coverage.json" /p:CoverletOutputFormat="opencover" /p:CoverletOutput=/TestResults/
 # dotnet test ./Sentinel.Empty.Tests/Sentinel.Empty.Tests.sln  /p:CollectCoverage=true /p:CoverletOutputFormat=opencover p:CoverletOutput=/TestResults/ /p:MergeWith=/TestResults/coverage.json
