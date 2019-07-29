@@ -41,6 +41,10 @@ describe('ProgDashboardComponent', () => {
   }));
 
   beforeEach(() => {
+    // tslint:disable-next-line:max-line-length
+    const content = '{"provider": {"dev": {"healthChecks": [{"isaliveandwell": "https://healthmonitoring.api.myrcan.com/health/isaliveandwell","name": "HealthMonitoring Api"}, {"isaliveandwell": "https://comms.api.myrcan.com/health/isaliveandwell","name": "Comms Api"}, {"isaliveandwell": "https://member.api.myrcan.com/health/isaliveandwell","name": "Member Api"}, {"isaliveandwell": "https://product.api.myrcan.com/health/isaliveandwell","name": "Product Api"}, {"isaliveandwell": "https://product.myrcan.com/health/isaliveandwell","name": "Product UI"}, {"isaliveandwell": "https://auth.myrcan.com/health/isaliveandwell","name": "STS UI"}] }, "test": {"healthChecks": [{"isaliveandwell": "https://healthmonitoring.api.myrcan.com/health/isaliveandwell","name": "HealthMonitoring Api"}] }, "euat": {"healthChecks": [{"isaliveandwell": "https://healthmonitoring.api.myrcan.com/health/isaliveandwell","name": "HealthMonitoring Api"}] }, "perf": {"healthChecks": [{"isaliveandwell": "https://healthmonitoring.api.myrcan.com/health/isaliveandwell","name": "HealthMonitoring Api"}] } }, "apollo": { "dev": {"healthChecks": [{"isaliveandwell": "https://healthmonitoring.api.myrcan.com/health/isaliveandwell","name": "HealthMonitoring Api"}, {"isaliveandwell": "https://comms.api.myrcan.com/health/isaliveandwell","name": "Comms Api"}, {"isaliveandwell": "https://member.api.myrcan.com/health/isaliveandwell","name": "Member Api"}, {"isaliveandwell": "https://product.api.myrcan.com/health/isaliveandwell","name": "Product Api"}, {"isaliveandwell": "https://product.myrcan.com/health/isaliveandwell","name": "Product UI"}, {"isaliveandwell": "https://auth.myrcan.com/health/isaliveandwell","name": "STS UI"}] } } }';
+    localStorage.setItem('app-configData', content);
+
     fixture = TestBed.createComponent(ProgDashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

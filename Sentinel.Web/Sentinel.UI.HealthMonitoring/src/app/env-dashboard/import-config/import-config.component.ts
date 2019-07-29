@@ -27,7 +27,7 @@ export class ImportConfigComponent implements OnInit {
       });
   }
 
-  private handleError(error: any, errorMessage: string) {
+  handleError(error: any, errorMessage: string) {
     console.error('An error occurred', error);
     if (error && error['_body']) {
       const message = error.json();
