@@ -17,6 +17,7 @@ import { ServiceClientBaseHealthCheckComponent } from './check-components/servic
 import { RabbitMqHealthCheckComponent } from './check-components/rabbit-mq-health-check/rabbit-mq-health-check.component';
 import { MongoHealthCheckComponent } from './check-components/mongo-health-check/mongo-health-check.component';
 import { IsAliveRequestFailedCheckComponent } from './check-components/is-alive-request-failed-check/is-alive-request-failed-check.component';
+import { ImportConfigComponent } from './import-config/import-config.component';
 
 
 @NgModule({
@@ -28,6 +29,6 @@ import { IsAliveRequestFailedCheckComponent } from './check-components/is-alive-
   ],
   declarations: [ProgDashboardComponent, DiHealthCheckComponent, ProcessListHealthChecksComponent, PerformanceCounterListComponent,
     SystemInfoHealthChecksComponent, AddMaxValueCheckComponent, AddMinValueCheckComponent, DbConnectionHealthChecksComponent,
-    ServiceClientBaseHealthCheckComponent, RabbitMqHealthCheckComponent, MongoHealthCheckComponent, IsAliveRequestFailedCheckComponent]
+    ServiceClientBaseHealthCheckComponent, RabbitMqHealthCheckComponent, MongoHealthCheckComponent, IsAliveRequestFailedCheckComponent, ImportConfigComponent]
 })
 export class EnvDashboardModule { }

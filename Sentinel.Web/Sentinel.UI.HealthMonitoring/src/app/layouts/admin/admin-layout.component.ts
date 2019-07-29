@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AppConfig, authenticationType } from '../../app.config';
 import { AuthService } from '../../shared/authentication/auth.service';
+import { ConfigDataService } from '../../shared/data-store/config-data/config-data.service';
 import { MenuItems } from '../../shared/menu-items/menu-items';
 import { Notification, NotificationService } from '../../shared/notification/notification.service';
 import { OfflineNotificationService } from '../../shared/offline/offline-notification.service';
@@ -63,6 +64,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     private authService: AuthService,
     public appConfig: AppConfig,
     private notificationService: NotificationService,
+    private configDataService: ConfigDataService,
   ) {
     this.mediaMatcher.addListener(() => zone.run(() => this.mediaMatcher = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`)));
 
@@ -91,6 +93,13 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       this.runOnRouteChange();
       this.appConfig.navigatingto = null;
     });
+
+    const items = this.configDataService.getMenuItems();
+    if (items && items.length && items.length > 0) {
+      for (const menu of items) {
+        this.menuItems.add(menu);
+      }
+    }
     this.runOnRouteChange();
   }
 

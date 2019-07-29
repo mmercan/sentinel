@@ -1,14 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HealthcheckDataStoreService } from '../../shared/data-store/healthcheck-data-store/healthcheck-data-store.service';
-import { HealthcheckDataStoreSetService } from '../../shared/data-store/healthcheck-data-store/healthcheck-data-store-set.service';
-import { HealthReport, HealthReportEntry } from '../../shared/data-store/healthcheck-data-store/interfaces/health-report';
-import { AppConfig, authenticationType, logLevel } from '../../app.config';
 import { Subscription } from 'rxjs';
+import { AppConfig, authenticationType, logLevel } from '../../app.config';
+import { HealthcheckDataStoreSetService } from '../../shared/data-store/healthcheck-data-store/healthcheck-data-store-set.service';
+import { HealthcheckDataStoreService } from '../../shared/data-store/healthcheck-data-store/healthcheck-data-store.service';
+import { HealthReport, HealthReportEntry } from '../../shared/data-store/healthcheck-data-store/interfaces/health-report';
+
 @Component({
   selector: 'app-prog-dashboard',
   templateUrl: './prog-dashboard.component.html',
-  styleUrls: ['./prog-dashboard.component.scss']
+  styleUrls: ['./prog-dashboard.component.scss'],
 })
 export class ProgDashboardComponent implements OnInit, OnDestroy {
   programname = '';
@@ -17,42 +18,34 @@ export class ProgDashboardComponent implements OnInit, OnDestroy {
   routeparamsSubscription: Subscription;
   healthcheckDataStoreSetSubscription: Subscription;
   GetHealthCheckUrlsSubscription: Subscription;
-  constructor(private route: ActivatedRoute, private healthcheckDataStoreSetService: HealthcheckDataStoreSetService
-    , private healthDataService: HealthcheckDataStoreService, private appConfig: AppConfig) {
+  constructor(
+    private route: ActivatedRoute, private healthcheckDataStoreSetService: HealthcheckDataStoreSetService, private appConfig: AppConfig) {
   }
 
   ngOnInit() {
-    this.routeparamsSubscription = this.route.params.subscribe(params => {
+    this.routeparamsSubscription = this.route.params.subscribe((params) => {
       this.programname = params['programname'];
       this.envname = params['envname'];
-
+      this.healthcheckDataStoreSetService.clear();
       this.healthcheckDataStoreSetSubscription = this.healthcheckDataStoreSetService.dataset.subscribe(
-        data => {
+        (data) => {
           console.log('success', data);
-          // if (data && data.status) {
           this.reportSet = data;
-          // }
         },
-        error => {
+        (error) => {
           console.log('oops', error);
           const blah = '';
-        }
-
+        },
       );
-      // this.healthDataService.getAll(this.appConfig.config.HealthCheck.baseUrl + 'health/isaliveandwell', 'HealthMonitoring Api');
-      //  this.appConfig.config.HealthCheck.urls
+
       this.GetHealthCheckUrlsSubscription = this.healthcheckDataStoreSetService
-        .GetHealthCheckUrls(this.programname, this.envname).subscribe(urls => {
+        .GetHealthCheckUrls(this.programname, this.envname).subscribe((urls) => {
           if (urls && urls.length) {
-            urls.forEach(element => {
+            urls.forEach((element) => {
               this.healthcheckDataStoreSetService.AddHealthCheck(element.isaliveandwell, element.name);
             });
           }
         });
-      // this.appConfig.config.HealthCheck.urls.forEach(element => {
-      //   this.healthcheckDataStoreSetService.AddHealthCheck(element.isaliveandwell, element.name);
-      // });
-
     });
 
   }

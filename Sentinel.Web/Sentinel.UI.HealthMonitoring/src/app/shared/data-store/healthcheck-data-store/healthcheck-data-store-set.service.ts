@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AppConfig } from '../../../app.config';
 import { AuthService } from '../../authentication/auth.service';
 import { CommonDataStoreInterface } from '../common-data-store/common-data-store-interface';
 import { CommonDataStoreService } from '../common-data-store/common-data-store.service';
+import { ConfigDataService } from '../config-data/config-data.service';
 import { HealthReport, HealthReportEntry, HealthReportUrl } from './interfaces/health-report';
 
 @Injectable({
@@ -19,10 +19,15 @@ export class HealthcheckDataStoreSetService implements OnDestroy {
   };
   httpGetSubscription: Subscription;
 
-  constructor(private http: HttpClient, private authService: AuthService, private appConfig: AppConfig) {
+  constructor(private http: HttpClient, private authService: AuthService, private configDataService: ConfigDataService) {
     this.dataStore = { dataset: [] };
     this._dataset = new BehaviorSubject([]) as BehaviorSubject<HealthReport[]>;
     this.dataset = this._dataset.asObservable();
+  }
+
+  clear() {
+    this.dataStore.dataset = [];
+    this._dataset.next(Object.assign({}, this.dataStore).dataset);
   }
 
   AddHealthCheck(baseUrl: string, servicename: string) {
@@ -53,7 +58,7 @@ export class HealthcheckDataStoreSetService implements OnDestroy {
 
   GetHealthCheckUrls(application: string, environment: string): Observable<HealthReportUrl[]> {
     const obs = Observable.create((observer) => {
-      const data = this.appConfig.config.HealthCheck.urls;
+      const data = this.configDataService.getHealthCheckUrls(application, environment);
       observer.next(data);
     });
     return obs;

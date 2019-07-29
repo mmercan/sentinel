@@ -1,0 +1,44 @@
+<div class="p-3">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-text w-100">
+        <div class="card-title">
+          app-settings Validation
+        </div>
+        <div class="card-subtitle text-capitalize ff-sans">
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <form>
+        <div class="form-group">
+          <div *ngIf="configdata.length>0" class="alert alert-success" role="alert">
+            AppSettings Found, Load app-settings for override.
+          </div>
+          <div *ngIf="configdata.length==0" class="alert alert-danger" role="alert">
+            AppSettings Not Found, Load app-settings.
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Import Config File</label>
+          <input type="file" class="form-control-file" (change)="onCofigdataFileChange($event)" name="configfilevalue">
+        </div>
+        <div *ngIf="configdata" class="form-group">
+          <pre style="height: 250px;">  {{configdata |json}}</pre>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="card-body">
+  <div class="d-flex align-items-center">
+    <div class="mr-3">
+      <div class="widget-icon rounded-circle bg-purple text-white icon icon-basic-elaboration-message-check"></div>
+    </div>
+    <div class="mr-auto">
+      <a href="javascript:;" class="ff-headers text-color">Content Root Path (extension)</a>
+
+    </div>
+  </div>
+</div>

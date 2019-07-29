@@ -36,8 +36,6 @@ export class AppConfig {
     Api: {
       baseUrl: window.location.hostname === 'localhost'
         ? 'http://localhost:62657/api/' : '/KeyVaultChecker/api/',
-      appsettingsFolderLocation: window.location.hostname === 'localhost'
-        ? 'C:\\Users\\mmercan\\Desktop\\BAU\\Bupa.Api.BFF.SSP\\Bupa.Api.BFF.SSP.CRM' : 'D:\\home\\site\\wwwroot',
       keyVaultCertThumbPrintLocation: 'KeyVault:CertThumbPrint',
       keyVaultBaseUrlLocation: 'KeyVault:BaseUrl',
       keyVaultClientIdLocation: 'KeyVault:ClientId',
@@ -69,8 +67,6 @@ export class AppConfig {
         name: 'STS UI',
       }],
       baseUrl: window.location.hostname === 'localhost' ? 'http://localhost:5006/' : 'https://healthmonitoring.myrcan.com/api/',
-      appsettingsFolderLocation: window.location.hostname === 'localhost'
-        ? 'C:\\Users\\mmercan\\Desktop\\BAU\\Bupa.Api.BFF.SSP\\Bupa.Api.BFF.SSP.CRM' : 'D:\\home\\site\\wwwroot',
       keyVaultCertThumbPrintLocation: 'KeyVault:CertThumbPrint',
       keyVaultBaseUrlLocation: 'KeyVault:BaseUrl',
       keyVaultClientIdLocation: 'KeyVault:ClientId',

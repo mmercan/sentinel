@@ -25,56 +25,68 @@ const MENUITEMS: Menu[] = [
     state: '/',
     name: 'HOME',
     type: 'link',
-    icon: 'basic-accelerator'
+    icon: 'basic-accelerator',
   },
   {
-    state: 'checks/provider',
-    name: 'Provider',
+    state: 'env',
+    name: 'Settings',
     type: 'sub',
-    icon: 'basic-lock-open',
+    icon: 'basic-gear',
     children: [
       {
-        state: 'dev',
-        name: 'dev',
+        state: 'import-config',
+        name: 'Import Config',
       },
-      {
-        state: 'test',
-        name: 'test',
-      },
-      {
-        state: 'euat',
-        name: 'euat',
-      },
-      {
-        state: 'perf',
-        name: 'perf',
-      },
-    ]
+    ],
   },
-  {
-    state: 'apollo',
-    name: 'Apollo',
-    type: 'sub',
-    icon: 'basic-lock-open',
-    children: [
-      {
-        state: 'dev',
-        name: 'dev',
-      },
-      {
-        state: 'test',
-        name: 'test',
-      },
-      {
-        state: 'euat',
-        name: 'euat',
-      },
-      {
-        state: 'perf',
-        name: 'perf',
-      },
-    ]
-  },
+  // {
+  //   state: 'checks/provider',
+  //   name: 'Provider',
+  //   type: 'sub',
+  //   icon: 'basic-lock-open',
+  //   children: [
+  //     {
+  //       state: 'dev',
+  //       name: 'dev',
+  //     },
+  //     {
+  //       state: 'test',
+  //       name: 'test',
+  //     },
+  //     {
+  //       state: 'euat',
+  //       name: 'euat',
+  //     },
+  //     {
+  //       state: 'perf',
+  //       name: 'perf',
+  //     },
+  //   ],
+  // },
+  // {
+  //   state: 'apollo',
+  //   name: 'Apollo',
+  //   type: 'sub',
+  //   icon: 'basic-lock-open',
+  //   children: [
+  //     {
+  //       state: 'dev',
+  //       name: 'dev',
+  //     },
+  //     {
+  //       state: 'test',
+  //       name: 'test',
+  //     },
+  //     {
+  //       state: 'euat',
+  //       name: 'euat',
+  //     },
+  //     {
+  //       state: 'perf',
+  //       name: 'perf',
+  //     },
+  //   ],
+  // },
 
   // {
   //   state: 'authentication',

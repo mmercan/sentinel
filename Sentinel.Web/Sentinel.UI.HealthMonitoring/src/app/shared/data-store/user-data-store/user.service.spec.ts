@@ -13,7 +13,7 @@ describe('ProductService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, HttpClientModule],
-      providers: [NotificationService, AdalService, AppConfig, ProductService]
+      providers: [NotificationService, AdalService, AppConfig, ProductService],
     });
   });
 

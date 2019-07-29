@@ -1,16 +1,24 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { ImportConfigComponent } from './import-config/import-config.component';
 import { ProgDashboardComponent } from './prog-dashboard/prog-dashboard.component';
+
 const routes: Routes = [{
+  path: 'import-config',
+  component: ImportConfigComponent,
+  data: {
+    heading: 'import Config',
+  },
+}, {
   path: '',
   component: ProgDashboardComponent,
   data: {
-    heading: 'Program Dashboard'
-  }
+    heading: 'Program Dashboard',
+  },
 }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class EnvDashboardRoutingModule { }

@@ -1,25 +1,23 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
-import { MenuItems } from './menu-items/menu-items';
-import { AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective } from './accordion';
-import { ToggleFullscreenDirective } from './fullscreen/toggle-fullscreen.directive';
-import { NotificationService } from './notification/notification.service';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { AppConfig, authenticationType, logLevel } from '../app.config';
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AccordionAnchorDirective, AccordionDirective, AccordionLinkDirective } from './accordion';
+import { AdalGuard } from './authentication/adal-auth/adal.guard';
 import { AdalInterceptor } from './authentication/adal-auth/adal.interceptor';
 import { AdalService } from './authentication/adal-auth/adal.service';
-import { AdalGuard } from './authentication/adal-auth/adal.guard';
-import { LocalAuthService } from './authentication/local-auth/local-auth.service';
 import { AuthService } from './authentication/auth.service';
-import { HealthcheckDataStoreSetService } from './data-store/healthcheck-data-store/healthcheck-data-store-set.service';
 import { IfAuthenticatedDirective } from './authentication/if-authenticated/if-authenticated.directive';
+import { LocalAuthService } from './authentication/local-auth/local-auth.service';
 import { UserAvatarComponent } from './authentication/user-avatar/user-avatar.component';
-
+import { ConfigDataService } from './data-store/config-data/config-data.service';
+import { HealthcheckDataStoreSetService } from './data-store/healthcheck-data-store/healthcheck-data-store-set.service';
+import { HealthcheckDataStoreService } from './data-store/healthcheck-data-store/healthcheck-data-store.service';
+import { ToggleFullscreenDirective } from './fullscreen/toggle-fullscreen.directive';
+import { MenuItems } from './menu-items/menu-items';
+import { NotificationService } from './notification/notification.service';
 import { IfOnlineDirective } from './offline/if-online.directive';
 import { OfflineNotificationService } from './offline/offline-notification.service';
-import { HealthcheckDataStoreService } from './data-store/healthcheck-data-store/healthcheck-data-store.service';
-
 import { Ng4FilterPipe } from './pipes/filter/ng4-filter.pipe';
-
 
 @NgModule({
   imports: [HttpClientModule],
@@ -27,14 +25,14 @@ import { Ng4FilterPipe } from './pipes/filter/ng4-filter.pipe';
     IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe],
   exports: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
     IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe],
-  providers: []
+  providers: [],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
       providers: [AppConfig, AdalService, LocalAuthService, AuthService, MenuItems, NotificationService, AdalInterceptor,
-        OfflineNotificationService, HealthcheckDataStoreService, HealthcheckDataStoreSetService, AdalGuard]
+        OfflineNotificationService, HealthcheckDataStoreService, HealthcheckDataStoreSetService, AdalGuard, ConfigDataService],
     };
   }
 }
