@@ -16,4 +16,12 @@ describe('HealthcheckDataStoreService', () => {
     const service: HealthcheckDataStoreSetService = TestBed.get(HealthcheckDataStoreSetService);
     expect(service).toBeTruthy();
   });
+
+  it('should be AddHealthCheck', () => {
+    const service: HealthcheckDataStoreSetService = TestBed.get(HealthcheckDataStoreSetService);
+    service.AddHealthCheck('https://comms.api.myrcan.com/health/isaliveandwell', 'Comms Api');
+    //expect(service).toBeTruthy();
+  });
+
+
 });
