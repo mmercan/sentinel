@@ -121,7 +121,7 @@ namespace Sentinel.Handler.Comms
             // .AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
             // .AddRedisHealthCheck(Configuration["RedisConnection"])
             // .AddDIHealthCheck(services);
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             //services.AddSignalR();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
@@ -171,19 +171,19 @@ namespace Sentinel.Handler.Comms
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            // if (env.IsDevelopment())
+            // {
+            //     app.UseDeveloperExceptionPage();
+            // }
+            // else
+            // {
+            //     app.UseExceptionHandler("/Home/Error");
+            //     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            //     app.UseHsts();
+            // }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            // app.UseHttpsRedirection();
+            // app.UseStaticFiles();
             // app.UseSignalRJwtAuthentication();
             var logger = new LoggerConfiguration()
             .ReadFrom.Configuration(Configuration)
@@ -199,36 +199,38 @@ namespace Sentinel.Handler.Comms
             loggerFactory.AddSerilog();
             Log.Logger = logger.CreateLogger();
             app.UseExceptionLogger();
+
             // move  UseDefaultFiles to first line
             // app.UseFileServer();
-            app.UseDefaultFiles();
-            app.UseSwagger(e =>
-            {
-                e.PreSerializeFilters.Add((doc, req) =>
-                {
-                    doc.Paths.Add("/Health/IsAliveAndWell", new PathItem
-                    {
-                        Get = new Operation
-                        {
-                            Tags = new List<string> { "HealthCheck" },
-                            Produces = new string[] { "application/json" },
-                            Responses = new Dictionary<string, Response>{
-                                {"200",new Response{Description="Success"}},
-                                {"503",new Response{Description="Failed"}}
-                            }
-                        }
-                    });
+            // app.UseDefaultFiles();
+            // app.UseSwagger(e =>
+            // {
+            //     e.PreSerializeFilters.Add((doc, req) =>
+            //     {
+            //         doc.Paths.Add("/Health/IsAliveAndWell", new PathItem
+            //         {
+            //             Get = new Operation
+            //             {
+            //                 Tags = new List<string> { "HealthCheck" },
+            //                 Produces = new string[] { "application/json" },
+            //                 Responses = new Dictionary<string, Response>{
+            //                     {"200",new Response{Description="Success"}},
+            //                     {"503",new Response{Description="Failed"}}
+            //                 }
+            //             }
+            //         });
 
-                    doc.Paths.Add("/Health/IsAlive", new PathItem
-                    {
-                        Get = new Operation
-                        {
-                            Tags = new List<string> { "HealthCheck" },
-                            Produces = new string[] { "application/json" }
-                        }
-                    });
-                });
-            });
+            //         doc.Paths.Add("/Health/IsAlive", new PathItem
+            //         {
+            //             Get = new Operation
+            //             {
+            //                 Tags = new List<string> { "HealthCheck" },
+            //                 Produces = new string[] { "application/json" }
+            //             }
+            //         });
+            //     });
+            // });
+
             app.UseSwaggerUI(options =>
                 {
                     foreach (var description in provider.ApiVersionDescriptions)
@@ -238,10 +240,11 @@ namespace Sentinel.Handler.Comms
                             description.GroupName.ToUpperInvariant());
                     }
                 });
-            app.UseCors("MyPolicy");
-            app.UseCookiePolicy();
 
-            app.UseAuthentication();
+
+            // app.UseCors("MyPolicy");
+            // app.UseCookiePolicy();
+            // app.UseAuthentication();
             // app.UseSignalR(routes =>
             // {
             //     routes.MapHub<ChatHub>("/hub/chat");
@@ -257,7 +260,6 @@ namespace Sentinel.Handler.Comms
 
             app.UseHealthChecks("/Health/IsAliveAndWell", new HealthCheckOptions()
             {
-                // This custom writer formats the detailed status as JSON.
                 ResponseWriter = WriteResponses.WriteListResponse,
             });
 
