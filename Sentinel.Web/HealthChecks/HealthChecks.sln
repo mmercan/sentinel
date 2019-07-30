@@ -31,8 +31,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Redis",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Redis.Tests", "Mercan.HealthChecks.Redis.Tests\Mercan.HealthChecks.Redis.Tests.csproj", "{91A6A5B2-09E2-4FBC-AC02-2D30C14D0042}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Common", "Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj", "{671928B6-0692-4018-8F4D-A84F90CED3D4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Common.Tests", "Mercan.HealthChecks.Common.Tests\Mercan.HealthChecks.Common.Tests.csproj", "{23B283D8-18F9-4FA4-AB57-2A55E9213136}"
 EndProject
 Global
@@ -216,18 +214,6 @@ Global
 		{91A6A5B2-09E2-4FBC-AC02-2D30C14D0042}.Release|x64.Build.0 = Release|Any CPU
 		{91A6A5B2-09E2-4FBC-AC02-2D30C14D0042}.Release|x86.ActiveCfg = Release|Any CPU
 		{91A6A5B2-09E2-4FBC-AC02-2D30C14D0042}.Release|x86.Build.0 = Release|Any CPU
-		{671928B6-0692-4018-8F4D-A84F90CED3D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{671928B6-0692-4018-8F4D-A84F90CED3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{671928B6-0692-4018-8F4D-A84F90CED3D4}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{671928B6-0692-4018-8F4D-A84F90CED3D4}.Debug|x64.Build.0 = Debug|Any CPU
-		{671928B6-0692-4018-8F4D-A84F90CED3D4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{671928B6-0692-4018-8F4D-A84F90CED3D4}.Debug|x86.Build.0 = Debug|Any CPU
-		{671928B6-0692-4018-8F4D-A84F90CED3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{671928B6-0692-4018-8F4D-A84F90CED3D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{671928B6-0692-4018-8F4D-A84F90CED3D4}.Release|x64.ActiveCfg = Release|Any CPU
-		{671928B6-0692-4018-8F4D-A84F90CED3D4}.Release|x64.Build.0 = Release|Any CPU
-		{671928B6-0692-4018-8F4D-A84F90CED3D4}.Release|x86.ActiveCfg = Release|Any CPU
-		{671928B6-0692-4018-8F4D-A84F90CED3D4}.Release|x86.Build.0 = Release|Any CPU
 		{23B283D8-18F9-4FA4-AB57-2A55E9213136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{23B283D8-18F9-4FA4-AB57-2A55E9213136}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23B283D8-18F9-4FA4-AB57-2A55E9213136}.Debug|x64.ActiveCfg = Debug|Any CPU
