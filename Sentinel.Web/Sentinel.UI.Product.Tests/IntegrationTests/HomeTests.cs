@@ -28,7 +28,7 @@ namespace Sentinel.UI.Product.Tests.IntegrationTests
         [Theory]
         [InlineData("/")]
         [InlineData("/Home/Index")]
-        // [InlineData("/Home/About")]
+        [InlineData("/Home/Layout")]
         // [InlineData("/Home/Contact")]
         [InlineData("/Home/Privacy")]
         [InlineData("/Home/Error")]
