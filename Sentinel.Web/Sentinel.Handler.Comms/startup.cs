@@ -121,9 +121,9 @@ namespace Sentinel.Handler.Comms
             // .AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
             // .AddRedisHealthCheck(Configuration["RedisConnection"])
             // .AddDIHealthCheck(services);
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             //services.AddSignalR();
+
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -248,12 +248,12 @@ namespace Sentinel.Handler.Comms
             // });
 
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            // app.UseMvc(routes =>
+            // {
+            //     routes.MapRoute(
+            //         name: "default",
+            //         template: "{controller=Home}/{action=Index}/{id?}");
+            // });
 
             app.UseHealthChecks("/Health/IsAliveAndWell", new HealthCheckOptions()
             {

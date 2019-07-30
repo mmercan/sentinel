@@ -36,7 +36,7 @@ WORKDIR /src
 COPY Sentinel.Api.HealthMonitoring/Sentinel.Api.HealthMonitoring.csproj Sentinel.Api.HealthMonitoring/
 RUN dotnet restore Sentinel.Api.HealthMonitoring/Sentinel.Api.HealthMonitoring.csproj
 COPY . .
-RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap-reboot.css, **bootstrap.js, **/wwwroot/**" /d:sonar.coverage.exclusions="**Tests*.cs"
+RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap-reboot.css, **bootstrap.js, **/wwwroot/**" /d:sonar.coverage.exclusions="**Tests*.cs" /d:sonar.cs.vstest.reportsPaths="/TestResults/*.trx"
 RUN dotnet build ./Sentinel.Api.HealthMonitoring/Sentinel.Api.HealthMonitoring.sln
 
 RUN dotnet test ./Sentinel.Api.HealthMonitoring/Sentinel.Api.HealthMonitoring.sln  /p:CollectCoverage=true /p:CoverletOutput=/TestResults/ /p:MergeWith=/TestResults/coverage.json --logger=trx -r /TestResults/
@@ -44,3 +44,4 @@ RUN dotnet test ./Sentinel.Empty.Tests/Sentinel.Empty.Tests.sln /p:CollectCovera
 
 RUN dotnet build-server shutdown
 RUN dotnet sonarscanner end /d:sonar.login=$SONARKEY
+ENTRYPOINT ["dotnet","test", "./Sentinel.Api.HealthMonitoring/Sentinel.Api.HealthMonitoring.sln", "/p:CollectCoverage=true", "/p:CoverletOutput=/TestResults/", "/p:MergeWith=/TestResults/coverage.json", "--logger=trx", "-r", "/TestResults/"]
