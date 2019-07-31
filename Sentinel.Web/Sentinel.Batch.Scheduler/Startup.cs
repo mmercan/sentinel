@@ -25,8 +25,7 @@ using Mercan.HealthChecks.Common.Checks;
 using Mercan.HealthChecks.Common;
 using EasyNetQ;
 using Mercan.Common.ScheduledTask;
-using Sentinel.Batch.Scheduler.ScheduledTask;
-
+using Sentinel.Batch.Scheduler.ScheduledTasks;
 
 namespace Sentinel.Batch.Scheduler
 {

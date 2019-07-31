@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Mercan.Common.ScheduledTask;
 
 
-namespace Sentinel.Batch.Scheduler.ScheduledTask
+namespace Sentinel.Batch.Scheduler.ScheduledTasks
 {
     public class HealthCheckRequestTask : IScheduledTask
     {
