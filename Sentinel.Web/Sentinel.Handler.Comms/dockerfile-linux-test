@@ -18,7 +18,7 @@ ENV SONARKEY=$buildtime_SONARKEY
 ENV APPID=$buildtime_APPID
 ENV APPSECRET=$buildtime_APPSECRET
 ENV ADID=$buildtime_ADID
-
+ENV RabbitMQConnection="host=52.183.35.232;username=rabbitmq;password=rabbitmq"
 
 WORKDIR /src
 COPY Sentinel.Handler.Comms/Sentinel.Handler.Comms.csproj Sentinel.Handler.Comms/
