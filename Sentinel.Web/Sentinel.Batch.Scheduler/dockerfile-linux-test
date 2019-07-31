@@ -1,0 +1,35 @@
+FROM mmercan/sentinel-sonarqube-dotnet22-sdk AS test
+ARG buildtime_APPID
+ARG buildtime_APPSECRET
+ARG buildtime_ADID
+ARG buildtime_SONARKEY
+# ENV DOTNET_USE_POLLING_FILE_WATCHER=1
+# ENV ASPNETCORE_ENVIRONMENT=Development
+# ENV SONAR_HOST http://sonar.myrcan.com
+# RUN apt-get update && apt-get install -y openjdk-8-jdk
+# RUN dotnet tool install --global dotnet-sonarscanner
+# ENV PATH="${PATH}:/root/.dotnet/tools"
+ENV PROJECT=Sentinel.Batch.Scheduler
+ENV VERSION=1.0
+ENV SONARKEY=$buildtime_SONARKEY
+ENV APPID=$buildtime_APPID
+ENV APPSECRET=$buildtime_APPSECRET
+ENV ADID=$buildtime_ADID
+ENV SentinelConnection="Server=52.247.221.7;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+ENV RabbitMQConnection="host=52.183.35.232;username=rabbitmq;password=rabbitmq"
+
+WORKDIR /src
+COPY Sentinel.Batch.Scheduler/Sentinel.Batch.Scheduler.csproj Sentinel.Batch.Scheduler/
+RUN dotnet restore Sentinel.Batch.Scheduler/Sentinel.Batch.Scheduler.csproj
+COPY . .
+RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap-reboot.css, **bootstrap.js, **Sentinel.Empty.Tests" /d:sonar.coverage.exclusions="**Tests*.cs" /d:sonar.cs.vstest.reportsPaths="/TestResults/*.trx"
+RUN dotnet build ./Sentinel.Batch.Scheduler/Sentinel.Batch.Scheduler.sln
+
+RUN dotnet test ./Sentinel.Batch.Scheduler/Sentinel.Batch.Scheduler.sln /p:CollectCoverage=true /p:CoverletOutput=/TestResults/ /p:MergeWith=/TestResults/coverage.json --logger=trx -r /TestResults/
+RUN dotnet test ./Sentinel.Empty.Tests/Sentinel.Empty.Tests.sln /p:CollectCoverage=true /p:MergeWith="/TestResults/coverage.json" /p:CoverletOutputFormat="opencover" /p:CoverletOutput=/TestResults/
+
+RUN dotnet build-server shutdown
+RUN dotnet sonarscanner end /d:sonar.login=$SONARKEY
+
+# ENTRYPOINT ["dotnet","test", "./Sentinel.Batch.Scheduler/Sentinel.Batch.Scheduler.sln", "/p:CollectCoverage=true", "/p:CoverletOutput=/TestResults/", "/p:MergeWith=/TestResults/coverage.json", "--logger=trx", "-r", "/TestResults/"]
+ENTRYPOINT dotnet test ./Sentinel.Batch.Scheduler/Sentinel.Batch.Scheduler.sln  /p:CollectCoverage=true /p:Exclude="[xunit.*.*]*" /p:CoverletOutput=/TestResults/ /p:MergeWith=/TestResults/coverage.json --logger=trx -r /TestResults/ && dotnet test ./Sentinel.Empty.Tests/Sentinel.Empty.Tests.sln /p:CollectCoverage=true /p:MergeWith="/TestResults/coverage.json" /p:CoverletOutputFormat="cobertura" /p:CoverletOutput=/TestResults/

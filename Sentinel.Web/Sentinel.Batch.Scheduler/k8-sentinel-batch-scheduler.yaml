@@ -53,4 +53,6 @@ spec:
           value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
         - name: DOTNET_RUNNING_IN_CONTAINER
           value: "true"
+        - name: RabbitMQConnection
+          value: "host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10"
 
