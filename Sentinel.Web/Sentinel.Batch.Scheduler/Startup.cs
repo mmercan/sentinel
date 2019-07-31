@@ -35,60 +35,7 @@ namespace Sentinel.Batch.Scheduler
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
-
-        public void ConfigureJwtAuthService(IServiceCollection services)
-        {
-            var audienceConfig = Configuration.GetSection("Tokens");
-            var symmetricKeyAsBase64 = audienceConfig["Secret"];
-            var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
-            var signingKey = new SymmetricSecurityKey(keyByteArray);
-
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                // The signing key must match!
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = signingKey,
-
-                // Validate the JWT Issuer (iss) claim
-                ValidateIssuer = true,
-                ValidIssuer = audienceConfig["Issuer"],
-
-                // Validate the JWT Audience (aud) claim
-                ValidateAudience = true,
-                ValidAudience = audienceConfig["Audience"],
-
-                // Validate the token expiry
-                ValidateLifetime = true,
-
-                ClockSkew = TimeSpan.Zero
-            };
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-          .AddJwtBearer("azure", cfg =>
-          {
-              cfg.RequireHttpsMetadata = false;
-              cfg.SaveToken = true;
-              cfg.Authority = Configuration["AzureAd:Instance"] + "/" + Configuration["AzureAD:TenantId"];
-              cfg.Audience = Configuration["AzureAd:ClientId"];
-          })
-            .AddJwtBearer("sts", cfg =>
-             {
-                 cfg.TokenValidationParameters = tokenValidationParameters;
-             });
-            //use both jwt schemas interchangeably  https://stackoverflow.com/questions/49694383/use-multiple-jwt-bearer-authentication
-            services.AddAuthorization(options =>
-            {
-                options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().AddAuthenticationSchemes("azure", "sts").Build();
-            });
-        }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -149,13 +96,6 @@ namespace Sentinel.Batch.Scheduler
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            if (env.IsDevelopment())
-            {
-            }
-            else
-            {
-            }
-
             app.UseStaticFiles();
             var logger = new LoggerConfiguration()
             .ReadFrom.Configuration(Configuration)
