@@ -24,9 +24,11 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Mercan.HealthChecks.Common.Checks;
 using Mercan.HealthChecks.Common;
 using EasyNetQ;
-using SSentinel.Handler.Comms.HostedServices;
+using Mercan.Common.ScheduledTask;
+using Sentinel.Batch.Scheduler.ScheduledTask;
 
-namespace Sentinel.Handler.Comms
+
+namespace Sentinel.Batch.Scheduler
 {
     public class Startup
     {
@@ -37,16 +39,68 @@ namespace Sentinel.Handler.Comms
 
         public IConfiguration Configuration { get; }
 
+        public void ConfigureJwtAuthService(IServiceCollection services)
+        {
+            var audienceConfig = Configuration.GetSection("Tokens");
+            var symmetricKeyAsBase64 = audienceConfig["Secret"];
+            var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
+            var signingKey = new SymmetricSecurityKey(keyByteArray);
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                // The signing key must match!
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+
+                // Validate the JWT Issuer (iss) claim
+                ValidateIssuer = true,
+                ValidIssuer = audienceConfig["Issuer"],
+
+                // Validate the JWT Audience (aud) claim
+                ValidateAudience = true,
+                ValidAudience = audienceConfig["Audience"],
+
+                // Validate the token expiry
+                ValidateLifetime = true,
+
+                ClockSkew = TimeSpan.Zero
+            };
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+          .AddJwtBearer("azure", cfg =>
+          {
+              cfg.RequireHttpsMetadata = false;
+              cfg.SaveToken = true;
+              cfg.Authority = Configuration["AzureAd:Instance"] + "/" + Configuration["AzureAD:TenantId"];
+              cfg.Audience = Configuration["AzureAd:ClientId"];
+          })
+            .AddJwtBearer("sts", cfg =>
+             {
+                 cfg.TokenValidationParameters = tokenValidationParameters;
+             });
+            //use both jwt schemas interchangeably  https://stackoverflow.com/questions/49694383/use-multiple-jwt-bearer-authentication
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().AddAuthenticationSchemes("azure", "sts").Build();
+            });
+        }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddHealthChecks()
             // .AddProcessList()
             // .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory")
             // .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
             // .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
-            .AddSystemInfoCheck()
-           //.AddPrivateMemorySizeCheckMB(1000)
-           .AddWorkingSetCheckKB(250000);
+             .AddSystemInfoCheck()
+            //.AddPrivateMemorySizeCheckMB(1000)
+            .AddWorkingSetCheckKB(250000);
             // .AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
             // .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
             // .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "health/isalive")
@@ -57,8 +111,15 @@ namespace Sentinel.Handler.Comms
             // .AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
             // .AddRedisHealthCheck(Configuration["RedisConnection"])
             // .AddDIHealthCheck(services);
+            // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //services.AddSignalR();
 
-
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -72,12 +133,31 @@ namespace Sentinel.Handler.Comms
             {
                 return RabbitHutch.CreateBus(Configuration["RabbitMQConnection"]);
             });
-            services.AddHostedService<HealthCheckSubscribeService>();
+            // services.AddHostedService<HealthCheckSubscribeService>();
+
+            services.AddSingleton<IConfiguration>(Configuration);
+
+            // Scheduled Tasks Added             
+            services.AddSingleton<IScheduledTask, WorkDayEndsTask>();
+            services.AddSingleton<IScheduledTask, WorkDayStartsTask>();
+            services.AddSingleton<IScheduledTask, HealthCheckRequestTask>();
+
+            // Scheduled Tasks Runner             
+            services.AddScheduler();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            if (env.IsDevelopment())
+            {
+            }
+            else
+            {
+            }
+
+            app.UseStaticFiles();
             var logger = new LoggerConfiguration()
             .ReadFrom.Configuration(Configuration)
             .Enrich.FromLogContext()
@@ -86,12 +166,13 @@ namespace Sentinel.Handler.Comms
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .WriteTo.Console()
             .WriteTo.File("Logs/logs.txt");
-            //.WriteTo.Elasticsearch()
 
             logger.WriteTo.Console();
             loggerFactory.AddSerilog();
             Log.Logger = logger.CreateLogger();
             app.UseExceptionLogger();
+            app.UseDefaultFiles();
+            app.UseCors("MyPolicy");
 
             app.UseHealthChecks("/Health/IsAliveAndWell", new HealthCheckOptions()
             {
@@ -106,6 +187,7 @@ namespace Sentinel.Handler.Comms
                     await context.Response.WriteAsync("{\"IsAlive\":true}");
                 });
             });
+
         }
     }
 }

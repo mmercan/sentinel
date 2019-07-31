@@ -1,0 +1,26 @@
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM microsoft/dotnet:2.1-sdk AS develop
+# RUN apt-get update && apt-get install bash
+ENV DOTNET_USE_POLLING_FILE_WATCHER=1
+ENV ASPNETCORE_ENVIRONMENT=Development
+WORKDIR /src/Sentinel.Batch.Scheduler
+EXPOSE 80
+
+FROM develop AS build
+WORKDIR /src
+COPY Sentinel.Batch.Scheduler/Sentinel.Batch.Scheduler.csproj Sentinel.Batch.Scheduler/
+RUN dotnet restore Sentinel.Batch.Scheduler/Sentinel.Batch.Scheduler.csproj
+COPY . .
+WORKDIR /src/Sentinel.Batch.Scheduler
+RUN dotnet build Sentinel.Batch.Scheduler.csproj -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish Sentinel.Batch.Scheduler.csproj -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "Sentinel.Batch.Scheduler.dll"]
