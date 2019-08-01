@@ -12,21 +12,15 @@ using EasyNetQ;
 
 namespace Mercan.HealthChecks.RabbitMQ
 {
-    // Simulates a health check for an application dependency that takes a while to initialize.
-    // This is part of the readiness/liveness probe sample.
-
     public static partial class HealthCheckBuilderExtensions
     {
         public static IHealthChecksBuilder AddRabbitMQHealthCheck(this IHealthChecksBuilder builder, string connectionString)
         {
-            // return builder.AddCheck($"RabbitMQHealthCheck", new RabbitMQHealthCheck(connectionString));
             return builder.AddTypeActivatedCheck<RabbitMQHealthCheck>($"RabbitMQHealthCheck : {connectionString}", null, null, connectionString);
         }
 
-
         public static IHealthChecksBuilder AddRabbitMQHealthCheckWithDiIBus(this IHealthChecksBuilder builder)
         {
-            // return builder.AddCheck($"RabbitMQHealthCheck", new RabbitMQHealthCheck(connectionString));
             return builder.AddTypeActivatedCheck<RabbitMQHealthCheckFromBus>($"RabbitMQHealthCheck_DI_IBUS");
         }
     }
@@ -44,37 +38,12 @@ namespace Mercan.HealthChecks.RabbitMQ
         {
             return await Task.Run(() =>
             {
-                IDictionary<string, Object> data = new Dictionary<string, object>();
-                data.Add("type", "RabbitMQHealthCheck");
-                try
+                using (var bus = RabbitHutch.CreateBus(connectionString))
                 {
-                    using (var bus = RabbitHutch.CreateBus(connectionString))
-                    {
-                        bus.Publish("Test", "healthcheck.rabbitmq");
-                        var connected = bus.IsConnected;
-                        data.Add("Connected", bus.IsConnected);
-
-
-
-                        var items = connectionString.Split(';');
-                        foreach (var item in items)
-                        {
-                            var parts = item.Trim().Split('=');
-                            if (parts != null && !string.IsNullOrWhiteSpace(parts[0]) && parts[0].Trim().ToLower() == "host" && !string.IsNullOrWhiteSpace(parts[1]))
-                            {
-                                data.Add("host", parts[1].Trim());
-                            }
-                        }
-                    }
-                    string description = "RabbitMQHealthCheck is healthy";
-                    ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
-                    return HealthCheckResult.Healthy(description, rodata);
-                }
-                catch (Exception ex)
-                {
-                    string description = "RabbitMQHealthCheck is failed with exception " + ex.Message;
-                    ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
-                    return HealthCheckResult.Unhealthy(description, data: rodata);
+                    var rabq = new RabbitMQHealthCheckFromBus(bus);
+                    var resultask = rabq.CheckHealthAsync(context, cancellationToken);
+                    resultask.Wait();
+                    return resultask.Result;
                 }
             });
         }
@@ -98,25 +67,9 @@ namespace Mercan.HealthChecks.RabbitMQ
                 data.Add("type", "RabbitMQHealthCheckFromBus");
                 try
                 {
-
                     bus.Publish("Test", "healthcheck.rabbitmq");
                     var connected = bus.IsConnected;
                     data.Add("Connected", bus.IsConnected);
-
-
-
-
-
-                    // var items = connectionString.Split(';');
-                    // foreach (var item in items)
-                    // {
-                    //     var parts = item.Trim().Split('=');
-                    //     if (parts != null && !string.IsNullOrWhiteSpace(parts[0]) && parts[0].Trim().ToLower() == "host" && !string.IsNullOrWhiteSpace(parts[1]))
-                    //     {
-                    //         data.Add("host", parts[1].Trim());
-                    //     }
-                    // }
-
                     string description = "RabbitMQHealthCheck is healthy";
                     ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
                     return HealthCheckResult.Healthy(description, rodata);

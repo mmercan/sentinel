@@ -132,7 +132,7 @@ namespace Mercan.HealthChecks.Network.HttpRequest
             }
 
 
-            if (this.headers.Count > 0)
+            if (this.headers != null && this.headers.Count > 0)
             {
                 foreach (var item in this.headers)
                 {
