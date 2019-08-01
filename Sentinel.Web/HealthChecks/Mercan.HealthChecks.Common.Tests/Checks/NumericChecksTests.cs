@@ -41,8 +41,9 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
 
 
             var resultTask = healthCheckService.CheckHealthAsync();
-            resultTask.Wait();
-            var q = resultTask.Result;
+
+            // resultTask.Wait();
+            // var q = resultTask.Result;
 
             // HealthCheckService
             //HealthCheckBuilderExtensions.AddMinValueCheck(healthChecksBuilder,"testitMin", 500, ()=>{return 300;});

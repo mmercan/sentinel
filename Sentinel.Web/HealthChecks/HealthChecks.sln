@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Redis.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Common", "Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj", "{FF87D2FA-4B8E-4532-8D18-33CA0D45DDA4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.HealthChecks.Common.Tests", "Mercan.HealthChecks.Common.Tests\Mercan.HealthChecks.Common.Tests.csproj", "{0C0EA1CB-EEEC-444A-A984-3F92A8004BE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -226,5 +228,17 @@ Global
 		{FF87D2FA-4B8E-4532-8D18-33CA0D45DDA4}.Release|x64.Build.0 = Release|Any CPU
 		{FF87D2FA-4B8E-4532-8D18-33CA0D45DDA4}.Release|x86.ActiveCfg = Release|Any CPU
 		{FF87D2FA-4B8E-4532-8D18-33CA0D45DDA4}.Release|x86.Build.0 = Release|Any CPU
+		{0C0EA1CB-EEEC-444A-A984-3F92A8004BE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C0EA1CB-EEEC-444A-A984-3F92A8004BE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C0EA1CB-EEEC-444A-A984-3F92A8004BE6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0C0EA1CB-EEEC-444A-A984-3F92A8004BE6}.Debug|x64.Build.0 = Debug|Any CPU
+		{0C0EA1CB-EEEC-444A-A984-3F92A8004BE6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0C0EA1CB-EEEC-444A-A984-3F92A8004BE6}.Debug|x86.Build.0 = Debug|Any CPU
+		{0C0EA1CB-EEEC-444A-A984-3F92A8004BE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C0EA1CB-EEEC-444A-A984-3F92A8004BE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C0EA1CB-EEEC-444A-A984-3F92A8004BE6}.Release|x64.ActiveCfg = Release|Any CPU
+		{0C0EA1CB-EEEC-444A-A984-3F92A8004BE6}.Release|x64.Build.0 = Release|Any CPU
+		{0C0EA1CB-EEEC-444A-A984-3F92A8004BE6}.Release|x86.ActiveCfg = Release|Any CPU
+		{0C0EA1CB-EEEC-444A-A984-3F92A8004BE6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
