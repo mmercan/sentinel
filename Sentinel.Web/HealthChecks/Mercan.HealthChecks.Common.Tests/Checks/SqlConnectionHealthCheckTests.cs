@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Mercan.HealthChecks.Common.Checks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Xunit;
@@ -17,16 +18,13 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
             this.output = output;
         }
         [Fact]
-        public void ConnectDatabase()
+        public async Task ConnectDatabase()
         {
-
             HealthCheckContext context = new HealthCheckContext();
-
-
             var conection = "Server=52.247.221.7;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;";  //Environment.GetEnvironmentVariable("SentinelConnection");
             SqlConnectionHealthCheck sql = new SqlConnectionHealthCheck(conection);
-            var task = sql.CheckHealthAsync(context);
-
+            var result = await sql.CheckHealthAsync(context);
+            Assert.Equal(HealthStatus.Healthy, result.Status);
 
             // task.Wait();
             // // 
@@ -35,7 +33,6 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
             // foreach (var item in task.Result.Data)
             // {
             //     output.WriteLine("Data  " + item.Key + ":" + item.Value.ToString());
-
             // }
             // output.WriteLine("Data Counts : " + task.Result.Data.Count);
             // Assert.Equal(HealthStatus.Healthy, task.Result.Status);
