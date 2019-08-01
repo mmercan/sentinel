@@ -11,6 +11,29 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
 {
     public class DependencyInjectionCheckerShould
     {
+
+        HealthCheckContext context = new HealthCheckContext();
+        IServiceCollection services = new ServiceCollection();
+        ILoggerFactory factory = new LoggerFactory();
+        // // 
+        [Fact]
+        public void CreateaDIHealthCheckInstance()
+        {
+            ILogger<DIHealthCheck> logger = new Logger<DIHealthCheck>(factory);
+            var check = new DIHealthCheck(logger, services);
+        }
+
+        [Fact]
+        public async Task RunDIHealthCheckHealthCheck()
+        {
+            services.AddSingleton<DependencyInjectionCheckerShould>();
+            ILogger<DIHealthCheck> logger = new Logger<DIHealthCheck>(factory);
+            var check = new DIHealthCheck(logger, services);
+            var result = await check.CheckHealthAsync(context);
+            Assert.Equal(HealthStatus.Healthy, result.Status);
+        }
+
+
         // IServiceCollection services = new ServiceCollection();
 
         // ILoggerFactory factory = new LoggerFactory();

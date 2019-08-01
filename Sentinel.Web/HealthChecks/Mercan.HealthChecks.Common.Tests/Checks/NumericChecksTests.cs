@@ -30,16 +30,10 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
 
 
             var serviceProvider = services.BuildServiceProvider();
-
             var factory = serviceProvider.GetService<ILoggerFactory>();
             var logger = factory.CreateLogger<DIHealthCheck>();
-
-
             var healthChecksBuilder = serviceProvider.GetService<IHealthChecksBuilder>();
             var healthCheckService = serviceProvider.GetService<HealthCheckService>();
-
-
-
             var resultTask = healthCheckService.CheckHealthAsync();
 
             // resultTask.Wait();
