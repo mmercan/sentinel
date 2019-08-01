@@ -15,14 +15,12 @@ namespace Mercan.HealthChecks.Mongo
     {
         public static IHealthChecksBuilder AddMongoHealthCheck(this IHealthChecksBuilder builder, string connectionString)
         {
-            // return builder.AddCheck($"MongoHealthCheck {connectionString}", new MongoHealthCheck(connectionString));
             return builder.AddTypeActivatedCheck<MongoHealthCheck>($"MongoHealthCheck", null, null, connectionString);
         }
-        public static IHealthChecksBuilder AddMongoHealthCheck(this IHealthChecksBuilder builder, string connectionString, string databaseName)
-        {
-            return builder.AddTypeActivatedCheck<MongoHealthCheck>($"MongoHealthCheck", null, null, connectionString, databaseName);
-            // return builder.AddCheck($"MongoHealthCheck {connectionString} {databaseName}", new MongoHealthCheck(connectionString, databaseName));
-        }
+        // public static IHealthChecksBuilder AddMongoHealthCheck(this IHealthChecksBuilder builder, string connectionString, string databaseName)
+        // {
+        //     return builder.AddTypeActivatedCheck<MongoHealthCheck>($"MongoHealthCheck", null, null, connectionString, databaseName);
+        // }
     }
     public class MongoHealthCheck : IHealthCheck
     {
@@ -32,11 +30,6 @@ namespace Mercan.HealthChecks.Mongo
         private string collectionName;
         private string connectionString;
         private string databaseName;
-        // public MongoHealthCheck(string connectionString, string databaseName)
-        // {
-        //     this.connectionString = connectionString;
-        //     this.databaseName = databaseName;
-        // }
         public MongoHealthCheck(string connectionString)
         {
             this.connectionString = connectionString;

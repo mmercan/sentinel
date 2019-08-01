@@ -23,4 +23,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj"/>
   </ItemGroup>
+
+  <ItemGroup>
+   <None Include="appsettings.json" CopyToPublishDirectory="Always" />
+</ItemGroup>
 </Project>

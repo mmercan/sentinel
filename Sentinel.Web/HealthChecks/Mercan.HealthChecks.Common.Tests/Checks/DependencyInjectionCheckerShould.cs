@@ -34,6 +34,19 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
         }
 
 
+        [Fact]
+        public void AddtothePipelineWorks()
+        {
+            var services1 = new ServiceCollection()
+            .AddLogging();
+            services1.AddHealthChecks().AddDIHealthCheck(services1);
+            var serviceProvider = services1.BuildServiceProvider();
+            //  var healthCheckService = serviceProvider.GetService<HealthCheckService>();
+            // var result = await healthCheckService.CheckHealthAsync();
+            // Assert.Equal(HealthStatus.Healthy, result.Status);
+
+        }
+
         // IServiceCollection services = new ServiceCollection();
 
         // ILoggerFactory factory = new LoggerFactory();

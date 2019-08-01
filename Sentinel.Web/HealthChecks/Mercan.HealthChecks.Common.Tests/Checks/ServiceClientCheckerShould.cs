@@ -1,5 +1,8 @@
+using System.Configuration;
+using System.IO;
 using System.Threading.Tasks;
 using Mercan.HealthChecks.Common.Checks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
@@ -36,6 +39,27 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
             var check = new ServiceClientBaseHealthCheck(logger, config, "/");
             var result = await check.CheckHealthAsync(context);
             Assert.Equal(HealthStatus.Healthy, result.Status);
+        }
+
+        [Fact]
+        public void AddtothePipelineWorks()
+        {
+
+            var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", true)
+            .AddEnvironmentVariables()
+            .Build();
+
+            configuration["sentinel-api-member__ClientOptions__BaseAddress"] = "www.google.com";
+
+            var services1 = new ServiceCollection().AddLogging();
+            services1.AddHealthChecks().AddApiIsAlive(configuration.GetSection("sentinel-api-member"), "/");
+            var serviceProvider = services1.BuildServiceProvider();
+            //  var healthCheckService = serviceProvider.GetService<HealthCheckService>();
+            // var result = await healthCheckService.CheckHealthAsync();
+            // Assert.Equal(HealthStatus.Healthy, result.Status);
+
         }
     }
 }

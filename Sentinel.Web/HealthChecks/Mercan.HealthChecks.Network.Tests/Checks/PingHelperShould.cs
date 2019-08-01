@@ -23,7 +23,6 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
             var helper = new PingHelper();
             helper.TcpPing(connectionString);
 
-
             Assert.Throws<Exception>(() => { helper.TcpPing("blah"); });
 
         }

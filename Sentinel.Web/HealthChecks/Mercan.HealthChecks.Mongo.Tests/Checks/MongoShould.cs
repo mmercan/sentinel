@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Xunit;
 
@@ -9,6 +10,7 @@ namespace Mercan.HealthChecks.Mongo.Tests.Checks
     {
 
         string connectionString = "mongodb://root:hbMnztmZ4w9JJTGZ@52.247.221.171:27017/admin?readPreference=primary";
+        string failedConnectionString = "mongodb://root:hbMnztmZ4w9JJTGZ@mongooo/admin?readPreference=primary";
         HealthCheckContext context = new HealthCheckContext();
 
         [Fact]
@@ -23,6 +25,28 @@ namespace Mercan.HealthChecks.Mongo.Tests.Checks
             var check = new MongoHealthCheck(connectionString);
             var result = await check.CheckHealthAsync(context);
             Assert.Equal(HealthStatus.Healthy, result.Status);
+        }
+
+
+        [Fact]
+        public async Task RunMongoHealthCheckWithWrongConString()
+        {
+            var check = new MongoHealthCheck(failedConnectionString);
+            var result = await check.CheckHealthAsync(context);
+            Assert.Equal(HealthStatus.Unhealthy, result.Status);
+        }
+
+        [Fact]
+        public void AddtothePipelineWorks()
+        {
+            var services1 = new ServiceCollection()
+            .AddLogging();
+            services1.AddHealthChecks().AddMongoHealthCheck(connectionString);
+            var serviceProvider = services1.BuildServiceProvider();
+            //  var healthCheckService = serviceProvider.GetService<HealthCheckService>();
+            // var result = await healthCheckService.CheckHealthAsync();
+            // Assert.Equal(HealthStatus.Healthy, result.Status);
+
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Mercan.HealthChecks.Network.HttpRequest;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -53,6 +54,21 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
             service.logger = new Logger<HttpRequestFactoryService>(factory);
             service.Get("/");
             // service.Get("https://google.com", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InU0T2ZORl");
+        }
+
+
+
+        [Fact]
+        public void AddtothePipelineWorks()
+        {
+            var services1 = new ServiceCollection()
+            .AddLogging();
+            services1.AddHealthChecks().AddNetworkHealthCheck("https://google.com");
+            var serviceProvider = services1.BuildServiceProvider();
+            //  var healthCheckService = serviceProvider.GetService<HealthCheckService>();
+            // var result = await healthCheckService.CheckHealthAsync();
+            // Assert.Equal(HealthStatus.Healthy, result.Status);
+
         }
     }
 }
