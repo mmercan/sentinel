@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace BMercan.HealthChecks.Network
+namespace Mercan.HealthChecks.Network
 {
     public static class HttpResponseExtensions
     {

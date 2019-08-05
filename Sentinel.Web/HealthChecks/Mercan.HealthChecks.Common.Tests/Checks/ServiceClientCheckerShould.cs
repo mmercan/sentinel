@@ -104,5 +104,26 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
             // Assert.Equal(HealthStatus.Healthy, result.Status);
 
         }
+        public void ServiceClientBaseHealthCheckWorks()
+        {
+            ILogger<ServiceClientBaseHealthCheck> logger = new Logger<ServiceClientBaseHealthCheck>(factory);
+            var check = new ServiceClientBaseHealthCheck(logger, config, "/");
+            // check.GetToken();
+            // object o = null;
+            // check.CreateContent<object>(o);
+            //check.AddJsonProtocol()
+            check.SendAsync<MockData>("https://jsonplaceholder.typicode.com/todos/1", HttpMethod.Get, new MockData())
+
+
+        }
+    }
+
+    public class MockData
+    {
+        public string userId { get; set; }
+        public int id { get; set; }
+        public string title { get; set; }
+        public bool completed { get; set; }
+
     }
 }
