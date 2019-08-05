@@ -24,6 +24,24 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
         }
 
 
+        [Fact]
+        public async Task AddtothePipelineWorks1()
+        {
+            var services1 = new ServiceCollection()
+            .AddLogging();
+            services1.AddHealthChecks()
+             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory")
+             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
+             .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base");
+
+
+            var serviceProvider = services1.BuildServiceProvider();
+            var healthCheckService = serviceProvider.GetService<HealthCheckService>();
+            var result = await healthCheckService.CheckHealthAsync();
+            // Assert.Equal(HealthStatus.Healthy, result.Status);
+
+        }
+
 
         [Fact]
         public async Task SystemInfoHealthChecksWorks()
