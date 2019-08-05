@@ -61,5 +61,48 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
             // Assert.Equal(HealthStatus.Healthy, result.Status);
 
         }
+
+        [Fact]
+        public void AddtothePipelineforIsaliveAndWellWorks()
+        {
+
+            var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", true)
+            .AddEnvironmentVariables()
+            .Build();
+
+            configuration["sentinel-api-member__ClientOptions__BaseAddress"] = "www.google.com";
+
+            var services1 = new ServiceCollection().AddLogging();
+            services1.AddHealthChecks().AddApiIsAliveAndWell(configuration.GetSection("sentinel-api-member"), "/");
+            var serviceProvider = services1.BuildServiceProvider();
+            //  var healthCheckService = serviceProvider.GetService<HealthCheckService>();
+            // var result = await healthCheckService.CheckHealthAsync();
+            // Assert.Equal(HealthStatus.Healthy, result.Status);
+
+        }
+
+
+        [Fact]
+        public void AddtothePipelineNotWorksWithinvalidUrl()
+        {
+
+            var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", true)
+            .AddEnvironmentVariables()
+            .Build();
+
+            configuration["sentinel-api-member__ClientOptions__BaseAddress"] = "www.google.com/blah";
+
+            var services1 = new ServiceCollection().AddLogging();
+            services1.AddHealthChecks().AddApiIsAlive(configuration.GetSection("sentinel-api-member"), "/");
+            var serviceProvider = services1.BuildServiceProvider();
+            //  var healthCheckService = serviceProvider.GetService<HealthCheckService>();
+            // var result = await healthCheckService.CheckHealthAsync();
+            // Assert.Equal(HealthStatus.Healthy, result.Status);
+
+        }
     }
 }

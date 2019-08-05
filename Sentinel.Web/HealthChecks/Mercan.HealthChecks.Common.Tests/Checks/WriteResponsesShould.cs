@@ -36,11 +36,6 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
             var healthChecksBuilder = serviceProvider.GetService<IHealthChecksBuilder>();
             var healthCheckService = serviceProvider.GetService<HealthCheckService>();
             reportTask = healthCheckService.CheckHealthAsync();
-
-
-
-
-
         }
         [Fact]
         public async Task WriteDictionaryResponse()
@@ -64,6 +59,31 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
         {
             var report = await reportTask;
             await WriteResponses.WriteListResponse(context, report);
+        }
+
+        [Fact]
+        public void CreateObjects()
+        {
+            var dicres = new DictionaryResponse
+            {
+                Status = "blah",
+                Duration = "1234",
+                Results = new Dictionary<string, ResultResponse>()
+            };
+            var listres = new ListResponse
+            {
+                Status = "blah",
+                Duration = "12345",
+                Results = new List<ResultResponse>()
+            };
+            var res = new ResultResponse
+            {
+                Status = "blah",
+                Description = "More blah",
+                Duration = "12434",
+                Data = new Dictionary<string, string>(),
+                Exception = ""
+            };
         }
 
     }
