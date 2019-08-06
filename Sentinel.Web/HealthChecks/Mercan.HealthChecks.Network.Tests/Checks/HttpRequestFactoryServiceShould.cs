@@ -73,7 +73,9 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
             Mercan.HealthChecks.Network.HttpResponseExtensions.ContentAsType<MockData>(result.Item1);
             Mercan.HealthChecks.Network.HttpResponseExtensions.ContentAsJson(result.Item1);
             Mercan.HealthChecks.Network.HttpResponseExtensions.ContentAsString(result.Item1);
-            // service.Get("https://google.com", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InU0T2ZORl");
+
+
+            service.Get("https://google.com", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InU0T2ZORl");
         }
 
         [Fact]
@@ -90,8 +92,6 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
             var service = new HttpRequestFactoryService(options);
             service.logger = new Logger<HttpRequestFactoryService>(factory);
             var result = service.Get("/");
-            // Assert.Throws<AggregateException>(() => {  });
-
         }
         [Fact]
         public void RunHealthCheckfor404Urls()
