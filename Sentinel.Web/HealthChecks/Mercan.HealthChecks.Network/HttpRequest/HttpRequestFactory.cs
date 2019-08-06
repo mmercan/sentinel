@@ -9,8 +9,8 @@ namespace Mercan.HealthChecks.Network.HttpRequest
 {
     public static class HttpRequestFactory
     {
-        public static async Task<HttpResponseMessage> GetAsync(string requestUri)   => await GetAsync(requestUri, "", "", "", "");
-        public static async Task<HttpResponseMessage> GetWithClientCertAsync(string requestUri, string base64Certificate, string certificatePassword)  => await GetAsync(requestUri, "", base64Certificate, certificatePassword, "");
+        public static async Task<HttpResponseMessage> GetAsync(string requestUri) => await GetAsync(requestUri, "", "", "", "");
+        public static async Task<HttpResponseMessage> GetWithClientCertAsync(string requestUri, string base64Certificate, string certificatePassword) => await GetAsync(requestUri, "", base64Certificate, certificatePassword, "");
 
 
         public static async Task<HttpResponseMessage> GetAsync(string requestUri, string bearerToken, string base64Certificate, string certificatePassword, string subscriptionKey)
@@ -20,8 +20,8 @@ namespace Mercan.HealthChecks.Network.HttpRequest
                                 .AddRequestUri(requestUri)
                                 .AddBearerToken(bearerToken)
                                 .AddClientCertificate(base64Certificate, certificatePassword)
-                                .AddSubscriptionKey(subscriptionKey);
-
+                                .AddSubscriptionKey(subscriptionKey)
+                                .AddTimeout(TimeSpan.FromMinutes(3));
             return await builder.SendAsync();
         }
 
@@ -40,7 +40,7 @@ namespace Mercan.HealthChecks.Network.HttpRequest
             return taskresult.Result;
         }
 
-        public static async Task<HttpResponseMessage> Post(string requestUri, object value)   => await Post(requestUri, value, "");
+        public static async Task<HttpResponseMessage> Post(string requestUri, object value) => await Post(requestUri, value, "");
         public static async Task<HttpResponseMessage> Post(string requestUri, object value, string bearerToken)
         {
             var builder = new HttpRequestBuilder()
@@ -65,7 +65,7 @@ namespace Mercan.HealthChecks.Network.HttpRequest
         }
 
         public static async Task<HttpResponseMessage> Patch(string requestUri, object value) => await Patch(requestUri, value, "");
-        public static async Task<HttpResponseMessage> Patch( string requestUri, object value, string bearerToken)
+        public static async Task<HttpResponseMessage> Patch(string requestUri, object value, string bearerToken)
         {
             var builder = new HttpRequestBuilder()
                                 .AddMethod(new HttpMethod("PATCH"))

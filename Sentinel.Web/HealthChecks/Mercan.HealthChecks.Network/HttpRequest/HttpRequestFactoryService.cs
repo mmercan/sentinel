@@ -13,13 +13,10 @@ namespace Mercan.HealthChecks.Network.HttpRequest
     public class HttpRequestFactoryService
     {
         public HttpClientOptions httpClientOptions { get; set; }
-        private readonly HttpRequestBuilder httpRequestBuilder;
-
         public ILogger<HttpRequestFactoryService> logger { get; set; }
-        public HttpRequestFactoryService(IOptions<HttpClientOptions> httpClientOptions, HttpRequestBuilder httpRequestBuilder)
+        public HttpRequestFactoryService(IOptions<HttpClientOptions> httpClientOptions)
         {
             this.httpClientOptions = httpClientOptions.Value;
-            this.httpRequestBuilder = httpRequestBuilder;
         }
 
         public Tuple<HttpResponseMessage, string> Get(string urlSuffix)
@@ -38,12 +35,12 @@ namespace Mercan.HealthChecks.Network.HttpRequest
             {
                 taskresult = builder.SendAsync();
                 taskresult.Wait();
+                return Tuple.Create(taskresult.Result, url);
             }
             catch (AggregateException ea)
             {
-                HandleAggregateException(ea, url);
+                return HandleAggregateException(ea, url);
             }
-            return Tuple.Create(taskresult.Result, url);
         }
 
 
@@ -64,12 +61,13 @@ namespace Mercan.HealthChecks.Network.HttpRequest
             {
                 taskresult = builder.SendAsync();
                 taskresult.Wait();
+                return Tuple.Create(taskresult.Result, url);
             }
             catch (AggregateException ea)
             {
                 return HandleAggregateException(ea, url);
             }
-            return Tuple.Create(taskresult.Result, url);
+
         }
 
 
@@ -80,7 +78,7 @@ namespace Mercan.HealthChecks.Network.HttpRequest
                 HttpResponseMessage respose = null;
                 string errormessage = ex?.InnerException?.Message;
                 Exception sendex = ex?.InnerException;
-                if (errormessage == null && ex.Message != null)
+                if (errormessage == null && ex?.Message != null)
                 {
                     errormessage = ex.Message;
                     sendex = ex;
@@ -94,18 +92,17 @@ namespace Mercan.HealthChecks.Network.HttpRequest
                 {
                     logger.LogError(errormessage + " Url : " + url, sendex);
                 }
-                if (ex is HttpRequestException)
+
+
+                if (ex is HttpRequestException && ex.InnerException != null && ex.InnerException.Message == "The server name or address could not be resolved")
                 {
-                    if (ex.InnerException != null && ex.InnerException.Message == "The server name or address could not be resolved")
-                    {
-                        respose = new HttpResponseMessage(System.Net.HttpStatusCode.NotFound);
-                    }
-                    else
-                    {
-                        respose = new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
-                    }
+                    respose = new HttpResponseMessage(System.Net.HttpStatusCode.NotFound);
                 }
-                if (respose == null)
+                else if (ex is HttpRequestException)
+                {
+                    respose = new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+                }
+                else
                 {
                     respose = new HttpResponseMessage(System.Net.HttpStatusCode.ServiceUnavailable);
                 }

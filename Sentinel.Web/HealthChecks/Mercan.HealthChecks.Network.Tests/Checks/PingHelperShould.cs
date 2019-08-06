@@ -18,7 +18,7 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
         }
 
         [Fact]
-        public async Task RunPingHealthCheck()
+        public void RunPingHealthCheck()
         {
             var helper = new PingHelper();
             helper.TcpPing(connectionString);

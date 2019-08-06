@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using Mercan.HealthChecks.Network.HttpRequest;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -29,10 +31,7 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
             };
 
             IOptions<HttpRequest.Models.HttpClientOptions> options = Microsoft.Extensions.Options.Options.Create(httpClientOptions);
-
-            HttpRequestBuilder builder = new HttpRequestBuilder();
-
-            var service = new HttpRequestFactoryService(options, builder);
+            var service = new HttpRequestFactoryService(options);
         }
 
         [Fact]
@@ -47,10 +46,7 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
             };
 
             IOptions<HttpRequest.Models.HttpClientOptions> options = Microsoft.Extensions.Options.Options.Create(httpClientOptions);
-
-            HttpRequestBuilder builder = new HttpRequestBuilder();
-
-            var service = new HttpRequestFactoryService(options, builder);
+            var service = new HttpRequestFactoryService(options);
             service.logger = new Logger<HttpRequestFactoryService>(factory);
             service.Get("/");
             // service.Get("https://google.com", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InU0T2ZORl");
@@ -64,14 +60,10 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
                 BaseAddress = "https://jsonplaceholder.typicode.com/todos/1",
                 RequestContentType = "Json/application",
                 DefaultRequestHeaders = new Dictionary<string, string>()
-
             };
 
             IOptions<HttpRequest.Models.HttpClientOptions> options = Microsoft.Extensions.Options.Options.Create(httpClientOptions);
-
-            HttpRequestBuilder builder = new HttpRequestBuilder();
-
-            var service = new HttpRequestFactoryService(options, builder);
+            var service = new HttpRequestFactoryService(options);
             service.logger = new Logger<HttpRequestFactoryService>(factory);
             var result = service.Get("/");
             result.Item1.ContentAsType<MockData>();
@@ -84,6 +76,38 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
             // service.Get("https://google.com", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InU0T2ZORl");
         }
 
+        [Fact]
+        public void RunHealthCheckforwrongUrls()
+        {
+            HttpRequest.Models.HttpClientOptions httpClientOptions = new HttpRequest.Models.HttpClientOptions
+            {
+                BaseAddress = "https://ZKFDSJhlakfdsjahfld.com",
+                RequestContentType = "Json/application",
+                DefaultRequestHeaders = new Dictionary<string, string>()
+            };
+
+            IOptions<HttpRequest.Models.HttpClientOptions> options = Microsoft.Extensions.Options.Options.Create(httpClientOptions);
+            var service = new HttpRequestFactoryService(options);
+            service.logger = new Logger<HttpRequestFactoryService>(factory);
+            Assert.Throws<AggregateException>(() => { var result = service.Get("/"); });
+
+        }
+        [Fact]
+        public void RunHealthCheckfor404Urls()
+        {
+            HttpRequest.Models.HttpClientOptions httpClientOptions = new HttpRequest.Models.HttpClientOptions
+            {
+                BaseAddress = "https://www.google.com/blah",
+                RequestContentType = "Json/application",
+                DefaultRequestHeaders = new Dictionary<string, string>()
+            };
+
+            IOptions<HttpRequest.Models.HttpClientOptions> options = Microsoft.Extensions.Options.Options.Create(httpClientOptions);
+            var service = new HttpRequestFactoryService(options);
+            service.logger = new Logger<HttpRequestFactoryService>(factory);
+            var result = service.Get("/");
+
+        }
 
 
         [Fact]

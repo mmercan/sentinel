@@ -55,7 +55,7 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
             await HttpRequestFactory.Delete("https://jsonplaceholder.typicode.com/posts/1");
         }
 
-        public async Task PostFileWorks()
+        public void PostFileWorks()
         {
 
         }
