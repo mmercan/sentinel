@@ -29,33 +29,12 @@ namespace Mercan.HealthChecks.Network.HttpRequest
                     .AddClientCertificate(httpClientOptions.ClientCertificateBase64)
                     .AddHeaders(httpClientOptions.DefaultRequestHeaders)
                     .AddLogger(logger);
-
-            Task<HttpResponseMessage> taskresult = null;
-            try
-            {
-                taskresult = builder.SendAsync();
-                taskresult.Wait();
-                return Tuple.Create(taskresult.Result, url);
-            }
-            catch (AggregateException ea)
-            {
-                return HandleAggregateException(ea, url);
-            }
+            return Get(builder, urlSuffix);
         }
 
-
-        public Tuple<HttpResponseMessage, string> Get(string urlSuffix, string jwt)
+        public Tuple<HttpResponseMessage, string> Get(HttpRequestBuilder builder, string urlSuffix)
         {
             string url = httpClientOptions.BaseAddress + urlSuffix;
-            var builder = new HttpRequestBuilder()
-                    .AddMethod(HttpMethod.Get)
-                    .AddRequestUri(url)
-                    .AddBearerToken(jwt)
-                    .AddRequestContentType(httpClientOptions.RequestContentType)
-                    .AddClientCertificate(httpClientOptions.ClientCertificateBase64)
-                    .AddHeaders(httpClientOptions.DefaultRequestHeaders)
-                    .AddLogger(logger);
-
             Task<HttpResponseMessage> taskresult = null;
             try
             {
@@ -67,9 +46,7 @@ namespace Mercan.HealthChecks.Network.HttpRequest
             {
                 return HandleAggregateException(ea, url);
             }
-
         }
-
 
         public Tuple<HttpResponseMessage, string> HandleAggregateException(AggregateException ea, string url)
         {

@@ -74,8 +74,6 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
             Mercan.HealthChecks.Network.HttpResponseExtensions.ContentAsJson(result.Item1);
             Mercan.HealthChecks.Network.HttpResponseExtensions.ContentAsString(result.Item1);
 
-
-            service.Get("https://google.com", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InU0T2ZORl");
         }
 
         [Fact]
