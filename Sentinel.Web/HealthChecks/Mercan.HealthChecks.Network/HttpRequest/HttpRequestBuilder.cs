@@ -43,7 +43,7 @@ namespace Mercan.HealthChecks.Network.HttpRequest
             return this;
         }
 
-        internal HttpRequestBuilder AddRequestContentType(string requestContentType)
+        public HttpRequestBuilder AddRequestContentType(string requestContentType)
         {
             this.requestContentType = requestContentType;
             return this;
@@ -183,24 +183,6 @@ namespace Mercan.HealthChecks.Network.HttpRequest
                 logger.LogDebug(message, args);
             }
         }
-
-        private void LogError(string message, object[] args)
-        {
-            if (logger != null)
-            {
-                logger.LogError(message, args);
-            }
-        }
-
-
-        private void LogWarning(string message, object[] args)
-        {
-            if (logger != null)
-            {
-                logger.LogWarning(message, args);
-            }
-        }
-
 
         private void EnsureArguments()
         {

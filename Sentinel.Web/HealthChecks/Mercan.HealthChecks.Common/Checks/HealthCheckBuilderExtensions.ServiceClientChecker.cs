@@ -45,12 +45,6 @@ namespace Mercan.HealthChecks.Common.Checks
             clientOptions.Bind(config);
             string path = string.Format(config.BaseAddress + isAliveAndWellUrl);
             return builder.AddTypeActivatedCheck<ServiceClientBaseHealthCheck>($"ApiIsAlive {path} {sectionPath}", null, null, config, path);
-            // ServiceClientBase service = new ServiceClientBase(config);
-            // var task = service.SendAsync<HealthCheckResult>(path, HttpMethod.Get);
-            // task.Wait();
-            // var items = task.Result;
-            // string description = path + " is succeesful";
-            // return HealthCheckResult.Healthy(description);
         }
     }
 
@@ -99,8 +93,7 @@ namespace Mercan.HealthChecks.Common.Checks
     public class ServiceClientBaseHealthCheck : IHealthCheck
     {
         private readonly ApiServiceConfiguration _options;
-        private static HttpClient _httpClient;
-        protected HttpClient Client { get => _httpClient; private set => _httpClient = value; }
+        private HttpClient _httpClient;
         readonly ILogger<ServiceClientBaseHealthCheck> logger;
         readonly string path;
         public ServiceClientBaseHealthCheck(ILogger<ServiceClientBaseHealthCheck> logger, ApiServiceConfiguration options, string path)
@@ -277,7 +270,7 @@ namespace Mercan.HealthChecks.Common.Checks
 
                 try
                 {
-                    response = await Client.SendAsync(request);
+                    response = await _httpClient.SendAsync(request);
                     logger.LogCritical("response is received " + path);
                     responseText = await response.Content.ReadAsStringAsync();
                 }

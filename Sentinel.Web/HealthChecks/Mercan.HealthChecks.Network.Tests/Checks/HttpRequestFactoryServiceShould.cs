@@ -12,7 +12,7 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
 {
     public class HttpRequestFactoryServiceShould
     {
-
+        string base64 = "MIICYzCCAcygAwIBAgIBADANBgkqhkiG9w0BAQUFADAuMQswCQYDVQQGEwJVUzEM  MAoGA1UEChMDSUJNMREwDwYDVQQLEwhMb2NhbCBDQTAeFw05OTEyMjIwNTAwMDBa  Fw0wMDEyMjMwNDU5NTlaMC4xCzAJBgNVBAYTAlVTMQwwCgYDVQQKEwNJQk0xETAP  BgNVBAsTCExvY2FsIENBMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD2bZEo  7xGaX2/0GHkrNFZvlxBou9v1Jmt/PDiTMPve8r9FeJAQ0QdvFST/0JPQYD20rH0b  imdDLgNdNynmyRoS2S/IInfpmf69iyc2G0TPyRvmHIiOZbdCd+YBHQi1adkj17ND  cWj6S14tVurFX73zx0sNoMS79q3tuXKrDsxeuwIDAQABo4GQMIGNMEsGCVUdDwGG  +EIBDQQ+EzxHZW5lcmF0ZWQgYnkgdGhlIFNlY3VyZVdheSBTZWN1cml0eSBTZXJ2  ZXIgZm9yIE9TLzM5MCAoUkFDRikwDgYDVR0PAQH/BAQDAgAGMA8GA1UdEwEB/wQF  MAMBAf8wHQYDVR0OBBYEFJ3+ocRyCTJw067dLSwr/nalx6YMMA0GCSqGSIb3DQEB  BQUAA4GBAMaQzt+zaj1GU77yzlr8iiMBXgdQrwsZZWJo5exnAucJAEYQZmOfyLiM  D6oYq+ZnfvM0n8G/Y79q8nhwvuxpYOnRSAXFp6xSkrIOeZtJMY1h00LKp/JX3Ng1  svZ2agE126JHsQ0bhzN5TKsYfbwfTwfjdWAGy6Vf1nYi/rO+ryMO";
         public HttpRequestFactoryServiceShould()
         {
 
@@ -104,6 +104,40 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
             IOptions<HttpRequest.Models.HttpClientOptions> options = Microsoft.Extensions.Options.Options.Create(httpClientOptions);
             var service = new HttpRequestFactoryService(options);
             service.logger = new Logger<HttpRequestFactoryService>(factory);
+            var result = service.Get("/");
+
+        }
+
+
+        [Fact]
+        public void RunHttpRequestFactoryServiceWithBuilder()
+        {
+            HttpRequest.Models.HttpClientOptions httpClientOptions = new HttpRequest.Models.HttpClientOptions
+            {
+                BaseAddress = "https://www.google.com/blah",
+                RequestContentType = "Json/application",
+                DefaultRequestHeaders = new Dictionary<string, string>(){
+                    {"cache-control","max-age=0"}
+                }
+            };
+
+            IOptions<HttpRequest.Models.HttpClientOptions> options = Microsoft.Extensions.Options.Options.Create(httpClientOptions);
+            var service = new HttpRequestFactoryService(options);
+            service.logger = new Logger<HttpRequestFactoryService>(factory);
+
+            var builder = new HttpRequestBuilder()
+                    .AddMethod(HttpMethod.Get)
+                    .AddRequestUri("https://www.google.com/blah")
+                    .AddRequestContentType(httpClientOptions.RequestContentType)
+                    .AddClientCertificate(httpClientOptions.ClientCertificateBase64)
+                    .AddHeaders(httpClientOptions.DefaultRequestHeaders)
+                    .AddAcceptHeader("Json/application")
+                    .AddTimeout(TimeSpan.FromMinutes(3))
+                    .AddClientCertificate(base64)
+                    .AddSubscriptionKey("123456789")
+                    .AddLogger(service.logger);
+
+
             var result = service.Get("/");
 
         }
