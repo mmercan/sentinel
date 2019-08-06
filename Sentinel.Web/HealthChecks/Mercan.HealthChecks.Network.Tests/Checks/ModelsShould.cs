@@ -31,7 +31,6 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
                 CertificatePassword = "",
                 SubscriptionKey = "",
                 IsResponseJson = false
-
             };
             var a3 = new HttpCallRespondModel
             {
@@ -54,7 +53,7 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
             var a5 = new HttpClientOptions
             {
                 BaseAddress = "",
-                DefaultRequestHeaders = new Dictionary<string, string>,
+                DefaultRequestHeaders = new Dictionary<string, string>(),
                 RequestContentType = "",
                 ClientCertificateBase64 = "",
                 CertificateThumbprint = "",

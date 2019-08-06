@@ -1,5 +1,6 @@
 using System.Configuration;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Mercan.HealthChecks.Common.Checks;
 using Microsoft.Extensions.Configuration;
@@ -104,7 +105,7 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
             // Assert.Equal(HealthStatus.Healthy, result.Status);
 
         }
-        public void ServiceClientBaseHealthCheckWorks()
+        public async Task ServiceClientBaseHealthCheckWorks()
         {
             ILogger<ServiceClientBaseHealthCheck> logger = new Logger<ServiceClientBaseHealthCheck>(factory);
             var check = new ServiceClientBaseHealthCheck(logger, config, "/");
@@ -112,7 +113,8 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
             // object o = null;
             // check.CreateContent<object>(o);
             //check.AddJsonProtocol()
-            check.SendAsync<MockData>("https://jsonplaceholder.typicode.com/todos/1", HttpMethod.Get, new MockData())
+            await check.SendAsync<MockData>(
+                "https://jsonplaceholder.typicode.com/todos/1", HttpMethod.Get, new MockData());
 
 
         }
