@@ -56,6 +56,34 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
             // service.Get("https://google.com", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InU0T2ZORl");
         }
 
+        [Fact]
+        public void RunHealthCheckwithContentConverter()
+        {
+            HttpRequest.Models.HttpClientOptions httpClientOptions = new HttpRequest.Models.HttpClientOptions
+            {
+                BaseAddress = "https://jsonplaceholder.typicode.com/todos/1",
+                RequestContentType = "Json/application",
+                DefaultRequestHeaders = new Dictionary<string, string>()
+
+            };
+
+            IOptions<HttpRequest.Models.HttpClientOptions> options = Microsoft.Extensions.Options.Options.Create(httpClientOptions);
+
+            HttpRequestBuilder builder = new HttpRequestBuilder();
+
+            var service = new HttpRequestFactoryService(options, builder);
+            service.logger = new Logger<HttpRequestFactoryService>(factory);
+            var result = service.Get("/");
+            result.Item1.ContentAsType<MockData>();
+            result.Item1.ContentAsJson();
+            result.Item1.ContentAsString();
+
+            Mercan.HealthChecks.Network.HttpResponseExtensions.ContentAsType<MockData>(result.Item1);
+            Mercan.HealthChecks.Network.HttpResponseExtensions.ContentAsJson(result.Item1);
+            Mercan.HealthChecks.Network.HttpResponseExtensions.ContentAsString(result.Item1);
+            // service.Get("https://google.com", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InU0T2ZORl");
+        }
+
 
 
         [Fact]
@@ -70,5 +98,14 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
             // Assert.Equal(HealthStatus.Healthy, result.Status);
 
         }
+    }
+
+    public class MockData
+    {
+        public string userId { get; set; }
+        public int id { get; set; }
+        public string title { get; set; }
+        public bool completed { get; set; }
+
     }
 }

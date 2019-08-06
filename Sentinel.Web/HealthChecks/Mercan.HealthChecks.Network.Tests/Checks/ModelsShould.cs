@@ -60,5 +60,6 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
                 JwtTokenOptions = a4,
             };
         }
+
     }
 }
