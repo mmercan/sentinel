@@ -50,15 +50,15 @@ namespace Mercan.HealthChecks.Network.HttpRequest
 
         public Tuple<HttpResponseMessage, string> HandleAggregateException(AggregateException ea, string url)
         {
+            HttpResponseMessage respose = new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest); ;
+            string errormessage = null;
+
             foreach (var ex in ea.Flatten().InnerExceptions)
             {
-                HttpResponseMessage respose = null;
-                string errormessage = ex?.InnerException?.Message;
-                Exception sendex = ex?.InnerException;
+                errormessage = ex?.InnerException?.Message;
                 if (errormessage == null && ex?.Message != null)
                 {
                     errormessage = ex.Message;
-                    sendex = ex;
                 }
                 else
                 {
@@ -67,7 +67,7 @@ namespace Mercan.HealthChecks.Network.HttpRequest
 
                 if (logger != null)
                 {
-                    logger.LogError(errormessage + " Url : " + url, sendex);
+                    logger.LogError(errormessage + " Url : " + url, ex?.InnerException == null ? ex : ex?.InnerException);
                 }
 
 
@@ -84,10 +84,8 @@ namespace Mercan.HealthChecks.Network.HttpRequest
                     respose = new HttpResponseMessage(System.Net.HttpStatusCode.ServiceUnavailable);
                 }
                 respose.Content = new StringContent(errormessage + " url : " + url);
-                return Tuple.Create(respose, url);
             }
-            HttpResponseMessage respose1 = new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest); ;
-            return Tuple.Create(respose1, url);
+            return Tuple.Create(respose, url);
         }
     }
 }
