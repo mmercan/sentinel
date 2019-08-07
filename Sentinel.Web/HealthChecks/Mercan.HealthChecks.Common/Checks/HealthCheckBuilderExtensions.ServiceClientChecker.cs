@@ -225,14 +225,9 @@ namespace Mercan.HealthChecks.Common.Checks
         }
         protected async Task<TResponse> SendAsync<TContent, TResponse>(string path, HttpMethod httpMethod, TContent content)
         {
-            if (string.IsNullOrEmpty(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
+            Guard.ArgumentNotNullOrEmpty("path", path);
             string responseText = await SendAsync(path, httpMethod, content);
             TResponse responseContent = (string.IsNullOrEmpty(responseText)) ? default(TResponse) : JsonConvert.DeserializeObject<TResponse>(responseText);
-
             return responseContent;
         }
         public async Task<string> SendStringAsync(string path, HttpMethod httpMethod)
@@ -241,21 +236,13 @@ namespace Mercan.HealthChecks.Common.Checks
         }
         protected async Task<string> SendStringAsync<TContent>(string path, HttpMethod httpMethod, TContent content)
         {
-            if (string.IsNullOrEmpty(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
+            Guard.ArgumentNotNullOrEmpty("path", path);
             string responseText = await SendAsync(path, httpMethod, content);
-
             return responseText;
         }
         public async Task<string> SendAsync<TContent>(string path, HttpMethod httpMethod, TContent content)
         {
-            if (string.IsNullOrEmpty(path))
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Guard.ArgumentNotNullOrEmpty("path", path);
             string responseText = string.Empty;
             logger.LogCritical("Request is Ready to Send to " + path);
             using (HttpRequestMessage request = new HttpRequestMessage(httpMethod, path))
@@ -265,9 +252,7 @@ namespace Mercan.HealthChecks.Common.Checks
                     HttpContent httpContent = CreateContent(content);
                     request.Content = httpContent;
                 }
-
                 HttpResponseMessage response;
-
                 try
                 {
                     response = await _httpClient.SendAsync(request);
@@ -276,9 +261,7 @@ namespace Mercan.HealthChecks.Common.Checks
                 }
                 catch (Exception ex)
                 {
-                    var Message = ex.InnerException?.InnerException?.Message;
-                    if (Message == null) { Message = ex.InnerException?.Message; }
-                    if (Message == null) { Message = ex.Message; }
+                    var Message = HandleExceptionMessage(ex);
                     throw new HttpRequestException($"Request {httpMethod} {path} failed. with Exception : {Message}");
                 }
 
@@ -313,14 +296,18 @@ namespace Mercan.HealthChecks.Common.Checks
                 }
                 catch (Exception ex)
                 {
-                    var Message = ex.InnerException?.InnerException?.Message;
-                    if (Message == null) { Message = ex.InnerException?.Message; }
-                    if (Message == null) { Message = ex.Message; }
-                    string description = Message;
-                    IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { "type", "ServiceClientBaseHealthCheck" }, { path, " failed with exception " + Message }, { "BaseAddress", _options?.BaseAddress }, { "Path", path } };
+                    string description = HandleExceptionMessage(ex);
+                    IReadOnlyDictionary<string, object> data = new Dictionary<string, object> { { "type", "ServiceClientBaseHealthCheck" }, { path, " failed with exception " + description }, { "BaseAddress", _options?.BaseAddress }, { "Path", path } };
                     return HealthCheckResult.Unhealthy(description, null, data);
                 }
             });
+        }
+        public string HandleExceptionMessage(Exception ex)
+        {
+            var Message = ex.InnerException?.InnerException?.Message;
+            if (Message == null) { Message = ex.InnerException?.Message; }
+            if (Message == null) { Message = ex.Message; }
+            return Message;
         }
     }
 
