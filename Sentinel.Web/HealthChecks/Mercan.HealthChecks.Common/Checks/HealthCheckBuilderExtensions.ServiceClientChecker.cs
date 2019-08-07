@@ -267,14 +267,7 @@ namespace Mercan.HealthChecks.Common.Checks
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                    {
-                        throw new HttpRequestException($"Request {httpMethod} {path} failed. Error code: {response.StatusCode}. Error message: {response.ReasonPhrase}");
-                    }
-                    else
-                    {
-                        throw new HttpRequestException($"Request {httpMethod} {path} failed. Error code: {response.StatusCode}. Error message: {response.ReasonPhrase}");
-                    }
+                    throw new HttpRequestException($"Request {httpMethod} {path} failed. Error code: {response.StatusCode}. Error message: {response.ReasonPhrase}");
                 }
             }
             return responseText.Trim();
