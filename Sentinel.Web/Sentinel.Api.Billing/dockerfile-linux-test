@@ -15,6 +15,7 @@ ENV SONARKEY=$buildtime_SONARKEY
 ENV APPID=$buildtime_APPID
 ENV APPSECRET=$buildtime_APPSECRET
 ENV ADID=$buildtime_ADID
+ENV SONAR_HOST=https://sonarcloud.io
 ENV SentinelConnection="Server=52.247.221.7;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
 
 
@@ -22,7 +23,7 @@ WORKDIR /src
 COPY Sentinel.Api.Billing/Sentinel.Api.Billing.csproj Sentinel.Api.Billing/
 RUN dotnet restore Sentinel.Api.Billing/Sentinel.Api.Billing.csproj
 COPY . .
-RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap-reboot.css, **bootstrap.js, **Sentinel.Empty.Tests" /d:sonar.coverage.exclusions="**Tests*.cs" /d:sonar.cs.vstest.reportsPaths="/TestResults/*.trx"
+RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.organization=mmercan-github /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap-reboot.css, **bootstrap.js, **Sentinel.Empty.Tests" /d:sonar.coverage.exclusions="**Tests*.cs" /d:sonar.cs.vstest.reportsPaths="/TestResults/*.trx"
 RUN dotnet build ./Sentinel.Api.Billing/Sentinel.Api.Billing.sln
 
 RUN dotnet test ./Sentinel.Api.Billing/Sentinel.Api.Billing.sln /p:CollectCoverage=true /p:CoverletOutput=/TestResults/ /p:MergeWith=/TestResults/coverage.json --logger=trx -r /TestResults/
