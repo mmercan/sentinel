@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "Sentinel.UI.Admin.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "Sentinel.UI.Admin.name" . }}
+    helm.sh/chart: {{ include "Sentinel.UI.Admin.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "Sentinel.UI.Admin.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}

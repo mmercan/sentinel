@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "Sentinel.Api.Billing.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "Sentinel.Api.Billing.name" . }}
+    helm.sh/chart: {{ include "Sentinel.Api.Billing.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "Sentinel.Api.Billing.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
