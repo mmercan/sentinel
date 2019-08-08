@@ -30,13 +30,13 @@ ENV sentinel-api-product__ClientOptions__BaseAddress=https://product.api.myrcan.
 ENV sentinel-api-product__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
 ENV sentinel-api-comms__ClientOptions__BaseAddress=https://comms.api.myrcan.com/
 ENV sentinel-api-comms__ClientOptions__ClientId=67d009b1-97fe-4963-84ff-3590b06df0da
-
+ENV SONAR_HOST=https://sonarcloud.io
 
 WORKDIR /src
 COPY Sentinel.Api.HealthMonitoring/Sentinel.Api.HealthMonitoring.csproj Sentinel.Api.HealthMonitoring/
 RUN dotnet restore Sentinel.Api.HealthMonitoring/Sentinel.Api.HealthMonitoring.csproj
 COPY . .
-RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap-reboot.css, **bootstrap.js, **/wwwroot/**" /d:sonar.coverage.exclusions="**Tests*.cs" /d:sonar.cs.vstest.reportsPaths="/TestResults/*.trx"
+RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /o:mmercan-github /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap-reboot.css, **bootstrap.js, **/wwwroot/**, **Sentinel.Empty.Tests" /d:sonar.coverage.exclusions="**Tests*.cs, **.js," /d:sonar.cs.vstest.reportsPaths="/TestResults/*.trx"
 RUN dotnet build ./Sentinel.Api.HealthMonitoring/Sentinel.Api.HealthMonitoring.sln
 
 RUN dotnet test ./Sentinel.Api.HealthMonitoring/Sentinel.Api.HealthMonitoring.sln  /p:CollectCoverage=true /p:CoverletOutput=/TestResults/ /p:MergeWith=/TestResults/coverage.json --logger=trx -r /TestResults/
