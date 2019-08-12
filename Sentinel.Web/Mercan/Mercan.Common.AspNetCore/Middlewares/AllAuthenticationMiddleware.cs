@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace Mercan.Common.AspNetCore.Middlewares
 {
@@ -30,6 +31,11 @@ namespace Mercan.Common.AspNetCore.Middlewares
             Schemes = schemes;
         }
 
+        public AllAuthenticationMiddleware(IAuthenticationSchemeProvider schemes)
+        {
+            this.Schemes = schemes;
+
+        }
         public IAuthenticationSchemeProvider Schemes { get; set; }
         ILogger<AllAuthenticationMiddleware> logger;
 
@@ -51,14 +57,11 @@ namespace Mercan.Common.AspNetCore.Middlewares
                     return;
                 }
                 var result = await context.AuthenticateAsync(scheme.Name);
-                if (result?.Principal != null)
+                if (result != null && result.Principal != null && context != null && result.Principal is ClaimsPrincipal)
                 {
-                    context.User = result.Principal;
-                    // logger.LogCritical(scheme.Name + "Has the User");
-                }
-                else
-                {
-                    //  logger.LogCritical(scheme.Name + "Has No User");
+                    var user = context.User;
+                    var principal = result.Principal;
+                    user = principal;
                 }
             }
             await _next(context);
@@ -73,7 +76,6 @@ namespace Mercan.Common.AspNetCore.Middlewares
             //         return;
             //     }
             // }
-
             // var defaultAuthenticate = await Schemes.GetDefaultAuthenticateSchemeAsync();
             // if (defaultAuthenticate != null)
             // {

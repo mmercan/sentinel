@@ -232,7 +232,7 @@ namespace Sentinel.Api.HealthMonitoring
             app.UseAllAuthentication();
 
             app.UseHttpsRedirection();
-            
+
             app.UseFileServer();
             app.UseStaticFiles();
             app.UseDefaultFiles();
@@ -353,7 +353,6 @@ namespace Sentinel.Api.HealthMonitoring
             //         template: "{controller=Home}/{action=Index}/{id?}");
             // });
             app.UseMvc();
-
             app.UseHealthChecksWithAuth("/Health/IsAliveAndWell", new HealthCheckOptions()
             {
                 // This custom writer formats the detailed status as JSON.
