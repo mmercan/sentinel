@@ -17,21 +17,6 @@ spec:
     port: 5672               
     targetPort: 5672
     protocol: TCP
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: sentinel-service-rabbitmq
-#   labels:
-#     app: sentinel-service-rabbitmq
-# spec:
-#   type: LoadBalancer
-#   ports:
-#   - protocol: TCP
-#     port: 5672
-#     targetPort: 5672
-#   selector:
-#     app: sentinel-service-rabbitmq
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
