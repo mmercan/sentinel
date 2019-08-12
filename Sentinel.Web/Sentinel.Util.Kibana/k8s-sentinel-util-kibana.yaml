@@ -19,7 +19,7 @@ metadata:
   labels:
     component: sentinel-elk-kibana
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     component: sentinel-elk-kibana
   ports:
