@@ -7,7 +7,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0"/>
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0"/>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2"/>
-    <PackageReference Include="System.Reflection.Emit" Version="4.3.0"/>
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0"/>
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0"/>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0"/>

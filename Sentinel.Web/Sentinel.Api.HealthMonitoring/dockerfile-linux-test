@@ -4,7 +4,7 @@ ARG buildtime_APPSECRET
 ARG buildtime_ADID
 ARG buildtime_SONARKEY
 # ENV DOTNET_USE_POLLING_FILE_WATCHER=1
-# ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ASPNETCORE_ENVIRONMENT=dockertest
 # ENV SONAR_HOST http://sonar.myrcan.com
 # RUN apt-get update && apt-get install -y openjdk-8-jdk
 # RUN dotnet tool install --global dotnet-sonarscanner

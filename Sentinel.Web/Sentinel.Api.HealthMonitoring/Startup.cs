@@ -127,7 +127,7 @@ namespace Sentinel.Api.HealthMonitoring
               .AddRedisHealthCheck(Configuration["RedisConnection"])
               .AddDIHealthCheck(services);
 
-            if (env.EnvironmentName != "DockerTest")
+            if (env.EnvironmentName != "dockertest")
             {
                 healthcheckBuilder.AddRabbitMQHealthCheckWithDiIBus();
             }

@@ -46,6 +46,15 @@
         ],
         "problemMatcher": "$msCompile"
     }, {
+        "label": "Sentinel.Api.HealthMonitoring.build",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build",
+            "${workspaceFolder}/Sentinel.Api.HealthMonitoring/Sentinel.Api.HealthMonitoring.csproj"
+        ],
+        "problemMatcher": "$msCompile"
+    }, {
         "label": "Mercan.Common.build",
         "command": "dotnet",
         "type": "process",

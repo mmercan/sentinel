@@ -7,6 +7,7 @@ using Xunit;
 using Xunit.Abstractions;
 using Newtonsoft.Json;
 using Sentinel.Api.HealthMonitoring;
+using Sentinel.Api.HealthMonitoring.Tests.Helpers;
 
 namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
 {
@@ -14,10 +15,10 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
     public class AutoMapperProfileShould
     {
 
-        private WebApplicationFactory<Startup> factory;
+        private CustomWebApplicationFactory factory;
         private ITestOutputHelper output;
 
-        public AutoMapperProfileShould(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
+        public AutoMapperProfileShould(CustomWebApplicationFactory factory, ITestOutputHelper output)
         {
             this.factory = factory;
             this.output = output;

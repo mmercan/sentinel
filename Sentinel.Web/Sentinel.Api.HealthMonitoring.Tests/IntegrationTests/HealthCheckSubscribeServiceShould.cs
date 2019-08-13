@@ -14,16 +14,17 @@ using EasyNetQ;
 using Moq;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Sentinel.Api.HealthMonitoring.Tests.Helpers;
 
 namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
 {
     [Collection("WebApplicationFactory")]
     public class HealthCheckSubscribeServiceShould
     {
-        private WebApplicationFactory<Startup> factory;
+        private CustomWebApplicationFactory factory;
         private ITestOutputHelper output;
 
-        public HealthCheckSubscribeServiceShould(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
+        public HealthCheckSubscribeServiceShould(CustomWebApplicationFactory factory, ITestOutputHelper output)
         {
             this.factory = factory;
             this.output = output;

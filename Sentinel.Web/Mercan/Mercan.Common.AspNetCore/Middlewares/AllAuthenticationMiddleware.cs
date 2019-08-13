@@ -57,11 +57,9 @@ namespace Mercan.Common.AspNetCore.Middlewares
                     return;
                 }
                 var result = await context.AuthenticateAsync(scheme.Name);
-                if (result != null && result.Principal != null && context != null && result.Principal is ClaimsPrincipal)
+                if (result != null && result.Principal != null && context != null)
                 {
-                    var user = context.User;
-                    var principal = result.Principal;
-                    user = principal;
+                    context.User = result.Principal;
                 }
             }
             await _next(context);

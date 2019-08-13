@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 using Xunit.Abstractions;
 using Newtonsoft.Json;
+using Sentinel.Api.HealthMonitoring.Tests.Helpers;
 
 namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
 {
@@ -13,10 +14,10 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
     [Collection("WebApplicationFactory")]
     public class HomeTests
     {
-        private WebApplicationFactory<Startup> factory;
+        private CustomWebApplicationFactory factory;
         private ITestOutputHelper output;
 
-        public HomeTests(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
+        public HomeTests(CustomWebApplicationFactory factory, ITestOutputHelper output)
         {
             this.factory = factory;
             this.output = output;
@@ -24,7 +25,7 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
 
 
         [Theory]
-       // [InlineData("/")]
+        // [InlineData("/")]
         [InlineData("/Home/Index")]
         // [InlineData("/Home/About")]
         // [InlineData("/Home/Contact")]

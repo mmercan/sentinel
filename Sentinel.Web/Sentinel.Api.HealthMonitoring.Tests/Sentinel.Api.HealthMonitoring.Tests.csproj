@@ -20,4 +20,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Sentinel.Api.HealthMonitoring\Sentinel.Api.HealthMonitoring.csproj"/>
   </ItemGroup>
+   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+        <DebugType>full</DebugType>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    </PropertyGroup>
 </Project>

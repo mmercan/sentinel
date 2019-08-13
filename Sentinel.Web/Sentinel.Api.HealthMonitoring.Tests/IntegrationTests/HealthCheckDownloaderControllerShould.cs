@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Sentinel.Api.HealthMonitoring.Tests.Helpers;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -10,13 +11,13 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
     public class HealthCheckDownloaderControllerShould
     {
 
-        private WebApplicationFactory<Startup> factory;
+        private CustomWebApplicationFactory factory;
 
         //private WebApplicationFactory<Startup> factory;
         //AuthTokenFixture authTokenFixture;
         private ITestOutputHelper output;
 
-        public HealthCheckDownloaderControllerShould(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
+        public HealthCheckDownloaderControllerShould(CustomWebApplicationFactory factory, ITestOutputHelper output)
         {
             this.factory = factory;
             this.output = output;
