@@ -1,7 +1,0 @@
-{
-    "csharp.unitTestDebuggingOptions": {
-        "sourceFileMap": {
-            "C:\\repos\\sentinel\\Sentinel.Web\\Sentinel.Api.Comms.Tests": "C:\\repos\\sentinel\\Sentinel.Web\\Sentinel.Api.Comms.Tests\\bin\\Debug\\netcoreapp2.2"
-        }
-    }
-}

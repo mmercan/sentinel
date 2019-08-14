@@ -6,7 +6,7 @@
         "type": "process",
         "args": [
             "build",
-            "${workspaceFolder}/Sentinel.Web/Sentinel.Api.Product/Sentinel.Api.Product.csproj"
+            "${workspaceFolder}/Sentinel.Api.Product/Sentinel.Api.Product.csproj"
         ],
         "problemMatcher": "$msCompile"
     }, {
@@ -15,7 +15,7 @@
         "type": "process",
         "args": [
             "build",
-            "${workspaceFolder}/Sentinel.Web/Sentinel.UI.Product/Sentinel.UI.Product.csproj"
+            "${workspaceFolder}/Sentinel.UI.Product/Sentinel.UI.Product.csproj"
         ],
         "problemMatcher": "$msCompile"
     }, {
@@ -24,7 +24,7 @@
         "type": "process",
         "args": [
             "build",
-            "${workspaceFolder}/Sentinel.Web/Sentinel.UI.STS/Sentinel.UI.Sts.csproj"
+            "${workspaceFolder}/Sentinel.UI.STS/Sentinel.UI.STS.csproj"
         ],
         "problemMatcher": "$msCompile"
     }, {
@@ -33,7 +33,7 @@
         "type": "process",
         "args": [
             "start",
-            "--prefix ${workspaceFolder}/Sentinel.Web/Sentinel.UI.Admin"
+            "--prefix ${workspaceFolder}/Sentinel.UI.Admin"
         ],
         "problemMatcher": "$msCompile"
     }, {
@@ -42,7 +42,16 @@
         "type": "process",
         "args": [
             "build",
-            "${workspaceFolder}/Sentinel.Web/Sentinel.Api.Comms/Sentinel.Api.Comms.csproj"
+            "${workspaceFolder}/Sentinel.Api.Comms/Sentinel.Api.Comms.csproj"
+        ],
+        "problemMatcher": "$msCompile"
+    }, {
+        "label": "Sentinel.Api.HealthMonitoring.build",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build",
+            "${workspaceFolder}/Sentinel.Api.HealthMonitoring/Sentinel.Api.HealthMonitoring.csproj"
         ],
         "problemMatcher": "$msCompile"
     }, {
@@ -51,7 +60,7 @@
         "type": "process",
         "args": [
             "build",
-            "${workspaceFolder}/Sentinel.Web/Mercan/Mercan.Common/Mercan.Common.csproj"
+            "${workspaceFolder}/Mercan/Mercan.Common/Mercan.Common.csproj"
         ],
         "problemMatcher": "$msCompile"
     }]
