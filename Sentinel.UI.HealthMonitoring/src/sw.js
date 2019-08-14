@@ -19,7 +19,6 @@ self.addEventListener("install", function (event) {
         "/assets/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.woff?v=4.7.0",
         "/assets/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.eot?v=4.7.0"
       ]);
-      console.log("Service Worker %s Installed and Cached !!!! ", spCaches.static, new Date().toLocaleTimeString())
     })
   );
 });
@@ -33,7 +32,6 @@ self.addEventListener("activate", function (event) {
       }).map(function (key) {
         return caches.delete(key);
       }));
-      console.log("Service Worker %s Activated with Cache Clear ", spCaches.static, new Date().toLocaleTimeString())
     })
   );
 });
@@ -45,7 +43,7 @@ self.addEventListener('push', event => {
   if (payload.title) {
     title = payload.title;
   }
-  options = {
+  let options = {
     body: payload.Message,
     icon: './assets/icons/android-chrome-192x192.png',
     badge: './assets/icons/android-chrome-192x192.png',
@@ -65,7 +63,6 @@ self.addEventListener('push', event => {
 
 self.addEventListener('notificationclick', event => {
   event.notification.close();
-  var payload = event.notification.data;
   console.log(event);
   console.log("-------------");
   //console.log(event.data.url);
@@ -82,7 +79,7 @@ self.addEventListener('notificationclick', event => {
         includeUncontrolled: true,
         type: 'window'
       }).then(function (clients) {
-        for (i = 0; i < clients.length; i++) {
+        for (let i = 0; i < clients.length; i++) {
           var client = clients[i];
           //if (client.url === '/' && 'focus' in client) {
           if ('focus' in client && !openInanewWindow) {
@@ -90,7 +87,6 @@ self.addEventListener('notificationclick', event => {
             //client.url = location + notificationpath;
             client.navigate(location + notificationpath);
             return client.focus();
-            break;
           }
         }
         if (!found) {
@@ -111,9 +107,9 @@ self.addEventListener('notificationclick', event => {
 //   networkTimeoutSeconds: 5
 // });
 
-toolbox.router.get('/*', function (request, values, options) {
+toolbox.router.get('/*', function (request, values, routerGetOptions) {
   //   return toolbox.fastest(request, values, options)
-    return toolbox.networkFirst(request, values, options)
+  return toolbox.networkFirst(request, values, routerGetOptions)
     .catch(function (err) {
       return caches.match(new Request("/assets/offline.html"));
     });
@@ -191,7 +187,7 @@ function networkFirst(request) {
         return cache.match(request)
       });
     })
-};
+}
 
 function cacheFirst(request) {
   return caches.match(request).then(function (cResponse) {
@@ -207,5 +203,3 @@ function cacheFirst(request) {
     })
   })
 }
-
-
