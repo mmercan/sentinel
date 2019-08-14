@@ -1,6 +1,0 @@
-projectKey=Sentinel.UI.HealthMonitoring
-serverUrl=http://sonar.myrcan.com
-serverVersion=7.7.0.23042
-dashboardUrl=http://sonar.myrcan.com/dashboard?id=Sentinel.UI.HealthMonitoring
-ceTaskId=AWtPd0l0nSK9TVxI0cWa
-ceTaskUrl=http://sonar.myrcan.com/api/ce/task?id=AWtPd0l0nSK9TVxI0cWa

@@ -11,9 +11,11 @@ resources
 **/Logs/
 **/node_modules/
 **/.vs
-Sentinel.Web/Sentinel.elk.Logstash/data/cars.csv
-Sentinel.Web/docker-compose-debug-linux_secrets.yml
-Sentinel.Web/test.ps1
-Sentinel.Web/Sentinel.Api.HealthMonitoring.zip
-Sentinel.Web/Sentinel.Api.HealthMonitoring.Tests.zip
-Sentinel.Web/Sentinel.Extension.HealthMonitoring/artifacts/
+Sentinel.elk.Logstash/data/cars.csv
+docker-compose-debug-linux_secrets.yml
+test.ps1
+Sentinel.Api.HealthMonitoring.zip
+Sentinel.Api.HealthMonitoring.Tests.zip
+Sentinel.Extension.HealthMonitoring/artifacts/
+**/package-lock.json
+Sentinel.elk.Logstash/data/classified-ads-for-cars.zip
