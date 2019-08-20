@@ -26,9 +26,7 @@ namespace Mercan.HealthChecks.RabbitMQ
     }
     public class RabbitMQHealthCheck : IHealthCheck
     {
-        public static readonly string HealthCheckName = "RabbitMQHealthCheck";
-        string connectionString;
-
+        private readonly string connectionString;
         public RabbitMQHealthCheck(string connectionString)
         {
             this.connectionString = connectionString;
@@ -52,8 +50,7 @@ namespace Mercan.HealthChecks.RabbitMQ
 
     public class RabbitMQHealthCheckFromBus : IHealthCheck
     {
-        public static readonly string HealthCheckName = "RabbitMQHealthCheckFromBus";
-        EasyNetQ.IBus bus;
+        private readonly EasyNetQ.IBus bus;
         public RabbitMQHealthCheckFromBus(EasyNetQ.IBus bus)
         {
             this.bus = bus;
@@ -68,7 +65,6 @@ namespace Mercan.HealthChecks.RabbitMQ
                 try
                 {
                     bus.Publish("Test", "healthcheck.rabbitmq");
-                    var connected = bus.IsConnected;
                     data.Add("Connected", bus.IsConnected);
                     string description = "RabbitMQHealthCheck is healthy";
                     ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);

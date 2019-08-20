@@ -19,8 +19,7 @@ namespace Mercan.HealthChecks.Nats
     }
     public class NatsHealthCheck : IHealthCheck
     {
-        public static readonly string HealthCheckName = "NatsHealthCheck";
-        string connectionString;
+       private readonly string connectionString;
         public NatsHealthCheck(string connectionString)
         {
             this.connectionString = connectionString;

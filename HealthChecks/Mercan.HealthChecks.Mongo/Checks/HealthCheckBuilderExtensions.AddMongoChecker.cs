@@ -24,12 +24,8 @@ namespace Mercan.HealthChecks.Mongo
     }
     public class MongoHealthCheck : IHealthCheck
     {
-        public IMongoDatabase MongoDb { get; private set; }
         public MongoClient mongoClient { get; private set; }
-        public string IdFieldName { get; private set; }
-        private string collectionName;
-        private string connectionString;
-        private string databaseName;
+        private readonly string connectionString;
         public MongoHealthCheck(string connectionString)
         {
             this.connectionString = connectionString;

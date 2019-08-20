@@ -24,8 +24,7 @@ namespace Mercan.HealthChecks.Redis
     }
     public class RedisHealthCheck : IHealthCheck
     {
-        public static readonly string HealthCheckName = "RedisHealthCheck";
-        string connectionString;
+        private readonly string connectionString;
         public RedisHealthCheck(string connectionString)
         {
             this.connectionString = connectionString;

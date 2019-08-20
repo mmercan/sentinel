@@ -23,8 +23,7 @@ namespace Mercan.HealthChecks.Mysql
     }
     public class MysqlHealthCheck : IHealthCheck
     {
-        public static readonly string HealthCheckName = "MysqlHealthCheck";
-        string connectionString;
+        private readonly string connectionString;
         public MysqlHealthCheck(string connectionString)
         {
             this.connectionString = connectionString;

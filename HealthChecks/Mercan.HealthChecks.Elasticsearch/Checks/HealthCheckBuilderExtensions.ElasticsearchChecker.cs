@@ -23,8 +23,7 @@ namespace Mercan.HealthChecks.Elasticsearch
     }
     public class ElasticsearchHealthCheck : IHealthCheck
     {
-        public static readonly string HealthCheckName = "ElasticsearchHealthCheck";
-        string connectionString;
+        private readonly string connectionString;
         public ElasticsearchHealthCheck(string connectionString)
         {
             this.connectionString = connectionString;
