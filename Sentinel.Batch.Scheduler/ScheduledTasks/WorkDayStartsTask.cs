@@ -21,7 +21,11 @@ namespace Sentinel.Batch.Scheduler.ScheduledTasks
         public string Schedule => "0 8 * * 1-5"; // "At 8:00 on every day-of-week from Monday through Friday;
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            _logger.LogCritical("WorkDayStartsTask triggered");
+            await Task.Run(() =>
+            {
+                _logger.LogCritical("WorkDayStartsTask triggered");
+            });
+
         }
     }
 }

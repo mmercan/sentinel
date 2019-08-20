@@ -59,6 +59,11 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
             var healthCheckService = serviceProvider.GetService<HealthCheckService>();
             var resultTask = healthCheckService.CheckHealthAsync();
 
+            await Task.Run(() =>
+            {
+
+            });
+
         }
 
 
