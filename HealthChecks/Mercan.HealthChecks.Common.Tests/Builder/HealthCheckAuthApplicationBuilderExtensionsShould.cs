@@ -20,25 +20,34 @@ namespace Mercan.HealthChecks.Common.Tests.Builder
         [Fact]
         public void AddtothePipelineWorks()
         {
-            WebHost.CreateDefaultBuilder()
-            .ConfigureServices((cs) =>
+            var host = WebHost.CreateDefaultBuilder()
+             .ConfigureServices((cs) =>
+             {
+                 cs.AddLogging();
+                 cs.AddHealthChecks()
+                 .AddSystemInfoCheck();
+             })
+             .Configure((app) =>
+             {
+                 app.UseHealthChecksWithAuth("/isaliveandwell")
+                 .UseHealthChecksWithAuth("/isaliveandwell", new HealthCheckOptions())
+                 .UseHealthChecksWithAuth("/isaliveandwell", "4444")
+                 .UseHealthChecksWithAuth("/isaliveandwell", 4445)
+                 .UseHealthChecksWithAuth("/isaliveandwell", "4444", new HealthCheckOptions())
+                 .UseHealthChecksWithAuth("/isaliveandwell", 4446, new HealthCheckOptions());
+
+             }).Build();
+
+            using (host)
             {
-                cs.AddLogging();
-                cs.AddHealthChecks()
-                .AddSystemInfoCheck();
-            })
-            .Configure((app) =>
-            {
-                app.UseHealthChecksWithAuth("/isaliveandwell")
-                .UseHealthChecksWithAuth("/isaliveandwell", new HealthCheckOptions())
-                .UseHealthChecksWithAuth("/isaliveandwell", "4444")
-                .UseHealthChecksWithAuth("/isaliveandwell", 4445)
-                .UseHealthChecksWithAuth("/isaliveandwell", "4444", new HealthCheckOptions())
-                .UseHealthChecksWithAuth("/isaliveandwell", 4446, new HealthCheckOptions());
-
-            });
-
-
+                var hoststart = host.StartAsync();
+                hoststart.Wait();
+                // // Monitor for new background queue work items
+                // // var monitorLoop = host.Services.GetRequiredService<MonitorLoop>();
+                // // monitorLoop.StartMonitorLoop();
+                // var waitforshutdown = host.WaitForShutdownAsync();
+                // waitforshutdown.Wait();
+            }
 
 
         }
