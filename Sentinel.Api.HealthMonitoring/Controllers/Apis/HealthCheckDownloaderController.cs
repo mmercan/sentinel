@@ -13,7 +13,7 @@ using System.Threading;
 namespace Sentinel.Api.HealthMonitoring.Controllers.Apis
 {
 
-    [Route("api/HealthCheckDownloaderController")]
+    [Route("api/HealthCheckDownloader")]
     public class HealthCheckDownloaderController : Controller
     {
 
@@ -34,9 +34,9 @@ namespace Sentinel.Api.HealthMonitoring.Controllers.Apis
                 var content = await healthCheckReportDownloaderService.DownloadAsync(url);
                 return Ok(content);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                _logger.LogError("Failed to execute GET");
+                _logger.LogError("Failed to execute GET" + ex.Message);
                 return BadRequest();
             }
         }

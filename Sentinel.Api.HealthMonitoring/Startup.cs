@@ -37,6 +37,7 @@ using System.Net.Http.Headers;
 using Polly;
 using System.Net.Http;
 using Polly.Extensions.Http;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Sentinel.Api.HealthMonitoring
 {
@@ -182,6 +183,10 @@ namespace Sentinel.Api.HealthMonitoring
             {
                 return RabbitHutch.CreateBus(Configuration["RabbitMQConnection"]);
             });
+
+
+
+
             services.AddHttpClient<HealthCheckReportDownloaderService>("HealthCheckReportDownloader", options =>
             {
                 // options.BaseAddress = new Uri(Configuration["CrmConnection:ServiceUrl"] + "api/data/v8.2/");
@@ -189,9 +194,18 @@ namespace Sentinel.Api.HealthMonitoring
                 options.DefaultRequestHeaders.Add("OData-MaxVersion", "4.0");
                 options.DefaultRequestHeaders.Add("OData-Version", "4.0");
                 options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            }).ConfigurePrimaryHttpMessageHandler((ch) =>
+            {
+                var handler = new HttpClientHandler();
+                handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+                handler.ClientCertificates.Add(GetCert());
+                return handler;
+
             })
             // .AddHttpMessageHandler<OAuthTokenHandler>()
             .AddPolicyHandler(GetRetryPolicy())
+
             .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             // services.AddHostedService<HealthCheckSubscribeService>();
@@ -367,6 +381,18 @@ namespace Sentinel.Api.HealthMonitoring
                     await context.Response.WriteAsync("{\"IsAlive\":true}");
                 });
             });
+        }
+
+        public X509Certificate2 GetCert()
+        {
+            //          "-----BEGIN CERTIFICATE-----"
+            var cert64 = "MIICYzCCAcygAwIBAgIBADANBgkqhkiG9w0BAQUFADAuMQswCQYDVQQGEwJVUzEMMAoGA1UEChMDSUJNMREwDwYDVQQLEwhMb2NhbCBDQTAeFw05OTEyMjIwNTAwMDBaFw0wMDEyMjMwNDU5NTlaMC4xCzAJBgNVBAYTAlVTMQwwCgYDVQQKEwNJQk0xETAPBgNVBAsTCExvY2FsIENBMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD2bZEo7xGaX2/0GHkrNFZvlxBou9v1Jmt/PDiTMPve8r9FeJAQ0QdvFST/0JPQYD20rH0bimdDLgNdNynmyRoS2S/IInfpmf69iyc2G0TPyRvmHIiOZbdCd+YBHQi1adkj17NDcWj6S14tVurFX73zx0sNoMS79q3tuXKrDsxeuwIDAQABo4GQMIGNMEsGCVUdDwGG+EIBDQQ+EzxHZW5lcmF0ZWQgYnkgdGhlIFNlY3VyZVdheSBTZWN1cml0eSBTZXJ2ZXIgZm9yIE9TLzM5MCAoUkFDRikwDgYDVR0PAQH/BAQDAgAGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFJ3+ocRyCTJw067dLSwr/nalx6YMMA0GCSqGSIb3DQEBBQUAA4GBAMaQzt+zaj1GU77yzlr8iiMBXgdQrwsZZWJo5exnAucJAEYQZmOfyLiMD6oYq+ZnfvM0n8G/Y79q8nhwvuxpYOnRSAXFp6xSkrIOeZtJMY1h00LKp/JX3Ng1svZ2agE126JHsQ0bhzN5TKsYfbwfTwfjdWAGy6Vf1nYi/rO+ryMO";
+            //"-----END CERTIFICATE----- "
+            var certbyte = Convert.FromBase64String(cert64);
+            X509Certificate2 cert = new X509Certificate2(certbyte);
+            var certsubject = cert.Subject;
+
+            return cert;
         }
     }
 }
