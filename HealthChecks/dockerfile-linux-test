@@ -5,7 +5,6 @@ ARG buildtime_ADID
 ARG buildtime_SONARKEY
 # ENV DOTNET_USE_POLLING_FILE_WATCHER=1
 # ENV ASPNETCORE_ENVIRONMENT=Development
-ENV SONAR_HOST=https://sonarcloud.io
 # RUN apt-get update && apt-get install -y openjdk-8-jdk
 # ENV PROJECT sentinel-comms
 # RUN dotnet tool install --global dotnet-sonarscanner
@@ -17,11 +16,9 @@ ENV APPID=$buildtime_APPID
 ENV APPSECRET=$buildtime_APPSECRET
 ENV ADID=$buildtime_ADID
 ENV SentinelConnection="Server=52.247.221.7;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
-
+ENV SONAR_HOST=https://sonarcloud.io
 
 WORKDIR /src
-# COPY Sentinel.Api.Comms/Sentinel.Api.Comms.csproj Sentinel.Api.Comms/
-# RUN dotnet restore Sentinel.Api.Comms/Sentinel.Api.Comms.csproj
 COPY . .
 RUN dotnet sonarscanner begin /k:$PROJECT /v:$VERSION /d:sonar.host.url=$SONAR_HOST /o:mmercan-github /d:sonar.login=$SONARKEY  /d:sonar.cs.opencover.reportsPaths="/TestResults/coverage.opencover.xml" /d:sonar.exclusions="**bootstrap.css, **bootstrap-reboot.css, **bootstrap.js, **/wwwroot/**, **Sentinel.Empty.Tests" /d:sonar.coverage.exclusions="**Tests*.cs, **.js," /d:sonar.cs.vstest.reportsPaths="/TestResults/*.trx"
 RUN dotnet build ./HealthChecks/HealthChecks.sln
