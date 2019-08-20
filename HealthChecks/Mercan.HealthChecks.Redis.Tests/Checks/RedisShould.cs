@@ -8,7 +8,7 @@ namespace Mercan.HealthChecks.Redis.Tests.Checks
     public class RedisShould
     {
 
-        string connectionString = "52.247.233.71:6379,defaultDatabase=2,password=yourpassword";
+        string connectionString = "13.77.156.236:6379,defaultDatabase=2,password=yourpassword";
         HealthCheckContext context = new HealthCheckContext();
         [Fact]
         public void CreateaRedisInstance()

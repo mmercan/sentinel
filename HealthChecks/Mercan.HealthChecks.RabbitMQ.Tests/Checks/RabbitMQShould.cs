@@ -10,7 +10,7 @@ namespace Mercan.HealthChecks.RabbitMQ.Tests.Checks
     public class RabbitMQShould
     {
 
-        string connectionString = "host=52.183.35.232;username=rabbitmq;password=rabbitmq; timeout=10";
+        string connectionString = "host=13.77.151.111;username=rabbitmq;password=rabbitmq; timeout=10";
         string falseconnectionString = "host=5rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10";
         HealthCheckContext context = new HealthCheckContext();
 

@@ -14,7 +14,7 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
 
 
         private readonly ITestOutputHelper output;
-        string conection = "Server=52.247.221.7;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;";  //Environment.GetEnvironmentVariable("SentinelConnection");
+        string conection = "Server=52.175.193.162;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;";  //Environment.GetEnvironmentVariable("SentinelConnection");
         public SqlConnectionHealthCheckTests(ITestOutputHelper output)
         {
             this.output = output;

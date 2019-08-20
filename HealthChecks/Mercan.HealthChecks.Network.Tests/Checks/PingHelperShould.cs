@@ -8,7 +8,7 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
 {
     public class PingHelperShould
     {
-        string connectionString = "13.66.231.26:4222";
+        string connectionString = "13.77.147.26:4222";
         HealthCheckContext context = new HealthCheckContext();
 
         [Fact]

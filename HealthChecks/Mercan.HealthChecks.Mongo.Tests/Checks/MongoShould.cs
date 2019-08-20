@@ -9,7 +9,7 @@ namespace Mercan.HealthChecks.Mongo.Tests.Checks
     public class MongoShould
     {
 
-        string connectionString = "mongodb://root:hbMnztmZ4w9JJTGZ@52.247.221.171:27017/admin?readPreference=primary";
+        string connectionString = "mongodb://root:hbMnztmZ4w9JJTGZ@52.183.8.101:27017/admin?readPreference=primary";
         string failedConnectionString = "mongodb://root:hbMnztmZ4w9JJTGZ@mongooo/admin?readPreference=primary";
         HealthCheckContext context = new HealthCheckContext();
 

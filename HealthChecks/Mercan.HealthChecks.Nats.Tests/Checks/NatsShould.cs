@@ -8,7 +8,7 @@ namespace Mercan.HealthChecks.Nats.Tests.Checks
 {
     public class NatsShould
     {
-        string connectionString = "nats://13.66.231.26:4222/";
+        string connectionString = "13.77.147.26:4222/";
         HealthCheckContext context = new HealthCheckContext();
         [Fact]
         public void CreateaNatsInstance()
