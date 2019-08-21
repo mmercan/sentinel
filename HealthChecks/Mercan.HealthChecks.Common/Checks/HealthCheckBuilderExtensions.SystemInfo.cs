@@ -61,7 +61,8 @@ namespace Mercan.HealthChecks.Common.Checks
                     string description = "PerformanceCounter for " + WMIClassName + " Column " + Column;
                     return HealthCheckResult.Healthy(description, rodata);
                 }
-                catch(PlatformNotSupportedException ex){
+                catch (PlatformNotSupportedException ex)
+                {
                     return HealthCheckResult.Degraded(ex.Message, ex, new Dictionary<string, object> { { "type", "PerformanceCounter" }, { "wmiClassName", WMIClassName }, { "column", Column } });
                 }
                 catch (Exception ex)
@@ -195,11 +196,29 @@ namespace Mercan.HealthChecks.Common.Checks
                 try { data.Add("UserProcessorTime", Process.GetCurrentProcess().UserProcessorTime); } catch (Exception ex) { data.Add("UserProcessorTime", ex.Message); }
                 try { data.Add("WorkingSet (KB)", Process.GetCurrentProcess().WorkingSet64 / 1024); } catch (Exception ex) { data.Add("WorkingSet64", ex.Message); }
 
+                try { data.Add("CPU", GetCpuUsageForProcess()); } catch (Exception ex) { data.Add("CPU", ex.Message); }
                 ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
                 string description = "SystemInfo";
                 return HealthCheckResult.Healthy(description, rodata);
 
             });
+        }
+
+
+        private double GetCpuUsageForProcess()
+        {
+            var startTime = DateTime.UtcNow;
+            var startCpuUsage = Process.GetCurrentProcess().TotalProcessorTime;
+
+            var taskwait = Task.Delay(500);
+            taskwait.Wait();
+
+            var endTime = DateTime.UtcNow;
+            var endCpuUsage = Process.GetCurrentProcess().TotalProcessorTime;
+            var cpuUsedMs = (endCpuUsage - startCpuUsage).TotalMilliseconds;
+            var totalMsPassed = (endTime - startTime).TotalMilliseconds;
+            var cpuUsageTotal = cpuUsedMs / (Environment.ProcessorCount * totalMsPassed);
+            return cpuUsageTotal * 100;
         }
     }
 

@@ -17,7 +17,6 @@ namespace Mercan.HealthChecks.Common.Checks
     {
         public static IHealthChecksBuilder AddProcessList(this IHealthChecksBuilder builder, TimeSpan? cacheDuration = null)
         {
-            // return builder.AddCheck($"ProcessList (KB)", new ProcessListHealthChecks());
             return builder.AddTypeActivatedCheck<ProcessListHealthChecks>($"ProcessList (KB)");
         }
     }
@@ -28,21 +27,47 @@ namespace Mercan.HealthChecks.Common.Checks
             return await Task.Run(() =>
             {
                 IDictionary<string, Object> data = new Dictionary<string, object>();
-                data.Add("type", "ProcessListHealthChecks"); 
+                data.Add("type", "ProcessListHealthChecks");
                 UInt32 totalsize = 0;
+                Double TotalProcessorTime = 0;
                 int number = 0;
                 foreach (var aProc in Process.GetProcesses())
                 {
                     number++;
-                    data.Add(aProc.ProcessName + " " + number.ToString(), aProc.WorkingSet64 / 1024);
+                    data.Add(aProc.ProcessName + "_Memory " + number.ToString(), aProc.WorkingSet64 / 1024);
+                    try
+                    {
+                        data.Add(aProc.ProcessName + "_TotalProcessorTime " + number.ToString(), aProc.TotalProcessorTime.TotalSeconds);
+                        TotalProcessorTime += aProc.TotalProcessorTime.TotalSeconds;
+                    }
+                    catch (Exception ex)
+                    {
+                        // data.Add(aProc.ProcessName + "_TotalProcessorTime " + number.ToString(), "Failed to load");
+                    }
                     totalsize += Convert.ToUInt32(aProc.WorkingSet64 / 1024.0);
                 }
 
                 data.Add("Total Memory", totalsize);
+                data.Add("Total TotalProcessorTime", TotalProcessorTime);
                 ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
                 string description = "ProcessList Total Memory Usage " + totalsize + " MB";
                 return HealthCheckResult.Healthy(description, rodata);
             });
+        }
+
+
+        private async Task<double> GetCpuUsageForProcess(Process process)
+        {
+            var startTime = DateTime.UtcNow;
+            var startCpuUsage = process.TotalProcessorTime;
+            await Task.Delay(1000);
+
+            var endTime = DateTime.UtcNow;
+            var endCpuUsage = process.TotalProcessorTime;
+            var cpuUsedMs = (endCpuUsage - startCpuUsage).TotalMilliseconds;
+            var totalMsPassed = (endTime - startTime).TotalMilliseconds;
+            var cpuUsageTotal = cpuUsedMs / (Environment.ProcessorCount * totalMsPassed);
+            return cpuUsageTotal * 100;
         }
     }
 }

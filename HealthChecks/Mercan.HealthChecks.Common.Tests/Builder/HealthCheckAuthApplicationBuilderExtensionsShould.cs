@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
+using Moq;
 using Xunit;
 
 namespace Mercan.HealthChecks.Common.Tests.Builder
@@ -26,6 +27,8 @@ namespace Mercan.HealthChecks.Common.Tests.Builder
                  cs.AddLogging();
                  cs.AddHealthChecks()
                  .AddSystemInfoCheck();
+
+                 cs.AddSingleton<HealthCheckMiddlewareAuth>();
              })
              .Configure((app) =>
              {
@@ -43,7 +46,12 @@ namespace Mercan.HealthChecks.Common.Tests.Builder
                 var hoststart = host.StartAsync();
                 hoststart.Wait();
                 // // Monitor for new background queue work items
-                // // var monitorLoop = host.Services.GetRequiredService<MonitorLoop>();
+                var moqContext = new Mock<HttpContext>();
+                var httpContext = moqContext.Object;
+
+                // var healthCheckMiddlewareAuth = host.Services.GetService<HealthCheckMiddlewareAuth>();
+                // var task = healthCheckMiddlewareAuth.InvokeAsync(httpContext);
+                // task.Wait();
                 // // monitorLoop.StartMonitorLoop();
                 // var waitforshutdown = host.WaitForShutdownAsync();
                 // waitforshutdown.Wait();
