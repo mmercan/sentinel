@@ -54,20 +54,5 @@ namespace Mercan.HealthChecks.Common.Checks
                 return HealthCheckResult.Healthy(description, rodata);
             });
         }
-
-
-        private async Task<double> GetCpuUsageForProcess(Process process)
-        {
-            var startTime = DateTime.UtcNow;
-            var startCpuUsage = process.TotalProcessorTime;
-            await Task.Delay(1000);
-
-            var endTime = DateTime.UtcNow;
-            var endCpuUsage = process.TotalProcessorTime;
-            var cpuUsedMs = (endCpuUsage - startCpuUsage).TotalMilliseconds;
-            var totalMsPassed = (endTime - startTime).TotalMilliseconds;
-            var cpuUsageTotal = cpuUsedMs / (Environment.ProcessorCount * totalMsPassed);
-            return cpuUsageTotal * 100;
-        }
     }
 }
