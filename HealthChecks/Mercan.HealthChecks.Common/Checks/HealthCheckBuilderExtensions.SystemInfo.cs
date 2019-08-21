@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-
+using Microsoft.Extensions.Logging;
 
 namespace Mercan.HealthChecks.Common.Checks
 {
@@ -147,6 +147,11 @@ namespace Mercan.HealthChecks.Common.Checks
     // This is part of the readiness/liveness probe sample.
     public class SystemInfoHealthChecks : IHealthCheck
     {
+        ILogger<SystemInfoHealthChecks> logger;
+        public SystemInfoHealthChecks(ILogger<SystemInfoHealthChecks> logger)
+        {
+            this.logger = logger;
+        }
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
             return await Task.Run(() =>
@@ -200,7 +205,6 @@ namespace Mercan.HealthChecks.Common.Checks
                 ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
                 string description = "SystemInfo";
                 return HealthCheckResult.Healthy(description, rodata);
-
             });
         }
 
@@ -210,7 +214,7 @@ namespace Mercan.HealthChecks.Common.Checks
             var startTime = DateTime.UtcNow;
             var startCpuUsage = Process.GetCurrentProcess().TotalProcessorTime;
 
-            var taskwait = Task.Delay(500);
+            var taskwait = Task.Delay(2000);
             taskwait.Wait();
 
             var endTime = DateTime.UtcNow;
@@ -218,6 +222,8 @@ namespace Mercan.HealthChecks.Common.Checks
             var cpuUsedMs = (endCpuUsage - startCpuUsage).TotalMilliseconds;
             var totalMsPassed = (endTime - startTime).TotalMilliseconds;
             var cpuUsageTotal = cpuUsedMs / (Environment.ProcessorCount * totalMsPassed);
+
+            logger.LogCritical("cpuUsageTotal : " + cpuUsageTotal + " cpuUsedMs : " + cpuUsedMs.ToString() + " totalMsPassed : " + totalMsPassed.ToString() + " Environment.ProcessorCount : " + Environment.ProcessorCount.ToString());
             return cpuUsageTotal * 100;
         }
     }
