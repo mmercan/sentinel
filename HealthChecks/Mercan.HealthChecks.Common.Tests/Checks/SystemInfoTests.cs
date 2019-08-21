@@ -3,6 +3,7 @@ using Xunit;
 using Mercan.HealthChecks.Common.Checks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Mercan.HealthChecks.Common.Tests.Checks
 {
@@ -46,8 +47,15 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
         [Fact]
         public async Task SystemInfoHealthChecksWorks()
         {
+            var services = new ServiceCollection()
+            .AddLogging();
+
+            var serviceProvider = services.BuildServiceProvider();
+            var factory = serviceProvider.GetService<ILoggerFactory>();
+            var logger = factory.CreateLogger<SystemInfoHealthChecks>();
+
             HealthCheckContext context = new HealthCheckContext();
-            SystemInfoHealthChecks infohc = new SystemInfoHealthChecks();
+            SystemInfoHealthChecks infohc = new SystemInfoHealthChecks(logger);
             var result = await infohc.CheckHealthAsync(context);
             Assert.Equal(HealthStatus.Healthy, result.Status);
         }
