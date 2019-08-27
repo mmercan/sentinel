@@ -19,3 +19,4 @@ Sentinel.Api.HealthMonitoring.Tests.zip
 Sentinel.Extension.HealthMonitoring/artifacts/
 **/package-lock.json
 Sentinel.elk.Logstash/data/classified-ads-for-cars.zip
+Sentinel.Api.HealthMonitoring/*appsettings*

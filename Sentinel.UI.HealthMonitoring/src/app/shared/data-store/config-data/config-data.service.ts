@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Menu } from '../../menu-items/menu-items';
@@ -14,8 +15,8 @@ export class ConfigDataService {
 
   public configData: Observable<any>;
   private _configData: BehaviorSubject<any>;
-
-  constructor() {
+  private storagekey = 'app-configData'
+  constructor(private httpClient: HttpClient) {
     this.dataStore = { configData: {} };
 
     this._configData = new BehaviorSubject([]) as BehaviorSubject<any>;
@@ -24,7 +25,13 @@ export class ConfigDataService {
   }
 
   getConfigData(): any[] {
-    const configstr = localStorage.getItem('app-configData');
+    let configstr = localStorage.getItem(this.storagekey);
+    if (!configstr) {
+      this.httpClient.get('./HealthCheck.json').subscribe((result) => {
+        configstr = JSON.stringify(result);
+        localStorage.setItem(this.storagekey, configstr);
+      });
+    }
     if (configstr) {
       const config = JSON.parse(configstr);
       this.dataStore.configData = config;
@@ -92,7 +99,7 @@ export class ConfigDataService {
         const content = myReader.result as string;
         const jsoncontent = JSON.parse(content);
         const configstr = JSON.stringify(jsoncontent);
-        localStorage.setItem('app-configData', configstr);
+        localStorage.setItem(this.storagekey, configstr);
         this.dataStore.configData = jsoncontent;
         this._configData.next(Object.assign({}, this.dataStore).configData);
         observer.next(configstr);

@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { HealthReportEntry } from 'src/app/shared/data-store/healthcheck-data-store/interfaces/health-report';
+import { Component, Input, OnInit } from '@angular/core';
+import { HealthReportEntry } from '../../../shared/data-store/healthcheck-data-store/interfaces/health-report';
 
 @Component({
   selector: 'app-system-info-health-checks',

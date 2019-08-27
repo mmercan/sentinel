@@ -1,22 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import { DbConnectionHealthChecksComponent } from './db-connection-health-checks.component';
+import { NetworkHealthChecksComponent } from './network-health-checks.component';
 
-describe('DbConnectionHealthChecksComponent', () => {
-  let component: DbConnectionHealthChecksComponent;
-  let fixture: ComponentFixture<DbConnectionHealthChecksComponent>;
+describe('NetworkHealthChecksComponent', () => {
+  let component: NetworkHealthChecksComponent;
+  let fixture: ComponentFixture<NetworkHealthChecksComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, NgbCollapseModule.forRoot()],
-      declarations: [DbConnectionHealthChecksComponent],
+      declarations: [NetworkHealthChecksComponent],
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DbConnectionHealthChecksComponent);
+    fixture = TestBed.createComponent(NetworkHealthChecksComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

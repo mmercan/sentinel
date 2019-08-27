@@ -21,38 +21,51 @@
         </div> -->
       </div>
       <div *ngFor="let result of report.results">
-        <div *ngIf="result &&  result.type && result.type==='AddMaxValueCheck'">
+        <div *ngIf="result &&  result.data &&result.data.type==='AddMaxValueCheck'">
           <app-add-max-value-check [healthCheckResult]="result"></app-add-max-value-check>
         </div>
-        <div *ngIf="result &&  result.type && result.type==='AddMinValueCheck'">
+        <div *ngIf="result &&  result.data && result.data.type==='AddMinValueCheck'">
           <app-add-min-value-check [healthCheckResult]="result"></app-add-min-value-check>
         </div>
-        <div *ngIf="result &&  result.type && result.type==='DbConnection'">
+        <div *ngIf="result &&  result.data && result.data.type==='DbConnection'">
           <app-db-connection-health-checks [healthCheckResult]="result"></app-db-connection-health-checks>
         </div>
-        <div *ngIf="result &&  result.type && result.type==='DIHealthCheck'">
+        <div *ngIf="result &&  result.data && result.data.type==='DIHealthCheck'">
           <app-di-health-check [healthCheckResult]="result"></app-di-health-check>
         </div>
-        <div *ngIf="result &&  result.type && result.type==='MongoHealthCheck'">
+        <div *ngIf="result &&  result.data && result.type==='MongoHealthCheck'">
           <app-mongo-health-check [healthCheckResult]="result"></app-mongo-health-check>
         </div>
-        <div *ngIf="result &&  result.type && result.type==='PerformanceCounter'">
+        <div *ngIf="result &&  result.data && result.data.type==='PerformanceCounter'">
           <app-performance-counter-list [healthCheckResult]="result"></app-performance-counter-list>
         </div>
-        <div *ngIf="result &&  result.type && result.type==='ProcessListHealthChecks'">
+        <div *ngIf="result &&  result.data && result.data.type==='ProcessListHealthChecks'">
           <app-process-list-health-checks [healthCheckResult]="result"></app-process-list-health-checks>
         </div>
-        <div *ngIf="result &&  result.type && result.type==='RabbitMQHealthCheck'">
+        <div *ngIf="result &&  result.data && result.data.type==='RabbitMQHealthCheck'">
           <app-rabbit-mq-health-check [healthCheckResult]="result"></app-rabbit-mq-health-check>
         </div>
-        <div *ngIf="result &&  result.type && result.type==='ServiceClientBaseHealthCheck'">
+        <div *ngIf="result &&  result.data && result.data.type==='ServiceClientBaseHealthCheck'">
           <app-service-client-base-health-check [healthCheckResult]="result"></app-service-client-base-health-check>
         </div>
-        <div *ngIf="result &&  result.type && result.type==='SystemInfoHealthChecks'">
+        <div *ngIf="result &&  result.data && result.data.type==='SystemInfoHealthChecks'">
           <app-system-info-health-checks [healthCheckResult]="result"></app-system-info-health-checks>
         </div>
-        <div *ngIf="result &&  result.type && result.type==='IsAliveRequestFailed'">
+        <div *ngIf="result &&  result.data && result.data.type==='IsAliveRequestFailed'">
           <app-is-alive-request-failed-check [healthCheckResult]="result"></app-is-alive-request-failed-check>
+        </div>
+
+        <div *ngIf="result &&  result.data && result.data.type==='ServiceBusHealthCheck'">
+          <app-service-bus-health-checks [healthCheckResult]="result"></app-service-bus-health-checks>
+        </div>
+        <div *ngIf="result &&  result.data && result.data.type==='EventHubHealthCheck'">
+          <app-event-hub-health-checks [healthCheckResult]="result"></app-event-hub-health-checks>
+        </div>
+        <div *ngIf="result &&  result.data && result.data.type==='SqlHealthCheck'">
+          <app-sql-health-checks [healthCheckResult]="result"></app-sql-health-checks>
+        </div>
+        <div *ngIf="result &&  result.data && result.data.type==='NetworkHealthCheckHealthCheck'">
+          <app-network-health-checks [healthCheckResult]="result"></app-network-health-checks>
         </div>
 
 

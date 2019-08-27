@@ -1,22 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import { DbConnectionHealthChecksComponent } from './db-connection-health-checks.component';
+import { EventHubHealthChecksComponent } from './event-hub-health-checks.component';
 
-describe('DbConnectionHealthChecksComponent', () => {
-  let component: DbConnectionHealthChecksComponent;
-  let fixture: ComponentFixture<DbConnectionHealthChecksComponent>;
+describe('EventHubHealthChecksComponent', () => {
+  let component: EventHubHealthChecksComponent;
+  let fixture: ComponentFixture<EventHubHealthChecksComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, NgbCollapseModule.forRoot()],
-      declarations: [DbConnectionHealthChecksComponent],
+      declarations: [EventHubHealthChecksComponent],
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DbConnectionHealthChecksComponent);
+    fixture = TestBed.createComponent(EventHubHealthChecksComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
