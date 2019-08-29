@@ -8,8 +8,8 @@ namespace Mercan.HealthChecks.ServiceBus.Tests
         public static void InitConfiguration()
         {
             var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.test2.json", false)
-                .AddJsonFile("appsettings.test.json", false)
+                .AddJsonFile("appsettings.test2.json", true)
+                .AddJsonFile("appsettings.test.json", true)
                 .Build();
             _config = config;
         }
