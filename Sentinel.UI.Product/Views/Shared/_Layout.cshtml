@@ -17,7 +17,6 @@
             asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
-    <!-- <link rel="stylesheet" href="../../assets/vendor/bootstrap/bootstrap.min.css"> -->
     <link rel="stylesheet" href="../../assets/vendor/icon-hs/style.css">
     <link rel="stylesheet" href="../../assets/vendor/icon-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../assets/vendor/hamburgers/hamburgers.min.css">
@@ -37,7 +36,7 @@
         @await Html.PartialAsync("~/Views/Shared/_Footer.cshtml")
         <a class="js-go-to u-go-to-v1" href="#" data-type="fixed" data-position='{"bottom": 15,"right": 15}'
             data-offset-top="300" data-compensation="#js-header" data-show-effect="zoomIn">
-            <i class="hs-icon hs-icon-arrow-top"></i>
+            <span class="hs-icon hs-icon-arrow-top"></span>
         </a>
     </main>
     <environment include="Development">
