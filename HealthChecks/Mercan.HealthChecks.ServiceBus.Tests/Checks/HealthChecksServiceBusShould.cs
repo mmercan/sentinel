@@ -87,16 +87,46 @@ namespace Mercan.HealthChecks.ServiceBus.Tests
         }
 
         [Fact]
-        public void AddtothePipelineWorks()
+        public async Task AddtothePipelineWorks_conString()
         {
-            // var services1 = new ServiceCollection()
-            // .AddLogging();
-            // services1.AddHealthChecks().AddRedisHealthCheck(connectionString);
-            // var serviceProvider = services1.BuildServiceProvider();
+            var connectionString = $"Endpoint=sb://{nameSpace}.servicebus.windows.net/;SharedAccessKeyName={AccessPolicyName};SharedAccessKey={accessPolicyKey};TransportType=AmqpWebSockets";
+            var services1 = new ServiceCollection()
+            .AddLogging();
+            services1.AddHealthChecks().AddServiceBusHealthCheck(connectionString, topicName);
+            var serviceProvider = services1.BuildServiceProvider();
 
-            //  var healthCheckService = serviceProvider.GetService<HealthCheckService>();
-            // var result = await healthCheckService.CheckHealthAsync();
-            // Assert.Equal(HealthStatus.Healthy, result.Status);
+            var healthCheckService = serviceProvider.GetService<HealthCheckService>();
+            var result = await healthCheckService.CheckHealthAsync();
+            Assert.Equal(HealthStatus.Healthy, result.Status);
+
+        }
+
+        [Fact]
+        public async Task AddtothePipelineWorks_send()
+        {
+            var services1 = new ServiceCollection()
+            .AddLogging();
+            services1.AddHealthChecks().AddServiceBusHealthCheck(nameSpace, topicName, AccessPolicyName, accessPolicyKey);
+            var serviceProvider = services1.BuildServiceProvider();
+
+            var healthCheckService = serviceProvider.GetService<HealthCheckService>();
+            var result = await healthCheckService.CheckHealthAsync();
+            Assert.Equal(HealthStatus.Healthy, result.Status);
+
+        }
+
+
+        [Fact]
+        public async Task AddtothePipelineWorks_receive()
+        {
+            var services1 = new ServiceCollection()
+            .AddLogging();
+            services1.AddHealthChecks().AddServiceBusHealthCheck(nameSpace, topicName, subscriptionName, AccessPolicyName, accessPolicyKey);
+            var serviceProvider = services1.BuildServiceProvider();
+
+            var healthCheckService = serviceProvider.GetService<HealthCheckService>();
+            var result = await healthCheckService.CheckHealthAsync();
+            Assert.Equal(HealthStatus.Healthy, result.Status);
 
         }
 
