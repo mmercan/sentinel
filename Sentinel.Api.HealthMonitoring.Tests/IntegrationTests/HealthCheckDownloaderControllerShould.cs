@@ -1,9 +1,11 @@
 using System;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Sentinel.Api.HealthMonitoring.Tests.Helpers;
 using Xunit;
 using Xunit.Abstractions;
+
+using Sentinel.Api.HealthMonitoring.Models;
+using Sentinel.Api.HealthMonitoring.Tests.Helpers;
 
 namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
 {
@@ -29,7 +31,7 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
         [InlineData("https://product.myrcan.com/health/isaliveandwell")]
         public void GetReportforAPIs(string url)
         {
-            var fullurl = "api/HealthCheckDownloaderController?url=" + Uri.UnescapeDataString(url);
+            var fullurl = "api/HealthCheckDownloader?url=" + Uri.UnescapeDataString(url);
             var client = factory.CreateClient();
             // client.DefaultRequestHeaders.Add("api-version", "2.0");
             // // client.DefaultRequestHeaders.Add("Accept", "text/plain, application/json, text/json");
@@ -60,7 +62,7 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
         [InlineData("")]
         public void FailIfUrlWrong(string url)
         {
-            var fullurl = "api/HealthCheckDownloaderController?url=" + Uri.UnescapeDataString(url);
+            var fullurl = "api/HealthCheckDownloader?url=" + Uri.UnescapeDataString(url);
             var client = factory.CreateClient();
             // client.DefaultRequestHeaders.Add("api-version", "2.0");
             // // client.DefaultRequestHeaders.Add("Accept", "text/plain, application/json, text/json");
@@ -86,6 +88,13 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
             // Assert.True(false);
 
 
+        }
+
+        [Fact]
+        public void HealthCheckDownloaderOptionsCreateInstances()
+        {
+            HealthCheckDownloaderOptions options = new HealthCheckDownloaderOptions();
+            HealthCheckDownloader downloader = new HealthCheckDownloader { CertThumbprint = "", Url = "" };
         }
     }
 }
