@@ -1,6 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NotificationSettingsComponent } from './notification-settings.component';
+
+import { MatSlideToggleModule } from '@angular/material';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SharedModule } from '../../shared/shared.module';
+import { AppConfig } from '../../app.config';
+
+
 
 describe('NotificationSettingsComponent', () => {
   let component: NotificationSettingsComponent;
@@ -8,9 +16,11 @@ describe('NotificationSettingsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NotificationSettingsComponent ]
+      imports: [FormsModule, ReactiveFormsModule, SharedModule.forRoot(), MatSlideToggleModule],
+      declarations: [NotificationSettingsComponent],
+      providers: [AppConfig]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

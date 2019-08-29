@@ -30,13 +30,14 @@ import { StorageComponent } from './storage/storage.component';
 import { ProductCRUDService } from './generated/api.client.generated';
 import { SettingsService } from './settings/settings.service';
 import { SettingsComponent } from './settings/settings.component';
+import { TestComponent } from './test-tools/test/test.component';
 
 
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, FormsModule, DragulaModule],
   declarations: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
-    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent, SettingsComponent],
+    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent, SettingsComponent, TestComponent],
   exports: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
     IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent, DragulaModule],
   providers: [SettingsService]

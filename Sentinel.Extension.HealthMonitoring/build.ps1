@@ -17,13 +17,14 @@ Copy-Item $extensionFolder/applicationHost.xdt $extensionFolder/artifacts
 $ngfolder
 Set-Location -Path $ngfolder
 ng build --prod --output-path "$extensionFolder/artifacts/wwwroot" --base-href "" --aot --extract-css --vendor-chunk
-#Set-Location -Path $dir
 
-Set-Location -Path "$extensionFolder/artifacts"
-dotnet .\Sentinel.Api.HealthMonitoring.dll
-# ./nuget pack -NoPackageAnalysis
-# $nupkgfilename = @(Get-Childitem -Include KeyVaultChecker* -exclude *.nuspec)[0].Name
-# # dotnet nuget push $nupkgfilename -k <key> -s https://api.nuget.org/v3/index.json
-# dotnet nuget push $nupkgfilename -k <key> -s https://www.myget.org/F/mmercan/api/v3/index.json
-# Move-Item KeyVaultChecker*.nupkg ./outputs -Force
 Set-Location -Path $dir
+# Set-Location -Path "$extensionFolder/artifacts"
+# dotnet .\Sentinel.Api.HealthMonitoring.dll
+./nuget pack -NoPackageAnalysis
+$nupkgfilename = @(Get-Childitem -path ./* -Include SentinelHealthMonitoring* -exclude *.nuspec)[0].Name
+# # dotnet nuget push $nupkgfilename -k <key> -s https://api.nuget.org/v3/index.json
+$nupkgfilename
+dotnet nuget push $nupkgfilename -k $env:mygetKey -s https://www.myget.org/F/mmercan/api/v3/index.json
+Move-Item SentinelHealthMonitoring*.nupkg ./outputs -Force
+#Set-Location -Path $dir

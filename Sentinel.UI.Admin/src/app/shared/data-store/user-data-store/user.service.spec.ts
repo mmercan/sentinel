@@ -1,11 +1,14 @@
 import { TestBed, inject } from '@angular/core/testing';
-
-import { ProductService } from './product.service';
-
+import { ProductService } from './user.service';
+import { AppConfig } from '../../../app.config';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NotificationService } from '../../notification/notification.service';
+import { AdalService } from '../../authentication/adal-auth/adal.service';
 describe('ProductService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ProductService]
+      imports: [HttpClientModule],
+      providers: [ProductService, AppConfig, AdalService, NotificationService]
     });
   });
 
