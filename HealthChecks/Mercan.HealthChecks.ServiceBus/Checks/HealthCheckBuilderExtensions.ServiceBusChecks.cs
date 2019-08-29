@@ -72,7 +72,6 @@ namespace Mercan.HealthChecks.ServiceBus
             this.ListenConnectionString = connectionString;
             this.topicName = entityPath;
             this.serviceBusHealthCheckType = ServiceBusHealthCheckType.Send;
-            this.serviceBusHealthCheckType = ServiceBusHealthCheckType.Send;
         }
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
