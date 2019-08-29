@@ -10,9 +10,9 @@
       <ul class="navbar-nav">
         <li class="nav-item">
           <a href="javascript:;" class="nav-link" (click)="toogleSidebar()">
-            <i class="hamburger-icon v2" *ngIf="_mode === 'over' && !isOver()">
+            <span class="hamburger-icon v2" *ngIf="_mode === 'over' && !isOver()">
               <span></span>
-            </i>
+            </span>
           </a>
         </li>
       </ul>
@@ -22,29 +22,29 @@
       <ul class="navigation" appAccordion>
         <li class="navigation-item" appAccordionLink *ngFor="let menuitem of menuItems.getAll()" group="{{menuitem.state}}">
           <a class="navigation-link" appAccordionToggle [routerLink]="['/', menuitem.state]" *ngIf="menuitem.type === 'link'">
-            <i class="icon icon-{{ menuitem.icon }}"></i>
+            <span class="icon icon-{{ menuitem.icon }}"></span>
             <span>{{ menuitem.name }}</span>
             <span class="mr-auto"></span>
             <span class="badge badge-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
           </a>
           <a class="navigation-link" appAccordionToggle href="{{menuitem.state}}" *ngIf="menuitem.type === 'extLink'">
-            <i class="icon icon-{{ menuitem.icon }}"></i>
+            <span class="icon icon-{{ menuitem.icon }}"></span>
             <span>{{ menuitem.name }}</span>
             <span class="mr-auto"></span>
             <span class="badge badge-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
           </a>
           <a class="navigation-link" appAccordionToggle href="{{menuitem.state}}" target="_blank" *ngIf="menuitem.type === 'extTabLink'">
-            <i class="icon icon-{{ menuitem.icon }}"></i>
+            <span class="icon icon-{{ menuitem.icon }}"></span>
             <span>{{ menuitem.name }}</span>
             <span class="mr-auto"></span>
             <span class="badge badge-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
           </a>
           <a class="navigation-link" appAccordionToggle href="javascript:;" *ngIf="menuitem.type === 'sub'">
-            <i class="icon icon-{{ menuitem.icon }}"></i>
+            <span class="icon icon-{{ menuitem.icon }}"></span>
             <span>{{ menuitem.name }}</span>
             <span class="mr-auto"></span>
             <span class="badge badge-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
-            <i class="menu-caret icon icon-arrows-right"></i>
+            <span class="menu-caret icon icon-arrows-right"></span>
           </a>
           <ul class="navigation-submenu" *ngIf="menuitem.type === 'sub'">
             <li class="navigation-item" *ngFor="let childitem of menuitem.children" routerLinkActive="open">
@@ -71,9 +71,9 @@
       <ul class="navbar-nav">
         <li class="nav-item">
           <a href="javascript:;" class="nav-link" (click)="toogleSidebar()">
-            <i class="hamburger-icon v2">
+            <span class="hamburger-icon v2">
               <span></span>
-            </i>
+            </span>
           </a>
         </li>
       </ul>
@@ -82,8 +82,9 @@
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link">
-            <i *IfOnline="false" class="fa fa-lg fa-plane" alt="offline" title="offline" (click)="sendnotification('Error','Offline','you are offline but app still works')"></i>
-            <i *IfOnline class="fa fa-lg fa-wifi" alt="online" title="online" (click)="sendnotification('Info','online','all good your are online')"></i>
+            <span *IfOnline="false" class="fa fa-lg fa-plane" alt="offline" title="offline"
+              (click)="sendnotification('Error','Offline','you are offline but app still works')"></span>
+            <span *IfOnline class="fa fa-lg fa-wifi" alt="online" title="online" (click)="sendnotification('Info','online','all good your are online')"></span>
           </a>
         </li>
         <li class="nav-item" ngbDropdown *ifAuthenticated>
@@ -95,39 +96,39 @@
           </a>
           <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" [routerLink]="['/user/settings']">
-              <i class="icon icon-basic-settings mr-3"></i>
+              <span class="icon icon-basic-settings mr-3"></span>
               <span>Settings</span>
             </a>
             <a class="dropdown-item" [routerLink]="['/user']">
-              <i class="icon icon-basic-postcard mr-3"></i>
+              <span class="icon icon-basic-postcard mr-3"></span>
               <span>Profile</span>
             </a>
             <a class="dropdown-item" [routerLink]="['/user/notificationsettings']">
-              <i class="icon icon-basic-message-multiple mr-3"></i>
+              <span class="icon icon-basic-message-multiple mr-3"></span>
               <span>Notification Settings</span>
             </a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="javascript:;" (click)="signout()">
-              <i class="icon icon-arrows-switch-vertical mr-3"></i>
+              <span class="icon icon-arrows-switch-vertical mr-3"></span>
               <span>Signout</span>
             </a>
           </div>
         </li>
         <li class="nav-item" *ifAuthenticated="false">
           <a class="nav-link" [routerLink]="['/authentication/signin']">
-            <i class="fa fa-lg fa-user " alt="Log-in" title="Log-in  "></i>
+            <span class="fa fa-lg fa-user " alt="Log-in" title="Log-in  "></span>
           </a>
         </li>
         <li class="nav-item" ngbDropdown #notificationDrop="ngbDropdown" (openChange)='notificationOpened($event)'>
           <a href="javascript:;" class="nav-link" ngbDropdownToggle>
-            <i class="fi flaticon-notification"></i>
+            <span class="fi flaticon-notification"></span>
             <span class="badge badge-danger">{{notificationCount}}</span>
           </a>
           <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right notifications">
             <div class="notifications-wrapper">
               <a *ngFor="let notif of activeNotifications" class="dropdown-item">
                 <a href="javascript:;" class="pull-right" (click)="removeNotification(notif)">
-                  <i class="fi flaticon-close"></i>
+                  <span class="fi flaticon-close"></span>
                 </a>
                 {{notif.title}}
                 <small *ngIf="notif.description">
@@ -140,7 +141,7 @@
         </li>
         <li class="nav-item">
           <a href="javascript:;" class="nav-link" appToggleFullscreen>
-            <i class="fi flaticon-fullscreen"></i>
+            <span class="fi flaticon-fullscreen"></span>
           </a>
         </li>
 
@@ -149,7 +150,7 @@
         </li>
         <li class="nav-item">
           <a href="javascript:;" class="nav-link" (click)="openSearch(search)">
-            <i class="fi flaticon-search"></i>
+            <span class="fi flaticon-search"></span>
           </a>
         </li>
 
@@ -202,7 +203,7 @@
 
 <div class="configuration hidden-sm-down" [ngClass]="{'active': showSettings}">
   <div class="configuration-cog" (click)="showSettings = !showSettings">
-    <i class="icon icon-basic-mixer2"></i>
+    <span class="icon icon-basic-mixer2"></span>
   </div>
   <div class="card">
     <div class="card-header">

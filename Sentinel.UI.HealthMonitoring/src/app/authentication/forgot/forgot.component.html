@@ -10,8 +10,11 @@
         <label for="username" class="form-control-label">
           Enter your username
         </label>
-        <input type="text" class="form-control" placeholder="Username" [formControl]="form.controls['uname']" [ngClass]="{'form-control-danger': form.controls['uname'].hasError('required') && form.controls['uname'].touched}"/>
-        <div class="form-control-feedback" *ngIf="form.controls['uname'].hasError('required') && form.controls['uname'].touched">Username is required.</div>
+        <legend>
+          <input type="text" class="form-control" placeholder="Username" [formControl]="form.controls['uname']"
+            [ngClass]="{'form-control-danger': form.controls['uname'].hasError('required') && form.controls['uname'].touched}" />
+          <div class="form-control-feedback" *ngIf="form.controls['uname'].hasError('required') && form.controls['uname'].touched">Username is required.</div>
+        </legend>
       </fieldset>
       <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Reset password</button>
     </form>

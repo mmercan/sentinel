@@ -14,11 +14,7 @@
       <dd>{{healthCheckResult.duration}}</dd>
     </dl>
     <dl *ngFor="let data of healthCheckResult.data | keyvalue">
-      <!-- <dt *ngIf="data.key !='type'">{{data.key}}</dt> -->
-      <dd *ngIf="data.key !='type' && data.key !='Total Memory' "><b>{{data.key}}</b> {{data.value | number}} Bytes</dd>
+      <dd *ngIf="data.key !='type' && data.key !='Total Memory' "><strong>{{data.key}}</strong> {{data.value | number}} Bytes</dd>
     </dl>
-    <!-- <p>
-      {{healthCheckResult | json}}
-    </p> -->
   </div>
 </div>
