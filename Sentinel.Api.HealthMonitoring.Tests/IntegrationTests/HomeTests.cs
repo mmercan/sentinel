@@ -16,11 +16,13 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
     {
         private CustomWebApplicationFactory factory;
         private ITestOutputHelper output;
+        private AuthTokenFixture authTokenFixture;
 
-        public HomeTests(CustomWebApplicationFactory factory, ITestOutputHelper output)
+        public HomeTests(CustomWebApplicationFactory factory, AuthTokenFixture authTokenFixture, ITestOutputHelper output)
         {
             this.factory = factory;
             this.output = output;
+            this.authTokenFixture = authTokenFixture;
         }
 
 
@@ -35,6 +37,7 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
         {
             // Arrange
             var client = factory.CreateClient();
+            client.DefaultRequestHeaders.Add("Authorization", this.authTokenFixture.Token);
             //factory.WithWebHostBuilder()
             // Act
             var responseTask = client.GetAsync(url);
@@ -47,6 +50,22 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
         }
 
 
+        // [Theory]
+        // // [InlineData("/")]
+        // [InlineData("http://localhost:5006/home/index")]
+        // public void ExternalOnes(string url)
+        // {
+        //     HttpClient client = new HttpClient();
+        //     client.DefaultRequestHeaders.Add("Authorization", this.authTokenFixture.Token);
+        //     var responseTask = client.GetAsync(url);
+        //     responseTask.Wait();
+        //     var response = responseTask.Result;
+        //     // Assert
+        //     output.WriteLine(this.authTokenFixture.Token);
+        //     response.EnsureSuccessStatusCode(); // Status Code 200-299
+        //     Assert.Equal("text/html; charset=utf-8",
+        //         response.Content.Headers.ContentType.ToString());
+        // }
 
     }
 }

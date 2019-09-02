@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sentinel.Api.HealthMonitoring.Models;
 
 namespace Sentinel.Api.HealthMonitoring.Controllers
 {
 
+
     [Route("Home")]
     public class HomeController : Controller
     {
+        [Authorize]
         [Route("Index")]
         public IActionResult Index()
         {
