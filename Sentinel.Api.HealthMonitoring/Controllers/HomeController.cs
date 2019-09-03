@@ -9,9 +9,9 @@ using Sentinel.Api.HealthMonitoring.Models;
 
 namespace Sentinel.Api.HealthMonitoring.Controllers
 {
-
-
     [Route("Home")]
+    // [Authorize(AuthenticationSchemes = "azure")]
+
     public class HomeController : Controller
     {
         [Authorize]
@@ -21,10 +21,18 @@ namespace Sentinel.Api.HealthMonitoring.Controllers
             return View();
         }
 
-        [Route("Privacy")]
-        public IActionResult Privacy()
+
+        [Authorize(AuthenticationSchemes = "azure")]
+        [Route("Indexazure")]
+        public string Indexazure()
         {
-            return View();
+            return "azureeeee";
+        }
+
+        [Route("Privacy")]
+        public string Privacy()
+        {
+            return DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
