@@ -31,7 +31,7 @@ namespace Sentinel.Api.HealthMonitoring.Tests.IntegrationTests
         [InlineData("/Home/Index")]
         // [InlineData("/Home/About")]
         // [InlineData("/Home/Contact")]
-        [InlineData("/Home/Privacy")]
+        //  [InlineData("/Home/Privacy")]
         [InlineData("/Home/Error")]
         public void Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
