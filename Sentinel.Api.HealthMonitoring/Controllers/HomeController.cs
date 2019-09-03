@@ -21,18 +21,11 @@ namespace Sentinel.Api.HealthMonitoring.Controllers
             return View();
         }
 
-
-        [Authorize(AuthenticationSchemes = "azure")]
-        [Route("Indexazure")]
-        public string Indexazure()
-        {
-            return "azureeeee";
-        }
-
         [Route("Privacy")]
         public string Privacy()
         {
-            return DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString();
+            var timezone = System.TimeZoneInfo.Local.StandardName;
+            return DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + " " + timezone;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

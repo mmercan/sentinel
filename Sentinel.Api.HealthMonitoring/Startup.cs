@@ -91,11 +91,11 @@ namespace Sentinel.Api.HealthMonitoring
             {
                 cfg.TokenValidationParameters = tokenValidationParameters;
             });
-            //use both jwt schemas interchangeably  https://stackoverflow.com/questions/49694383/use-multiple-jwt-bearer-authentication
-            // services.AddAuthorization(options =>
-            // {
-            //     options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().AddAuthenticationSchemes("azure", "sts").Build();
-            // });
+            // use both jwt schemas interchangeably  https://stackoverflow.com/questions/49694383/use-multiple-jwt-bearer-authentication
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().AddAuthenticationSchemes("azure", "sts").Build();
+            });
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -242,8 +242,8 @@ namespace Sentinel.Api.HealthMonitoring
             }
 
             app.UseCors("MyPolicy");
-            app.UseAuthentication();
-            // app.UseAllAuthentication();
+            // app.UseAuthentication();
+            app.UseAllAuthentication();
 
             app.UseHttpsRedirection();
 
