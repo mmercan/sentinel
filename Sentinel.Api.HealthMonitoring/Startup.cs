@@ -203,9 +203,9 @@ namespace Sentinel.Api.HealthMonitoring
                 return handler;
 
             })
+            //.AddHttpMessageHandler()
             // .AddHttpMessageHandler<OAuthTokenHandler>()
             .AddPolicyHandler(GetRetryPolicy())
-
             .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             // services.AddHostedService<HealthCheckSubscribeService>();

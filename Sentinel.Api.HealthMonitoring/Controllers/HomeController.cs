@@ -25,7 +25,7 @@ namespace Sentinel.Api.HealthMonitoring.Controllers
         public string Privacy()
         {
             var timezone = System.TimeZoneInfo.Local.StandardName;
-            return DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + " " + timezone;
+            return DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToLongTimeString() + " " + timezone + " Matt";
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

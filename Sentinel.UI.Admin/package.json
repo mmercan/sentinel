@@ -8,7 +8,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "startdocker": "ng serve --host 0.0.0.0 --poll 1 --disable-host-check"
+    "startdocker": "ng serve --host 0.0.0.0 --poll 1 --disable-host-check",
+    "test:ci": "ng test --browsers ChromeHeadlessCI --code-coverage true --watch false",
+    "sonar": "sonar-scanner"
   },
   "private": true,
   "dependencies": {
@@ -47,6 +49,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "rxjs": "^6.5.2",
     "screenfull": "^4.0.0",
+    "sonar-scanner": "^3.1.0",
     "spinthatshit": "^1.0.4",
     "sw-precache": "^5.2.1",
     "sw-toolbox": "^3.6.0",
