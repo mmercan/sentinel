@@ -25,6 +25,6 @@ Set-Location -Path $dir
 $nupkgfilename = @(Get-Childitem -path ./* -Include SentinelHealthMonitoring* -exclude *.nuspec)[0].Name
 # # dotnet nuget push $nupkgfilename -k <key> -s https://api.nuget.org/v3/index.json
 $nupkgfilename
-dotnet nuget push $nupkgfilename -k $env:mygetKey -s https://www.myget.org/F/mmercan/api/v3/index.json
+dotnet nuget push $nupkgfilename -k $env:mygetKey -s https://www.myget.org/F/mmercan/api/v3/index.json --timeout 600
 Move-Item SentinelHealthMonitoring*.nupkg ./outputs -Force
 #Set-Location -Path $dir

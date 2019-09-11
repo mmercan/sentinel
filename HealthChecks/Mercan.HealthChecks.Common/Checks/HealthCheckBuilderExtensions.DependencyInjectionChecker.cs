@@ -98,7 +98,7 @@ namespace Mercan.HealthChecks.Common.Checks
                     {
                         string description = "DependencyInjection is healthy for all services";
                         ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
-                        return HealthCheckResult.Healthy(description, rodata);
+                        return HealthCheckResult.Healthy(description, rodata);              
                     }
                 }
                 catch (Exception ex)

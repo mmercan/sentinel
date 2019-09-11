@@ -15,7 +15,7 @@ export class ConfigDataService {
 
   public configData: Observable<any>;
   private _configData: BehaviorSubject<any>;
-  private storagekey = 'app-configData'
+  private storagekey = 'app-configData';
   constructor(private httpClient: HttpClient) {
     this.dataStore = { configData: {} };
 
@@ -24,30 +24,48 @@ export class ConfigDataService {
     this.getConfigData();
   }
 
-  getConfigData(): any[] {
-    let configstr = localStorage.getItem(this.storagekey);
-    if (!configstr) {
-      this.httpClient.get('./HealthCheck.json').subscribe((result) => {
-        configstr = JSON.stringify(result);
-        localStorage.setItem(this.storagekey, configstr);
-      });
-    }
-    if (configstr) {
-      const config = JSON.parse(configstr);
-      this.dataStore.configData = config;
-      this._configData.next(Object.assign({}, this.dataStore).configData);
-      return config;
-    } else {
-      return undefined;
-    }
+  getConfigData(): Observable<any[]> {
+    const obs = Observable.create((observer) => {
+      let configstr = localStorage.getItem(this.storagekey);
+      if (!configstr) {
+        this.httpClient.get('./assets/HealthCheck.json').subscribe((result) => {
+          configstr = JSON.stringify(result);
+          localStorage.setItem(this.storagekey, configstr);
+
+          this.dataStore.configData = result;
+          this._configData.next(Object.assign({}, this.dataStore).configData);
+          observer.next(result);
+        },
+          (error) => {
+            observer.error('config not found');
+          });
+      } else {
+        const config = JSON.parse(configstr);
+        this.dataStore.configData = config;
+        this._configData.next(Object.assign({}, this.dataStore).configData);
+        observer.next(config);
+      }
+    });
+    return obs;
   }
 
-  getMenuItems(): Menu[] {
-    const menuItems = [];
-    if (Object.entries(this.dataStore.configData).length === 0 && this.dataStore.configData.constructor === Object) {
-      this.getConfigData();
-    }
+  getMenuItemsAsync(): Observable<Menu[]> {
+    const obs = Observable.create((observer) => {
+      if (Object.entries(this.dataStore.configData).length === 0 && this.dataStore.configData.constructor === Object) {
+        this.getConfigData().subscribe((data) => {
+          const loadedmenu = this.loadMenuItems();
+          observer.next(loadedmenu);
+        });
+      } else {
+        const loadedmenu = this.loadMenuItems();
+        observer.next(loadedmenu);
+      }
+    });
+    return obs;
+  }
 
+  private loadMenuItems(): Menu[] {
+    const menuItems = [];
     for (const property in this.dataStore.configData) {
       if (this.dataStore.configData.hasOwnProperty(property)) {
 
@@ -72,7 +90,6 @@ export class ConfigDataService {
     }
     return menuItems;
   }
-
   getHealthCheckUrls(application: string, environment: string): any {
     let returnvalue;
     if (!application || !environment) {

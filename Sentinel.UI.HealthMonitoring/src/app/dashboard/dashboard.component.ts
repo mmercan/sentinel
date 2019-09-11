@@ -9,10 +9,12 @@ import { ConfigDataService } from '../shared/data-store/config-data/config-data.
 })
 
 export class DashboardComponent {
+  configdata: any[];
 
   constructor(private httpClient: HttpClient, private configDataService: ConfigDataService) {
 
-    configDataService.getConfigData();
-    // httpClient.get('/blah.json').subscribe(data => { },     error => { });
+    configDataService.getConfigData().subscribe((data) => {
+      this.configdata = data;
+    });
   }
 }

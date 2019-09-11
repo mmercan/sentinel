@@ -9,7 +9,7 @@ namespace Mercan.HealthChecks.MySql.Tests.Checks
 {
     public class MySqlShould
     {
-        string connectionString = "mongodb://root:hbMnztmZ4w9JJTGZ@52.247.221.171:27017/admin?readPreference=primary";
+        string connectionString = "mongodb://root:hbMnztmZ4w9JJTGZ@mongo.db.myrcan.com:27017/admin?readPreference=primary";
         HealthCheckContext context = new HealthCheckContext();
 
         [Fact]

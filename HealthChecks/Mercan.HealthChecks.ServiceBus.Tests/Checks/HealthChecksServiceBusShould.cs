@@ -9,7 +9,7 @@ namespace Mercan.HealthChecks.ServiceBus.Tests
 {
     public class HealthChecksServiceBusShould
     {
-        readonly string nameSpace;
+        string nameSpace;
         readonly string topicName;
         readonly string AccessPolicyName;
         readonly string accessPolicyKey;
@@ -52,8 +52,8 @@ namespace Mercan.HealthChecks.ServiceBus.Tests
         public async Task RunServiceBusSendConStringCheck()
         {
             var instance = CreateaServiceBusReceiveInstanceFromconstring();
-            var result = await instance.CheckHealthAsync(context);
-
+            HealthCheckResult result = await instance.CheckHealthAsync(context);
+            Assert.Equal(HealthStatus.Healthy, result.Status);
 
             // Assert.Equal(2, nameSpace);
             // var check = new RedisHealthCheck(connectionString);
@@ -65,7 +65,7 @@ namespace Mercan.HealthChecks.ServiceBus.Tests
         {
             var instance = CreateaServiceBusSendInstance();
             var result = await instance.CheckHealthAsync(context);
-
+            Assert.Equal(HealthStatus.Healthy, result.Status);
 
             // Assert.Equal(2, nameSpace);
             // var check = new RedisHealthCheck(connectionString);
@@ -78,12 +78,25 @@ namespace Mercan.HealthChecks.ServiceBus.Tests
         {
             var instance = CreateaServiceBusReceiveInstance();
             var result = await instance.CheckHealthAsync(context);
+            Assert.Equal(HealthStatus.Healthy, result.Status);
+        }
 
+        [Fact]
+        public async Task Receive_Fails_if_SubscriptionName_Wrong()
+        {
+            var instance = new ServiceBusHealthCheck(nameSpace, topicName, AccessPolicyName, accessPolicyKey, "wrongone");
+            var result = await instance.CheckHealthAsync(context);
+            Assert.Equal(HealthStatus.Unhealthy, result.Status);
+        }
 
-            // Assert.Equal(2, nameSpace);
-            // var check = new RedisHealthCheck(connectionString);
-            // var result = await check.CheckHealthAsync(context);
-            // Assert.Equal(HealthStatus.Healthy, result.Status);
+        [Fact]
+        public async Task Send_Fails_if_TopicName_Wrong()
+        {
+            nameSpace = "ldskfjhdsalkfjhalkjfdshfds";
+            var connectionString = $"Endpoint=sb://{nameSpace}.servicebus.windows.net/;SharedAccessKeyName={AccessPolicyName};SharedAccessKey={accessPolicyKey};TransportType=AmqpWebSockets";
+            var instance = new ServiceBusHealthCheck(connectionString, "wrongTopic");
+            var result = await instance.CheckHealthAsync(context);
+            Assert.Equal(HealthStatus.Unhealthy, result.Status);
         }
 
         [Fact]

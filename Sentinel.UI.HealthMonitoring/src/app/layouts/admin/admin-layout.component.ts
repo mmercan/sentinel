@@ -94,13 +94,14 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       this.appConfig.navigatingto = null;
     });
 
-    const items = this.configDataService.getMenuItems();
-    if (items && items.length && items.length > 0) {
-      for (const menu of items) {
-        this.menuItems.add(menu);
+    this.configDataService.getMenuItemsAsync().subscribe((items) => {
+      if (items && items.length && items.length > 0) {
+        for (const menu of items) {
+          this.menuItems.add(menu);
+        }
       }
-    }
-    this.runOnRouteChange();
+      this.runOnRouteChange();
+    });
   }
 
   ngAfterViewInit(): void {

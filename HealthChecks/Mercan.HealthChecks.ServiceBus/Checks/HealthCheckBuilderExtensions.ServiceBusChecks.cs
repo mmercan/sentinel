@@ -42,6 +42,7 @@ namespace Mercan.HealthChecks.ServiceBus
         string connectionString;
         string SendConnectionString;
         string ListenConnectionString;
+        string nameSpace = "";
         string topicName;
         private ServiceBusHealthCheckType serviceBusHealthCheckType;
         string subscriptionName;
@@ -53,6 +54,7 @@ namespace Mercan.HealthChecks.ServiceBus
             this.ListenConnectionString = connectionString;
             this.topicName = topicName;
             this.serviceBusHealthCheckType = ServiceBusHealthCheckType.Send;
+            this.nameSpace = nameSpace;
         }
 
 
@@ -64,6 +66,7 @@ namespace Mercan.HealthChecks.ServiceBus
             this.topicName = topicName;
             this.subscriptionName = subscriptionName;
             this.serviceBusHealthCheckType = ServiceBusHealthCheckType.Receive;
+            this.nameSpace = nameSpace;
         }
 
         public ServiceBusHealthCheck(string connectionString, string entityPath)
@@ -72,6 +75,10 @@ namespace Mercan.HealthChecks.ServiceBus
             this.ListenConnectionString = connectionString;
             this.topicName = entityPath;
             this.serviceBusHealthCheckType = ServiceBusHealthCheckType.Send;
+            if (connectionString != null)
+            {
+                this.nameSpace = connectionString.Split('.')[0];
+            }
         }
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -93,21 +100,25 @@ namespace Mercan.HealthChecks.ServiceBus
                         var rulestask = subscriptionClient.GetRulesAsync();
                         rulestask.Wait();
                         data.Add("rules", string.Join(",", rulestask.Result));
-
                     }
                     else
                     {
-                        var topicClient = new TopicClient(SendConnectionString, topicName);
+                        var topicClient = new QueueClient(SendConnectionString, topicName);
                         var clientid = topicClient.ClientId;
                         data.Add("clientid", clientid);
+                        var list = topicClient.Path;
+
                         Message mes = new Message();
                         mes.Body = System.Text.Encoding.UTF8.GetBytes("TestMessage");
-                        var sendtask = topicClient.SendAsync(mes);
+
+                        var sendtask = topicClient.ScheduleMessageAsync(mes, DateTime.Now.AddDays(100));
                         sendtask.Wait();
 
+                        var cancell = topicClient.CancelScheduledMessageAsync(sendtask.Result);
+                        cancell.Wait();
                     }
 
-                    string description = $"ServiceBus {connectionString} is healthy";
+                    string description = $"ServiceBus namespace {nameSpace}.servicebus.windows.net is healthy";
                     ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
                     return HealthCheckResult.Healthy(description, rodata);
                 }
