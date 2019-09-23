@@ -10,10 +10,10 @@ percent=${line##*:}
 number=${percent::-1}
 echo $number
     if (( $(echo "$number $expectedPercentage" | awk '{print ($1 > $2)}') )); then
-        1>&2 echo "Not in expected range Failed"
+        1>&2 echo "Not in expected range Failed Actual Percentage $number Expected Percentage $expectedPercentage"
          
     else
-        echo "In expected range Successed"
+        echo "In expected range Successed Actual Percentage $number Expected Percentage $expectedPercentage"
     fi
 fi
-done < "/TestResults/coveragereport/Summary.txt"
+done < "/mnt/c/TestResults/coveragereport/Summary.txt"
