@@ -15,5 +15,4 @@ echo $number
     1>&2 echo "Not in expected range Failed Actual Percentage $number Expected Percentage $expectedPercentage"
     fi
 fi
-fi
 done < "/TestResults/coveragereport/Summary.txt"
