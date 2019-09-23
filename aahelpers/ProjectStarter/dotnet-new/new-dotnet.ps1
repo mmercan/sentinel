@@ -128,6 +128,7 @@ using Microsoft.Extensions.Logging;
 namespace __projectname__.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class PushNotificationController : Controller
     {
         private readonly IConfiguration _config;
@@ -253,6 +254,7 @@ function Add-TokenController {
     namespace __projectname__.Controllers
     {
         [Route("api/[controller]")]
+        [ApiController]
     public class TokenController : Controller
     {
         private readonly IOptions<TokenSettings> tokenSettings;
@@ -1242,6 +1244,7 @@ function Add-HeathCheckApi {
         [ApiVersion("1.0", Deprecated = true)]
         [ApiVersion("2.0")]
         [Route("api/HealthCheck")]
+        [ApiController]
         public class HealthCheckController : Controller
         {
     

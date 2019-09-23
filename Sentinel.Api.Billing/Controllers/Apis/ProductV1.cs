@@ -13,8 +13,8 @@ namespace Sentinel.Api.Billing.Controllers
 
     [ApiVersion("1.0", Deprecated = true)]
     [Route("api/Product")]
-    //[Route("api/v{version:apiVersion}/Product")]
     [ApiController]
+    //[Route("api/v{version:apiVersion}/Product")]
     public class ProductV1Controller : ControllerBase
     {
 

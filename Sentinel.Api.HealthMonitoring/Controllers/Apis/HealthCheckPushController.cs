@@ -10,6 +10,7 @@ namespace Sentinel.Api.HealthMonitoring.Controllers.Apis
 {
 
     [Route("api/healthcheckpush")]
+    [ApiController]
     public class HealthCheckPushController : Controller
     {
 

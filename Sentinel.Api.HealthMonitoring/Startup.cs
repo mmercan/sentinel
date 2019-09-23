@@ -133,6 +133,13 @@ namespace Sentinel.Api.HealthMonitoring
                 healthcheckBuilder.AddRabbitMQHealthCheckWithDiIBus();
             }
 
+            services.AddMiniProfiler(options =>
+                options.RouteBasePath = "/profiler"
+            );
+
+            services.AddApplicationInsightsTelemetry("15ce6ddc-8d32-418e-9d5c-eed1cd7d6096");
+            services.AddApplicationInsightsKubernetesEnricher();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSignalR();
             ConfigureJwtAuthService(services);
@@ -364,6 +371,9 @@ namespace Sentinel.Api.HealthMonitoring
             //         name: "default",
             //         template: "{controller=Home}/{action=Index}/{id?}");
             // });
+
+            app.UseMiniProfiler();
+
             app.UseMvc();
             app.UseHealthChecksWithAuth("/Health/IsAliveAndWell", new HealthCheckOptions()
             {

@@ -20,6 +20,7 @@
 //     [ApiVersion("1.0", Deprecated = true)]
 //     [ApiVersion("2.0")]
 //     [Route("api/DemoProfiling")]
+//     [ApiController]
 //     // [ApiExplorerSettings(GroupName = @"Health Check")]
 //     // [Authorize]
 //     public class DemoProfilingController : Controller

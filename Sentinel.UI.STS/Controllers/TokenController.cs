@@ -20,6 +20,7 @@ using Microsoft.Extensions.Options;
 namespace Sentinel.UI.STS.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class TokenController : Controller
     {
         private readonly IOptions<TokenSettings> tokenSettings;

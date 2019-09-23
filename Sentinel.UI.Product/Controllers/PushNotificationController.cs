@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 namespace Sentinel.UI.Product.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class PushNotificationController : Controller
     {
         private readonly IConfiguration _config;

@@ -309,7 +309,7 @@ services:
       - Mongodb__DatabaseName=sentinel
       - Mongodb__CollectionName=product
       - Mongodb__IdField=Id
-      - SentinelConnection=Server=52.247.221.7;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;
+      - SentinelConnection=Server=Server=52.175.193.162;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;
       - RabbitMQConnection=host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10
       - SMTP__Server=sentinel-util-mailhog
       - SMTP__Port=1025

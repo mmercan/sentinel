@@ -14,6 +14,7 @@ namespace Sentinel.Api.HealthMonitoring.Controllers.Apis
 {
 
     [Route("api/HealthCheckDownloader")]
+    [ApiController]
     public class HealthCheckDownloaderController : Controller
     {
 
