@@ -16,4 +16,4 @@ echo $number
         echo "In expected range Successed Actual Percentage $number Expected Percentage $expectedPercentage"
     fi
 fi
-done < "/mnt/c/TestResults/coveragereport/Summary.txt"
+done < "/TestResults/coveragereport/Summary.txt"
