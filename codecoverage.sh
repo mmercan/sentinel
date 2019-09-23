@@ -1,4 +1,5 @@
 expectedPercentage=32.8
+dotnet tool install --global dotnet-reportgenerator-globaltool
 dotnet test ./HealthChecks/HealthChecks.sln  /p:CollectCoverage=true /p:CoverletOutput=/mnt/c/TestResults/ /p:MergeWith=/mnt/c/TestResults/coverage.json --logger=trx -r /mnt/c/TestResults/
 dotnet test ./Sentinel.Empty.Tests/Sentinel.Empty.Tests.sln /p:CollectCoverage=true /p:MergeWith="/mnt/c/TestResults/coverage.json" /p:CoverletOutputFormat="opencover" /p:CoverletOutput=/mnt/c/TestResults/coverage.opencover.xml
 reportgenerator "-reports:/mnt/c/TestResults/coverage.opencover.xml" "-targetdir:/mnt/c/TestResults/coveragereport" -reporttypes:"HTMLSummary;TextSummary" -assemblyfilters:"+Sentinel.*;+Mercan.*"
