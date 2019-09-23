@@ -1,8 +1,8 @@
 expectedPercentage=32.8
 dotnet tool install --global dotnet-reportgenerator-globaltool
-dotnet test ./HealthChecks/HealthChecks.sln  /p:CollectCoverage=true /p:CoverletOutput=/mnt/c/TestResults/ /p:MergeWith=/mnt/c/TestResults/coverage.json --logger=trx -r /mnt/c/TestResults/
-dotnet test ./Sentinel.Empty.Tests/Sentinel.Empty.Tests.sln /p:CollectCoverage=true /p:MergeWith="/mnt/c/TestResults/coverage.json" /p:CoverletOutputFormat="opencover" /p:CoverletOutput=/mnt/c/TestResults/coverage.opencover.xml
-reportgenerator "-reports:/mnt/c/TestResults/coverage.opencover.xml" "-targetdir:/mnt/c/TestResults/coveragereport" -reporttypes:"HTMLSummary;TextSummary" -assemblyfilters:"+Sentinel.*;+Mercan.*"
+dotnet test ./HealthChecks/HealthChecks.sln  /p:CollectCoverage=true /p:CoverletOutput=/TestResults/ /p:MergeWith=/TestResults/coverage.json --logger=trx -r /TestResults/
+dotnet test ./Sentinel.Empty.Tests/Sentinel.Empty.Tests.sln /p:CollectCoverage=true /p:MergeWith="/TestResults/coverage.json" /p:CoverletOutputFormat="opencover" /p:CoverletOutput=/TestResults/coverage.opencover.xml
+reportgenerator "-reports:/TestResults/coverage.opencover.xml" "-targetdir:/TestResults/coveragereport" -reporttypes:"HTMLSummary;TextSummary" -assemblyfilters:"+Sentinel.*;+Mercan.*"
 
 while read line; do 
 if [[ $line == *"Line coverage"* ]]; then
@@ -16,4 +16,4 @@ echo $number
         echo "In expected range Successed"
     fi
 fi
-done < "/mnt/c/TestResults/coveragereport/Summary.txt"
+done < "/TestResults/coveragereport/Summary.txt"
