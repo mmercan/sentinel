@@ -15,7 +15,7 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
-- task: InlineAzurePowershell@1
+- task: InlinePowershell@1
   inputs:
     Script: |
         $expectedPercentage = 68.2
