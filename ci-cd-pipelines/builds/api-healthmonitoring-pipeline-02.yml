@@ -13,9 +13,11 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
     version: '2.2.x'
+- task: Bash@3
+  inputs:
+    filePath: '$(Build.SourcesDirectory)/codecoverage.sh'
+    workingDirectory: '$(Build.SourcesDirectory)'
