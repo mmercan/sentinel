@@ -15,10 +15,9 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
-  - task: PowerShell@2
-    inputs:
-      targetType: 'inline'
-      script: |
+- task: InlineAzurePowershell@1
+  inputs:
+    Script: |
         $expectedPercentage = 68.2
         dotnet test ./Sentinel.Api.HealthMonitoring/Sentinel.Api.HealthMonitoring.sln  /p:CollectCoverage=true /p:CoverletOutput=/TestResults/ /p:MergeWith=/TestResults/coverage.json --logger=trx -r /TestResults/
         dotnet test ./Sentinel.Empty.Tests/Sentinel.Empty.Tests.sln /p:CollectCoverage=true /p:MergeWith="/TestResults/coverage.json" /p:CoverletOutputFormat="opencover" /p:CoverletOutput=/TestResults/
