@@ -1,0 +1,28 @@
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 AS base
+ENV ASPNETCORE_URLS=http://+:80
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS develop
+ENV ASPNETCORE_URLS=http://+:80
+# RUN apt-get update && apt-get install bash
+ENV DOTNET_USE_POLLING_FILE_WATCHER=1
+ENV ASPNETCORE_ENVIRONMENT=Development
+WORKDIR /src/Sentinel.Api.Billing3
+EXPOSE 80
+
+FROM develop AS build
+WORKDIR /src
+COPY Sentinel.Api.Billing3/Sentinel.Api.Billing3.csproj Sentinel.Api.Billing3/
+RUN dotnet restore Sentinel.Api.Billing3/Sentinel.Api.Billing3.csproj
+COPY . .
+WORKDIR /src/Sentinel.Api.Billing3
+RUN dotnet build Sentinel.Api.Billing3.csproj -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish Sentinel.Api.Billing3.csproj -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "Sentinel.Api.Billing3.dll"]
