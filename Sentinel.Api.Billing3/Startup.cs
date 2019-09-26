@@ -17,23 +17,28 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using Sentinel.Api.Billing3.Helpers;
+using Sentinel.Common;
 using Serilog;
 using Serilog.Events;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Mercan.HealthChecks.Common.Checks;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Mercan.HealthChecks.Common;
+using System.Net.Http.Headers;
+using System.Net.Http;
+using Mercan.HealthChecks.RabbitMQ;
 
 namespace Sentinel.Api.Billing3
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -41,7 +46,7 @@ namespace Sentinel.Api.Billing3
             services.AddSingleton<IServiceCollection>(services);
             services.AddSingleton<IConfiguration>(Configuration);
 
-            services.AddHealthChecks()
+            var healthcheckBuilder = services.AddHealthChecks()
             .AddProcessList()
             //  .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory")
             //  .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
@@ -53,6 +58,13 @@ namespace Sentinel.Api.Billing3
             //  .AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
             //  .AddRedisHealthCheck(Configuration["RedisConnection"])
             .AddDIHealthCheck(services);
+
+            if (Environment.EnvironmentName != "dockertest")
+            {
+                //  healthcheckBuilder.AddRabbitMQHealthCheckWithDiIBus();
+            }
+            services.AddApplicationInsightsTelemetry("15ce6ddc-8d32-418e-9d5c-eed1cd7d6096");
+            services.AddApplicationInsightsKubernetesEnricher();
 
             services.ConfigureJwtAuthService(Configuration);
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
@@ -81,7 +93,39 @@ namespace Sentinel.Api.Billing3
             {
                 options.OperationFilter<SwaggerDefaultValues>();
                 options.IncludeXmlComments(XmlCommentsFilePath);
+
+                options.AddSecurityDefinition("BearerAuth", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    BearerFormat = "Bearer "
+                });
+
             });
+
+            services.AddHttpClient("run_with_try", options =>
+            {
+                options.Timeout = new TimeSpan(0, 2, 0);
+                options.DefaultRequestHeaders.Add("OData-MaxVersion", "4.0");
+                options.DefaultRequestHeaders.Add("OData-Version", "4.0");
+                options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            }).ConfigurePrimaryHttpMessageHandler<CertMessageHandler>()
+            // ConfigurePrimaryHttpMessageHandler((ch) =>
+            // {
+            //     var handler = new HttpClientHandler();
+            //     handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            //     handler.ClientCertificates.Add(HttpClientHelpers.GetCert());
+            //     return handler;
+
+            // })
+            // .AddHttpMessageHandler()
+            // .AddHttpMessageHandler<OAuthTokenHandler>()
+            //.AddHttpMessageHandler(*)
+            .AddPolicyHandler(HttpClientHelpers.GetRetryPolicy())
+            .AddPolicyHandler(HttpClientHelpers.GetCircuitBreakerPolicy());
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
@@ -119,13 +163,14 @@ namespace Sentinel.Api.Billing3
             });
 
             app.UseRouting();
+            app.UseAllAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            app.UseHealthChecks("/Health/IsAliveAndWell", new HealthCheckOptions()
+            app.UseHealthChecksWithAuth("/Health/IsAliveAndWell", new HealthCheckOptions()
             {
                 ResponseWriter = WriteResponses.WriteListResponse,
             });

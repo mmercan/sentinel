@@ -19,11 +19,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Api.Comms", "Senti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Api.Member", "Sentinel.Api.Member\Sentinel.Api.Member.csproj", "{447DDACA-75EE-494F-9BFE-5ADA5ABCA265}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sentinel.Common", "Sentinel.Common", "{4AF6B600-675F-461B-82E0-A9493FB3CC48}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sentinel.Commons", "Sentinel.Commons", "{4AF6B600-675F-461B-82E0-A9493FB3CC48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Model", "Sentinel.Common\Sentinel.Model\Sentinel.Model.csproj", "{DB6F4D5C-4AEC-4388-8B12-D07ECE6242A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Model", "Sentinel.Commons\Sentinel.Model\Sentinel.Model.csproj", "{DB6F4D5C-4AEC-4388-8B12-D07ECE6242A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Repos", "Sentinel.Common\Sentinel.Repos\Sentinel.Repos.csproj", "{B7A82265-9E58-431E-B2E6-55020ACADDBB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Repos", "Sentinel.Commons\Sentinel.Repos\Sentinel.Repos.csproj", "{B7A82265-9E58-431E-B2E6-55020ACADDBB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Handler.Comms", "Sentinel.Handler.Comms\Sentinel.Handler.Comms.csproj", "{916DAA64-209A-4E55-A27E-00444EB07C57}"
 EndProject

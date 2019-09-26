@@ -37,7 +37,7 @@ services:
       - .:/src
       # - ./Sentinel.Api.Product:/src/Sentinel.Api.Product
       # - ./Mercan:/src/Mercan
-      # - ./Sentinel.Common:/src/Sentinel.Common
+      # - ./Sentinel.Commons:/src/Sentinel.Commons
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
       - "5005:80"
@@ -74,7 +74,7 @@ services:
       - .:/src
       # - ./Sentinel.Api.Product:/src/Sentinel.Api.Product
       # - ./Mercan:/src/Mercan
-      # - ./Sentinel.Common:/src/Sentinel.Common
+      # - ./Sentinel.Commons:/src/Sentinel.Commons
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
       - "5003:80"
@@ -387,7 +387,7 @@ services:
       - .:/src
       # - ./Sentinel.UI.STS:/src/Sentinel.UI.STS
       # - ./Mercan:/src/Mercan
-      # - ./Sentinel.Common:/src/Sentinel.Common
+      # - ./Sentinel.Commons:/src/Sentinel.Commons
     #  - C:\repos\sentinel\Sentinel.Web:/src
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:

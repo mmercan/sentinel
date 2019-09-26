@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0"/>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc3"/>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.0.0-preview8.19405.7"/>
+    <PackageReference Include="Polly.Extensions.Http" Version="3.0.0"/>
+  </ItemGroup>
+    <PropertyGroup>
+  <OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
+</PropertyGroup>
+</Project>

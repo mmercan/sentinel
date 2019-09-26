@@ -35,7 +35,7 @@ function new-consoleApp {
     dotnet add package "Polly"
     dotnet add package "ncrontab"
 
-    dotnet add reference "..\Sentinel.Common\Sentinel.Model\Sentinel.Model.csproj"
+    dotnet add reference "..\Sentinel.Commons\Sentinel.Model\Sentinel.Model.csproj"
     dotnet add reference "..\Mercan\Mercan.Common\Mercan.Common.csproj"
 
     dotnet restore

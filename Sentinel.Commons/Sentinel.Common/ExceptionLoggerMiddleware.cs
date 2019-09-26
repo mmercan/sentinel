@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Sentinel.Api.Billing3.Helpers
+namespace Sentinel.Common
 {
     public class ExceptionLoggerMiddleware
     {

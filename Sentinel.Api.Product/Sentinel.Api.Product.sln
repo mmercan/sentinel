@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Api.Product.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercan.Common.Mongo", "..\Mercan\Mercan.Common.Mongo\Mercan.Common.Mongo.csproj", "{CEE2A2DE-0059-4A78-A408-9223CD89BACC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Model", "..\Sentinel.Common\Sentinel.Model\Sentinel.Model.csproj", "{FE4EC963-8F55-4F91-BDAF-881AD82697CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Model", "..\Sentinel.Commons\Sentinel.Model\Sentinel.Model.csproj", "{FE4EC963-8F55-4F91-BDAF-881AD82697CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Repos", "..\Sentinel.Common\Sentinel.Repos\Sentinel.Repos.csproj", "{7D0E02C7-A18C-4428-87FE-AF5613F94141}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Repos", "..\Sentinel.Commons\Sentinel.Repos\Sentinel.Repos.csproj", "{7D0E02C7-A18C-4428-87FE-AF5613F94141}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

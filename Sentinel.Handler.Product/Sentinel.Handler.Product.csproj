@@ -26,7 +26,7 @@
     <PackageReference Include="Serilog.Sinks.Loggly" Version="5.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sentinel.Common\Sentinel.Model\Sentinel.Model.csproj" />
+    <ProjectReference Include="..\Sentinel.Commons\Sentinel.Model\Sentinel.Model.csproj" />
     <ProjectReference Include="..\Mercan\Mercan.Common\Mercan.Common.csproj" />
   </ItemGroup>
   <ItemGroup>

@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sentinel.Common\Sentinel.Model\Sentinel.Model.csproj" />
+    <ProjectReference Include="..\Sentinel.Commons\Sentinel.Model\Sentinel.Model.csproj" />
     <ProjectReference Include="..\HealthChecks\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj" />
   </ItemGroup>
 </Project>

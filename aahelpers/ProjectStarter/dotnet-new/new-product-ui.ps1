@@ -15,7 +15,7 @@ set-location -Path $appFolder
 new-dotnet-newestpackages -port 5005
 
 dotnet add reference ../Mercan/Mercan.Common/Mercan.Common.csproj
-dotnet add reference ../Sentinel.Common/Sentinel.Model/Sentinel.Model.csproj
+dotnet add reference ../Sentinel.Commons/Sentinel.Model/Sentinel.Model.csproj
 
 Add-cors-swagger-startupcs
 Add-Logger

@@ -5,7 +5,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using static Microsoft.AspNetCore.Mvc.Versioning.ApiVersionMapping;
 
-namespace Sentinel.Api.Billing3.Helpers
+namespace Sentinel.Common
 {
     public class SwaggerDefaultValues : IOperationFilter
     {
@@ -21,6 +21,7 @@ namespace Sentinel.Api.Billing3.Helpers
             {
                 return;
             }
+
 
             // foreach (var parameter in operation.Parameters.OfType<NonBodyParameter>())
             // {

@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 
 
-namespace Sentinel.Api.Billing3.Helpers
+namespace Sentinel.Common
 {
     public static class HealthCheckSwaggerOptions
     {
@@ -45,29 +45,44 @@ namespace Sentinel.Api.Billing3.Helpers
                 }
             };
 
-            var Security = new List<IDictionary<string, IEnumerable<string>>>();
-            Security.Add(new Dictionary<string, IEnumerable<string>>
-            {
-                { "BearerAuth", new List<string>()}
-            });
+            // var Security = new List<OpenApiSecurityRequirement>();
+            // Security.Add(new OpenApiSecurityRequirement{});
+            // // Security.Add(new Dictionary<string, IEnumerable<string>>
+            // // {
+            // //     { "BearerAuth", new List<string>()}
+            // // });
+
+            var Security = new List<OpenApiSecurityRequirement> {
+                       new OpenApiSecurityRequirement{
+                        {
+                        new OpenApiSecurityScheme {
+                            Reference = new OpenApiReference {
+                            Id = "BearerAuth",
+                            Type = ReferenceType.SecurityScheme
+                        },
+                        UnresolvedReference  = true
+                    }, new List<string>() }
+                }
+           };
 
             var IsAliveAndWellPath = new OpenApiPathItem();
             IsAliveAndWellPath.AddOperation(OperationType.Get, new OpenApiOperation
             {
                 Description = "Application Health Api",
                 // OperationId = "findPets",
-                Parameters = new List<OpenApiParameter>
-                {
-                    new OpenApiParameter
-                    {
-                        Name = "Authorization",
-                        In = ParameterLocation.Header,
-                        Description = "access token",
-                        Required = false,
+                // Parameters = new List<OpenApiParameter>
+                // {
+                //     new OpenApiParameter
+                //     {
+                //         Name = "Authorization",
+                //         In = ParameterLocation.Header,
+                //         Description = "access token",
+                //         Required = false,
 
-                        Schema = new OpenApiSchema{Type = "string"}
-                    }
-                },
+                //         Schema = new OpenApiSchema{Type = "string"}
+                //     }
+                // },
+                Security = Security,
                 Responses = new OpenApiResponses
                 {
                     ["200"] = new OpenApiResponse

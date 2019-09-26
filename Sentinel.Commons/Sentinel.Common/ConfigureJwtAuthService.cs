@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Sentinel.Api.Billing3.Helpers
+namespace Sentinel.Common
 {
     public static class JwtAuthService
     {
@@ -35,8 +35,8 @@ namespace Sentinel.Api.Billing3.Helpers
 
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = "Bearer";
+                options.DefaultChallengeScheme = "Bearer";
             })
 
 
