@@ -7,7 +7,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 
-namespace Sentinel.Common
+namespace Sentinel.Api.Billing3
 {
 
     public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
