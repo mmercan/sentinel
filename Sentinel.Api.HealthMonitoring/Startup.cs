@@ -123,26 +123,26 @@ namespace Sentinel.Api.HealthMonitoring
             });
 
 
-            services.AddHttpClient("run_with_try", options =>
-            {
-                options.Timeout = new TimeSpan(0, 2, 0);
-                options.DefaultRequestHeaders.Add("OData-MaxVersion", "4.0");
-                options.DefaultRequestHeaders.Add("OData-Version", "4.0");
-                options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            }).ConfigurePrimaryHttpMessageHandler<CertMessageHandler>()
-            // ConfigurePrimaryHttpMessageHandler((ch) =>
+            // services.AddHttpClient("run_with_try", options =>
             // {
-            //     var handler = new HttpClientHandler();
-            //     handler.ClientCertificateOptions = ClientCertificateOption.Manual;
-            //     handler.ClientCertificates.Add(HttpClientHelpers.GetCert());
-            //     return handler;
+            //     options.Timeout = new TimeSpan(0, 2, 0);
+            //     options.DefaultRequestHeaders.Add("OData-MaxVersion", "4.0");
+            //     options.DefaultRequestHeaders.Add("OData-Version", "4.0");
+            //     options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            // }).ConfigurePrimaryHttpMessageHandler<CertMessageHandler>()
+            // // ConfigurePrimaryHttpMessageHandler((ch) =>
+            // // {
+            // //     var handler = new HttpClientHandler();
+            // //     handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            // //     handler.ClientCertificates.Add(HttpClientHelpers.GetCert());
+            // //     return handler;
 
-            // })
-            // .AddHttpMessageHandler()
-            // .AddHttpMessageHandler<OAuthTokenHandler>()
-            //.AddHttpMessageHandler(*)
-            .AddPolicyHandler(HttpClientHelpers.GetRetryPolicy())
-            .AddPolicyHandler(HttpClientHelpers.GetCircuitBreakerPolicy());
+            // // })
+            // // .AddHttpMessageHandler()
+            // // .AddHttpMessageHandler<OAuthTokenHandler>()
+            // //.AddHttpMessageHandler(*)
+            // .AddPolicyHandler(HttpClientHelpers.GetRetryPolicy())
+            // .AddPolicyHandler(HttpClientHelpers.GetCircuitBreakerPolicy());
 
             services.AddHttpClient<HealthCheckReportDownloaderService>("HealthCheckReportDownloader", options =>
             {
@@ -152,7 +152,8 @@ namespace Sentinel.Api.HealthMonitoring
                 options.DefaultRequestHeaders.Add("OData-Version", "4.0");
                 options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            }).ConfigurePrimaryHttpMessageHandler((ch) =>
+            })
+            .ConfigurePrimaryHttpMessageHandler((ch) =>
             {
                 var handler = new HttpClientHandler();
                 handler.ClientCertificateOptions = ClientCertificateOption.Manual;

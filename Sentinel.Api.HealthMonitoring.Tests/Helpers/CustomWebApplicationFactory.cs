@@ -9,8 +9,9 @@ namespace Sentinel.Api.HealthMonitoring.Tests.Helpers
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder
-                .UseStartup<Startup>();
+            //  builder
+            //      .UseStartup<Startup>();
+
             // .UseEnvironment("dockertest");
             // .ConfigureLogging(c=>c.Services.Add())
 
