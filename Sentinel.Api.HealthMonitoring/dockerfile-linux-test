@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS test
+FROM mmercan/sentinel-sonarqube-dotnet30-sdk AS test
 ARG buildtime_APPID
 ARG buildtime_APPSECRET
 ARG buildtime_ADID
