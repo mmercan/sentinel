@@ -153,14 +153,13 @@ namespace Sentinel.Api.HealthMonitoring
                 options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             })
-            .ConfigurePrimaryHttpMessageHandler((ch) =>
-            {
-                var handler = new HttpClientHandler();
-                handler.ClientCertificateOptions = ClientCertificateOption.Manual;
-                handler.ClientCertificates.Add(HttpClientHelpers.GetCert());
-                return handler;
-
-            })
+            // .ConfigurePrimaryHttpMessageHandler((ch) =>
+            // {
+            //     var handler = new HttpClientHandler();
+            //     handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            //     handler.ClientCertificates.Add(HttpClientHelpers.GetCert());
+            //     return handler;
+            // })
             //.AddHttpMessageHandler()
             // .AddHttpMessageHandler<OAuthTokenHandler>()
             .AddPolicyHandler(HttpClientHelpers.GetRetryPolicy())

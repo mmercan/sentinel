@@ -2,7 +2,7 @@
 
     services:
       sentinel-sonarqube-dotnet30-sdk:      
-        image: mmercan/sentinel-sonarqube-dotnet30-sdk:${TAGVersion}-prod-linux
+        image: mmercan/sentinel-sonarqube-dotnet30-sdk:latest
         build:
           # target: final
           context: ./

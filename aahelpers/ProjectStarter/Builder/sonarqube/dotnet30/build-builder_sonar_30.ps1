@@ -2,4 +2,4 @@
 #docker build --no-cache -t mmercan/aspcore-full-framework:4.6.2 -f ./dockerfile .
 # docker build -t mmercan/aspcore-builder-framework:4.6.2 -f ./dockerfile .
 docker-compose -f docker-compose.yml build
-docker-compose -f docker-compose.yml push
+# docker-compose -f docker-compose.yml push
