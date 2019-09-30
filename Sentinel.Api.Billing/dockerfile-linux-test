@@ -1,4 +1,4 @@
-FROM mmercan/sentinel-sonarqube-dotnet22-sdk AS test
+FROM mmercan/sentinel-sonarqube-dotnet30-sdk AS test
 ARG buildtime_APPID
 ARG buildtime_APPSECRET
 ARG buildtime_ADID
