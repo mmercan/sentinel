@@ -16,12 +16,13 @@ RUN apt-get update && \
     apt-get install -y nodejs && \
     node -v && npm -v
 
-
 RUN curl -SL --output dotnet.tar.gz https://dotnetcli.blob.core.windows.net/dotnet/Sdk/2.2.402/dotnet-sdk-2.2.402-linux-x64.tar.gz \
     && dotnet_sha512='81937de0874ee837e3b42e36d1cf9e04bd9deff6ba60d0162ae7ca9336a78f733e624136d27f559728df3f681a72a669869bf91d02db47c5331398c0cfda9b44' \
     && echo "$dotnet_sha512 dotnet.tar.gz" | sha512sum -c - \
     && tar -zxf dotnet.tar.gz -C /usr/share/dotnet \
     && rm dotnet.tar.gz
+
+RUN dotnet tool install --global dotnet-reportgenerator-globaltool
 
 RUN  dotnet --list-sdks 
 RUN dotnet --version 
