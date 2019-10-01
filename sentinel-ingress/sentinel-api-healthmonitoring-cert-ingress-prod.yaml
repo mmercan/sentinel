@@ -21,10 +21,10 @@ kind: Ingress
 metadata:
   name: sentinel-api-healthmonitoring-ingress
   annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.org/server-snippets: "gzip on;"
+    kubernetes.io/ingress.class: nginx   
     certmanager.k8s.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/server-snippet: "gzip on;"
 spec:
   tls:
   - hosts:
