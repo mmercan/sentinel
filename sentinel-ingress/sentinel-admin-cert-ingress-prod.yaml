@@ -22,6 +22,7 @@ metadata:
   name: sentinel-admin-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.org/server-snippets: "gzip on;"
     certmanager.k8s.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
