@@ -19,27 +19,27 @@ namespace Sentinel.Api.Comms.Tests.IntegrationTests
             this.output = output;
         }
 
-        [Theory]
-        [InlineData("/")]
-        [InlineData("/Home/Index")]
-        [InlineData("/Home/About")]
-        [InlineData("/Home/Contact")]
-        [InlineData("/Home/Privacy")]
-        [InlineData("/Home/Error")]
-        public void Get_EndpointsReturnSuccessAndCorrectContentType(string url)
-        {
-            // Arrange
-            var client = factory.CreateClient();
-            //factory.WithWebHostBuilder()
-            // Act
-            var responseTask = client.GetAsync(url);
-            responseTask.Wait();
-            var response = responseTask.Result;
-            // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            Assert.Equal("text/html; charset=utf-8",
-                response.Content.Headers.ContentType.ToString());
-        }
+        // [Theory]
+        // [InlineData("/")]
+        // [InlineData("/Home/Index")]
+        // [InlineData("/Home/About")]
+        // [InlineData("/Home/Contact")]
+        // [InlineData("/Home/Privacy")]
+        // [InlineData("/Home/Error")]
+        // public void Get_EndpointsReturnSuccessAndCorrectContentType(string url)
+        // {
+        //     // Arrange
+        //     var client = factory.CreateClient();
+        //     //factory.WithWebHostBuilder()
+        //     // Act
+        //     var responseTask = client.GetAsync(url);
+        //     responseTask.Wait();
+        //     var response = responseTask.Result;
+        //     // Assert
+        //     response.EnsureSuccessStatusCode(); // Status Code 200-299
+        //     Assert.Equal("text/html; charset=utf-8",
+        //         response.Content.Headers.ContentType.ToString());
+        // }
 
 
 

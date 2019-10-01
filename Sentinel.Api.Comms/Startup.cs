@@ -180,7 +180,7 @@ namespace Sentinel.Api.Comms
             // services.AddHostedService<HealthCheckSubscribeService>();
 
             services.AddSignalR();
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(typeof(Startup).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
