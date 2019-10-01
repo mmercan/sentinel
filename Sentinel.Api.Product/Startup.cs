@@ -147,12 +147,12 @@ namespace Sentinel.Api.Product
             .AddWorkingSetCheckKB(500000)
             //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
             .SqlConnectionHealthCheck(Configuration["SentinelConnection"])
-            .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "health/isalive")
-            .AddApiIsAlive(Configuration.GetSection("sentinel-api-member:ClientOptions"), "health/isalive")
-            .AddApiIsAlive(Configuration.GetSection("sentinel-api-product:ClientOptions"), "health/isalive")
-            .AddApiIsAlive(Configuration.GetSection("sentinel-api-comms:ClientOptions"), "health/isalive")
+            // .AddApiIsAlive(Configuration.GetSection("sentinel-ui-sts:ClientOptions"), "health/isalive")
+            // .AddApiIsAlive(Configuration.GetSection("sentinel-api-member:ClientOptions"), "health/isalive")
+            // .AddApiIsAlive(Configuration.GetSection("sentinel-api-product:ClientOptions"), "health/isalive")
+            // .AddApiIsAlive(Configuration.GetSection("sentinel-api-comms:ClientOptions"), "health/isalive")
             .AddMongoHealthCheck(Configuration["Mongodb:ConnectionString"])
-            .AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
+            // .AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
             .AddRedisHealthCheck(Configuration["RedisConnection"])
             .AddDIHealthCheck(services);
 
