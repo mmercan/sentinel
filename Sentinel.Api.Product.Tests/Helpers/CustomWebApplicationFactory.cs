@@ -10,9 +10,9 @@ namespace Sentinel.Api.Product.Tests.Helpers
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder
-                .UseStartup<Startup>()
+                //.UseStartup<Startup>()
                 .ConfigureAppConfiguration(config => config
-                    .AddJsonFile("appsettings.docker.tests.json")
+                    .AddJsonFile("appsettings.docker.tests.json", false)
                 );
         }
     }

@@ -20,9 +20,10 @@ namespace Sentinel.Api.Product.Tests.IntegrationTests
         AuthTokenFixture authTokenFixture;
         private ITestOutputHelper output;
 
-        public ProductV2Tests(WebApplicationFactory<Startup> factory, AuthTokenFixture authTokenFixture, ITestOutputHelper output)
+        public ProductV2Tests(CustomWebApplicationFactory factory, AuthTokenFixture authTokenFixture, ITestOutputHelper output)
         {
             this.factory = factory;
+
             this.output = output;
             this.authTokenFixture = authTokenFixture;
             //  output.WriteLine("Token Received "+  this.authTokenFixture.Token);
@@ -62,6 +63,7 @@ namespace Sentinel.Api.Product.Tests.IntegrationTests
                 newproduct.Id = rnd.Next(1000, 10000);
                 var stringPayload = JsonConvert.SerializeObject(newproduct);
                 var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+                client.Timeout = TimeSpan.FromMinutes(3);
                 responseTask = client.PostAsync(url, httpContent);
             }
             else if (Method == "PUT")

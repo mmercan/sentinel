@@ -132,7 +132,7 @@ namespace Sentinel.Api.Comms
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = Configuration["RedisConnection"];
-                options.InstanceName = "ApiHealthMonitoring";
+                options.InstanceName = "ApiComms";
             });
 
             // services.AddHttpClient("run_with_try", options =>

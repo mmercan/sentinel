@@ -20,12 +20,12 @@ namespace Sentinel.Api.Product.Tests.IntegrationTests
         AuthTokenFixture authTokenFixture;
         private ITestOutputHelper output;
 
-        public ProductV1Tests(WebApplicationFactory<Startup> factory,AuthTokenFixture authTokenFixture ,ITestOutputHelper output)
+        public ProductV1Tests(CustomWebApplicationFactory factory, AuthTokenFixture authTokenFixture, ITestOutputHelper output)
         {
             this.factory = factory;
             this.output = output;
-            this.authTokenFixture=authTokenFixture;
-         //  output.WriteLine("Token Received "+  this.authTokenFixture.Token);
+            this.authTokenFixture = authTokenFixture;
+            //  output.WriteLine("Token Received "+  this.authTokenFixture.Token);
         }
 
 
@@ -55,12 +55,12 @@ namespace Sentinel.Api.Product.Tests.IntegrationTests
             else if (Method == "POST")
             {
                 output.WriteLine("POST is Selected");
-                
+
                 Random rnd = new Random();
 
                 ProductInfoDtoV1 newproduct = new ProductInfoDtoV1();
-                newproduct.Id =  rnd.Next(1000,100000);
-              var stringPayload =   JsonConvert.SerializeObject(newproduct);
+                newproduct.Id = rnd.Next(1000, 100000);
+                var stringPayload = JsonConvert.SerializeObject(newproduct);
                 var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
                 responseTask = client.PostAsync(url, httpContent);
             }
