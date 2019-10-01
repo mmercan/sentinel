@@ -31,18 +31,21 @@ using System.Net.Http;
 using Mercan.HealthChecks.RabbitMQ;
 using EasyNetQ;
 using Mercan.HealthChecks.Common.CheckCaller;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text;
 
 namespace Sentinel.Api.HealthMonitoring
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
             this.Environment = environment;
         }
-        public IConfiguration Configuration { get; }
-        public IWebHostEnvironment Environment { get; }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -121,7 +124,11 @@ namespace Sentinel.Api.HealthMonitoring
             {
                 return RabbitHutch.CreateBus(Configuration["RabbitMQConnection"]);
             });
-
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration["RedisConnection"];
+                options.InstanceName = "ApiHealthMonitoring";
+            });
 
             // services.AddHttpClient("run_with_try", options =>
             // {
@@ -170,8 +177,17 @@ namespace Sentinel.Api.HealthMonitoring
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider, IHostApplicationLifetime lifetime, IDistributedCache cache)
         {
+            lifetime.ApplicationStarted.Register(() =>
+            {
+                var currentTimeUTC = DateTime.UtcNow.ToString();
+                byte[] encodedCurrentTimeUTC = Encoding.UTF8.GetBytes(currentTimeUTC);
+                var options = new DistributedCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromSeconds(20));
+                cache.Set("cachedTimeUTC", encodedCurrentTimeUTC, options);
+            });
+
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -224,6 +240,8 @@ namespace Sentinel.Api.HealthMonitoring
                     await context.Response.WriteAsync("{\"IsAlive\":true}");
                 });
             });
+
+
         }
 
         static string XmlCommentsFilePath

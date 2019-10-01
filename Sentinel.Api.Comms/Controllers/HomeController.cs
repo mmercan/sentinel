@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Sentinel.Api.Comms.Models;
-using NATS.Client;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
@@ -68,18 +67,18 @@ namespace Sentinel.Api.Comms.Controllers
             // Stopwatch sw = null;
             banner();
 
-            Options opts = ConnectionFactory.GetDefaultOptions();
+            // Options opts = ConnectionFactory.GetDefaultOptions();
 
-            if (configuration["NATS_URL"] != null)
-            {
-                opts.Url = configuration["NATS_URL"];
-            }
-            else
-            {
-                opts.Url = url;
-            }
-            logger.LogInformation("URL");
-            logger.LogInformation(opts.Url);
+            // if (configuration["NATS_URL"] != null)
+            // {
+            //     opts.Url = configuration["NATS_URL"];
+            // }
+            // else
+            // {
+            //     opts.Url = url;
+            // }
+            // logger.LogInformation("URL");
+            // logger.LogInformation(opts.Url);
             // using (IConnection c = new ConnectionFactory().CreateConnection(opts))
             // {
             //     sw = Stopwatch.StartNew();
@@ -95,13 +94,7 @@ namespace Sentinel.Api.Comms.Controllers
             // }
         }
 
-        private void printStats(IConnection c, ILogger<HomeController> logger)
-        {
-            IStatistics s = c.Stats;
-            logger.LogDebug("Statistics:  ");
-            logger.LogDebug("   Outgoing Payload Bytes: {0}", s.OutBytes);
-            logger.LogDebug("   Outgoing Messages: {0}", s.OutMsgs);
-        }
+
 
         private void usage()
         {
