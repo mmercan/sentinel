@@ -12,14 +12,12 @@ namespace Mercan.HealthChecks.Network.Tests.Checks
 {
     public class ModelsShould
     {
-        string connectionString = "nats://13.77.147.26:4222/";
+
         HealthCheckContext context = new HealthCheckContext();
 
         [Fact]
         public void CreateaNetworkInstance()
         {
-            NetworkHealthCheck check = new NetworkHealthCheck(connectionString);
-
             var a1 = new NetworkHealthCheck("google.com:443");
 
             var a2 = new HttpCallRequestModel
