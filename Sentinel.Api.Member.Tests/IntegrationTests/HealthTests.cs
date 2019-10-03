@@ -19,7 +19,7 @@ namespace Sentinel.Api.Member.Tests.IntegrationTests
         private WebApplicationFactory<Startup> factory;
         private ITestOutputHelper output;
 
-        public HealthTests(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
+        public HealthTests(CustomWebApplicationFactory factory, ITestOutputHelper output)
         {
             this.factory = factory;
             this.output = output;

@@ -4,7 +4,7 @@ using Xunit;
 namespace Sentinel.Api.Member.Tests.Helpers
 {
     [CollectionDefinition("WebApplicationFactory")]
-    public class WebApplicationFactoryCollection : ICollectionFixture<WebApplicationFactory<Sentinel.Api.Member.Startup>>, ICollectionFixture<AuthTokenFixture>
+    public class WebApplicationFactoryCollection : ICollectionFixture<CustomWebApplicationFactory>, ICollectionFixture<AuthTokenFixture>
     {
 
 
