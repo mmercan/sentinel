@@ -25,6 +25,7 @@ import { SystemInfoHealthChecksComponent } from './check-components/system-info-
 import { EnvDashboardRoutingModule } from './env-dashboard-routing.module';
 import { ImportConfigComponent } from './import-config/import-config.component';
 import { ProgDashboardComponent } from './prog-dashboard/prog-dashboard.component';
+import { RedisHealthCheckComponent } from './check-components/redis-health-check/redis-health-check.component';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { ProgDashboardComponent } from './prog-dashboard/prog-dashboard.componen
     SystemInfoHealthChecksComponent, AddMaxValueCheckComponent, AddMinValueCheckComponent, DbConnectionHealthChecksComponent,
     ServiceClientBaseHealthCheckComponent, RabbitMqHealthCheckComponent, MongoHealthCheckComponent, IsAliveRequestFailedCheckComponent,
     ImportConfigComponent, SqlHealthChecksComponent, ServiceBusHealthChecksComponent, EventHubHealthChecksComponent,
-    NetworkHealthChecksComponent],
+    NetworkHealthChecksComponent,
+    RedisHealthCheckComponent],
 })
 export class EnvDashboardModule { }

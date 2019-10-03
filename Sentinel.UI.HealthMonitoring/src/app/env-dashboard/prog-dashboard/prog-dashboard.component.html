@@ -38,6 +38,12 @@
         <div *ngIf="result &&  result.data && result.data.type==='RabbitMQHealthCheck'">
           <app-rabbit-mq-health-check [healthCheckResult]="result"></app-rabbit-mq-health-check>
         </div>
+        <div *ngIf="result &&  result.data && result.data.type==='RabbitMQHealthCheckFromBus'">
+          <app-rabbit-mq-health-check [healthCheckResult]="result"></app-rabbit-mq-health-check>
+        </div>
+        <div *ngIf="result &&  result.data && result.data.type==='RedisHealthCheck'">
+          <app-redis-health-check [healthCheckResult]="result"></app-redis-health-check>
+        </div>
         <div *ngIf="result &&  result.data && result.data.type==='ServiceClientBaseHealthCheck'">
           <app-service-client-base-health-check [healthCheckResult]="result"></app-service-client-base-health-check>
         </div>
@@ -47,7 +53,6 @@
         <div *ngIf="result &&  result.data && result.data.type==='IsAliveRequestFailed'">
           <app-is-alive-request-failed-check [healthCheckResult]="result"></app-is-alive-request-failed-check>
         </div>
-
         <div *ngIf="result &&  result.data && result.data.type==='ServiceBusHealthCheck'">
           <app-service-bus-health-checks [healthCheckResult]="result"></app-service-bus-health-checks>
         </div>

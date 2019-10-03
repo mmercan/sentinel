@@ -1,106 +1,58 @@
 using System;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Text;
-using Microsoft.AspNetCore.Authorization;
-using AutoMapper;
-// using Sentinel.Api.Member.Models;
-// using Sentinel.Api.Member.DbContexts;
-// using Sentinel.Api.Member.Repositories;
-using Serilog;
-using Serilog.Events;
-using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using Sentinel.Common;
+using Serilog;
+using Serilog.Events;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using Mercan.HealthChecks.Common.Checks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Mercan.HealthChecks.Common;
+using Mercan.HealthChecks.Mongo;
+using Mercan.HealthChecks.Redis;
+using System.Net.Http.Headers;
+using System.Net.Http;
+using Mercan.HealthChecks.RabbitMQ;
+using EasyNetQ;
+using Mercan.HealthChecks.Common.CheckCaller;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text;
+using AutoMapper;
 
 namespace Sentinel.Api.Member
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
-        public void ConfigureJwtAuthService(IServiceCollection services)
-        {
-            var audienceConfig = Configuration.GetSection("Tokens");
-            var symmetricKeyAsBase64 = audienceConfig["Secret"];
-            var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
-            var signingKey = new SymmetricSecurityKey(keyByteArray);
-
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                // The signing key must match!
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = signingKey,
-
-                // Validate the JWT Issuer (iss) claim
-                ValidateIssuer = true,
-                ValidIssuer = audienceConfig["Issuer"],
-
-                // Validate the JWT Audience (aud) claim
-                ValidateAudience = true,
-                ValidAudience = audienceConfig["Audience"],
-
-                // Validate the token expiry
-                ValidateLifetime = true,
-
-                ClockSkew = TimeSpan.Zero
-            };
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-          .AddJwtBearer("azure", cfg =>
-          {
-              cfg.RequireHttpsMetadata = false;
-              cfg.SaveToken = true;
-              cfg.Authority = Configuration["AzureAd:Instance"] + "/" + Configuration["AzureAD:TenantId"];
-              cfg.Audience = Configuration["AzureAd:ClientId"];
-          })
-            .AddJwtBearer("sts", cfg =>
-             {
-                 cfg.TokenValidationParameters = tokenValidationParameters;
-             });
-            //use both jwt schemas interchangeably  https://stackoverflow.com/questions/49694383/use-multiple-jwt-bearer-authentication
-            services.AddAuthorization(options =>
-            {
-                options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().AddAuthenticationSchemes("azure", "sts").Build();
-            });
+            this.Environment = environment;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            services.AddControllers();
+            services.AddSingleton<IServiceCollection>(services);
+            services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddHealthChecks()
             .AddProcessList()
@@ -121,144 +73,158 @@ namespace Sentinel.Api.Member
             // .AddRedisHealthCheck(Configuration["RedisConnection"])
             // .AddDIHealthCheck(services);
 
+            services.AddApplicationInsightsTelemetry("15ce6ddc-8d32-418e-9d5c-eed1cd7d6096");
+            services.AddApplicationInsightsKubernetesEnricher();
 
-
-            //services.AddMvcCore().AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddVersionedApiExplorer(o => o.GroupNameFormat = "'v'VVV");
-
-            services.AddAuthentication();
-            // .AddAzureAD(options => Configuration.Bind("AzureAd", options));
-            ConfigureJwtAuthService(services);
-
-            services.AddAutoMapper();
-
-            services.AddMvc(options =>
-            {
-                // var policy = new AuthorizationPolicyBuilder()
-                //     .RequireAuthenticatedUser()
-                //     .Build();
-                // options.Filters.Add(new AuthorizeFilter(policy));
-            })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.ConfigureJwtAuthService(Configuration);
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .SetIsOriginAllowedToAllowWildcardSubdomains()
-                .AllowCredentials();
+                .SetIsOriginAllowedToAllowWildcardSubdomains();
+                //.AllowCredentials();
             }));
 
-            services.AddApiVersioning(o =>
+            services.AddApiVersioning(options =>
             {
-                o.AssumeDefaultVersionWhenUnspecified = true;
-                o.DefaultApiVersion = new ApiVersion(1, 0);
-                o.ApiVersionReader = new HeaderApiVersionReader("api-version");
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ApiVersionReader = new HeaderApiVersionReader("api-version");
             });
-
+            services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
             services.AddSwaggerGen(options =>
             {
-                var provider = services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
-                foreach (var description in provider.ApiVersionDescriptions)
+                options.OperationFilter<SwaggerDefaultValues>();
+                options.IncludeXmlComments(XmlCommentsFilePath);
+
+                options.AddSecurityDefinition("BearerAuth", new OpenApiSecurityScheme
                 {
-                    options.SwaggerDoc(
-                    description.GroupName,
-                    new Info()
-                    {
-                        Title = $"Sentinel.Api.Member API {description.ApiVersion}",
-                        Version = description.ApiVersion.ToString()
-                    });
-                }
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    BearerFormat = "Bearer "
+                });
+
             });
+            services.AddSingleton<EasyNetQ.IBus>((ctx) =>
+            {
+                return RabbitHutch.CreateBus(Configuration["RabbitMQConnection"]);
+            });
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration["RedisConnection"];
+                options.InstanceName = "ApiHealthMonitoring";
+            });
+
+            // services.AddHttpClient("run_with_try", options =>
+            // {
+            //     options.Timeout = new TimeSpan(0, 2, 0);
+            //     options.DefaultRequestHeaders.Add("OData-MaxVersion", "4.0");
+            //     options.DefaultRequestHeaders.Add("OData-Version", "4.0");
+            //     options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            // }).ConfigurePrimaryHttpMessageHandler<CertMessageHandler>()
+            // // ConfigurePrimaryHttpMessageHandler((ch) =>
+            // // {
+            // //     var handler = new HttpClientHandler();
+            // //     handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            // //     handler.ClientCertificates.Add(HttpClientHelpers.GetCert());
+            // //     return handler;
+
+            // // })
+            // // .AddHttpMessageHandler()
+            // // .AddHttpMessageHandler<OAuthTokenHandler>()
+            // //.AddHttpMessageHandler(*)
+            // .AddPolicyHandler(HttpClientHelpers.GetRetryPolicy())
+            // .AddPolicyHandler(HttpClientHelpers.GetCircuitBreakerPolicy());
+
+            services.AddHttpClient<HealthCheckReportDownloaderService>("HealthCheckReportDownloader", options =>
+            {
+                // options.BaseAddress = new Uri(Configuration["CrmConnection:ServiceUrl"] + "api/data/v8.2/");
+                options.Timeout = new TimeSpan(0, 2, 0);
+                options.DefaultRequestHeaders.Add("OData-MaxVersion", "4.0");
+                options.DefaultRequestHeaders.Add("OData-Version", "4.0");
+                options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                options.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+            })
+            .ConfigurePrimaryHttpMessageHandler((ch) =>
+              new HttpClientHandler()
+              {
+                  AutomaticDecompression = System.Net.DecompressionMethods.GZip
+                  // ClientCertificateOptions = ClientCertificateOption.Manual;
+                  // ClientCertificates.Add(HttpClientHelpers.GetCert());
+              })
+            //.AddHttpMessageHandler()
+            // .AddHttpMessageHandler<OAuthTokenHandler>()
+            .AddPolicyHandler(HttpClientHelpers.GetRetryPolicy())
+            .AddPolicyHandler(HttpClientHelpers.GetCircuitBreakerPolicy());
+
+            services.AddAutoMapper(typeof(Startup).Assembly);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider, IHostApplicationLifetime lifetime, IDistributedCache cache)
         {
-            if (env.IsDevelopment())
+
+            lifetime.ApplicationStarted.Register(() =>
+            {
+                var currentTimeUTC = DateTime.UtcNow.ToString();
+                byte[] encodedCurrentTimeUTC = Encoding.UTF8.GetBytes(currentTimeUTC);
+                var options = new DistributedCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromSeconds(20));
+                cache.Set("cachedTimeUTC", encodedCurrentTimeUTC, options);
+            });
+
+            if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
-
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+
             var logger = new LoggerConfiguration()
             .ReadFrom.Configuration(Configuration)
             .Enrich.FromLogContext()
-            .Enrich.WithProperty("Enviroment", env.EnvironmentName)
+            .Enrich.WithProperty("Enviroment", Environment.EnvironmentName)
             .Enrich.WithProperty("ApplicationName", "Api App")
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .WriteTo.Console()
             .WriteTo.File("Logs/logs.txt");
             //.WriteTo.Elasticsearch()
-
             logger.WriteTo.Console();
             loggerFactory.AddSerilog();
             Log.Logger = logger.CreateLogger();
             app.UseExceptionLogger();
-            // move  UseDefaultFiles to first line
-            // app.UseFileServer();
-            app.UseDefaultFiles();
-            app.UseSwagger(e =>
-            {
-                e.PreSerializeFilters.Add((doc, req) =>
-                {
-                    doc.Paths.Add("/Health/IsAliveAndWell", new PathItem
-                    {
-                        Get = new Operation
-                        {
-                            Tags = new List<string> { "HealthCheck" },
-                            Produces = new string[] { "application/json" },
-                            Responses = new Dictionary<string, Response>{
-                                {"200",new Response{Description="Success"}},
-                                {"503",new Response{Description="Failed"}}
-                            }
-                        }
-                    });
 
-                    doc.Paths.Add("/Health/IsAlive", new PathItem
-                    {
-                        Get = new Operation
-                        {
-                            Tags = new List<string> { "HealthCheck" },
-                            Produces = new string[] { "application/json" }
-                        }
-                    });
-                });
-            });
-
+            app.UseSwagger(e => { e.AddHealthCheckSwaggerOptions(); });
             app.UseSwaggerUI(options =>
-                {
-                    foreach (var description in provider.ApiVersionDescriptions)
-                    {
-                        options.SwaggerEndpoint(
-                            $"/swagger/{description.GroupName}/swagger.json",
-                            description.GroupName.ToUpperInvariant());
-                    }
-                });
-            app.UseCors("MyPolicy");
-            app.UseCookiePolicy();
-
-            app.UseAuthentication();
-
-
-            app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+                }
+                options.RoutePrefix = string.Empty;
             });
 
-            app.UseHealthChecks("/Health/IsAliveAndWell", new HealthCheckOptions()
+            app.UseCors("MyPolicy");
+            app.UseRouting();
+            app.UseAllAuthentication();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
             {
-                // This custom writer formats the detailed status as JSON.
+                endpoints.MapControllers();
+            });
+            // app.UseMiniProfiler();
+            app.UseHealthChecksWithAuth("/Health/IsAliveAndWell", new HealthCheckOptions()
+            {
                 ResponseWriter = WriteResponses.WriteListResponse,
             });
 
@@ -271,5 +237,17 @@ namespace Sentinel.Api.Member
                 });
             });
         }
+
+        static string XmlCommentsFilePath
+        {
+            get
+            {
+                //var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var basePath = AppContext.BaseDirectory;
+                var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
+                return Path.Combine(basePath, fileName);
+            }
+        }
+
     }
 }

@@ -159,14 +159,15 @@ namespace Sentinel.Api.HealthMonitoring
                 options.DefaultRequestHeaders.Add("OData-Version", "4.0");
                 options.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
+                options.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
             })
-            // .ConfigurePrimaryHttpMessageHandler((ch) =>
-            // {
-            //     var handler = new HttpClientHandler();
-            //     handler.ClientCertificateOptions = ClientCertificateOption.Manual;
-            //     handler.ClientCertificates.Add(HttpClientHelpers.GetCert());
-            //     return handler;
-            // })
+            .ConfigurePrimaryHttpMessageHandler((ch) =>
+              new HttpClientHandler()
+              {
+                  AutomaticDecompression = System.Net.DecompressionMethods.GZip
+                  // ClientCertificateOptions = ClientCertificateOption.Manual;
+                  // ClientCertificates.Add(HttpClientHelpers.GetCert());
+              })
             //.AddHttpMessageHandler()
             // .AddHttpMessageHandler<OAuthTokenHandler>()
             .AddPolicyHandler(HttpClientHelpers.GetRetryPolicy())

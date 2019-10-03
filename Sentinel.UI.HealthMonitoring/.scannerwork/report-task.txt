@@ -1,0 +1,7 @@
+organization=mmercan-github
+projectKey=Sentinel.UI.HealthMonitoring
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.884
+dashboardUrl=https://sonarcloud.io/dashboard?id=Sentinel.UI.HealthMonitoring
+ceTaskId=AW2LcrjNeWHkXVU8--hG
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AW2LcrjNeWHkXVU8--hG
