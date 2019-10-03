@@ -56,11 +56,10 @@ namespace Sentinel.Api.Member
 
             services.AddHealthChecks()
             .AddProcessList()
-            .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory")
-            .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
-            .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")
-            .AddSystemInfoCheck()
-            .AddWorkingSetCheckKB(300000);
+            // .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory")
+            // .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "AvailableMBytes")
+            // .AddPerformanceCounter("Win32_PerfRawData_PerfOS_Memory", "PercentCommittedBytesInUse", "PercentCommittedBytesInUse_Base")            .AddSystemInfoCheck()
+            .AddWorkingSetCheckKB(700000);
 
             // //.AddCheck<SlowDependencyHealthCheck>("Slow", failureStatus: null, tags: new[] { "ready", })
             // .SqlConnectionHealthCheck(Configuration["SentinelConnection"])

@@ -18,11 +18,14 @@ namespace Sentinel.Api.Member.Tests.IntegrationTests
     {
         private WebApplicationFactory<Startup> factory;
         private ITestOutputHelper output;
+        private AuthTokenFixture authTokenFixture;
 
-        public HealthTests(CustomWebApplicationFactory factory, ITestOutputHelper output)
+        public HealthTests(CustomWebApplicationFactory factory, AuthTokenFixture authTokenFixture, ITestOutputHelper output)
         {
             this.factory = factory;
             this.output = output;
+            this.authTokenFixture = authTokenFixture;
+            output.WriteLine("Token Received " + this.authTokenFixture.Token);
         }
 
 
@@ -38,6 +41,7 @@ namespace Sentinel.Api.Member.Tests.IntegrationTests
 
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Authorization", this.authTokenFixture.Token);
             // Act
             var responseTask = client.GetAsync(url);
             responseTask.Wait();
