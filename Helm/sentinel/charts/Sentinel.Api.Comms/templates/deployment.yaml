@@ -1,41 +1,21 @@
-apiVersion: apps/v1beta2
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ include "Sentinel.Api.Comms.fullname" . }}
-  labels:
-    app.kubernetes.io/name: {{ include "Sentinel.Api.Comms.name" . }}
-    helm.sh/chart: {{ include "Sentinel.Api.Comms.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  name: sentinel-api-comms
 spec:
-  replicas:  {{ .Values.replicaCount }}
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: {{ include "Sentinel.Api.Comms.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+  replicas: 1
   revisionHistoryLimit: 1
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "Sentinel.Api.Comms.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        app: sentinel-api-comms
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+      - name:  sentinel-api-comms
+        image: mmercan/sentinel-api-comms:__imageversion__
+        imagePullPolicy: Always
         ports:
-          - name: http
-            containerPort: 80
-            protocol: TCP
-        livenessProbe:
-          httpGet:
-            path: /
-            port: http
-        readinessProbe:
-          httpGet:
-            path: /
-            port: http
+        - containerPort: 80
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "Production"
@@ -59,54 +39,3 @@ spec:
           value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
         - name: DOTNET_RUNNING_IN_CONTAINER
           value: "true"
-# apiVersion: apps/v1beta2
-# kind: Deployment
-# metadata:
-#   name: {{ include "Sentinel.Api.Comms.fullname" . }}
-#   labels:
-#     app.kubernetes.io/name: {{ include "Sentinel.Api.Comms.name" . }}
-#     helm.sh/chart: {{ include "Sentinel.Api.Comms.chart" . }}
-#     app.kubernetes.io/instance: {{ .Release.Name }}
-#     app.kubernetes.io/managed-by: {{ .Release.Service }}
-# spec:
-#   replicas: {{ .Values.replicaCount }}
-#   selector:
-#     matchLabels:
-#       app.kubernetes.io/name: {{ include "Sentinel.Api.Comms.name" . }}
-#       app.kubernetes.io/instance: {{ .Release.Name }}
-#   template:
-#     metadata:
-#       labels:
-#         app.kubernetes.io/name: {{ include "Sentinel.Api.Comms.name" . }}
-#         app.kubernetes.io/instance: {{ .Release.Name }}
-#     spec:
-#       containers:
-#         - name: {{ .Chart.Name }}
-#           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-#           imagePullPolicy: {{ .Values.image.pullPolicy }}
-#           ports:
-#             - name: http
-#               containerPort: 80
-#               protocol: TCP
-#           livenessProbe:
-#             httpGet:
-#               path: /
-#               port: http
-#           readinessProbe:
-#             httpGet:
-#               path: /
-#               port: http
-#           resources:
-# {{ toYaml .Values.resources | indent 12 }}
-#     {{- with .Values.nodeSelector }}
-#       nodeSelector:
-# {{ toYaml . | indent 8 }}
-#     {{- end }}
-#     {{- with .Values.affinity }}
-#       affinity:
-# {{ toYaml . | indent 8 }}
-#     {{- end }}
-#     {{- with .Values.tolerations }}
-#       tolerations:
-# {{ toYaml . | indent 8 }}
-#     {{- end }}
