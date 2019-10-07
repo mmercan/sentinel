@@ -5,7 +5,7 @@ metadata:
   labels:
     app: sentinel-api-comms
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
   - protocol: TCP
     port: 80
