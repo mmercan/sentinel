@@ -1,17 +1,17 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: sentinel-api-comms
+  name: sentinel-api-comms-helm
 spec:
   replicas: 1
   revisionHistoryLimit: 1
   template:
     metadata:
       labels:
-        app: sentinel-api-comms
+        app: sentinel-api-comms-helm
     spec:
       containers:
-      - name:  sentinel-api-comms
+      - name:  sentinel-api-comms-helm
         image: mmercan/sentinel-api-comms:__imageversion__
         imagePullPolicy: Always
         ports:
