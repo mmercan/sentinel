@@ -18,24 +18,54 @@ spec:
         - containerPort: 80
         env:
         - name: ASPNETCORE_ENVIRONMENT
-          value: "Production"
+          valueFrom:
+            configMapKeyRef:
+              name: sentinel-api-comms-config
+              key: ASPNETCORE_ENVIRONMENT
         - name: RedisConnection
-          value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
+          valueFrom:
+            configMapKeyRef:
+              name: sentinel-api-comms-config
+              key: RedisConnection
         - name: Mongodb__ConnectionString
-          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+          valueFrom:
+            configMapKeyRef:
+              name: sentinel-api-comms-config
+              key: Mongodb__ConnectionString
         - name: Mongodb__DatabaseName
-          value: "sentinel"
+          valueFrom:
+            configMapKeyRef:
+              name: sentinel-api-comms-config
+              key: Mongodb__DatabaseName
         - name: Mongodb__CollectionName
-          value: "product"
+          valueFrom:
+            configMapKeyRef:
+              name: sentinel-api-comms-config
+              key: Mongodb__CollectionName
         - name: Mongodb__IdField
-          value: "Id"
+          valueFrom:
+            configMapKeyRef:
+              name: sentinel-api-comms-config
+              key: Mongodb__IdField
         - name: SentinelConnection
-          value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+          valueFrom:
+            configMapKeyRef:
+              name: sentinel-api-comms-config
+              key: SentinelConnection
         - name: kafkaUrl
-          value: "http://sentinel-util-kafka:9092"
+          valueFrom:
+            configMapKeyRef:
+              name: sentinel-api-comms-config
+              key: kafkaUrl
         - name: NATS_URL
-          value: "nats://sentinel-service-nats:4222/"
+          valueFrom:
+            configMapKeyRef:
+              name: sentinel-api-comms-config
+              key: NATS_URL
         - name: MongoConnection
-          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+          valueFrom:
+            configMapKeyRef:
+              name: sentinel-api-comms-config
+              key: MongoConnection
         - name: DOTNET_RUNNING_IN_CONTAINER
           value: "true"
