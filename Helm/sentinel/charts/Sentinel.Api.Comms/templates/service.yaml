@@ -5,10 +5,10 @@ metadata:
   labels:
     app: sentinel-api-comms-helm
 spec:
-  type: ClusterIP
+  type: {{ .Values.service.type }}
   ports:
-  - protocol: TCP
-    port: 80
+  - port:  {{ .Values.service.port }}
+    protocol: TCP
     targetPort: 80
   selector:
     app: sentinel-api-comms-helm

@@ -12,8 +12,8 @@ spec:
     spec:
       containers:
       - name:  sentinel-api-comms-helm
-        image: mmercan/sentinel-api-comms:__imageversion__
-        imagePullPolicy: Always
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: 80
         env:

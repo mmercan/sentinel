@@ -1,5 +1,5 @@
 apiVersion: v1
 appVersion: "1.0.__imageversion__"
 description: Sentinel Comms Api 1.0
-name: Sentinel.Api.Comms
+name: api-comms
 version: 0.1.0

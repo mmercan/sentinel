@@ -3,3 +3,10 @@ appVersion: "1.0"
 description: A Helm chart for Kubernetes
 name: Sentinel.Api.HealthMonitoring
 version: 0.1.0
+#Values
+#otherfile with -f
+#variable --set foo=bar
+# .Chart > Name, Time, Namespace, Service, Revision, IsUpgrade, IsInstall
+# .Capabilities > APIVersions, KubeVersion, TillerVersion
+# .Files.Get
+# .Template > Name, BasePath
