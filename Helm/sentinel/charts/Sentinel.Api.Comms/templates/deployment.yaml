@@ -1,71 +1,92 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: sentinel-api-comms-helm
+  name:  {{ include "Sentinel.Api.Comms.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "Sentinel.Api.Comms.name" . }}
+    helm.sh/chart: {{ include "Sentinel.Api.Comms.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version:  {{ .Chart.AppVersion }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "Sentinel.Api.Comms.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: sentinel-api-comms-helm
+        app.kubernetes.io/name: {{ include "Sentinel.Api.Comms.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
-      - name:  sentinel-api-comms-helm
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        ports:
-        - containerPort: 80
-        env:
-        - name: ASPNETCORE_ENVIRONMENT
-          valueFrom:
-            configMapKeyRef:
-              name: sentinel-api-comms-config
-              key: ASPNETCORE_ENVIRONMENT
-        - name: RedisConnection
-          valueFrom:
-            configMapKeyRef:
-              name: sentinel-api-comms-config
-              key: RedisConnection
-        - name: Mongodb__ConnectionString
-          valueFrom:
-            configMapKeyRef:
-              name: sentinel-api-comms-config
-              key: Mongodb__ConnectionString
-        - name: Mongodb__DatabaseName
-          valueFrom:
-            configMapKeyRef:
-              name: sentinel-api-comms-config
-              key: Mongodb__DatabaseName
-        - name: Mongodb__CollectionName
-          valueFrom:
-            configMapKeyRef:
-              name: sentinel-api-comms-config
-              key: Mongodb__CollectionName
-        - name: Mongodb__IdField
-          valueFrom:
-            configMapKeyRef:
-              name: sentinel-api-comms-config
-              key: Mongodb__IdField
-        - name: SentinelConnection
-          valueFrom:
-            configMapKeyRef:
-              name: sentinel-api-comms-config
-              key: SentinelConnection
-        - name: kafkaUrl
-          valueFrom:
-            configMapKeyRef:
-              name: sentinel-api-comms-config
-              key: kafkaUrl
-        - name: NATS_URL
-          valueFrom:
-            configMapKeyRef:
-              name: sentinel-api-comms-config
-              key: NATS_URL
-        - name: MongoConnection
-          valueFrom:
-            configMapKeyRef:
-              name: sentinel-api-comms-config
-              key: MongoConnection
-        - name: DOTNET_RUNNING_IN_CONTAINER
-          value: "true"
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http        
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            valueFrom:
+              configMapKeyRef:
+                name: sentinel-api-comms-config
+                key: ASPNETCORE_ENVIRONMENT
+          - name: RedisConnection
+            valueFrom:
+              configMapKeyRef:
+                name: sentinel-api-comms-config
+                key: RedisConnection
+          - name: Mongodb__ConnectionString
+            valueFrom:
+              configMapKeyRef:
+                name: sentinel-api-comms-config
+                key: Mongodb__ConnectionString
+          - name: Mongodb__DatabaseName
+            valueFrom:
+              configMapKeyRef:
+                name: sentinel-api-comms-config
+                key: Mongodb__DatabaseName
+          - name: Mongodb__CollectionName
+            valueFrom:
+              configMapKeyRef:
+                name: sentinel-api-comms-config
+                key: Mongodb__CollectionName
+          - name: Mongodb__IdField
+            valueFrom:
+              configMapKeyRef:
+                name: sentinel-api-comms-config
+                key: Mongodb__IdField
+          - name: SentinelConnection
+            valueFrom:
+              configMapKeyRef:
+                name: sentinel-api-comms-config
+                key: SentinelConnection
+          - name: kafkaUrl
+            valueFrom:
+              configMapKeyRef:
+                name: sentinel-api-comms-config
+                key: kafkaUrl
+          - name: NATS_URL
+            valueFrom:
+              configMapKeyRef:
+                name: sentinel-api-comms-config
+                key: NATS_URL
+          - name: MongoConnection
+            valueFrom:
+              configMapKeyRef:
+                name: sentinel-api-comms-config
+                key: MongoConnection
+          - name: DOTNET_RUNNING_IN_CONTAINER
+            value: "true"
