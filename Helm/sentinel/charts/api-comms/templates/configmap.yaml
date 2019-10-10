@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "sentinel-api-comms-config"
+  name: "{{ include "Sentinel.Api.Comms.fullname" . }}-config"
 data:
   ASPNETCORE_ENVIRONMENT: "Production"
   RedisConnection: "sentinel-db-redis-helm:6379,defaultDatabase=2,password=yourpassword"

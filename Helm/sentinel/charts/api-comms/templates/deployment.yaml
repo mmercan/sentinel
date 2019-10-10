@@ -1,3 +1,5 @@
+{{- $name := include "Sentinel.Api.Comms.fullname" . -}}
+{{- $cfgname := printf "%s-%s" $name "config" -}}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -38,55 +40,19 @@ spec:
               path: /
               port: http        
           env:
-          - name: ASPNETCORE_ENVIRONMENT
-            valueFrom:
-              configMapKeyRef:
-                name: sentinel-api-comms-config
-                key: ASPNETCORE_ENVIRONMENT
-          - name: RedisConnection
-            valueFrom:
-              configMapKeyRef:
-                name: sentinel-api-comms-config
-                key: RedisConnection
-          - name: Mongodb__ConnectionString
-            valueFrom:
-              configMapKeyRef:
-                name: sentinel-api-comms-config
-                key: Mongodb__ConnectionString
-          - name: Mongodb__DatabaseName
-            valueFrom:
-              configMapKeyRef:
-                name: sentinel-api-comms-config
-                key: Mongodb__DatabaseName
-          - name: Mongodb__CollectionName
-            valueFrom:
-              configMapKeyRef:
-                name: sentinel-api-comms-config
-                key: Mongodb__CollectionName
-          - name: Mongodb__IdField
-            valueFrom:
-              configMapKeyRef:
-                name: sentinel-api-comms-config
-                key: Mongodb__IdField
-          - name: SentinelConnection
-            valueFrom:
-              configMapKeyRef:
-                name: sentinel-api-comms-config
-                key: SentinelConnection
-          - name: kafkaUrl
-            valueFrom:
-              configMapKeyRef:
-                name: sentinel-api-comms-config
-                key: kafkaUrl
-          - name: NATS_URL
-            valueFrom:
-              configMapKeyRef:
-                name: sentinel-api-comms-config
-                key: NATS_URL
-          - name: MongoConnection
-            valueFrom:
-              configMapKeyRef:
-                name: sentinel-api-comms-config
-                key: MongoConnection
-          - name: DOTNET_RUNNING_IN_CONTAINER
-            value: "true"
+          {{- if .Values.env.values -}}
+          {{- range .Values.env.values }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end -}}
+          {{- end -}}
+          {{- if .Values.env.configmap -}}
+          {{- range .Values.env.configmap }}
+            - name: {{ .name }}
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ $cfgname }}
+                  key: {{ .name }}
+          {{- end -}}
+          {{- end }}
+

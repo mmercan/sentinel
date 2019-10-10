@@ -43,3 +43,19 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+env:
+  configmap:
+    - name: ASPNETCORE_ENVIRONMENT
+    - name: RedisConnection
+    - name: Mongodb__ConnectionString
+    - name: Mongodb__DatabaseName
+    - name: Mongodb__CollectionName
+    - name: Mongodb__IdField
+    - name: SentinelConnection
+    - name: kafkaUrl
+    - name: NATS_URL
+    - name: MongoConnection
+  values:
+    - name: DOTNET_RUNNING_IN_CONTAINER
+      value: "true"
