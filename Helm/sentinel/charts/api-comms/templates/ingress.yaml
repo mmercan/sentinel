@@ -1,6 +1,3 @@
-{{- if .Values.ingress.enabled -}}
-{{- $fullName := include "Sentinel.Api.Comms.fullname" . -}}
-{{- $ingressPath := .Values.ingress.path -}}
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
@@ -22,16 +19,16 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  name:  {{ include "Sentinel.Api.Comms.fullname" . }}
   labels:
     app.kubernetes.io/name: {{ include "Sentinel.Api.Comms.name" . }}
     helm.sh/chart: {{ include "Sentinel.Api.Comms.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   tls:
   - hosts:
