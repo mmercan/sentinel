@@ -10,6 +10,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/version:  {{ .Chart.AppVersion }}
+    branch:  {{ .Values.branch }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 1
@@ -22,6 +23,7 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "Sentinel.Api.Comms.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+        branch:  {{ .Values.branch }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
