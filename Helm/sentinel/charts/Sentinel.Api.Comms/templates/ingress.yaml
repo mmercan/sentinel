@@ -27,13 +27,13 @@ metadata:
 spec:
   tls:
   - hosts:
-    - comms-helm.api.myrcan.com
+    - {{ .Values.ingress.host }}
     secretName: tls-secret-comms-helm-prod
   rules:
-  - host: comms-helm.api.myrcan.com
+  - host: {{ .Values.ingress.host }}
     http:
       paths:
       - path: /
         backend:
-          serviceName: sentinel-api-comms-helm
+          serviceName: {{ include "Sentinel.Api.Comms.fullname" . }}
           servicePort: 80
