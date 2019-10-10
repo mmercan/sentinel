@@ -1,0 +1,17 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: tls-secret-comms-helm-prod
+spec:
+  secretName: tls-secret-comms-helm-prod
+  dnsNames:
+  - comms-helm.api.myrcan.com
+  acme:
+    config:
+    - http01:
+        ingressClass: nginx
+      domains:
+      - comms-helm.api.myrcan.com
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
