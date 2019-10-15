@@ -43,21 +43,20 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
+environment: dev
+hostdomain: myrcan.com
 env:
   configmap:
     - name: ASPNETCORE_ENVIRONMENT
-    - name: Mongodb__ConnectionString
     - name: Mongodb__DatabaseName
     - name: Mongodb__CollectionName
     - name: Mongodb__IdField
     - name: kafkaUrl
     - name: NATS_URL
-    - name: MongoConnection
   secrets:
     - name: SentinelConnection
     - name: RedisConnection
-
+    - name: Mongodb__ConnectionString
   values:
     - name: DOTNET_RUNNING_IN_CONTAINER
       value: "true"
@@ -65,4 +64,5 @@ env:
 secrets:
   SentinelConnection: "Server=sentinel-mssql-db-helm-insecret;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
   RedisConnection: "sentinel-db-redis-helm-insecret:6379,defaultDatabase=2,password=yourpassword"
+  Mongodb__ConnectionString: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
   
