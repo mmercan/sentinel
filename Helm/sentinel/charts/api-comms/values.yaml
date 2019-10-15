@@ -47,15 +47,22 @@ affinity: {}
 env:
   configmap:
     - name: ASPNETCORE_ENVIRONMENT
-    - name: RedisConnection
     - name: Mongodb__ConnectionString
     - name: Mongodb__DatabaseName
     - name: Mongodb__CollectionName
     - name: Mongodb__IdField
-    - name: SentinelConnection
     - name: kafkaUrl
     - name: NATS_URL
     - name: MongoConnection
+  secrets:
+    - name: SentinelConnection
+    - name: RedisConnection
+
   values:
     - name: DOTNET_RUNNING_IN_CONTAINER
       value: "true"
+
+secrets:
+  SentinelConnection: "Server=sentinel-mssql-db-helm;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+  RedisConnection: "sentinel-db-redis-helm:6379,defaultDatabase=2,password=yourpassword"
+  

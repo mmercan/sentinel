@@ -1,5 +1,6 @@
 {{- $name := include "Sentinel.Api.Comms.fullname" . -}}
 {{- $cfgname := printf "%s-%s" $name "config" -}}
+{{- $secretname := printf "%s-%s" $name "secret" -}}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -54,6 +55,15 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: {{ $cfgname }}
+                  key: {{ .name }}
+          {{- end -}}
+          {{- end }}
+          {{- if .Values.env.secrets -}}
+          {{- range .Values.env.secrets }}
+            - name: {{ .name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretname }}
                   key: {{ .name }}
           {{- end -}}
           {{- end }}
