@@ -63,6 +63,6 @@ env:
       value: "true"
 
 secrets:
-  SentinelConnection: "Server=sentinel-mssql-db-helm;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
-  RedisConnection: "sentinel-db-redis-helm:6379,defaultDatabase=2,password=yourpassword"
+  SentinelConnection: "Server=sentinel-mssql-db-helm-insecret;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+  RedisConnection: "sentinel-db-redis-helm-insecret:6379,defaultDatabase=2,password=yourpassword"
   
