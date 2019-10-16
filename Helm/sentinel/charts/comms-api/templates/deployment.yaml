@@ -44,9 +44,9 @@ spec:
               port: http 
           envFrom:
           - configMapRef:
-                name: {{ $cfgname }}
+              name: {{ $cfgname }}
           - secretRef:
-              name: {{ $secretname }}
+              name: {{ $secretname }}
           env:
           {{- if .Values.env.values -}}
           {{- range .Values.env.values }}
