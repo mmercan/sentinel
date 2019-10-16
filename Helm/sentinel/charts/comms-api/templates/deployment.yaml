@@ -43,10 +43,10 @@ spec:
               path: /
               port: http 
           envFrom:
-          - configMapRef:
-              name: {{ $cfgname }}
-          - secretRef:
-              name: {{ $secretname }}
+            - secretRef:
+                name: {{ $secretname }}
+            - configMapRef:
+                name: {{ $cfgname }}
           env:
           {{- if .Values.env.values -}}
           {{- range .Values.env.values }}
@@ -54,7 +54,6 @@ spec:
               value: {{ .value | quote }}
           {{- end -}}
           {{- end -}}
-
 
 {{- /*
           {{- if .Values.env.configmap -}}
