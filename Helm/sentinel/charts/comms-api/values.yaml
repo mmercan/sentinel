@@ -46,13 +46,6 @@ affinity: {}
 environment: dev
 hostdomain: myrcan.com
 env:
-  configmap:
-    - name: ASPNETCORE_ENVIRONMENT
-    - name: Mongodb__DatabaseName
-    - name: Mongodb__CollectionName
-    - name: Mongodb__IdField
-    - name: kafkaUrl
-    - name: NATS_URL
   values:
     - name: DOTNET_RUNNING_IN_CONTAINER
       value: "true"
@@ -62,3 +55,11 @@ secrets:
   RedisConnection: "sentinel-db-redis-helm-insecret:6379,defaultDatabase=2,password=yourpassword"
   Mongodb__ConnectionString: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
   
+  configmap:
+    ASPNETCORE_ENVIRONMENT: "Production"
+    Mongodb__DatabaseName: "sentinel"
+    Mongodb__CollectionName: "product"
+    Mongodb__IdField: "Id"
+    kafkaUrl: "http://sentinel-util-kafka:9092"
+    NATS_URL: "nats://sentinel-service-nats:4222/"
+    DOTNET_RUNNING_IN_CONTAINER: "true"

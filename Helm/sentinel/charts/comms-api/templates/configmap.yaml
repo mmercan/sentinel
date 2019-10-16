@@ -3,12 +3,10 @@ kind: ConfigMap
 metadata:
   name: "{{ include "Sentinel.Api.Comms.fullname" . }}-config"
 data:
-  ASPNETCORE_ENVIRONMENT: "Production"
-  Mongodb__DatabaseName: "sentinel"
-  Mongodb__CollectionName: "product"
-  Mongodb__IdField: "Id"
-  kafkaUrl: "http://sentinel-util-kafka:9092"
-  NATS_URL: "nats://sentinel-service-nats:4222/"
-  DOTNET_RUNNING_IN_CONTAINER: "true"
+ {{- if .Values.configmap -}}
+{{- range $key, $value := .Values.configmap }}
+ {{ $key }}: {{ default "" $value | b64enc | quote }}
+{{- end -}}
+{{- end }}
 
 
