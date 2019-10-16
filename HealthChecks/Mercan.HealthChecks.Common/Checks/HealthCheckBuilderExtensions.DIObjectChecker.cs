@@ -1,13 +1,10 @@
 using System;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 
 namespace Mercan.HealthChecks.Common.Checks
@@ -16,7 +13,6 @@ namespace Mercan.HealthChecks.Common.Checks
     {
         public static IHealthChecksBuilder AddDIObjectHealthCheck<T>(this IHealthChecksBuilder builder, Func<T, bool> testfunc)
         {
-            //return builder.AddCheck($"DIHealthCheck", new DIHealthCheck(services));
             var name = typeof(T).Name;
             return builder.AddTypeActivatedCheck<DIObjectChecker<T>>($"DIObjectHealthCheck {name}", null, null, testfunc);
         }
@@ -25,9 +21,9 @@ namespace Mercan.HealthChecks.Common.Checks
     public class DIObjectChecker<T> : IHealthCheck
     {
 
-        private ILogger<DIObjectChecker<T>> _logger;
-        T _myObject;
-        Func<T, bool> _testfunc;
+        readonly ILogger<DIObjectChecker<T>> _logger;
+        readonly T _myObject;
+        readonly Func<T, bool> _testfunc;
         public DIObjectChecker(ILogger<DIObjectChecker<T>> logger, T myObject, Func<T, bool> testfunc)
         {
             this._myObject = myObject;
@@ -43,9 +39,6 @@ namespace Mercan.HealthChecks.Common.Checks
         {
             return await Task.Run(() =>
             {
-
-                bool failedAny = false;
-                int order = 0;
                 IDictionary<string, Object> data = new Dictionary<string, object>();
                 data.Add("type", "DIHealthCheck");
                 try
