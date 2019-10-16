@@ -45,6 +45,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ $cfgname }}
+            - secretRef:
+                name: {{ $secretname }}
           env:
           {{- if .Values.env.values -}}
           {{- range .Values.env.values }}
