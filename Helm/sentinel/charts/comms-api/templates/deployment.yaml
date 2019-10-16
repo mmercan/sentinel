@@ -41,7 +41,12 @@ spec:
           readinessProbe:
             httpGet:
               path: /
-              port: http        
+              port: http 
+          envFrom:
+            - configMapRef:
+                name: {{ $cfgname }}
+            - secretRef:
+              name: {{ $secretname }}
           env:
           {{- if .Values.env.values -}}
           {{- range .Values.env.values }}
@@ -49,6 +54,9 @@ spec:
               value: {{ .value | quote }}
           {{- end -}}
           {{- end -}}
+
+
+{{- /*
           {{- if .Values.env.configmap -}}
           {{- range .Values.env.configmap }}
             - name: {{ .name }}
@@ -67,4 +75,4 @@ spec:
                   key: {{ .name }}
           {{- end -}}
           {{- end }}
-
+*/ -}}

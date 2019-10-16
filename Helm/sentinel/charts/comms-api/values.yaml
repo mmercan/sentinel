@@ -53,10 +53,6 @@ env:
     - name: Mongodb__IdField
     - name: kafkaUrl
     - name: NATS_URL
-  secrets:
-    - name: SentinelConnection
-    - name: RedisConnection
-    - name: Mongodb__ConnectionString
   values:
     - name: DOTNET_RUNNING_IN_CONTAINER
       value: "true"

@@ -1,3 +1,4 @@
+{{- $host := printf "%s.%s.%s" .Chart.Name .Values.environment .Values.hostdomain -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -14,10 +15,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - {{ .Values.ingress.host }}
+    - {{ $host }}
     secretName: tls-secret-comms-helm-prod
   rules:
-  - host: {{ .Values.ingress.host }}
+  - host: {{ $host }}
     http:
       paths:
       - path: /
