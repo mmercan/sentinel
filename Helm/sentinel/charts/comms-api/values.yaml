@@ -55,7 +55,7 @@ secrets:
   RedisConnection: "sentinel-db-redis-helm-insecret:6379,defaultDatabase=2,password=yourpassword"
   Mongodb__ConnectionString: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
   
-  configmap:
+configmap:
     ASPNETCORE_ENVIRONMENT: "Production"
     Mongodb__DatabaseName: "sentinel"
     Mongodb__CollectionName: "product"
