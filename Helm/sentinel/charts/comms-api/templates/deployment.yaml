@@ -43,8 +43,6 @@ spec:
               path: /
               port: http 
           envFrom:
-            - secretRef:
-                name: {{ $secretname }}
             - configMapRef:
                 name: {{ $cfgname }}
           env:
