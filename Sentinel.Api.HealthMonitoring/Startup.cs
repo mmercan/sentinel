@@ -33,6 +33,7 @@ using EasyNetQ;
 using Mercan.HealthChecks.Common.CheckCaller;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text;
+using Sentinel.Model.Product;
 
 namespace Sentinel.Api.HealthMonitoring
 {
@@ -68,7 +69,19 @@ namespace Sentinel.Api.HealthMonitoring
               .AddMongoHealthCheck(Configuration["Mongodb:ConnectionString"])
               //.AddRabbitMQHealthCheck(Configuration["RabbitMQConnection"])
               .AddRedisHealthCheck(Configuration["RedisConnection"])
-              .AddDIHealthCheck(services);
+              .AddDIHealthCheck(services)
+              .AddDIObjectHealthCheck<IDistributedCache>((fn) =>
+              {
+                  var options = new DistributedCacheEntryOptions()
+                   .SetSlidingExpiration(TimeSpan.FromSeconds(20));
+                  fn.SetString("testkey", "blah", options);
+                  return true;
+              })
+               .AddDIObjectHealthCheck<CategoryInfo>((fn) =>
+              {
+                  fn.Name = 123;
+                  return true;
+              });
 
             if (Environment.EnvironmentName != "dockertest")
             {

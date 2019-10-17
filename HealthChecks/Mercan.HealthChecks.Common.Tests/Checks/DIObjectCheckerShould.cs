@@ -33,7 +33,7 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
             services1.AddScoped<TestClass>();
             services1.AddScoped<DIObjectChecker<TestClass>>((sp) =>
             {
-                return new DIObjectChecker<TestClass>(logger, myclass, (tc) =>
+                return new DIObjectChecker<TestClass>(logger, services1, (tc) =>
                 {
                     return tc.runrun() == true;
                 });
@@ -61,7 +61,7 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
             services1.AddScoped<TestClass>();
             services1.AddScoped<DIObjectChecker<TestClass>>((sp) =>
             {
-                return new DIObjectChecker<TestClass>(logger, myclass, (tc) =>
+                return new DIObjectChecker<TestClass>(logger, services1, (tc) =>
                 {
                     return tc.runrun() == false;
                 });
@@ -88,7 +88,7 @@ namespace Mercan.HealthChecks.Common.Tests.Checks
             services1.AddScoped<TestClass>();
             services1.AddScoped<DIObjectChecker<TestClass>>((sp) =>
             {
-                return new DIObjectChecker<TestClass>(logger, myclass, (tc) =>
+                return new DIObjectChecker<TestClass>(logger, services1, (tc) =>
                 {
                     throw new ApplicationException("Triggered exception");
                 });
