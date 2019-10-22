@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: "{{ include "Sentinel.Db.Redis.fullname" . }}-config"
 data:
+ redis-config: "databases 8\nmaxclients 2000\nrequirepass \"{{.Values.password}}\"\n\n"
  requirepass: {{.Values.password}}
  servicename: {{ include "Sentinel.Db.Redis.fullname" . }}
  {{- if .Values.configmap -}}
