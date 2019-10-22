@@ -10,10 +10,10 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: 6379
+      targetPort: 6379
       protocol: TCP
-      name: http
   selector:
     app.kubernetes.io/name: {{ include "Sentinel.Db.Redis.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
+

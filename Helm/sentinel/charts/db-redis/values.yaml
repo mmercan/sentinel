@@ -5,9 +5,9 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  tag: stable
-  pullPolicy: IfNotPresent
+  repository: mmercan/sentinel-db-redis
+  tag: latest
+  pullPolicy: Always
 
 nameOverride: ""
 fullnameOverride: ""
@@ -46,3 +46,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+password: 2jWa8sSM8ZuhS3Qc
+configmap: {
+ databases: "8"
+}

@@ -1,14 +1,20 @@
-apiVersion: apps/v1beta2
+{{- $name := include "Sentinel.Db.Redis.fullname" . -}}
+{{- $cfgname := printf "%s-%s" $name "config" -}}
+{{- $secretname := printf "%s-%s" $name "secret" -}}
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ include "Sentinel.Db.Redis.fullname" . }}
+  name:  {{ include "Sentinel.Db.Redis.fullname" . }}
   labels:
     app.kubernetes.io/name: {{ include "Sentinel.Db.Redis.name" . }}
     helm.sh/chart: {{ include "Sentinel.Db.Redis.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version:  {{ .Chart.AppVersion }}
+    branch:  {{ .Values.branch }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "Sentinel.Db.Redis.name" . }}
@@ -18,34 +24,21 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "Sentinel.Db.Redis.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+        branch:  {{ .Values.branch }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-{{ toYaml .Values.resources | indent 12 }}
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+            - containerPort: 6379
+          volumeMounts:
+          - mountPath: /redis-master
+            name: config
+      volumes:
+        - name: config
+          configMap:
+            name: {{$cfgname}}
+            items:
+            - key: redis-config
+              path: redis.conf
