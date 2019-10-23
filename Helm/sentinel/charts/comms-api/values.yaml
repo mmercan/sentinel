@@ -52,7 +52,7 @@ env:
 
 secrets:
   SentinelConnection: "Server=sentinel-mssql-db-helm-insecret;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
-  RedisConnection: "sentinel-db-redis-helm-insecret:6379,defaultDatabase=2,password=yourpassword"
+  RedisConnection: "sentinel-db-redis:6379,defaultDatabase=2,password=2jWa8sSM8ZuhS3Qc"
   Mongodb__ConnectionString: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
   
 configmap:
@@ -63,3 +63,6 @@ configmap:
     kafkaUrl: "http://sentinel-util-kafka:9092"
     NATS_URL: "nats://sentinel-service-nats:4222/"
     DOTNET_RUNNING_IN_CONTAINER: "true"
+
+releaseNames:
+    redis: "sentinel-db-redis"
