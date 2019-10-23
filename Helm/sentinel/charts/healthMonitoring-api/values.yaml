@@ -5,9 +5,9 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: mmercan/sentinel-api-healthmonitoring
   tag: stable
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 nameOverride: ""
 fullnameOverride: ""
@@ -46,11 +46,45 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+environment: dev
+hostdomain: myrcan.com
+env:
+  values:
+    - name: DOTNET_RUNNING_IN_CONTAINER
+      value: "true"
 
+secrets:
+  SentinelConnection: "Server=sentinel-mssql-db-helm-insecret;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+  RedisConnection: "sentinel-db-redis:6379,defaultDatabase=2,password=2jWa8sSM8ZuhS3Qc"
+  Mongodb__ConnectionString: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+  RabbitMQConnection: "host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10"
+  SMTP__Server: "sentinel-util-mailhog"
+  SMTP__Port: "1025"
+  SMTP__UserName: "mail@mail.com"
+  SMTP__Password: "password123"
+  ELASTICSEARCH_URL: "http://40.117.115.1:9200"
+
+
+configmap:
+    ASPNETCORE_ENVIRONMENT: "Production"
+    Mongodb__DatabaseName: "sentinel"
+    Mongodb__CollectionName: "product"
+    Mongodb__IdField: "Id"
+    kafkaUrl: "http://sentinel-util-kafka:9092"
+    NATS_URL: "nats://sentinel-service-nats:4222/"
+    DOTNET_RUNNING_IN_CONTAINER: "true"
+    sentinel-ui-sts__ClientOptions__BaseAddress: "http://sentinel-ui-sts/"
+    sentinel-api-member__ClientOptions__BaseAddress: "http://sentinel-api-member/"
+    sentinel-api-product__ClientOptions__BaseAddress: "http://sentinel-api-product/"
+    sentinel-api-comms__ClientOptions__BaseAddress: "http://sentinel-api-comms/"
+
+extSecrets:
+    RedisConnection:
+      secretname: "sentinel-db-redis"
+      secretkey: "RedisConnection"
 
 env:
   configmap:
-
     - name: Mongodb__DatabaseName
     - name: Mongodb__CollectionName
     - name: Mongodb__IdField
@@ -80,48 +114,3 @@ env:
     - name: DOTNET_RUNNING_IN_CONTAINER
       value: "true"
 
-secrets:
-        - name: RedisConnection
-          value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
-        - name: Mongodb__ConnectionString
-          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
-        - name: Mongodb__DatabaseName
-          value: "sentinel"
-        - name: Mongodb__CollectionName
-          value: "product"
-        - name: Mongodb__IdField
-          value: "Id"
-        - name: SentinelConnection
-          value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
-        - name: kafkaUrl
-          value: "http://sentinel-util-kafka:9092"
-        - name: NATS_URL
-          value: "nats://sentinel-service-nats:4222/"
-        - name: RabbitMQConnection
-          value: "host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10"
-        - name: SMTP__Server
-          value: "sentinel-util-mailhog"
-        - name: SMTP__Port
-          value: "1025"
-        - name: SMTP__UserName
-          value: "mail@mail.com"
-        - name: SMTP__Password
-          value: "password123"
-        - name: ELASTICSEARCH_URL
-          value: "http://40.117.115.1:9200"
-        - name: sentinel-ui-sts__ClientOptions__BaseAddress
-          value: "http://sentinel-ui-sts/"
-        - name: sentinel-ui-sts__ClientOptions__ClientId
-          value: "67d009b1-97fe-4963-84ff-3590b06df0da"
-        - name: sentinel-api-member__ClientOptions__BaseAddress
-          value: "http://sentinel-api-member/"
-        - name: sentinel-api-member__ClientOptions__ClientId
-          value: "67d009b1-97fe-4963-84ff-3590b06df0da"
-        - name: sentinel-api-product__ClientOptions__BaseAddress
-          value: "http://sentinel-api-product/"
-        - name: sentinel-api-product__ClientOptions__ClientId
-          value: "67d009b1-97fe-4963-84ff-3590b06df0da"
-        - name: sentinel-api-comms__ClientOptions__BaseAddress
-          value: "http://sentinel-api-comms/"
-        - name: sentinel-api-comms__ClientOptions__ClientId
-          value: "67d009b1-97fe-4963-84ff-3590b06df0da"
