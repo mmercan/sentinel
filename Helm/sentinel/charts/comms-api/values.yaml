@@ -64,5 +64,7 @@ configmap:
     NATS_URL: "nats://sentinel-service-nats:4222/"
     DOTNET_RUNNING_IN_CONTAINER: "true"
 
-releaseNames:
-    redis: "sentinel-db-redis"
+extSecrets:
+    RedisConnection:
+      secretname: "sentinel-db-redis"
+      secretkey: "RedisConnection"
