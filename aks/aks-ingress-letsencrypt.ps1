@@ -26,17 +26,29 @@
 
 
 ##### Run those #####
+# kubectl delete namespaces ingress-basic
+# kubectl delete namespaces cert-manager
+
+# helm delete nginx-ingress --purge
+# helm delete cert-manager --purge
+
 #helm install --name nginx-ingress  stable/nginx-ingress --namespace ingress-basic --set controller.replicaCount=2  --set nodeSelector."beta.kubernetes.io/os"=linux
-helm upgrade  nginx-ingress  stable/nginx-ingress --namespace ingress-basic --set controller.replicaCount=2  --set nodeSelector."beta.kubernetes.io/os"=linux
+kubectl create namespace ingress-basic
+helm install  --name nginx-ingress  stable/nginx-ingress --namespace ingress-basic --set controller.replicaCount=2  --set nodeSelector."beta.kubernetes.io/os"=linux --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
+
+kubectl get service -l app=nginx-ingress --namespace ingress-basic
+Start-Sleep -s 60
 kubectl get service -l app=nginx-ingress --namespace ingress-basic
 
-kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.11/deploy/manifests/00-crds.yaml
+kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.8/deploy/manifests/00-crds.yaml
+
 kubectl create namespace cert-manager
 kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
 # helm install --name cert-manager --namespace cert-manager  --version v0.7.0 jetstack/cert-manager
-helm upgrade cert-manager --namespace cert-manager  --version v0.11.0 jetstack/cert-manager
+helm install --name cert-manager --namespace cert-manager  --version v0.8.0 jetstack/cert-manager
+Start-Sleep -s 60
 kubectl apply -f cluster-issuer-letsencrypt-prod.yaml
 
   

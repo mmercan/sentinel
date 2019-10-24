@@ -1,7 +1,7 @@
 {{- $name := include "Sentinel.Api.HealthMonitoring.fullname" . -}}
 {{- $cfgname := printf "%s-%s" $name "config" -}}
 {{- $secretname := printf "%s-%s" $name "secret" -}}
-apiVersion: extensions/v1beta2
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name:  {{ include "Sentinel.Api.HealthMonitoring.fullname" . }}
