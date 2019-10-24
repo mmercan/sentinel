@@ -5,7 +5,7 @@ metadata:
 data:
  {{- if .Values.configmap -}}
 {{- range $key, $value := .Values.configmap }}
- {{ $key }}: {{ default "" $value | b64enc | quote }}
+ {{ $key }}: {{ default "" $value  | quote }}
 {{- end -}}
 {{- end }}
 
