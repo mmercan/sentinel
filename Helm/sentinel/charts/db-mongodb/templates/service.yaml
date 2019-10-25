@@ -10,10 +10,10 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: 27017
+      targetPort: 27017
       protocol: TCP
-      name: http
   selector:
     app.kubernetes.io/name: {{ include "Sentinel.Db.Mongodb.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
+
