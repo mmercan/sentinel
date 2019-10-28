@@ -23,6 +23,12 @@ spec:
     metadata:
       labels:
         service: {{ include "Sentinel.Db.Mongodb.fullname" . }}
+        app.kubernetes.io/name: {{ include "Sentinel.Db.Mongodb.name" . }}
+        helm.sh/chart: {{ include "Sentinel.Db.Mongodb.chart" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/version:  {{ .Chart.AppVersion }}
+        branch:  {{ .Values.branch }}
     spec:
       terminationGracePeriodSeconds: 15
       containers:
