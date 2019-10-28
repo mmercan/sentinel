@@ -1,62 +1,62 @@
-{{- $name := include "Sentinel.Db.Mongodb.fullname" . -}}
-{{- $cfgname := printf "%s-%s" $name "config" -}}
-{{- $secretname := printf "%s-%s" $name "secret" -}}
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name:  {{ include "Sentinel.Db.Mongodb.fullname" . }}
-  labels:
-    app.kubernetes.io/name: {{ include "Sentinel.Db.Mongodb.name" . }}
-    helm.sh/chart: {{ include "Sentinel.Db.Mongodb.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/version:  {{ .Chart.AppVersion }}
-    branch:  {{ .Values.branch }}
-spec:
-  replicas: {{ .Values.replicaCount }}
-  revisionHistoryLimit: 1
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: {{ include "Sentinel.Db.Mongodb.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: {{ include "Sentinel.Db.Mongodb.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
-        branch:  {{ .Values.branch }}
-    spec:
-      containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - containerPort: 27017 
-          env:
-            - name: MONGO_DATA_DIR
-              value: "/data/db"   
-            - name: MONGO_LOG_DIR
-              value: "/dev/null"  
-            - name: MONGO_INITDB_ROOT_USERNAME
-              value: "root" 
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              value: "hbMnztmZ4w9JJTGZ"  
-          volumeMounts:
-          - mountPath: /data/db
-            name: mongodb
-      volumes:
-        - name: mongodb
-          persistentVolumeClaim:
-            claimName: px-mongo-pvc 
+# {{- $name := include "Sentinel.Db.Mongodb.fullname" . -}}
+# {{- $cfgname := printf "%s-%s" $name "config" -}}
+# {{- $secretname := printf "%s-%s" $name "secret" -}}
+# apiVersion: extensions/v1beta1
+# kind: Deployment
+# metadata:
+#   name:  {{ include "Sentinel.Db.Mongodb.fullname" . }}
+#   labels:
+#     app.kubernetes.io/name: {{ include "Sentinel.Db.Mongodb.name" . }}
+#     helm.sh/chart: {{ include "Sentinel.Db.Mongodb.chart" . }}
+#     app.kubernetes.io/instance: {{ .Release.Name }}
+#     app.kubernetes.io/managed-by: {{ .Release.Service }}
+#     app.kubernetes.io/version:  {{ .Chart.AppVersion }}
+#     branch:  {{ .Values.branch }}
+# spec:
+#   replicas: {{ .Values.replicaCount }}
+#   revisionHistoryLimit: 1
+#   selector:
+#     matchLabels:
+#       app.kubernetes.io/name: {{ include "Sentinel.Db.Mongodb.name" . }}
+#       app.kubernetes.io/instance: {{ .Release.Name }}
+#   template:
+#     metadata:
+#       labels:
+#         app.kubernetes.io/name: {{ include "Sentinel.Db.Mongodb.name" . }}
+#         app.kubernetes.io/instance: {{ .Release.Name }}
+#         branch:  {{ .Values.branch }}
+#     spec:
+#       containers:
+#         - name: {{ .Chart.Name }}
+#           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+#           imagePullPolicy: {{ .Values.image.pullPolicy }}
+#           ports:
+#             - containerPort: 27017 
+#           env:
+#             - name: MONGO_DATA_DIR
+#               value: "/data/db"   
+#             - name: MONGO_LOG_DIR
+#               value: "/dev/null"  
+#             - name: MONGO_INITDB_ROOT_USERNAME
+#               value: "root" 
+#             - name: MONGO_INITDB_ROOT_PASSWORD
+#               value: "hbMnztmZ4w9JJTGZ"  
+#           volumeMounts:
+#           - mountPath: /data/db
+#             name: mongodb
+#       volumes:
+#         - name: mongodb
+#           persistentVolumeClaim:
+#             claimName: px-mongo-pvc 
 
 
-      #     volumeMounts:
-      #     - mountPath: /redis-master
-      #       name: config
-      # volumes:
-      #   - name: config
-      #     configMap:
-      #       name: {{$cfgname}}
-      #       items:
-      #       - key: redis-config
-      #         path: redis.conf
+#       #     volumeMounts:
+#       #     - mountPath: /redis-master
+#       #       name: config
+#       # volumes:
+#       #   - name: config
+#       #     configMap:
+#       #       name: {{$cfgname}}
+#       #       items:
+#       #       - key: redis-config
+#       #         path: redis.conf

@@ -1,0 +1,59 @@
+{{- $name := include "Sentinel.Db.Mongodb.fullname" . -}}
+{{- $cfgname := printf "%s-%s" $name "config" -}}
+{{- $secretname := printf "%s-%s" $name "secret" -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name:  {{ include "Sentinel.Db.Mongodb.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "Sentinel.Db.Mongodb.name" . }}
+    helm.sh/chart: {{ include "Sentinel.Db.Mongodb.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version:  {{ .Chart.AppVersion }}
+    branch:  {{ .Values.branch }}
+spec:
+  serviceName: {{ include "Sentinel.Db.Mongodb.fullname" . }}
+  # Number of PODS
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      service: {{ include "Sentinel.Db.Mongodb.fullname" . }}
+  template:
+    metadata:
+      labels:
+        service: {{ include "Sentinel.Db.Mongodb.fullname" . }}
+    spec:
+      terminationGracePeriodSeconds: 15
+      # initContainers:
+      # # https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html
+      # - name: increase-the-vm-max-map-count
+      #   image: busybox
+      #   command:
+      #   - sysctl
+      #   - -w
+      #   - vm.max_map_count=262144
+      #   securityContext:
+      #     privileged: true
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: 27017
+          name: tcp
+        env:
+          - name: MONGO_DATA_DIR
+            value: "/data/db"   
+          - name: MONGO_LOG_DIR
+            value: "/dev/null"  
+          - name: MONGO_INITDB_ROOT_USERNAME
+            value: "root" 
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            value: "hbMnztmZ4w9JJTGZ" 
+        volumeMounts:
+          - mountPath: /data/db
+             name: mongodb
+       volumes:
+         - name: mongodb
+           persistentVolumeClaim:
+             claimName: px-mongo-pvc 
