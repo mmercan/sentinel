@@ -31,11 +31,6 @@ spec:
         ports:
         - containerPort: 27017
           name: tcp
-        env:
-          - name: MONGO_DATA_DIR
-            value: "/data/db"   
-          - name: MONGO_LOG_DIR
-            value: "/dev/null"  
         volumeMounts:
           - mountPath: /data/db
              name: mongodb
