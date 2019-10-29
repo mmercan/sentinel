@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-
+branch: unknown
 image:
   repository: mcr.microsoft.com/mssql/server:2017
   tag: latest
@@ -54,7 +54,7 @@ env:
       value: "Y"
 
 secrets:
-  SA_PASSWORD:  "MySentP@ssw0rd" 
+  SA_PASSWORD: "MySentP@ssw0rd" 
   
 configmap:
   MSSQL_PID: "Developer"  
