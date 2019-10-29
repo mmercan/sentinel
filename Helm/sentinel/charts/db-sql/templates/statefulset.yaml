@@ -46,7 +46,7 @@ spec:
           - name: {{ .name }}
             value: {{ .value | quote }}
           {{- end -}}
-          {{- end -}}
+          {{- end }}
         volumeMounts:
           - mountPath: /var/opt/mssql
             name: sentinel-mssql
