@@ -5,8 +5,8 @@
 replicaCount: 1
 branch: unknown
 image:
-  repository: mcr.microsoft.com/mssql/server
-  tag: 2017-latest
+  repository: mmercan/sentinel-db-sql:01-prod-linux
+  tag: latest
   pullPolicy: IfNotPresent
 
 nameOverride: ""
