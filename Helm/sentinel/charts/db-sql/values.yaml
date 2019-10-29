@@ -5,8 +5,8 @@
 replicaCount: 1
 branch: unknown
 image:
-  repository: mcr.microsoft.com/mssql/server:2017
-  tag: latest
+  repository: mcr.microsoft.com/mssql/server
+  tag: 2017-latest
   pullPolicy: IfNotPresent
 
 nameOverride: ""
