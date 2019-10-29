@@ -46,3 +46,17 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+environment: dev
+hostdomain: myrcan.com
+env:
+  values:
+    - name: DOTNET_RUNNING_IN_CONTAINER
+      value: "true"
+
+secrets:
+  MONGO_INITDB_ROOT_USERNAME:  "root" 
+  MONGO_INITDB_ROOT_PASSWORD: "hbMnztmZ4w9JJTGZ"
+  
+configmap:
+  MONGO_DATA_DIR: "/data/db"   
+  MONGO_LOG_DIR: "/dev/null"  

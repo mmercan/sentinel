@@ -37,15 +37,11 @@ spec:
         ports:
         - containerPort: 27017
           name: tcp
-        env:
-          - name: MONGO_DATA_DIR
-            value: "/data/db"   
-          - name: MONGO_LOG_DIR
-            value: "/dev/null"  
-          - name: MONGO_INITDB_ROOT_USERNAME
-            value: "root" 
-          - name: MONGO_INITDB_ROOT_PASSWORD
-            value: "hbMnztmZ4w9JJTGZ" 
+        envFrom:
+          - configMapRef:
+              name: {{ $cfgname }}
+          - secretRef:
+              name: {{ $secretname }}
         volumeMounts:
           - mountPath: /data/db
             name: mongodb
