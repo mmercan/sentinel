@@ -5,7 +5,7 @@
 replicaCount: 1
 branch: unknown
 image:
-  repository: mmercan/sentinel-db-sql:01-prod-linux
+  repository: mmercan/sentinel-db-sql
   tag: latest
   pullPolicy: IfNotPresent
 
