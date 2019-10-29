@@ -1,0 +1,58 @@
+{{- $name := include "Sentinel.Db.Sql.fullname" . -}}
+{{- $cfgname := printf "%s-%s" $name "config" -}}
+{{- $secretname := printf "%s-%s" $name "secret" -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name:  {{ include "Sentinel.Db.Sql.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "Sentinel.Db.Sql.name" . }}
+    helm.sh/chart: {{ include "Sentinel.Db.Sql.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version:  {{ .Chart.AppVersion }}
+    branch:  {{ .Values.branch }}
+spec:
+  serviceName: {{ include "Sentinel.Db.Sql.fullname" . }}
+  # Number of PODS
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      service: {{ include "Sentinel.Db.Sql.fullname" . }}
+  template:
+    metadata:
+      labels:
+        service: {{ include "Sentinel.Db.Sql.fullname" . }}
+        app.kubernetes.io/name: {{ include "Sentinel.Db.Sql.name" . }}
+        helm.sh/chart: {{ include "Sentinel.Db.Sql.chart" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/version:  {{ .Chart.AppVersion }}
+        branch:  {{ .Values.branch }}
+    spec:
+      terminationGracePeriodSeconds: 15
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: 1433
+          name: tcp
+        envFrom:
+          - configMapRef:
+              name: {{ $cfgname }}
+          - secretRef:
+              name: {{ $secretname }}
+        env:
+          {{- if .Values.env.values -}}
+          {{- range .Values.env.values }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end -}}
+          {{- end -}}
+        volumeMounts:
+          - mountPath: /var/opt/mssql
+            name: sentinel-mssql
+      volumes:
+        - name: sentinel-mssql
+          persistentVolumeClaim:
+            claimName: sentinel-mssql-db-data

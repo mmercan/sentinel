@@ -5,16 +5,16 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  tag: stable
+  repository: mcr.microsoft.com/mssql/server:2017
+  tag: latest
   pullPolicy: IfNotPresent
 
 nameOverride: ""
 fullnameOverride: ""
 
 service:
-  type: ClusterIP
-  port: 80
+  type: LoadBalancer
+  port: 1433
 
 ingress:
   enabled: false
@@ -46,3 +46,15 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+environment: dev
+hostdomain: myrcan.com
+env:
+  values:
+    - name: ACCEPT_EULA
+      value: "Y"
+
+secrets:
+  SA_PASSWORD:  "MySentP@ssw0rd" 
+  
+configmap:
+  MSSQL_PID: "Developer"  
