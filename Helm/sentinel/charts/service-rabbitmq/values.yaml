@@ -3,10 +3,10 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-
+branch: unknown
 image:
-  repository: nginx
-  tag: stable
+  repository:  mmercan/sentinel-service-rabbitmq
+  tag: latest
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -46,3 +46,13 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+# env:
+#   values:
+#     - name: DOTNET_RUNNING_IN_CONTAINER
+#       value: "true"
+
+secrets:
+  SentinelConnection: "Server=sentinel-mssql-db-helm-insecret;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+
+configmap:
+    RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"

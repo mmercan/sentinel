@@ -10,10 +10,15 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+    - name: http               
+    port: 15672               
+    targetPort: 15672
+    protocol: TCP            
+    - name: transport          
+    port: 5672               
+    targetPort: 5672
+    protocol: TCP
   selector:
     app.kubernetes.io/name: {{ include "Sentinel.Service.Rabbitmq.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
+
