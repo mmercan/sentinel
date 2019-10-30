@@ -10,11 +10,11 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: http               
+  - name: http               
     port: 15672               
     targetPort: 15672
     protocol: TCP            
-    - name: transport          
+  - name: transport          
     port: 5672               
     targetPort: 5672
     protocol: TCP
