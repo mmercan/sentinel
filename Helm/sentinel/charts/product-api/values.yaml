@@ -3,10 +3,10 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-
+branch: unknown
 image:
-  repository: nginx
-  tag: stable
+  repository: mmercan/sentinel-api-product
+  tag: latest
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -46,3 +46,40 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+environment: dev
+hostdomain: myrcan.com
+
+env:
+  values:
+    - name: DOTNET_RUNNING_IN_CONTAINER
+      value: "true"
+
+secrets:
+  SentinelConnection: "Server=sentinel-mssql-db-helm-insecret;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+  RedisConnection: "sentinel-db-redis:6379,defaultDatabase=2,password=2jWa8sSM8ZuhS3Qc"
+  Mongodb__ConnectionString: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+  RabbitMQConnection: "host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10"
+  SMTP__Server: "sentinel-util-mailhog"
+  SMTP__Port: "1025"
+  SMTP__UserName: "mail@mail.com"
+  SMTP__Password: "password123"
+  ELASTICSEARCH_URL: "http://40.117.115.1:9200"
+
+
+configmap:
+    ASPNETCORE_ENVIRONMENT: "Production"
+    Mongodb__DatabaseName: "sentinel"
+    Mongodb__CollectionName: "product"
+    Mongodb__IdField: "Id"
+    kafkaUrl: "http://sentinel-util-kafka:9092"
+    NATS_URL: "nats://sentinel-service-nats:4222/"
+    DOTNET_RUNNING_IN_CONTAINER: "true"
+    sentinel-ui-sts__ClientOptions__BaseAddress: "http://sentinel-ui-sts/"
+    sentinel-api-member__ClientOptions__BaseAddress: "http://sentinel-api-member/"
+    sentinel-api-product__ClientOptions__BaseAddress: "http://sentinel-api-product/"
+    sentinel-api-comms__ClientOptions__BaseAddress: "http://sentinel-api-comms/"
+
+extSecrets:
+    RedisConnection:
+      secretname: "sentinel-db-redis"
+      secretkey: "RedisConnection"
