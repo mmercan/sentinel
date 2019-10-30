@@ -46,10 +46,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-# env:
-#   values:
-#     - name: DOTNET_RUNNING_IN_CONTAINER
-#       value: "true"
+env:
+  values:
 
 secrets:
   SentinelConnection: "Server=sentinel-mssql-db-helm-insecret;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
