@@ -62,6 +62,8 @@ spec:
         env:
           - name: cluster.name
             value: "{{ include "Sentinel.Db.Elasticsearch.fullname" . }}-cluster"
+          - name: CLUSTER_NAME
+            value: "{{ include "Sentinel.Db.Elasticsearch.fullname" . }}-cluster"
           {{- if .Values.env.values -}}
           {{- range .Values.env.values }}
           - name: {{ .name }}

@@ -9,11 +9,5 @@ data:
 {{- end -}}
 {{- end }}
   elasticsearch.yml: |
-    cluster.name: "{{ include "Sentinel.Db.Elasticsearch.fullname" . }}-cluster"
-    network.host: 0.0.0.0
-    discovery.zen.minimum_master_nodes: 1
-    #Update max_local_storage_nodes value based on number of nodes
-    node.max_local_storage_nodes: 1
-    xpack.security.enabled: true
-    xpack.monitoring.collection.enabled: true
+{{ include (print .Template.BasePath "/_elasticsearch.yaml.tpl") . | indent 4 }}
   role_mapping.yml: |
