@@ -6,9 +6,9 @@ data:
   kibana.yml: |
     server.name: sentinel-elk-kibana
     server.host: "0"
-    elasticsearch.url: http://sentinel-db-elasticsearch:9200
-    elasticsearch.hosts: ["http://sentinel-db-elasticsearch:9200"]
+    elasticsearch.url: http://sentinel-db-elasticsearch.sentinel-helm:9200
+    elasticsearch.hosts: ["http://sentinel-db-elasticsearch.sentinel-helm:9200"]
     xpack.monitoring.ui.container.elasticsearch.enabled: true
-    # elasticsearch.username: kibana
-    # elasticsearch.password: Password1$
+    elasticsearch.username: elastic
+    elasticsearch.password: Pa$$w0rd$
 
