@@ -42,6 +42,10 @@ spec:
             httpGet:
               path: /
               port: http 
+          volumeMounts:
+            - name: "{{ include "Sentinel.Util.Kibana.fullname" . }}-volume"
+              mountPath: /usr/share/kibana/config/kibana.yml
+              subPath: kibana.yml
           envFrom:
             # - configMapRef:
             #     name: {{ $cfgname }}
@@ -54,4 +58,8 @@ spec:
               value: {{ .value | quote }}
           {{- end -}}
           {{- end -}}
+      volumes:
+      - name: "{{ include "Sentinel.Util.Kibana.fullname" . }}-volume"
+        configMap:
+            name: "{{ include "Sentinel.Util.Kibana.fullname" . }}-config"
 
