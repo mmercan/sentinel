@@ -34,18 +34,10 @@ spec:
             - name: http
               containerPort: 5601
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http 
           volumeMounts:
-          - name: "{{ include "Sentinel.Util.Kibana.fullname" . }}-volume"
-            mountPath: /usr/share/kibana/config/kibana.yml
-            subPath: kibana.yml
+            - name: kibana-config
+              mountPath: /usr/share/kibana/config/kibana.yml
+              subPath: kibana.yml
           env:
           {{- if .Values.env.values -}}
           {{- range .Values.env.values }}
@@ -54,7 +46,7 @@ spec:
           {{- end -}}
           {{- end -}}
       volumes:
-      - name: "{{ include "Sentinel.Util.Kibana.fullname" . }}-volume"
+      - name: kibana-config
         configMap:
-            name: "{{ include "Sentinel.Util.Kibana.fullname" . }}-config"
+            name: {{ cfgname }}
 
