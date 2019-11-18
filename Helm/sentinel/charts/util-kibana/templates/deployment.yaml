@@ -48,5 +48,5 @@ spec:
       volumes:
       - name: kibana-config
         configMap:
-            name: {{ cfgname }}
+            name: {{ $cfgname }}
 
