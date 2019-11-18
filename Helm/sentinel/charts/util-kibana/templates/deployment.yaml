@@ -36,8 +36,8 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: kibana-config
-              mountPath: /usr/share/kibana/config/kibana.yml
               subPath: kibana.yml
+              mountPath: "/usr/share/kibana/config/kibana.yml"
           env:
           {{- if .Values.env.values -}}
           {{- range .Values.env.values }}
