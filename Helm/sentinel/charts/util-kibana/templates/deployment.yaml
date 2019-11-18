@@ -34,19 +34,19 @@ spec:
             - name: http
               containerPort: 5601
               protocol: TCP
-          volumeMounts:
-            - name: kibana-config
-              subPath: kibana.yml
-              mountPath: "/usr/share/kibana/config/kibana.yml"
           env:
           {{- if .Values.env.values -}}
           {{- range .Values.env.values }}
             - name: {{ .name }}
               value: {{ .value | quote }}
           {{- end -}}
-          {{- end -}}
+          {{- end }}
+          volumeMounts:
+            - name: {{ $cfgname }}
+              mountPath: /usr/share/kibana/config/kibana.yml
+              subPath: kibana.yml
       volumes:
-      - name: kibana-config
+      - name: {{ $cfgname }}
         configMap:
             name: {{ $cfgname }}
 
