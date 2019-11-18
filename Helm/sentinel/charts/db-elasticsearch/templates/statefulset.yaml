@@ -53,8 +53,6 @@ spec:
         - containerPort: 9300
           name: tcp
         envFrom:
-          - configMapRef:
-              name: {{ $cfgname }}
           {{ if .Values.secrets -}}
           - secretRef:
               name: {{ $secretname }}

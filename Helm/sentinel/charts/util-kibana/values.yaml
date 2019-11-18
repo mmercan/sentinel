@@ -3,10 +3,10 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-
+branch: unknown
 image:
-  repository: nginx
-  tag: stable
+  repository: docker.elastic.co/kibana/kibana
+  tag: "7.1.0"
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -29,20 +29,30 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
-  # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
-
+resources:
+  limits:
+    cpu: 1000m
+  requests:
+    cpu: 100m
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+environment: dev
+hostdomain: myrcan.com
+env:
+  values:
+    - name: DOTNET_RUNNING_IN_CONTAINER
+      value: "true"
+
+secrets:
+  SentinelConnection: "Server=sentinel-mssql-db-helm-insecret;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+
+configmap:
+    ASPNETCORE_ENVIRONMENT: "Production"
+
+extSecrets:
+    RedisConnection:
+      secretname: "sentinel-db-redis"
+      secretkey: "RedisConnection"

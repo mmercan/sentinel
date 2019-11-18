@@ -1,14 +1,20 @@
-apiVersion: apps/v1beta2
+{{- $name := include "Sentinel.Util.Kibana.fullname" . -}}
+{{- $cfgname := printf "%s-%s" $name "config" -}}
+{{- $secretname := printf "%s-%s" $name "secret" -}}
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ include "Sentinel.Util.Kibana.fullname" . }}
+  name:  {{ include "Sentinel.Util.Kibana.fullname" . }}
   labels:
     app.kubernetes.io/name: {{ include "Sentinel.Util.Kibana.name" . }}
     helm.sh/chart: {{ include "Sentinel.Util.Kibana.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version:  {{ .Chart.AppVersion }}
+    branch:  {{ .Values.branch }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "Sentinel.Util.Kibana.name" . }}
@@ -18,6 +24,7 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "Sentinel.Util.Kibana.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+        branch:  {{ .Values.branch }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -34,18 +41,17 @@ spec:
           readinessProbe:
             httpGet:
               path: /
-              port: http
-          resources:
-{{ toYaml .Values.resources | indent 12 }}
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+              port: http 
+          envFrom:
+            # - configMapRef:
+            #     name: {{ $cfgname }}
+            - secretRef:
+                name: {{ $secretname }}
+          env:
+          {{- if .Values.env.values -}}
+          {{- range .Values.env.values }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end -}}
+          {{- end -}}
+

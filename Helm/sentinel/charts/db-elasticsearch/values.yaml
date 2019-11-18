@@ -6,7 +6,7 @@ replicaCount: 1
 branch: unknown
 image:
   repository: docker.elastic.co/elasticsearch/elasticsearch
-  tag: "6.4.1"
+  tag: "7.1.0"
   pullPolicy: IfNotPresent
 
 nameOverride: ""
