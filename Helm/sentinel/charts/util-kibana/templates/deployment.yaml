@@ -43,9 +43,9 @@ spec:
               path: /
               port: http 
           volumeMounts:
-            - name: "{{ include "Sentinel.Util.Kibana.fullname" . }}-volume"
-              mountPath: /usr/share/kibana/config/kibana.yml
-              subPath: kibana.yml
+          - name: "{{ include "Sentinel.Util.Kibana.fullname" . }}-volume"
+            mountPath: /usr/share/kibana/config/kibana.yml
+            subPath: kibana.yml
           env:
           {{- if .Values.env.values -}}
           {{- range .Values.env.values }}
