@@ -46,11 +46,6 @@ spec:
             - name: "{{ include "Sentinel.Util.Kibana.fullname" . }}-volume"
               mountPath: /usr/share/kibana/config/kibana.yml
               subPath: kibana.yml
-          envFrom:
-            # - configMapRef:
-            #     name: {{ $cfgname }}
-            - secretRef:
-                name: {{ $secretname }}
           env:
           {{- if .Values.env.values -}}
           {{- range .Values.env.values }}
