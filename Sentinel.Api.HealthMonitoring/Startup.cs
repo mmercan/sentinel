@@ -34,6 +34,8 @@ using Mercan.HealthChecks.Common.CheckCaller;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text;
 using Sentinel.Model.Product;
+using Serilog.Sinks.Elasticsearch;
+using Serilog.Formatting.Elasticsearch;
 
 namespace Sentinel.Api.HealthMonitoring
 {
@@ -216,7 +218,18 @@ namespace Sentinel.Api.HealthMonitoring
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .WriteTo.Console()
             .WriteTo.File("Logs/logs.txt");
-            //.WriteTo.Elasticsearch()
+
+            logger.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(Configuration["ELASTICSEARCH_URL"]))
+            {
+                AutoRegisterTemplate = true,
+                AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
+                TemplateName = "productslog",
+                IndexFormat = "productslog-{0:yyyy.MM.dd}",
+                InlineFields = true,
+                // IndexDecider = (@event, offset) => "test_elapsedtimes",
+                CustomFormatter = new ElasticsearchJsonFormatter()
+            });
+
             logger.WriteTo.Console();
             loggerFactory.AddSerilog();
             Log.Logger = logger.CreateLogger();

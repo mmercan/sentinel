@@ -62,7 +62,7 @@ secrets:
   SMTP__Port: "1025"
   SMTP__UserName: "mail@mail.com"
   SMTP__Password: "password123"
-  ELASTICSEARCH_URL: "http://40.117.115.1:9200"
+  ELASTICSEARCH_URL: "http://sentinel-db-elasticsearch.sentinel-helm:9200"
 
 
 configmap:
