@@ -36,6 +36,7 @@ using System.Text;
 using Sentinel.Model.Product;
 using Serilog.Sinks.Elasticsearch;
 using Serilog.Formatting.Elasticsearch;
+using System.Collections.Specialized;
 
 namespace Sentinel.Api.HealthMonitoring
 {
@@ -220,19 +221,21 @@ namespace Sentinel.Api.HealthMonitoring
             .WriteTo.File("Logs/logs.txt");
 
             string elasticsearchUrl = Configuration["ELASTICSEARCH_URL"];
-            if (!string.IsNullOrWhiteSpace(elasticsearchUrl))
+            logger.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(elasticsearchUrl))
             {
-                logger.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(elasticsearchUrl))
+                AutoRegisterTemplate = true,
+                ModifyConnectionSettings = x => x.BasicAuthentication("elastic", "Pa$$w0rd").GlobalHeaders(new NameValueCollection
                 {
-                    AutoRegisterTemplate = true,
-                    AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
-                    TemplateName = "productslog",
-                    IndexFormat = "productslog-{0:yyyy.MM.dd}",
-                    InlineFields = true,
-                    // IndexDecider = (@event, offset) => "test_elapsedtimes",
-                    CustomFormatter = new ElasticsearchJsonFormatter()
-                });
-            }
+                        {"Authorization", "Bearer ZWxhc3RpYzpQYSQkdzByZA=="} //The hash code is for "elastic:Pa$$w0rd"
+                }),
+
+                AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
+                TemplateName = "productslog",
+                IndexFormat = "productslog-{0:yyyy.MM.dd}",
+                InlineFields = true,
+                // IndexDecider = (@event, offset) => "test_elapsedtimes",
+                CustomFormatter = new ElasticsearchJsonFormatter()
+            });
 
             logger.WriteTo.Console();
             loggerFactory.AddSerilog();
