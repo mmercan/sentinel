@@ -9,7 +9,5 @@ discovery:
     minimum_master_nodes: 1
 
 xpack:
-  security:
-    enabled: true
   monitoring:
     enabled: true

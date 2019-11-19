@@ -45,9 +45,11 @@ env:
   values:
     - name: xpack.security.enabled
       value: "true"
+    - name: xpack.security.transport.ssl.enabled
+      value: "true"
     - name: TAKE_FILE_OWNERSHIP
       value: "1"
-
+    
 secrets:
    ELASTIC_PASSWORD: "Pa$$w0rd" 
   

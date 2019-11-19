@@ -10,5 +10,5 @@ data:
     elasticsearch.hosts: ["http://sentinel-db-elasticsearch.sentinel-helm:9200"]
     xpack.monitoring.ui.container.elasticsearch.enabled: true
     elasticsearch.username: elastic
-    elasticsearch.password: Pa$$w0rd$
+    elasticsearch.password: Pa$$w0rd
 
