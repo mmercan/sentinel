@@ -219,16 +219,20 @@ namespace Sentinel.Api.HealthMonitoring
             .WriteTo.Console()
             .WriteTo.File("Logs/logs.txt");
 
-            logger.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(Configuration["ELASTICSEARCH_URL"]))
+            string elasticsearchUrl = Configuration["ELASTICSEARCH_URL"];
+            if (!string.IsNullOrWhiteSpace(elasticsearchUrl))
             {
-                AutoRegisterTemplate = true,
-                AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
-                TemplateName = "productslog",
-                IndexFormat = "productslog-{0:yyyy.MM.dd}",
-                InlineFields = true,
-                // IndexDecider = (@event, offset) => "test_elapsedtimes",
-                CustomFormatter = new ElasticsearchJsonFormatter()
-            });
+                logger.WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(elasticsearchUrl))
+                {
+                    AutoRegisterTemplate = true,
+                    AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
+                    TemplateName = "productslog",
+                    IndexFormat = "productslog-{0:yyyy.MM.dd}",
+                    InlineFields = true,
+                    // IndexDecider = (@event, offset) => "test_elapsedtimes",
+                    CustomFormatter = new ElasticsearchJsonFormatter()
+                });
+            }
 
             logger.WriteTo.Console();
             loggerFactory.AddSerilog();
