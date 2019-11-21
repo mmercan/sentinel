@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  tag: stable
+  repository: mmercan/sentinel-util-mailhog
+  tag: latest
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -46,3 +46,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+environment: dev
+hostdomain: myrcan.com
+env:
+  values:

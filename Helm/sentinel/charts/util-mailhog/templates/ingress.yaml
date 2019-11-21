@@ -1,0 +1,27 @@
+{{- $host := printf "%s.%s.%s" "mail" .Values.environment .Values.hostdomain -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name:  {{ include "Sentinel.Util.Mailhog.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "Sentinel.Util.Mailhog.name" . }}
+    helm.sh/chart: {{ include "Sentinel.Util.Mailhog.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - {{ $host }}
+    secretName: "{{ $host }}-cert"
+  rules:
+  - host: {{ $host }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ include "Sentinel.Util.Mailhog.fullname" . }}
+          servicePort: 80
