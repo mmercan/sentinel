@@ -1,38 +1,27 @@
-# {{- if .Values.ingress.enabled -}}
-# {{- $fullName := include "Sentinel.Service.Rabbitmq.fullname" . -}}
-# {{- $ingressPath := .Values.ingress.path -}}
-# apiVersion: extensions/v1beta1
-# kind: Ingress
-# metadata:
-#   name: {{ $fullName }}
-#   labels:
-#     app.kubernetes.io/name: {{ include "Sentinel.Service.Rabbitmq.name" . }}
-#     helm.sh/chart: {{ include "Sentinel.Service.Rabbitmq.chart" . }}
-#     app.kubernetes.io/instance: {{ .Release.Name }}
-#     app.kubernetes.io/managed-by: {{ .Release.Service }}
-# {{- with .Values.ingress.annotations }}
-#   annotations:
-# {{ toYaml . | indent 4 }}
-# {{- end }}
-# spec:
-# {{- if .Values.ingress.tls }}
-#   tls:
-#   {{- range .Values.ingress.tls }}
-#     - hosts:
-#       {{- range .hosts }}
-#         - {{ . | quote }}
-#       {{- end }}
-#       secretName: {{ .secretName }}
-#   {{- end }}
-# {{- end }}
-#   rules:
-#   {{- range .Values.ingress.hosts }}
-#     - host: {{ . | quote }}
-#       http:
-#         paths:
-#           - path: {{ $ingressPath }}
-#             backend:
-#               serviceName: {{ $fullName }}
-#               servicePort: http
-#   {{- end }}
-# {{- end }}
+{{- $host := printf "%s.%s.%s" "rabbitmq" .Values.environment .Values.hostdomain -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name:  {{ include "Sentinel.Service.Rabbitmq.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "Sentinel.Service.Rabbitmq.name" . }}
+    helm.sh/chart: {{ include "Sentinel.Service.Rabbitmq.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - {{ $host }}
+    secretName:  {{ $host }}-cert
+  rules:
+  - host: {{ $host }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ include "Sentinel.Service.Rabbitmq.fullname" . }}
+          servicePort: 80
