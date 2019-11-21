@@ -1,0 +1,18 @@
+{{- $host := printf "%s.%s.%s" "elasticsearch" .Values.environment .Values.hostdomain -}}
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: {{ $host }}-cert
+spec:
+  secretName: {{ $host }}-cert
+  dnsNames:
+  - {{ $host }}
+  acme:
+    config:
+    - http01:
+        ingressClass: nginx
+      domains:
+      -  {{ $host }}
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

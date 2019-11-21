@@ -39,7 +39,8 @@ resources:
 nodeSelector: {}
 
 tolerations: []
-
+environment: dev
+hostdomain: myrcan.com
 affinity: {}
 env:
   values:

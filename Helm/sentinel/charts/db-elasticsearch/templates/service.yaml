@@ -14,7 +14,7 @@ spec:
     app.kubernetes.io/instance: {{ .Release.Name }}
   ports:                     
   - name: http               
-    port: 9200               
+    port: 80               
     targetPort: 9200
     protocol: TCP            
   - name: transport          
