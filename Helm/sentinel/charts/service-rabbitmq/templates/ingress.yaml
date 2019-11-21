@@ -23,5 +23,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: {{ include "Sentinel.Service.Rabbitmq.fullname" . }}
+          serviceName: {{ include "Sentinel.Service.Rabbitmq.fullname" . }}-http
           servicePort: 80
