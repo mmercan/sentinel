@@ -3,10 +3,11 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-
+branch: unknown
+buildnumber: unknown
 image:
-  repository: nginx
-  tag: stable
+  repository: mmercan/sentinel-ui-admin
+  tag: latest
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -46,3 +47,22 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+environment: dev
+hostdomain: myrcan.com
+
+env:
+   values: {}
+  #   - name: DOTNET_RUNNING_IN_CONTAINER
+  #     value: "true"
+
+# secrets:
+#   SMTP__UserName: "mail@mail.com"
+#   SMTP__Password: "password123"
+
+# configmap:
+#     DOTNET_RUNNING_IN_CONTAINER: "true"
+
+extSecrets:
+    RedisConnection:
+      secretname: "sentinel-db-redis"
+      secretkey: "RedisConnection"

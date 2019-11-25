@@ -1,0 +1,67 @@
+{{- $name := include "Sentinel.UI.Admin.fullname" . -}}
+{{- $cfgname := printf "%s-%s" $name "config" -}}
+{{- $secretname := printf "%s-%s" $name "secret" -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name:  {{ include "Sentinel.UI.Admin.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "Sentinel.UI.Admin.name" . }}
+    helm.sh/chart: {{ include "Sentinel.UI.Admin.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version:  {{ .Chart.AppVersion }}
+    branch:  {{ .Values.branch }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "Sentinel.UI.Admin.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "Sentinel.UI.Admin.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        branch:  {{ .Values.branch }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http 
+          {{- if or .Values.configmap .Values.secrets }}
+          envFrom:
+          {{- end }}
+          {{- if .Values.configmap }}
+            - configMapRef:
+                name: {{ $cfgname }}
+          {{- end }}
+          {{- if .Values.secrets }}   
+            - secretRef:
+                name: {{ $secretname }}
+           {{- end }}
+          env:
+            - name: buildnumber
+              value: {{ .Values.buildnumber | quote }}
+            - name: branch
+              value: {{  .Values.branch | quote }}
+          {{- if .Values.env.values -}}
+          {{- range .Values.env.values }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end -}}
+          {{- end -}}
+
