@@ -45,10 +45,10 @@ spec:
           {{- if or .Values.configmap .Values.secrets }}
           envFrom:
           {{- end }}
-          {{- if .Values.configmap }}
-            - configMapRef:
-                name: {{ $cfgname }}
-          {{- end }}
+          # {{- if .Values.configmap }}
+          #   - configMapRef:
+          #       name: {{ $cfgname }}
+          # {{- end }}
           {{- if .Values.secrets }}   
             - secretRef:
                 name: {{ $secretname }}
@@ -64,4 +64,11 @@ spec:
               value: {{ $value | quote }}
           {{- end -}}
           {{- end -}}
-
+          volumeMounts:
+        - name: {{ $cfgname }}
+          mountPath: /usr/share/nginx/html/assets/config/config.json
+          subPath: config.json
+      volumes:
+      - name: {{ $cfgname }}
+        configMap:
+            name: {{ $cfgname }}

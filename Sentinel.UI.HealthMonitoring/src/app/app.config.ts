@@ -26,7 +26,7 @@ export class AppConfig {
     Nofitication: {
       publicKey: 'BCbYNxjxYPOcv3Hn8xZH1bB2kJLFLeO9Fx68U0C2FOZ7wFmG_yxGdiiNIWrFRHY6X1NL6egRgzZGAC_A_6fcigA',
       subscriptionRepoUrl: window.location.hostname === 'localhost'
-        ? 'http://localhost:5000/api/PushNotification' : 'https://decima.azurewebsites.net/api/PushNotification'
+        ? 'http://localhost:5000/api/PushNotification' : 'https://decima.azurewebsites.net/api/PushNotification',
     },
     login: {
       loginUrl: window.location.hostname === 'localhost'
