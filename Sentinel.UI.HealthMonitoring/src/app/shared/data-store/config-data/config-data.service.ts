@@ -37,7 +37,8 @@ export class ConfigDataService {
           observer.next(result);
         },
           (error) => {
-            observer.error('config not found');
+            const errorstr = JSON.stringify(error);
+            observer.error('config not found' + errorstr);
           });
       } else {
         const config = JSON.parse(configstr);
