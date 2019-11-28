@@ -10,5 +10,5 @@ data:
 {{- end -}}
 {{- end }}
   config.json: |
-{{ include (print .Template.BasePath "/_health.json.tpl") . |  toPrettyJson | indent 4 }}
+{{ include (print .Template.BasePath "/_health.json.tpl") . | indent 4 }}
 
