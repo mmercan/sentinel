@@ -15,23 +15,23 @@
   },
   "HealthCheck": {
     "urls": [{
+      "name": "HealthMonitoring Api",
       "isaliveandwell": "https://healthmonitoring.api.myrcan.com/health/isaliveandwell",
-      "name": "HealthMonitoring Api"
     }, {
+      "name": "Comms Api",
       "isaliveandwell": "https://comms.api.myrcan.com/health/isaliveandwell",
-      "name": "Comms Api"
     }, {
+      "name": "Member Api",
       "isaliveandwell": "https://member.api.myrcan.com/health/isaliveandwell",
-      "name": "Member Api"
     }, {
+      "name": "Product Api",
       "isaliveandwell": "https://product.api.myrcan.com/health/isaliveandwell",
-      "name": "Product Api"
     }, {
+      "name": "Product UI",
       "isaliveandwell": "https://product.myrcan.com/health/isaliveandwell",
-      "name": "Product UI"
     }, {
+      "name": "STS UI",
       "isaliveandwell": "https://auth.myrcan.com/health/isaliveandwell",
-      "name": "STS UI"
     }],
     "baseUrl": "https://healthmonitoring.myrcan.com/api/"
   }

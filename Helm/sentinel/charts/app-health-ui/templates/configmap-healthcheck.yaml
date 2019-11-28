@@ -1,0 +1,14 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ include "Sentinel.UI.HealthMonitoring.fullname" . }}-cfghealthcheck"
+data:
+ {{- if .Values.configmap -}}
+{{- range $key, $value := .Values.configmap }}
+ {{ $key }}: {{ default "" $value  | quote }}
+{{- end -}}
+{{- end }}
+  healthcheck.json: |
+{{ include (print .Template.BasePath "/_healthcheck.json.tpl") . | indent 4 }}
+

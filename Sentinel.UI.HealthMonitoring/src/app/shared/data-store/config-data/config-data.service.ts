@@ -28,7 +28,7 @@ export class ConfigDataService {
     const obs = Observable.create((observer) => {
       let configstr = localStorage.getItem(this.storagekey);
       if (!configstr) {
-        this.httpClient.get('./assets/HealthCheck.json').subscribe((result) => {
+        this.httpClient.get('./assets/config/healthcheck.json').subscribe((result) => {
           configstr = JSON.stringify(result);
           localStorage.setItem(this.storagekey, configstr);
 

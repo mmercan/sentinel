@@ -1,5 +1,6 @@
 {{- $name := include "Sentinel.UI.HealthMonitoring.fullname" . -}}
 {{- $cfgname := printf "%s-%s" $name "config" -}}
+{{- $cfghealthcheck := printf "%s-%s" $name "cfghealthcheck" -}}
 {{- $secretname := printf "%s-%s" $name "secret" -}}
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -64,7 +65,13 @@ spec:
             - name: {{ $cfgname }}
               mountPath: /usr/share/nginx/html/assets/config/config.json
               subPath: config.json
+            - name: {{ $cfghealthcheck }}
+              mountPath: /usr/share/nginx/html/assets/config/healthcheck.json
+              subPath: healthcheck.json
       volumes:
       - name: {{ $cfgname }}
         configMap:
           name: {{ $cfgname }}
+      - name: {{ $cfghealthcheck }}
+        configMap:
+          name: {{ $cfghealthcheck }}
