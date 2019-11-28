@@ -45,10 +45,6 @@ spec:
           {{- if or .Values.configmap .Values.secrets }}
           envFrom:
           {{- end }}
-          # {{- if .Values.configmap }}
-          #   - configMapRef:
-          #       name: {{ $cfgname }}
-          # {{- end }}
           {{- if .Values.secrets }}   
             - secretRef:
                 name: {{ $secretname }}
