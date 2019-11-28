@@ -59,12 +59,12 @@ spec:
             - name: {{ $key }}
               value: {{ $value | quote }}
           {{- end -}}
-          {{- end -}}
+          {{- end }}
           volumeMounts:
-        - name: {{ $cfgname }}
-          mountPath: /usr/share/nginx/html/assets/config/config.json
-          subPath: config.json
+            - name: {{ $cfgname }}
+              mountPath: /usr/share/nginx/html/assets/config/config.json
+              subPath: config.json
       volumes:
       - name: {{ $cfgname }}
         configMap:
-            name: {{ $cfgname }}
+          name: {{ $cfgname }}
