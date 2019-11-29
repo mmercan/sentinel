@@ -6,7 +6,7 @@
         "isaliveandwell": "https://healthmonitoring-api.dev.myrcan.com/health/isaliveandwell"
       }, {
         "name": "Comms Api",
-        "isaliveandwell": "https://comms.api.myrcan.com/health/isaliveandwell"
+        "isaliveandwell": "https://comms-api.dev.myrcan.com/health/isaliveandwell"
       }, {
         "name": "Member Api",
         "isaliveandwell": "https://member-api.dev.myrcan.com/health/isaliveandwell"
@@ -47,7 +47,7 @@
         "isaliveandwell": "https://healthmonitoring-api.dev.myrcan.com/health/isaliveandwell"
       }, {
         "name": "Comms Api",
-        "isaliveandwell": "https://comms.api.myrcan.com/health/isaliveandwell"
+        "isaliveandwell": "https://comms-api.dev.myrcan.com/health/isaliveandwell"
       }, {
         "name": "Member Api",
         "isaliveandwell": "https://member.api.myrcan.com/health/isaliveandwell"
