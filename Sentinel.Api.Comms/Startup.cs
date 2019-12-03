@@ -90,11 +90,19 @@ namespace Sentinel.Api.Comms
             services.ConfigureJwtAuthService(Configuration);
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                builder.AllowAnyOrigin()
+                // builder.AllowAnyOrigin()
+                // .AllowAnyMethod()
+                // .AllowAnyHeader()
+                // .SetIsOriginAllowedToAllowWildcardSubdomains();
+                // //.AllowCredentials();
+
+                builder
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .SetIsOriginAllowedToAllowWildcardSubdomains();
-                //.AllowCredentials();
+                .SetIsOriginAllowedToAllowWildcardSubdomains()
+                .AllowCredentials()
+                .WithOrigins(("http://localhost:4300"));
+
             }));
 
             services.AddApiVersioning(options =>
@@ -225,6 +233,7 @@ namespace Sentinel.Api.Comms
                 }
                 options.RoutePrefix = string.Empty;
             });
+            // app.UseSignalRJwtAuthentication();
 
             app.UseCors("MyPolicy");
             app.UseRouting();
@@ -232,6 +241,7 @@ namespace Sentinel.Api.Comms
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/chat");
                 endpoints.MapControllers();
             });
             // app.UseMiniProfiler();
@@ -248,17 +258,6 @@ namespace Sentinel.Api.Comms
                     await context.Response.WriteAsync("{\"IsAlive\":true}");
                 });
             });
-
-
-            app.UseSignalRJwtAuthentication();
-
-            app.UseCors("MyPolicy");
-
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChatHub>("/hub/chat");
-            });
-
         }
 
 

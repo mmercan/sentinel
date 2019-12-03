@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -47,10 +48,50 @@ namespace Sentinel.Common
               cfg.SaveToken = true;
               cfg.Authority = Configuration["AzureAd:Instance"] + "/" + Configuration["AzureAD:TenantId"];
               cfg.Audience = Configuration["AzureAd:ClientId"];
+
+
+              cfg.Events = new JwtBearerEvents
+              {
+                  OnMessageReceived = context =>
+                  {
+                      var accessToken = context.Request.Query["access_token"];
+
+                      // If the request is for our hub...
+                      var path = context.HttpContext.Request.Path;
+                      if (!string.IsNullOrEmpty(accessToken)
+                          //   && (path.StartsWithSegments("/hubs/chat"))
+                          )
+                      {
+                          // Read the token out of the query string
+                          context.Token = accessToken;
+                      }
+                      return Task.CompletedTask;
+                  }
+              };
           })
             .AddJwtBearer("sts", cfg =>
              {
                  cfg.TokenValidationParameters = tokenValidationParameters;
+
+                 cfg.Events = new JwtBearerEvents
+                 {
+                     OnMessageReceived = context =>
+                     {
+                         var accessToken = context.Request.Query["access_token"];
+
+                      // If the request is for our hub...
+                      var path = context.HttpContext.Request.Path;
+                         if (!string.IsNullOrEmpty(accessToken)
+                             //   && (path.StartsWithSegments("/hubs/chat"))
+                             )
+                         {
+                          // Read the token out of the query string
+                          context.Token = accessToken;
+                         }
+                         return Task.CompletedTask;
+                     }
+                 };
+
              });
             //use both jwt schemas interchangeably  https://stackoverflow.com/questions/49694383/use-multiple-jwt-bearer-authentication
             services.AddAuthorization(options =>

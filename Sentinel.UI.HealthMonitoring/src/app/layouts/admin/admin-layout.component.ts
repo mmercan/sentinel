@@ -10,7 +10,7 @@ import { ConfigDataService } from '../../shared/data-store/config-data/config-da
 import { MenuItems } from '../../shared/menu-items/menu-items';
 import { Notification, NotificationService } from '../../shared/notification/notification.service';
 import { OfflineNotificationService } from '../../shared/offline/offline-notification.service';
-
+import { SignalRService } from '../../shared/signal-r/signal-r.service';
 const SMALL_WIDTH_BREAKPOINT = 991;
 
 export interface IOptions {
@@ -65,6 +65,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     public appConfig: AppConfig,
     private notificationService: NotificationService,
     private configDataService: ConfigDataService,
+    private signalRService: SignalRService,
   ) {
     this.mediaMatcher.addListener(() => zone.run(() => this.mediaMatcher = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`)));
 
@@ -78,6 +79,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notificationCount = 0;
       }
     });
+    signalRService.startConnection();
   }
 
   ngOnInit(): void {

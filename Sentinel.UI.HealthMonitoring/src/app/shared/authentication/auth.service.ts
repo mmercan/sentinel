@@ -1,14 +1,13 @@
-import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { AppConfig, authenticationType, logLevel } from '../../app.config';
-import { Subscription, Observable, Subject } from 'rxjs';
 import { Notification, NotificationService } from '../notification/notification.service';
-
 import { AdalService } from './adal-auth/adal.service';
 import { LocalAuthService } from './local-auth/local-auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
   private tokeyKey = 'token';
@@ -23,14 +22,12 @@ export class AuthService implements OnDestroy {
   httpPostSubscription: Subscription;
   // public user: Observable<any>;
 
-
-
   constructor(
     private appConfig: AppConfig,
     private http: HttpClient,
     private notificationService: NotificationService,
     private adalService: AdalService,
-    private localAuthService: LocalAuthService
+    private localAuthService: LocalAuthService,
   ) {
 
   }
@@ -40,13 +37,13 @@ export class AuthService implements OnDestroy {
     if (error && error['_body']) { // check response here.
       const message = error.json();
     }
-    this.notificationService.showError(errorMessage, <string>error, true);
+    this.notificationService.showError(errorMessage, error as string, true);
     observer.error(error.message || error);
   }
 
   checkLogin(): Observable<boolean> {
     if (this.appConfig.config.authenticationType === authenticationType.Adal) {
-      const obs = Observable.create(observer => {
+      const obs = Observable.create((observer) => {
         observer.next(this.adalService.userInfo.authenticated);
       });
       return obs;
@@ -55,18 +52,16 @@ export class AuthService implements OnDestroy {
     }
   }
 
-
   login(userName?: string, password?: string): Observable<any> {
     if (this.appConfig.config.authenticationType === authenticationType.Adal) {
       this.adalService.login();
-      const obs = Observable.create(observer => {
+      const obs = Observable.create((observer) => {
       });
       return obs;
     } else {
       return this.localAuthService.login(userName, password);
     }
   }
-
 
   logout() {
     if (this.appConfig.config.authenticationType === authenticationType.Adal) {
@@ -85,15 +80,15 @@ export class AuthService implements OnDestroy {
   }
 
   getUserInfo(): Observable<any> {
-    const obs = Observable.create(observer => {
+    const obs = Observable.create((observer) => {
       if (this.appConfig.config.authenticationType === authenticationType.Adal) {
         this.getUserSubscription = this.adalService.getUser().subscribe(
-          data => { observer.next(data); },
-          error => { observer.error(error); });
+          (data) => { observer.next(data); },
+          (error) => { observer.error(error); });
       } else {
         this.getUserSubscription = this.localAuthService.user.subscribe(
-          data => { observer.next(data); },
-          error => { observer.error(error); });
+          (data) => { observer.next(data); },
+          (error) => { observer.error(error); });
       }
     });
     return obs;
@@ -206,7 +201,6 @@ export class AuthService implements OnDestroy {
     });
     return obs;
   }
-
 
   private initAuthHeaders(): HttpHeaders {
     const token = this.getLocalToken();

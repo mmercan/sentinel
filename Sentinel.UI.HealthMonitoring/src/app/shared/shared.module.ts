@@ -16,15 +16,17 @@ import { ToggleFullscreenDirective } from './fullscreen/toggle-fullscreen.direct
 import { MenuItems } from './menu-items/menu-items';
 import { NotificationService } from './notification/notification.service';
 import { IfOnlineDirective } from './offline/if-online.directive';
+import { IfSignalrDirective } from './offline/if-signalr.directive';
 import { OfflineNotificationService } from './offline/offline-notification.service';
 import { Ng4FilterPipe } from './pipes/filter/ng4-filter.pipe';
+import { SignalRService } from './signal-r/signal-r.service';
 
 @NgModule({
   imports: [HttpClientModule],
   declarations: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
-    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe],
+    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, IfSignalrDirective],
   exports: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
-    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe],
+    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, IfSignalrDirective],
   providers: [],
 })
 export class SharedModule {
@@ -32,7 +34,8 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [AppConfig, AdalService, LocalAuthService, AuthService, MenuItems, NotificationService, AdalInterceptor,
-        OfflineNotificationService, HealthcheckDataStoreService, HealthcheckDataStoreSetService, AdalGuard, ConfigDataService],
+        OfflineNotificationService, HealthcheckDataStoreService, HealthcheckDataStoreSetService, AdalGuard, ConfigDataService,
+        SignalRService],
     };
   }
 }

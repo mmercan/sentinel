@@ -1,6 +1,7 @@
 import { Directive, EmbeddedViewRef, Input, TemplateRef, ViewContainerRef, OnDestroy } from '@angular/core';
-import { OfflineNotificationService } from './offline-notification.service';
 import { Subscription } from 'rxjs';
+import { SignalRService } from '../signal-r/signal-r.service';
+import { OfflineNotificationService } from './offline-notification.service';
 
 @Directive({
   selector: '[IfOnline]'
@@ -14,11 +15,10 @@ export class IfOnlineDirective implements OnDestroy {
   private _thenViewRef: EmbeddedViewRef<IfOnlineContext> | null = null;
   GetStatusSubscription: Subscription;
 
-  constructor(private _viewContainer: ViewContainerRef
+  constructor(private _viewContainer: ViewContainerRef, private signalRService: SignalRService
     , templateRef: TemplateRef<IfOnlineContext>, private offlineNotificationService: OfflineNotificationService) {
     this._thenTemplateRef = templateRef;
   }
-
 
   @Input()
   set IfOnline(condition: any) {
@@ -31,8 +31,20 @@ export class IfOnlineDirective implements OnDestroy {
     } else {
       this._context.$implicit = this._context.ifOnline = !this.offlineNotificationService.isOffline();
     }
+    if (this.signalRService.signalRConnected) {
+      this._context.$implicit = this._context.ifOnline = 'signalRConnected';
+    }
+
+    this.signalRService.GetStatus().subscribe((result) => {
+      if (this.signalRService.signalRConnected) {
+        this._context.$implicit = this._context.ifOnline = 'signalRConnected';
+      } else {
+        this._context.$implicit = this._context.ifOnline = this.offlineNotificationService.isOffline();
+      }
+    });
+
     this.GetStatusSubscription = this.offlineNotificationService.GetStatus().subscribe(
-      result => {
+      (result) => {
         if (this.CheckifOffline) {
           this._context.$implicit = this._context.ifOnline = result === 'offline';
         } else {
@@ -40,7 +52,7 @@ export class IfOnlineDirective implements OnDestroy {
         }
         this._updateView();
       },
-      error => { }
+      (error) => { },
     );
     this._updateView();
   }

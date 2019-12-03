@@ -8,19 +8,28 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Sentinel.Api.Comms.Hubs
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
     public class ChatHub : Hub
     {
+        public ChatHub()
+        {
+
+        }
         public Task Send(string message)
         {
+
             var user = Context.User;
             return Clients.All.SendAsync("Send", message);
         }
+
 
         public override async Task OnConnectedAsync()
         {
             // await Clients.Client(Context.ConnectionId).InvokeAsync("SetUsersOnline", await GetUsersOnline());
             // var iden = this.Context.User.Identity;
+            await Clients.Caller.SendAsync("Send", Context.User.Identity.Name);
+
             await base.OnConnectedAsync();
         }
         public override Task OnDisconnectedAsync(Exception exception)
@@ -35,14 +44,15 @@ namespace Sentinel.Api.Comms.Hubs
         {
             app.Use(async (context, next) =>
             {
-                if (string.IsNullOrWhiteSpace(context.Request.Headers["Authorization"]))
+                if (string.IsNullOrWhiteSpace(context.Request.Headers["access_token"]))
                 {
                     if (context.Request.QueryString.HasValue)
                     {
-                        var token = context.Request.QueryString.Value.Split('&').SingleOrDefault(x => x.Contains("authorization"))?.Split('=')[1];
+                        var token = context.Request.QueryString.Value.Split('&').SingleOrDefault(x => x.Contains("access_token"))?.Split('=')[1];
                         if (!string.IsNullOrWhiteSpace(token))
                         {
                             context.Request.Headers.Add("Authorization", new[] { $"Bearer {token}" });
+
                         }
                     }
                 }

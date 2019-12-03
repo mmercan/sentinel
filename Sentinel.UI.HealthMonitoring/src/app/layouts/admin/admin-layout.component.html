@@ -81,9 +81,10 @@
       <span class="mr-auto"></span>
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link">
+          <a class="nav-link" IfConnected>
             <span *IfOnline="false" class="fa fa-lg fa-plane" alt="offline" title="offline"
               (click)="sendnotification('Error','Offline','you are offline but app still works')"></span>
+
             <span *IfOnline class="fa fa-lg fa-wifi" alt="online" title="online" (click)="sendnotification('Info','online','all good your are online')"></span>
           </a>
         </li>
