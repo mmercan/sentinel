@@ -42,6 +42,10 @@ namespace Mercan.HealthChecks.Common.Checks
                     }
                     catch (Exception ex)
                     {
+                        if (!string.IsNullOrWhiteSpace(ex.Message))
+                        {
+                            data.Add("error", ex.Message);
+                        }
                         // data.Add(aProc.ProcessName + "_TotalProcessorTime " + number.ToString(), "Failed to load");
                     }
                     totalsize += Convert.ToUInt32(aProc.WorkingSet64 / 1024.0);
