@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  signalrBaseUrl: 'https://comms-api.dev.myrcan.com',
 };

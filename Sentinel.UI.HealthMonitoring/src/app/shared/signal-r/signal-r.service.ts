@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
 import { Observable, Subject } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../authentication/auth.service';
+
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +28,7 @@ export class SignalRService {
     const token = this.authService.getLocalToken();
 
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5004/chat', { accessTokenFactory: () => token })
+      .withUrl(`${environment.signalrBaseUrl}/chat`, { accessTokenFactory: () => token })
       .build();
 
     Object.defineProperty(WebSocket, 'OPEN', { value: 1 });
