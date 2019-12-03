@@ -101,7 +101,7 @@ namespace Sentinel.Api.Comms
                 .AllowAnyHeader()
                 .SetIsOriginAllowedToAllowWildcardSubdomains()
                 .AllowCredentials()
-                .WithOrigins(("http://localhost:4300"));
+                .WithOrigins("http://localhost:4300", "app-health-ui.dev.myrcan.com");
 
             }));
 
