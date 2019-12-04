@@ -38,26 +38,26 @@ namespace Sentinel.Api.Comms.Hubs
         }
     }
 
-    public static class extesions
-    {
-        public static void UseSignalRJwtAuthentication(this IApplicationBuilder app)
-        {
-            app.Use(async (context, next) =>
-            {
-                if (string.IsNullOrWhiteSpace(context.Request.Headers["access_token"]))
-                {
-                    if (context.Request.QueryString.HasValue)
-                    {
-                        var token = context.Request.QueryString.Value.Split('&').SingleOrDefault(x => x.Contains("access_token"))?.Split('=')[1];
-                        if (!string.IsNullOrWhiteSpace(token))
-                        {
-                            context.Request.Headers.Add("Authorization", new[] { $"Bearer {token}" });
+    // public static class extesions
+    // {
+    //     public static void UseSignalRJwtAuthentication(this IApplicationBuilder app)
+    //     {
+    //         app.Use(async (context, next) =>
+    //         {
+    //             if (string.IsNullOrWhiteSpace(context.Request.Headers["access_token"]))
+    //             {
+    //                 if (context.Request.QueryString.HasValue)
+    //                 {
+    //                     var token = context.Request.QueryString.Value.Split('&').SingleOrDefault(x => x.Contains("access_token"))?.Split('=')[1];
+    //                     if (!string.IsNullOrWhiteSpace(token))
+    //                     {
+    //                         context.Request.Headers.Add("Authorization", new[] { $"Bearer {token}" });
 
-                        }
-                    }
-                }
-                await next.Invoke();
-            });
-        }
-    }
+    //                     }
+    //                 }
+    //             }
+    //             await next.Invoke();
+    //         });
+    //     }
+    // }
 }
