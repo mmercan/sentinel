@@ -39,17 +39,17 @@ namespace Sentinel.Api.Comms.Controllers
 
         [HttpPost]
         [Authorize(AuthenticationSchemes = "azure")]
-        public IActionResult Post([FromBody] PushNotificationModel model, [FromHeader]string Email)
+        public IActionResult Post([FromBody] PushNotificationModel model)
         {
             _logger.LogDebug("Post Called");
             var iden = this.User.Identity;
             var email = this.User.Claims.FirstOrDefault(p => p.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
             //TODO: Implement Realistic Implementation
-            model.Email = Email;
+            model.Email = "mmercan@outlook.com";
             var payload = JsonConvert.SerializeObject(
               new
               {
-                  Email = Email,
+                  Email = model.Email,
                   Message = "Welcome",
                   Link = "null"
               }

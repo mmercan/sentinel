@@ -132,12 +132,22 @@ export class AuthService implements OnDestroy {
   }
 
   authPost(url: string, body: any): Observable<any> {
-    const obs = Observable.create(observer => {
+
+    return this.authPostWithHeader(url, body, null);
+  }
+
+  authPostWithHeader(url: string, body: any, extraheaders?: Array<{ key: string, value: string }>): Observable<any> {
+    const obs = Observable.create((observer) => {
       const headers = this.initAuthHeaders();
-      //  let result = null;
-      this.httpPostSubscription = this.http.post(url, body, { headers: headers, observe: 'response' })
+      debugger;
+      if (extraheaders) {
+        extraheaders.forEach((element) => {
+          headers.append(element.key, element.value);
+        });
+      }
+      this.httpPostSubscription = this.http.post(url, body, { headers, observe: 'response' })
         .subscribe(
-          response => {
+          (response) => {
             if (response.ok) {
               // if (response.text() === '') {
               observer.next(response.body);
@@ -149,11 +159,12 @@ export class AuthService implements OnDestroy {
             }
             observer.next(response.body);
           },
-          error => { this.handleError(error, observer, 'Failed Post on ' + url); }
+          (error) => { this.handleError(error, observer, 'Failed Post on ' + url); },
         );
     });
     return obs;
   }
+
 
   authPut(url: string, body: any): Observable<any> {
     const obs = Observable.create(observer => {

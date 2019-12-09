@@ -4,7 +4,6 @@ import { Observable, Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../authentication/auth.service';
 
-
 @Injectable({
   providedIn: 'root',
 })

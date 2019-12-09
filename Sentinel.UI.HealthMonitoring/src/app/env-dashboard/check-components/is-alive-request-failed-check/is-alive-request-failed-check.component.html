@@ -15,9 +15,6 @@
 
       <p> {{healthCheckResult.data.url}}</p>
       <span *ngIf="healthCheckResult.data.status != 401">{{healthCheckResult | json}}</span>
-      <a [routerLink]="['/user/bob']" preserveQueryParams preserveFragment>
-
-      </a>
     </div>
   </div>
   <div class="card-body" [ngbCollapse]="isCollapsed">

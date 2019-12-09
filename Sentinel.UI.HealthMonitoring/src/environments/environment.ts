@@ -5,6 +5,10 @@
 export const environment = {
   production: false,
   signalrBaseUrl: 'http://localhost:5004',
+  Nofitication: {
+    publicKey: 'BCbYNxjxYPOcv3Hn8xZH1bB2kJLFLeO9Fx68U0C2FOZ7wFmG_yxGdiiNIWrFRHY6X1NL6egRgzZGAC_A_6fcigA',
+    subscriptionRepoUrl: 'http://localhost:5004/api/PushNotification',
+  },
 };
 
 /*

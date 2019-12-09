@@ -1,15 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-
+import { Subscription } from 'rxjs';
 import { AppConfig } from '../../app.config';
 import { AuthService } from '../../shared/authentication/auth.service';
-import { Subscription } from 'rxjs';
+import { environment } from '../../../environments/environment';
 declare var Notification: any;
 
 @Component({
   selector: 'app-notification-settings',
   templateUrl: './notification-settings.component.html',
-  styleUrls: ['./notification-settings.component.scss']
+  styleUrls: ['./notification-settings.component.scss'],
 })
 export class NotificationSettingsComponent implements OnInit, OnDestroy {
   sw: ServiceWorkerRegistration;
@@ -18,7 +18,7 @@ export class NotificationSettingsComponent implements OnInit, OnDestroy {
   pushNotification = {
     disabled: true,
     browserSupports: false,
-    subscribed: false
+    subscribed: false,
   };
 
   pushNotificationDisabled = false;
@@ -31,14 +31,14 @@ export class NotificationSettingsComponent implements OnInit, OnDestroy {
         this.pushNotification.disabled = false;
       }
       navigator.serviceWorker.ready.then(
-        sw => {
+        (sw) => {
           this.sw = sw;
           sw.pushManager.getSubscription().then(
-            s => {
+            (s) => {
               this.pushNotification.subscribed = s !== null;
-            }
+            },
           );
-        }
+        },
       );
     }
   }
@@ -46,14 +46,14 @@ export class NotificationSettingsComponent implements OnInit, OnDestroy {
   }
   pushChanged(event: any) {
 
-    this.sw.pushManager.getSubscription().then(subs => {
+    this.sw.pushManager.getSubscription().then((subs) => {
       if (subs != null) {
         subs.unsubscribe();
         this.pushNotification.subscribed = false;
       } else {
         this.sw.pushManager.subscribe({
           userVisibleOnly: true,
-          applicationServerKey: this.urlB64ToUint8Array(this.appConfig.config.Nofitication.publicKey)
+          applicationServerKey: this.urlB64ToUint8Array(environment.Nofitication.publicKey),
         })
           // .then(newSub => fetch(this.appConfig.config.Nofitication.subscriptionRepoUrl, {
           //   headers: { 'Content-Type': 'application/json', 'email': this.email },
@@ -63,8 +63,9 @@ export class NotificationSettingsComponent implements OnInit, OnDestroy {
           // }).then(repoResponse => {
           //   this.pushNotification.subscribed = true;
           // }));
-          .then(newsub => this.authService.authPost(this.appConfig.config.Nofitication.subscriptionRepoUrl, JSON.stringify(newsub))
-            .subscribe(repoResponse => {
+          .then((newsub) => this.authService.authPostWithHeader(environment.Nofitication.subscriptionRepoUrl,
+            JSON.stringify(newsub), [{ key: 'mail', value: this.email }])
+            .subscribe((repoResponse) => {
               this.pushNotification.subscribed = true;
             }));
       }
@@ -103,14 +104,12 @@ export class NotificationSettingsComponent implements OnInit, OnDestroy {
   }
   callClaimns() {
     this.authGetSubscription = this.authService.authGet('http://localhost:5000/api/token/claimsjwt')
-      .subscribe(Response => {
+      .subscribe((Response) => {
         this.claims = Response;
       });
   }
 
-
   ngOnDestroy(): void {
     if (this.authGetSubscription) { this.authGetSubscription.unsubscribe(); }
   }
-
 }
