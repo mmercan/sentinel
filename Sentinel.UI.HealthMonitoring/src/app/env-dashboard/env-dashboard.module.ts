@@ -26,6 +26,7 @@ import { EnvDashboardRoutingModule } from './env-dashboard-routing.module';
 import { ImportConfigComponent } from './import-config/import-config.component';
 import { ProgDashboardComponent } from './prog-dashboard/prog-dashboard.component';
 import { RedisHealthCheckComponent } from './check-components/redis-health-check/redis-health-check.component';
+import { UserNotAuthenticatedComponent } from './check-components/user-not-authenticated/user-not-authenticated.component';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { RedisHealthCheckComponent } from './check-components/redis-health-check
     ServiceClientBaseHealthCheckComponent, RabbitMqHealthCheckComponent, MongoHealthCheckComponent, IsAliveRequestFailedCheckComponent,
     ImportConfigComponent, SqlHealthChecksComponent, ServiceBusHealthChecksComponent, EventHubHealthChecksComponent,
     NetworkHealthChecksComponent,
-    RedisHealthCheckComponent],
+    RedisHealthCheckComponent,
+    UserNotAuthenticatedComponent],
 })
 export class EnvDashboardModule { }

@@ -14,6 +14,10 @@
         </div>
       </div>
       <div *ngFor="let result of report.results">
+        <div *ngIf="result &&  result.data && result.data.type==='UserNotAuthenticated'">
+          <h1>UserNotAuthenticated</h1>
+          <!-- <app-is-alive-request-failed-check [healthCheckResult]="result"></app-is-alive-request-failed-check> -->
+        </div>
         <div *ngIf="result &&  result.data &&result.data.type==='AddMaxValueCheck'">
           <app-add-max-value-check [healthCheckResult]="result"></app-add-max-value-check>
         </div>
