@@ -1,7 +1,7 @@
 import { Directive, HostListener } from '@angular/core';
 
-// import * as screenfull from 'screenfull';
-import Screenfull from 'screenfull';
+import * as screenfull from 'screenfull';
+//import Screenfull from 'screenfull';
 
 @Directive({
   selector: '[appToggleFullscreen]',
