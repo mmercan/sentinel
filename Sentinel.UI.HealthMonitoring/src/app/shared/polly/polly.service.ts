@@ -15,6 +15,7 @@ export class PollyService {
 
     while (true) {
       try {
+        // tslint:disable-next-line:object-literal-shorthand
         return cb({ count: count });
       } catch (ex) {
         if (count < config.count && config.handleFn(ex)) {
@@ -30,6 +31,7 @@ export class PollyService {
     let count = 0;
     return new Promise((resolve, reject) => {
       function execute() {
+        // tslint:disable-next-line:object-literal-shorthand
         const original = cb({ count: count });
 
         original.then((e) => {
@@ -52,6 +54,7 @@ export class PollyService {
 
     return new Promise((resolve, reject) => {
       function execute() {
+        // tslint:disable-next-line:object-literal-shorthand
         const original = cb({ count: count });
 
         original.then((e) => {
@@ -77,6 +80,7 @@ export class PollyService {
     function internalCallback(err, data) {
       if (err && count < config.count && config.handleFn(err)) {
         count++;
+        // tslint:disable-next-line:object-literal-shorthand
         fn(internalCallback, { count: count });
       } else {
         callback(err, data);
@@ -84,6 +88,7 @@ export class PollyService {
       }
     }
 
+    // tslint:disable-next-line:object-literal-shorthand
     fn(internalCallback, { count: count });
   }
 
@@ -95,6 +100,7 @@ export class PollyService {
       if (err && delay && config.handleFn(err)) {
         count++;
         setTimeout(() => {
+          // tslint:disable-next-line:object-literal-shorthand
           fn(internalCallback, { count: count });
         }, delay);
       } else {
@@ -102,6 +108,7 @@ export class PollyService {
       }
     }
 
+    // tslint:disable-next-line:object-literal-shorthand
     fn(internalCallback, { count: count });
   }
 

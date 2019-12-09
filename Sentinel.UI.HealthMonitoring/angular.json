@@ -43,7 +43,8 @@
             ],
             "scripts": [
               "./node_modules/hammerjs/hammer.min.js",
-              "./node_modules/@aspnet/signalr/dist/browser/signalr.min.js"
+              "./node_modules/@aspnet/signalr/dist/browser/signalr.min.js",
+              "./node_modules/screenfull/dist/screenfull.js"
             ]
           },
           "configurations": {
