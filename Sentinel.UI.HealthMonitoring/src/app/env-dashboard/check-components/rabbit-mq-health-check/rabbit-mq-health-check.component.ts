@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { HealthReportEntry } from '../../../shared/data-store/healthcheck-data-store/interfaces/health-report';
+import { IHealthReportEntry } from '../../../shared/data-store/healthcheck-data-store/interfaces/health-report';
 
 @Component({
   selector: 'app-rabbit-mq-health-check',
@@ -10,7 +10,7 @@ export class RabbitMqHealthCheckComponent implements OnInit {
   isCollapsed = true;
   constructor() { }
   @Input()
-  healthCheckResult: HealthReportEntry;
+  healthCheckResult: IHealthReportEntry;
   ngOnInit() {
   }
 }

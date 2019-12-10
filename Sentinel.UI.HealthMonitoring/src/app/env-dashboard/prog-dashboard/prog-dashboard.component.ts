@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { AppConfig, authenticationType, logLevel } from '../../app.config';
 import { HealthcheckDataStoreSetService } from '../../shared/data-store/healthcheck-data-store/healthcheck-data-store-set.service';
 import { HealthcheckDataStoreService } from '../../shared/data-store/healthcheck-data-store/healthcheck-data-store.service';
-import { HealthReport, HealthReportEntry } from '../../shared/data-store/healthcheck-data-store/interfaces/health-report';
+import { IHealthReport, IHealthReportEntry } from '../../shared/data-store/healthcheck-data-store/interfaces/health-report';
 
 @Component({
   selector: 'app-prog-dashboard',
@@ -14,7 +14,7 @@ import { HealthReport, HealthReportEntry } from '../../shared/data-store/healthc
 export class ProgDashboardComponent implements OnInit, OnDestroy {
   programname = '';
   envname = '';
-  reportSet: HealthReport[]; // = { duration: null, results: [], status: null };
+  reportSet: IHealthReport[]; // = { duration: null, results: [], status: null };
   routeparamsSubscription: Subscription;
   healthcheckDataStoreSetSubscription: Subscription;
   GetHealthCheckUrlsSubscription: Subscription;

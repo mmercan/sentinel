@@ -63,8 +63,8 @@ export class NotificationSettingsComponent implements OnInit, OnDestroy {
           // }).then(repoResponse => {
           //   this.pushNotification.subscribed = true;
           // }));
-          .then((newsub) => this.authService.authPostWithHeader(environment.Nofitication.subscriptionRepoUrl,
-            JSON.stringify(newsub), [{ key: 'mail', value: this.email }])
+          .then((newsub) => this.authService.authPost(environment.Nofitication.subscriptionRepoUrl,
+            JSON.stringify(newsub))
             .subscribe((repoResponse) => {
               this.pushNotification.subscribed = true;
             }));

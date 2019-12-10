@@ -34,7 +34,7 @@ namespace Sentinel.UI.Product.Controllers
             //TODO: Implement Realistic Implementation
             // return Content("Blahhh");
             // return Ok("Blah");
-            return Content("Blah");
+            return Content("Notification Controller is Up and Running");
         }
 
         [HttpPost]

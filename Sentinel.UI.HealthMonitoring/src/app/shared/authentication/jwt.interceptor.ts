@@ -31,6 +31,7 @@ export class JwtInterceptor implements HttpInterceptor {
     //     mergeMap((token: string) => {
     // inject the header
     headers = headers.append('Authorization', 'Bearer ' + token);
+    headers = headers.set('Content-Type', 'application/json');
     return next.handle(req.clone({ headers: headers })).pipe(tap((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
         // do stuff with response if you want

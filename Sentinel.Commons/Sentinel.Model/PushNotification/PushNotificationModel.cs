@@ -1,12 +1,12 @@
 using System;
 
-namespace Sentinel.Api.Comms.Controllers
+namespace Sentinel.Model.PushNotification
 {
     public class PushNotificationModel
     {
-        public string Email { get; set; }
+        // public string Email { get; set; }
         public string Endpoint { get; set; }
-        public string ExpirationTime { get; set; }
+        public ulong? ExpirationTime { get; set; }
         public KeyReference Keys { get; set; }
     }
 

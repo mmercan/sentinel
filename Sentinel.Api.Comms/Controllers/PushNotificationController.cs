@@ -12,11 +12,13 @@ using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Sentinel.Model.PushNotification;
 
 namespace Sentinel.Api.Comms.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "azure")]
     public class PushNotificationController : Controller
     {
         private readonly IConfiguration _config;
@@ -38,23 +40,27 @@ namespace Sentinel.Api.Comms.Controllers
         }
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = "azure")]
         public IActionResult Post([FromBody] PushNotificationModel model)
         {
-            _logger.LogDebug("Post Called");
+            _logger.LogDebug("Post Called!!!");
             var iden = this.User.Identity;
-            var email = this.User.Claims.FirstOrDefault(p => p.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            //var email = this.User.Claims.FirstOrDefault(p => p.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            var email = this.User.Claims.FirstOrDefault(p => p.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
             //TODO: Implement Realistic Implementation
-            model.Email = "mmercan@outlook.com";
+
+            var claims = this.User.Claims.Select(p => new { value = p.Value, typee = p.Type }).ToJSON();
+
+            _logger.LogDebug("iden.Name : " + iden.Name);
+            _logger.LogDebug("claims : " + claims);
             var payload = JsonConvert.SerializeObject(
               new
               {
-                  Email = model.Email,
+                  Email = email,
                   Message = "Welcome",
                   Link = "null"
               }
             );
-            Debug.WriteLine(payload);
+            _logger.LogDebug(payload);
 
             NofityUser(model.Endpoint, model.Keys.P256dh, model.Keys.Auth, payload);
             return Created("", null);

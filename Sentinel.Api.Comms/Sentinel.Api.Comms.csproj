@@ -28,7 +28,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sentinel.Commons\Sentinel.Common\Sentinel.Common.csproj"/>
+        <ProjectReference Include="..\Sentinel.Commons\Sentinel.Model\Sentinel.Model.csproj"/>
+    <ProjectReference Include="..\Mercan\Mercan.Common\Mercan.Common.csproj" />
     <ProjectReference Include="..\Mercan\Mercan.Common.AspNetCore\Mercan.Common.AspNetCore.csproj" />
+    <ProjectReference Include="..\Mercan\Mercan.Common.Mongo\Mercan.Common.Mongo.csproj" />
     <ProjectReference Include="..\HealthChecks\Mercan.HealthChecks.Common\Mercan.HealthChecks.Common.csproj" />
     <ProjectReference Include="..\HealthChecks\Mercan.HealthChecks.Mongo\Mercan.HealthChecks.Mongo.csproj" />
     <ProjectReference Include="..\HealthChecks\Mercan.HealthChecks.RabbitMQ\Mercan.HealthChecks.RabbitMQ.csproj" />

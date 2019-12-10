@@ -110,52 +110,36 @@ export class AuthService implements OnDestroy {
     }
   }
 
+  // JwtInterceptor used to attach jwt token to the request check app.module.ts
   authGet(url): Observable<any> {
-    const headers = this.initAuthHeaders();
-    const obs = Observable.create(observer => {
-      // let result = null;
-      this.httpGetSubscription = this.http.get(url, { headers: headers, observe: 'response' })
+    const obs = Observable.create((observer) => {
+      this.httpGetSubscription = this.http.get(url, { observe: 'response' })
         .subscribe(
-          response => {
-            // if (response.json) {
-            //   result = response.json();
-            // } else if (response.text) {
-            //   result = response.text();
-            // }
+          (response) => {
+
             observer.next(response.body);
           },
-          error => { this.handleError(error, observer, 'Failed Get on' + url); }
+          (error) => { this.handleError(error, observer, 'Failed Get on' + url); },
         );
 
     });
     return obs;
   }
 
+  // JwtInterceptor used to attach jwt token to the request check app.module.ts
   authPost(url: string, body: any): Observable<any> {
-
     return this.authPostWithHeader(url, body, null);
   }
 
+  // JwtInterceptor used to attach jwt token to the request check app.module.ts
   authPostWithHeader(url: string, body: any, extraheaders?: Array<{ key: string, value: string }>): Observable<any> {
     const obs = Observable.create((observer) => {
-      const headers = this.initAuthHeaders();
-      debugger;
-      if (extraheaders) {
-        extraheaders.forEach((element) => {
-          headers.append(element.key, element.value);
-        });
-      }
-      this.httpPostSubscription = this.http.post(url, body, { headers, observe: 'response' })
+
+      this.httpPostSubscription = this.http.post(url, body, { observe: 'response' })
         .subscribe(
           (response) => {
             if (response.ok) {
-              // if (response.text() === '') {
               observer.next(response.body);
-              // } else if (response.json) {
-              //   result = response.json();
-              // } else if (response.text) {
-              //   result = response.text();
-              // }
             }
             observer.next(response.body);
           },
@@ -165,62 +149,32 @@ export class AuthService implements OnDestroy {
     return obs;
   }
 
-
+  // JwtInterceptor used to attach jwt token to the request check app.module.ts
   authPut(url: string, body: any): Observable<any> {
-    const obs = Observable.create(observer => {
-      const headers = this.initAuthHeaders();
-      // let result = null;
-      this.httpPutSubscription = this.http.put(url, body, { headers: headers, observe: 'response' })
+    const obs = Observable.create((observer) => {
+      this.httpPutSubscription = this.http.put(url, body, { observe: 'response' })
         .subscribe(
-          response => {
-            if (response.ok) {
-              // if (response.text() === '') {
-              //   observer.next(result);
-              // } else if (response.json) {
-              //   result = response.json();
-              // } else if (response.text) {
-              //   result = response.text();
-              // }
-              observer.next(response.body);
-            }
-
+          (response) => {
             observer.next(response.body);
           },
-          error => { this.handleError(error, observer, 'Failed Put on ' + url); }
+          (error) => { this.handleError(error, observer, 'Failed Put on ' + url); },
         );
     });
     return obs;
   }
 
+  // JwtInterceptor used to attach jwt token to the request check app.module.ts
   authDelete(url): Observable<any> {
-    const headers = this.initAuthHeaders();
-    const obs = Observable.create(observer => {
-      // let result = null;
-      this.httpDeleteSubscription = this.http.delete(url, { headers: headers, observe: 'response' })
+    const obs = Observable.create((observer) => {
+      this.httpDeleteSubscription = this.http.delete(url, { observe: 'response' })
         .subscribe(
-          response => {
-            // if (response.json) {
-            //   result = response.json();
-            // } else if (response.text) {
-            //   result = response.text();
-            // }
+          (response) => {
             observer.next(response.body);
           },
-          error => { this.handleError(error, observer, 'Failed Delete on ' + url); }
+          (error) => { this.handleError(error, observer, 'Failed Delete on ' + url); },
         );
-
     });
     return obs;
-  }
-
-  private initAuthHeaders(): HttpHeaders {
-    const token = this.getLocalToken();
-    if (token == null) { throw new Error('No token'); }
-
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Authorization', 'Bearer ' + token);
-    return headers;
   }
 
   ngOnDestroy(): void {

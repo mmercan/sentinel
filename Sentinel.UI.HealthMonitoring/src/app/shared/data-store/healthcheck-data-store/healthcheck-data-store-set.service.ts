@@ -6,22 +6,22 @@ import { AuthService } from '../../authentication/auth.service';
 import { CommonDataStoreInterface } from '../common-data-store/common-data-store-interface';
 import { CommonDataStoreService } from '../common-data-store/common-data-store.service';
 import { ConfigDataService } from '../config-data/config-data.service';
-import { HealthReport, HealthReportEntry, HealthReportUrl } from './interfaces/health-report';
+import { IHealthReport, IHealthReportEntry, IHealthReportUrl } from './interfaces/health-report';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HealthcheckDataStoreSetService implements OnDestroy {
-  public dataset: Observable<HealthReport[]>;
-  private _dataset: BehaviorSubject<HealthReport[]>;
+  public dataset: Observable<IHealthReport[]>;
+  private _dataset: BehaviorSubject<IHealthReport[]>;
   private dataStore: {
-    dataset: HealthReport[];
+    dataset: IHealthReport[];
   };
   httpGetSubscription: Subscription;
 
   constructor(private http: HttpClient, private authService: AuthService, private configDataService: ConfigDataService) {
     this.dataStore = { dataset: [] };
-    this._dataset = new BehaviorSubject([]) as BehaviorSubject<HealthReport[]>;
+    this._dataset = new BehaviorSubject([]) as BehaviorSubject<IHealthReport[]>;
     this.dataset = this._dataset.asObservable();
   }
 
@@ -31,11 +31,10 @@ export class HealthcheckDataStoreSetService implements OnDestroy {
   }
 
   AddHealthCheck(baseUrl: string, servicename: string) {
-
-    const init: HealthReport = { status: 'Loading', servicename, duration: '0', results: [] };
+    const init: IHealthReport = { status: 'Loading', servicename, duration: '0', results: [] };
     this.addtothelist(init, baseUrl, servicename);
 
-    this.httpGetSubscription = this.http.get<HealthReport>(baseUrl).pipe(map((response) => response)).subscribe((data) => {
+    this.httpGetSubscription = this.http.get<IHealthReport>(baseUrl).pipe(map((response) => response)).subscribe((data) => {
       this.addtothelist(data, baseUrl, servicename);
       console.log('Loading completed');
     }, (error) => {
@@ -43,7 +42,7 @@ export class HealthcheckDataStoreSetService implements OnDestroy {
         console.log('Could not load items.' + JSON.stringify(error));
         this.addtothelist(error.error, baseUrl, servicename);
       } else {
-        const data: HealthReport = {
+        const data: IHealthReport = {
           status: 'Unhealthy', servicename, duration: '0', results: [
             {
               type: 'IsAliveRequestFailed', description: '', duration: '0', status: 'Unhealthy',
@@ -56,7 +55,7 @@ export class HealthcheckDataStoreSetService implements OnDestroy {
     });
   }
 
-  GetHealthCheckUrls(application: string, environment: string): Observable<HealthReportUrl[]> {
+  GetHealthCheckUrls(application: string, environment: string): Observable<IHealthReportUrl[]> {
     const obs = Observable.create((observer) => {
       const data = this.configDataService.getHealthCheckUrls(application, environment);
       observer.next(data);
@@ -72,7 +71,7 @@ export class HealthcheckDataStoreSetService implements OnDestroy {
     observer.error(error.message || error);
   }
 
-  private addtothelist(data: HealthReport, baseUrl: string, servicename: string) {
+  private addtothelist(data: IHealthReport, baseUrl: string, servicename: string) {
     data.url = baseUrl;
     data.servicename = servicename;
     if (this.dataStore.dataset && this.dataStore.dataset.length !== undefined) {

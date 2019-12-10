@@ -1,37 +1,34 @@
-import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CommonDataStoreService } from '../common-data-store/common-data-store.service';
-import { HealthReport, HealthReportEntry } from './interfaces/health-report';
-import { AppConfig } from '../../../app.config';
-import { CommonDataStoreInterface } from '../common-data-store/common-data-store-interface';
-import { AuthService } from '../../authentication/auth.service';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { AppConfig } from '../../../app.config';
+import { AuthService } from '../../authentication/auth.service';
+import { CommonDataStoreInterface } from '../common-data-store/common-data-store-interface';
+import { CommonDataStoreService } from '../common-data-store/common-data-store.service';
+import { IHealthReport, IHealthReportEntry } from './interfaces/health-report';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HealthcheckDataStoreService implements OnDestroy {
-  public dataset: Observable<HealthReport>;
-  private _dataset: BehaviorSubject<HealthReport>;
+  public dataset: Observable<IHealthReport>;
+  private _dataset: BehaviorSubject<IHealthReport>;
 
   private dataStore: {
-    dataset: HealthReport
+    dataset: IHealthReport,
   };
   httpGetSubscription: Subscription;
 
   constructor(private http: HttpClient, private authService: AuthService, appConfig: AppConfig) {
     this.dataStore = { dataset: null };
-    this._dataset = <BehaviorSubject<HealthReport>>new BehaviorSubject({});
+    this._dataset = <BehaviorSubject<IHealthReport>>new BehaviorSubject({});
     this.dataset = this._dataset.asObservable();
   }
 
   getAll(baseUrl: string, servicename: string) {
-    // const obs = Observable.create(observer => {
-
-    this.httpGetSubscription = this.http.get<HealthReport>(baseUrl).pipe(map(response => response))
-      .subscribe(data => {
+    this.httpGetSubscription = this.http.get<IHealthReport>(baseUrl).pipe(map((response) => response))
+      .subscribe((data) => {
         data.url = baseUrl;
         data.servicename = servicename;
         this.dataStore.dataset = data;
@@ -40,7 +37,7 @@ export class HealthcheckDataStoreService implements OnDestroy {
 
         console.log('Loading completed');
         // observer.next(Object.assign({}, this.dataStore).dataset);
-      }, error => {
+      }, (error) => {
         if (error.status === 503) {
           console.log('Could not load items.' + JSON.stringify(error));
           error.error.url = baseUrl;
@@ -50,7 +47,6 @@ export class HealthcheckDataStoreService implements OnDestroy {
         } else {
 
         }
-
       });
   }
 

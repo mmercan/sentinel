@@ -1,5 +1,3 @@
-using System;
-
 namespace Sentinel.Api.Comms.Models
 {
     public class ErrorViewModel

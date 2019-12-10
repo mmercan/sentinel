@@ -1,12 +1,12 @@
-export interface HealthReport {
+export interface IHealthReport {
     status: string;
     duration: string;
-    results: HealthReportEntry[];
+    results: IHealthReportEntry[];
     url?: string;
     servicename?: string;
 }
 
-export interface HealthReportEntry {
+export interface IHealthReportEntry {
     name: string;
     status: string;
     type: string;
@@ -16,7 +16,7 @@ export interface HealthReportEntry {
     exception: string;
 }
 
-export interface HealthReportUrl {
+export interface IHealthReportUrl {
     isaliveandwell: string;
     name: string;
 }

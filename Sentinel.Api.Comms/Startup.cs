@@ -142,6 +142,7 @@ namespace Sentinel.Api.Comms
                 options.Configuration = Configuration["RedisConnection"];
                 options.InstanceName = "ApiComms";
             });
+            // services.AddMangoRepo<ProductInfoDtoV2>(Configuration.GetSection("Mongodb"));
 
             // services.AddHttpClient("run_with_try", options =>
             // {
