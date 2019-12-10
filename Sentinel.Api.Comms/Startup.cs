@@ -36,6 +36,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using System.Text;
 using Sentinel.Api.Comms.Hubs;
 using AutoMapper;
+using Sentinel.Model.PushNotification;
 
 namespace Sentinel.Api.Comms
 {
@@ -142,7 +143,7 @@ namespace Sentinel.Api.Comms
                 options.Configuration = Configuration["RedisConnection"];
                 options.InstanceName = "ApiComms";
             });
-            // services.AddMangoRepo<ProductInfoDtoV2>(Configuration.GetSection("Mongodb"));
+            services.AddMangoRepo<PushNotificationModel>(Configuration.GetSection("Mongodb"));
 
             // services.AddHttpClient("run_with_try", options =>
             // {

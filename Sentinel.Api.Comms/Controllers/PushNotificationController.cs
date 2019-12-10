@@ -13,6 +13,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Sentinel.Model.PushNotification;
+using Mercan.Common.Mongo;
 
 namespace Sentinel.Api.Comms.Controllers
 {
@@ -23,11 +24,13 @@ namespace Sentinel.Api.Comms.Controllers
     {
         private readonly IConfiguration _config;
         private readonly ILogger<PushNotificationController> _logger;
-
-        public PushNotificationController(IConfiguration configuration, ILogger<PushNotificationController> logger)
+        private MangoBaseRepo<PushNotificationModel> _mongoRepo;
+        public PushNotificationController(IConfiguration configuration, ILogger<PushNotificationController> logger,
+        MangoBaseRepo<PushNotificationModel> mongoRepo)
         {
             _config = configuration;
             _logger = logger;
+            _mongoRepo = mongoRepo;
         }
 
         [HttpGet]
@@ -40,18 +43,23 @@ namespace Sentinel.Api.Comms.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] PushNotificationModel model)
+        public async Task<IActionResult> Post([FromBody] PushNotificationModel model)
         {
             _logger.LogDebug("Post Called!!!");
             var iden = this.User.Identity;
             //var email = this.User.Claims.FirstOrDefault(p => p.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
             var email = this.User.Claims.FirstOrDefault(p => p.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
+            model.IdentityEmail = email;
+            model.Id = Guid.NewGuid();
+            await _mongoRepo.AddAsync(model);
             //TODO: Implement Realistic Implementation
+            //var claims = this.User.Claims.Select(p => new { value = p.Value, typee = p.Type }).ToJSON();
+            //_logger.LogDebug("iden.Name : " + iden.Name);
+            //_logger.LogDebug("claims : " + claims);
 
-            var claims = this.User.Claims.Select(p => new { value = p.Value, typee = p.Type }).ToJSON();
+            var modelstring = model.ToJSON();
+            _logger.LogDebug("model : " + modelstring);
 
-            _logger.LogDebug("iden.Name : " + iden.Name);
-            _logger.LogDebug("claims : " + claims);
             var payload = JsonConvert.SerializeObject(
               new
               {
