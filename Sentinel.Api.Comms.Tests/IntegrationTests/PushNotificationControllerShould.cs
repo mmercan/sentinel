@@ -10,6 +10,7 @@ using Sentinel.Api.Comms.Tests.Helpers;
 using Sentinel.Model.Product.Dto;
 using Newtonsoft.Json;
 using Sentinel.Api.Comms;
+using System.Net;
 
 namespace Sentinel.Api.Product.Tests.IntegrationTests
 {
@@ -34,7 +35,7 @@ namespace Sentinel.Api.Product.Tests.IntegrationTests
 
         [Theory]
         [InlineData("/api/PushNotification", "GET", null)]
-        [InlineData("/api/PushNotification", "POST", "{\"endpoint\":\"https://sg2p.notify.windows.com/w/?token=BQYAAAAb8Mp0FzKVB1JzI%2b%2bogcDQyuCim61doF7omrrqqa5BrHEvLqE9%2biMqilQe9k1Gi1mF1bEYaZPLxt8MMk5GbR8fn72IYHbi6QizSMogS7vYsyC5kVe%2fS9WYX6A8xnyp%2fCRELmxUfHKQEnXvRPRAILqyj%2brmJ%2br9sPuiRI8DR0C6e91WQOvxEVaL3OMxU4fuTZqR1o6R7ZYxykEdl%2fd4HL282xSX9NqPoL%2f6dtcoZbr74y2%2fiSgJj0v7Ixak2%2faoicPpnmLbSEW5jgHyORgMsqCsAvCMHB01qUOLM13AxfUhpkUDavs6zI6F%2bLNHGjjcHwwIsyFSajGGenE1v9KqspS%2f\",\"expirationTime\":1578535651000,\"keys\":{\"auth\":\"BVNrVTgi-EZwLVQfGhcr-Q\",\"p256dh\":\"BK-d7dmBTpL3i0etHWODL0G_pHTu_omfK4IDlJQCNW6iH7ANoS4hA4mKfKRwoX7ihn0mVPlFo0Le9NhZrcDvHzQ\"}}")]
+        [InlineData("/api/PushNotification/subscribe", "POST", "{\"endpoint\":\"https://sg2p.notify.windows.com/w/?token=BQYAAAAb8Mp0FzKVB1JzI%2b%2bogcDQyuCim61doF7omrrqqa5BrHEvLqE9%2biMqilQe9k1Gi1mF1bEYaZPLxt8MMk5GbR8fn72IYHbi6QizSMogS7vYsyC5kVe%2fS9WYX6A8xnyp%2fCRELmxUfHKQEnXvRPRAILqyj%2brmJ%2br9sPuiRI8DR0C6e91WQOvxEVaL3OMxU4fuTZqR1o6R7ZYxykEdl%2fd4HL282xSX9NqPoL%2f6dtcoZbr74y2%2fiSgJj0v7Ixak2%2faoicPpnmLbSEW5jgHyORgMsqCsAvCMHB01qUOLM13AxfUhpkUDavs6zI6F%2bLNHGjjcHwwIsyFSajGGenE1v9KqspS%2f\",\"expirationTime\":1578535651000,\"keys\":{\"auth\":\"BVNrVTgi-EZwLVQfGhcr-Q\",\"p256dh\":\"BK-d7dmBTpL3i0etHWODL0G_pHTu_omfK4IDlJQCNW6iH7ANoS4hA4mKfKRwoX7ihn0mVPlFo0Le9NhZrcDvHzQ\"}}")]
         [InlineData("/api/PushNotification/Users", "POST", "{\"endpoint\":\"https://sg2p.notify.windows.com/w/?token=BQYAAAAb8Mp0FzKVB1JzI%2b%2bogcDQyuCim61doF7omrrqqa5BrHEvLqE9%2biMqilQe9k1Gi1mF1bEYaZPLxt8MMk5GbR8fn72IYHbi6QizSMogS7vYsyC5kVe%2fS9WYX6A8xnyp%2fCRELmxUfHKQEnXvRPRAILqyj%2brmJ%2br9sPuiRI8DR0C6e91WQOvxEVaL3OMxU4fuTZqR1o6R7ZYxykEdl%2fd4HL282xSX9NqPoL%2f6dtcoZbr74y2%2fiSgJj0v7Ixak2%2faoicPpnmLbSEW5jgHyORgMsqCsAvCMHB01qUOLM13AxfUhpkUDavs6zI6F%2bLNHGjjcHwwIsyFSajGGenE1v9KqspS%2f\",\"expirationTime\":1578535651000,\"keys\":{\"auth\":\"BVNrVTgi-EZwLVQfGhcr-Q\",\"p256dh\":\"BK-d7dmBTpL3i0etHWODL0G_pHTu_omfK4IDlJQCNW6iH7ANoS4hA4mKfKRwoX7ihn0mVPlFo0Le9NhZrcDvHzQ\"}}")]
         // [InlineData("/api/PushNotification", "DELETE", "1")]
         public void PushNotification_EndpointsReturnSuccessAndCorrectContentType(string url, string Method, string payload)
@@ -67,6 +68,12 @@ namespace Sentinel.Api.Product.Tests.IntegrationTests
                 client.Timeout = TimeSpan.FromMinutes(3);
                 responseTask = client.PostAsync(url, httpContent);
                 responseTask.Wait();
+
+                var stringcontent1Task = responseTask.Result.Content.ReadAsStringAsync();
+                stringcontent1Task.Wait();
+                output.WriteLine("Result :" + stringcontent1Task.Result);
+
+                Assert.Equal(HttpStatusCode.InternalServerError, responseTask.Result.StatusCode);
                 return;
             }
             else if (Method == "PUT")
