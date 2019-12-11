@@ -1,7 +1,7 @@
-version: '3.4'
+version: "3.4"
 
 services:
-  sentinel-ui-product:      
+  sentinel-ui-product:
     image: sentinel-ui-product:${TAGVersion}-dev-linux
     build:
       target: develop
@@ -43,7 +43,7 @@ services:
       - "5005:80"
     # stdin_open: true
     # tty: true
-  sentinel-api-product:      
+  sentinel-api-product:
     image: sentinel-api-product:${TAGVersion}-dev-linux
     build:
       target: develop
@@ -80,7 +80,7 @@ services:
       - "5003:80"
     # stdin_open: true
     # tty: true
-  sentinel-api-member:      
+  sentinel-api-member:
     image: sentinel-api-member:${TAGVersion}-dev-linux
     build:
       target: develop
@@ -106,7 +106,7 @@ services:
       - "5002:80"
     # depends_on:
     #   - sentinel-db-redis
-  sentinel-api-comms:      
+  sentinel-api-comms:
     image: sentinel-api-comms:${TAGVersion}-dev-linux
     build:
       target: develop
@@ -119,8 +119,8 @@ services:
       - DOTNET_RUNNING_IN_CONTAINER=true
       - SentinelConnection=Server=52.247.221.7;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;
       - RedisConnection="13.77.156.236:6379,defaultDatabase=2,password=yourpassword"
-      - Mongodb__ConnectionString="mongodb://root:hbMnztmZ4w9JJTGZ@52.183.8.101:27017/admin?readPreference=primary"
-      - Mongodb__DatabaseName=pushNotifications
+      - Mongodb__ConnectionString="mongodb://root:hbMnztmZ4w9JJTGZ@mongo.db.myrcan.com:27017/admin?readPreference=primary"
+      - Mongodb__DatabaseName=pushNotificationstest
       - Mongodb__CollectionName=registers
       - Mongodb__IdField=Id
       - RabbitMQConnection="host=13.77.151.111;username=rabbitmq;password=rabbitmq"
@@ -134,7 +134,7 @@ services:
       - "5004:80"
     depends_on:
       - sentinel-db-redis
-  sentinel-api-billing-3:      
+  sentinel-api-billing-3:
     image: sentinel-api-billing-3:${TAGVersion}-dev-linux
     build:
       target: develop
@@ -169,7 +169,7 @@ services:
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
       - "5107:80"
-  sentinel-api-billing:      
+  sentinel-api-billing:
     image: sentinel-api-billing:${TAGVersion}-dev-linux
     build:
       target: develop
@@ -204,7 +204,7 @@ services:
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
       - "5007:80"
-  sentinel-api-scheduler:      
+  sentinel-api-scheduler:
     image: sentinel-api-scheduler:${TAGVersion}-dev-linux
     build:
       target: develop
@@ -239,7 +239,7 @@ services:
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
       - "5008:80"
-  sentinel-api-shipping:      
+  sentinel-api-shipping:
     image: sentinel-api-shipping:${TAGVersion}-dev-linux
     build:
       target: develop
@@ -274,7 +274,7 @@ services:
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
       - "5009:80"
-  sentinel-api-comms-build:      
+  sentinel-api-comms-build:
     image: sentinel-api-comms:${TAGVersion}-test-linux
     build:
       target: test
@@ -293,7 +293,7 @@ services:
     #   - "5004:80"
     # depends_on:
     #   - sentinel-db-redis
-  sentinel-handler-comms:      
+  sentinel-handler-comms:
     image: sentinel-handler-comms:${TAGVersion}-dev-linux
     build:
       target: develop
@@ -315,7 +315,7 @@ services:
     #   - "5004:80"
     depends_on:
       - sentinel-db-redis
-  sentinel-handler-product:      
+  sentinel-handler-product:
     image: sentinel-handler-product:${TAGVersion}-dev-linux
     build:
       target: develop
@@ -333,7 +333,7 @@ services:
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     # ports:
     #   - "5004:80"
-  sentinel-api-healthmonitoring:      
+  sentinel-api-healthmonitoring:
     image: sentinel-api-healthmonitoring:${TAGVersion}-dev-linux
     build:
       target: develop
@@ -368,7 +368,7 @@ services:
     entrypoint: dotnet watch run --verbose --no-launch-profile --configuration Debug
     ports:
       - "5006:80"
-  sentinel-ui-sts:      
+  sentinel-ui-sts:
     image: sentinel-ui-sts:${TAGVersion}-dev-linux
     build:
       target: develop
@@ -398,7 +398,7 @@ services:
       - "5000:80"
     #depends_on:
     #  - sqldb
-  sentinel-ui-admin:      
+  sentinel-ui-admin:
     image: sentinel-ui-admin:${TAGVersion}-dev-linux
     build:
       target: develop
@@ -409,8 +409,8 @@ services:
     #entrypoint: ng serve --host 0.0.0.0 --poll 1 --disable-host-check
     entrypoint: npm run startdocker
     ports:
-      - "4200:4200"  
-  sentinel-elk-proxy:      
+      - "4200:4200"
+  sentinel-elk-proxy:
     image: sentinel-elk-proxy:${TAGVersion}-dev-linux
     build:
       context: ./Sentinel.elk.Proxy
@@ -440,7 +440,7 @@ services:
       context: ./Sentinel.Db.Redis
       dockerfile: dockerfile
     # volumes:
-    #   - C:\repos\sentinel\Sentinel.Web\Sentinel.Db.Redis:/data   
+    #   - C:\repos\sentinel\Sentinel.Web\Sentinel.Db.Redis:/data
     # command: redis-server --requirepass yourpassword
     # command: ["redis-server", "--appendonly", "yes"]
     hostname: redis
@@ -469,7 +469,7 @@ services:
     volumes:
       - mongodata:/data/db
     ports:
-        - 27017:27017
+      - 27017:27017
   sentinel-db-mysql:
     image: sentinel-db-mysql:${TAGVersion}-dev-linux
     build:
@@ -493,17 +493,17 @@ services:
     labels:
       NAME: "rabbitmq1"
     environment:
-       RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
     #   RABBITMQ_DEFAULT_USER: "rabbitmq"
     #   RABBITMQ_DEFAULT_PASS: "rabbitmq"
     #   RABBITMQ_DEFAULT_VHOST: "/"
     # volumes:
-      # - ./config/:/etc/rabbitmq/
-      # - "./rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro"
-      # - "./autocluster-0.4.1.ez:/usr/lib/rabbitmq/lib/rabbitmq_server-3.5.5/plugins/autocluster-0.4.1.ez"
+    # - ./config/:/etc/rabbitmq/
+    # - "./rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro"
+    # - "./autocluster-0.4.1.ez:/usr/lib/rabbitmq/lib/rabbitmq_server-3.5.5/plugins/autocluster-0.4.1.ez"
     ports:
-    - "15672:15672"
-    - "5672:5672"
+      - "15672:15672"
+      - "5672:5672"
   sentinel-util-mailhog:
     image: sentinel-util-mailhog:${TAGVersion}-dev-linux
     build:
@@ -546,7 +546,7 @@ services:
       MYSQL_ROOT_PASSWORD: somewordpress
       PMA_HOST: sentinel-db-mysql
       PMA_PORT: 3306
-  sentinel-ui-wordpress:      
+  sentinel-ui-wordpress:
     image: sentinel-ui-wordpress:${TAGVersion}-dev-linux
     build:
       # target: develop
@@ -556,13 +556,13 @@ services:
       - WORDPRESS_DB_HOST=sentinel-db-mysql
       #wordprassusername=mercan
       # Wordpasspassword=mattmercan!1
-      # - WORDPRESS_DB_PASSWORD=wordadmin 
+      # - WORDPRESS_DB_PASSWORD=wordadmin
       # - WORDPRESS_DB_USER=Pa$$w0rd
     # volumes:
     #   - .:/src
     ports:
       - "5500:80"
-  sentinel-ui-orchard:      
+  sentinel-ui-orchard:
     image: sentinel-ui-orchard:${TAGVersion}-dev-linux
     build:
       context: ./Sentinel.UI.Orchard
@@ -579,11 +579,7 @@ services:
       - "6006:6006"
     volumes:
       - ./Sentinel.ML.Tensorflow/notebooks:/tf
-  
-  
-  
-  
-  
+
   # sentinel-util-zookeeper:
   #   image: sentinel-util-zookeeper:${TAGVersion}-dev-linux
   #   build:
