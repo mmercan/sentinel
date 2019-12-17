@@ -65,13 +65,13 @@ namespace Sentinel.Api.Comms.Controllers
             );
             _logger.LogDebug(payload);
 
-            NofityUser(model.Endpoint, model.Keys.P256dh, model.Keys.Auth, payload);
+            await NofityUser(model.Endpoint, model.Keys.P256dh, model.Keys.Auth, payload);
 
             return Created("", null);
         }
 
         //generate vapid key from : https://web-push-codelab.glitch.me/
-        private void NofityUser(string endpoint, string p256dh, string auth, string payload)
+        private async Task NofityUser(string endpoint, string p256dh, string auth, string payload)
         {
             var vapidDetails = new VapidDetails(@"mailto:mmercan@outlook.com"
                 , "BCbYNxjxYPOcv3Hn8xZH1bB2kJLFLeO9Fx68U0C2FOZ7wFmG_yxGdiiNIWrFRHY6X1NL6egRgzZGAC_A_6fcigA"
@@ -80,8 +80,9 @@ namespace Sentinel.Api.Comms.Controllers
             var client = new WebPushClient();
             var subs = new PushSubscription(endpoint, p256dh, auth);
 
-            var task = client.SendNotificationAsync(subs, payload, vapidDetails);
-            task.Wait();
+            await client.SendNotificationAsync(subs, payload, vapidDetails);
+            //task.Wait();
+
         }
 
         [HttpPost("Users")]
