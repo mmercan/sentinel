@@ -123,6 +123,19 @@ namespace Mercan.Common.Mongo
             logger.LogCritical(name + " collectionName " + collectionName);
             return Items.Find(FilterDefinition<T>.Empty).ToList();
         }
+
+        public IEnumerable<T> Find(FilterDefinition<T> filter)
+        {
+            var name = typeof(T).ToString();
+            return Items.Find(filter).ToList();
+        }
+
+        public IEnumerable<T> Find(Expression<Func<T, bool>> filter)
+        {
+            var name = typeof(T).ToString();
+            return Items.Find(filter).ToList();
+        }
+
         public async Task<T> Get(BsonDocument filter)
         {
             return await Items.FindSync<T>(filter).FirstOrDefaultAsync();

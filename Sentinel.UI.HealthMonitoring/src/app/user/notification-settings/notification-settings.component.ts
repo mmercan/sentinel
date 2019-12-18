@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { AppConfig } from '../../app.config';
 import { AuthService } from '../../shared/authentication/auth.service';
-import { environment } from '../../../environments/environment';
 declare var Notification: any;
 
 @Component({
@@ -24,7 +24,7 @@ export class NotificationSettingsComponent implements OnInit, OnDestroy {
   pushNotificationDisabled = false;
   authGetSubscription: Subscription;
 
-  constructor(private appConfig: AppConfig, private authService: AuthService) {
+  constructor(private authService: AuthService) {
     if ('serviceWorker' in navigator && 'PushManager' in window) {
       this.pushNotification.browserSupports = true;
       if (Notification.permission !== 'denied') {
@@ -35,6 +35,7 @@ export class NotificationSettingsComponent implements OnInit, OnDestroy {
           this.sw = sw;
           sw.pushManager.getSubscription().then(
             (s) => {
+              console.log(s);
               this.pushNotification.subscribed = s !== null;
             },
           );
@@ -45,6 +46,7 @@ export class NotificationSettingsComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
   pushChanged(event: any) {
+    console.log(this.urlB64ToUint8Array(environment.Nofitication.publicKey));
 
     this.sw.pushManager.getSubscription().then((subs) => {
       if (subs != null) {
@@ -54,20 +56,24 @@ export class NotificationSettingsComponent implements OnInit, OnDestroy {
         this.sw.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey: this.urlB64ToUint8Array(environment.Nofitication.publicKey),
-        })
-          // .then(newSub => fetch(this.appConfig.config.Nofitication.subscriptionRepoUrl, {
-          //   headers: { 'Content-Type': 'application/json', 'email': this.email },
-          //   method: 'POST',
-          //   credentials: 'include',
-          //   body: JSON.stringify(newSub),
-          // }).then(repoResponse => {
-          //   this.pushNotification.subscribed = true;
-          // }));
-          .then((newsub) => this.authService.authPost(environment.Nofitication.subscriptionRepoUrl,
-            JSON.stringify(newsub))
+        }).then((newsub) => {
+          console.log(newsub);
+          this.authService.authPost(environment.Nofitication.subscriptionRepoUrl, JSON.stringify(newsub))
             .subscribe((repoResponse) => {
               this.pushNotification.subscribed = true;
-            }));
+            });
+        }, (error) => {
+          console.error(error);
+        });
+
+        // .then(newSub => fetch(this.appConfig.config.Nofitication.subscriptionRepoUrl, {
+        //   headers: { 'Content-Type': 'application/json', 'email': this.email },
+        //   method: 'POST',
+        //   credentials: 'include',
+        //   body: JSON.stringify(newSub),
+        // }).then(repoResponse => {
+        //   this.pushNotification.subscribed = true;
+        // }));
       }
     });
 
@@ -83,8 +89,6 @@ export class NotificationSettingsComponent implements OnInit, OnDestroy {
     // } else {
     //   console.log('UnChecked');
     //   this.pushNotification.disabled = true;
-
-
     //   this.pushNotification.disabled = false;
     // }
   }

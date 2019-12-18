@@ -43,20 +43,33 @@ self.addEventListener('push', event => {
   if (payload.title) {
     title = payload.title;
   }
+  var actions = [];
+  if (payload.links) {
+    payload.links.forEach(link => {
+      actions.push({
+        action: link.action,
+        title: link.title,
+        icon: link.iconLocation ? link.iconLocation : './assets/icons/notificationicon512.png',
+      });
+    });
+  }
+
   let options = {
-    body: payload.Message,
-    icon: './assets/icons/android-chrome-192x192.png',
-    badge: './assets/icons/android-chrome-192x192.png',
+    body: payload.message,
+    icon: './assets/icons/notificationicon.png',
+    badge: './assets/icons/notificationicon.png',
     data: payload,
-    actions: [{
-      action: 'view',
-      title: 'See it',
-      icon: './assets/icons/android-chrome-512x512.png'
-    }, {
-      action: 'later',
-      title: 'Pop it later',
-      icon: './assets/icons/android-chrome-512x512.png'
-    }]
+    actions: actions,
+
+    // [{
+    //   action: 'view',
+    //   title: 'See it',
+    //   icon: './assets/icons/android-chrome-512x512.png'
+    // }, {
+    //   action: 'later',
+    //   title: 'Pop it later',
+    //   icon: './assets/icons/android-chrome-512x512.png'
+    // }]
   };
   event.waitUntil(self.registration.showNotification(title, options));
 });
@@ -68,37 +81,36 @@ self.addEventListener('notificationclick', event => {
   //console.log(event.data.url);
   var location = event.target.location.origin + '/';
   var notificationpath = "#/notification";
-  switch (event.action) {
-    case 'later':
-    case 'view':
-    default:
-      //event.waitUntil(clients.openWindow(location + notificationpath));
-      var found = false;
-      var cc = clients;
-      var promise = clients.matchAll({
-        includeUncontrolled: true,
-        type: 'window'
-      }).then(function (clients) {
-        for (let i = 0; i < clients.length; i++) {
-          var client = clients[i];
-          //if (client.url === '/' && 'focus' in client) {
-          if ('focus' in client && !openInanewWindow) {
-            found = true;
-            //client.url = location + notificationpath;
-            client.navigate(location + notificationpath);
-            return client.focus();
-          }
-        }
-        if (!found) {
-          // event.waitUntil(cc.openWindow(location + notificationpath));
-          cc.openWindow(location + notificationpath).then(function (windowClient) {
-            //  // do something with the windowClient.
-            console.log("openning");
-          });
-        }
-      });
-      event.waitUntil(promise);
+  if (event.action) {
+    notificationpath = "#" + event.action;
   }
+  //event.waitUntil(clients.openWindow(location + notificationpath));
+  var found = false;
+  var cc = clients;
+  var promise = clients.matchAll({
+    includeUncontrolled: true,
+    type: 'window'
+  }).then(function (clients) {
+    for (let i = 0; i < clients.length; i++) {
+      var client = clients[i];
+      //if (client.url === '/' && 'focus' in client) {
+      if ('focus' in client && !openInanewWindow) {
+        found = true;
+        //client.url = location + notificationpath;
+        client.navigate(location + notificationpath);
+        return client.focus();
+      }
+    }
+    if (!found) {
+      // event.waitUntil(cc.openWindow(location + notificationpath));
+      cc.openWindow(location + notificationpath).then(function (windowClient) {
+        // do something with the windowClient.
+        console.log("openning");
+      });
+    }
+  });
+  event.waitUntil(promise);
+
 });
 
 //toolbox.precache(['/index.html',"/assets/offline.html","/sw.js","/assets/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.woff2","/assets/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.woff","/assets/fonts/font-awesome-4.7.0/fonts/fontawesome-webfont.eot"]);

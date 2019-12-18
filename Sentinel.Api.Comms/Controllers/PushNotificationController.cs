@@ -4,11 +4,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebPush;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Sentinel.Model.PushNotification;
 using Mercan.Common.Mongo;
+using System.Net;
+using System.Collections.Generic;
 
 namespace Sentinel.Api.Comms.Controllers
 {
@@ -18,6 +21,9 @@ namespace Sentinel.Api.Comms.Controllers
     [Authorize(AuthenticationSchemes = "azure")]
     public class PushNotificationController : Controller
     {
+        VapidDetails vapidDetails = new VapidDetails(@"mailto:mmercan@outlook.com"
+        , "BCbYNxjxYPOcv3Hn8xZH1bB2kJLFLeO9Fx68U0C2FOZ7wFmG_yxGdiiNIWrFRHY6X1NL6egRgzZGAC_A_6fcigA"
+        , "r2HJzuoJiFD0uMDoQcKMQCGo8M80wag8kCoTMFf3S34");
         private readonly ILogger<PushNotificationController> _logger;
         private readonly MangoBaseRepo<PushNotificationModel> _mongoRepo;
         public PushNotificationController(ILogger<PushNotificationController> logger,
@@ -54,35 +60,72 @@ namespace Sentinel.Api.Comms.Controllers
             var modelstring = model.ToJSON();
             _logger.LogDebug("model : " + modelstring);
 
+
+            DefaultContractResolver contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
+
             var payload = JsonConvert.SerializeObject(
-              new
+              new PushNotificationPayloadModel
               {
-                  title = "Push Notification registered",
+                  Title = "Push Notification registered",
                   Email = email,
-                  Message = "Welcome",
-                  Link = "null"
-              }
+                  Message = "Welcome"
+              }, new JsonSerializerSettings { ContractResolver = contractResolver, Formatting = Formatting.Indented }
             );
             _logger.LogDebug(payload);
-
             await NofityUser(model.Endpoint, model.Keys.P256dh, model.Keys.Auth, payload);
-
             return Created("", null);
+        }
+
+        [HttpPost]
+        public async Task PushNotification([FromBody]PushNotificationRequestModel request)
+        {
+            _logger.LogDebug("looking for " + request.Email);
+            List<Task> listOfTasks = new List<Task>();
+            var items = _mongoRepo.Find(p => p.IdentityEmail == request.Email);
+
+            DefaultContractResolver contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
+
+            var payload = JsonConvert.SerializeObject(
+              request.Payload, new JsonSerializerSettings { ContractResolver = contractResolver, Formatting = Formatting.Indented });
+
+            foreach (var item in items)
+            {
+                listOfTasks.Add(NofityUser(item, payload));
+            }
+            await Task.WhenAll(listOfTasks);
         }
 
         //generate vapid key from : https://web-push-codelab.glitch.me/
         private async Task NofityUser(string endpoint, string p256dh, string auth, string payload)
         {
-            var vapidDetails = new VapidDetails(@"mailto:mmercan@outlook.com"
-                , "BCbYNxjxYPOcv3Hn8xZH1bB2kJLFLeO9Fx68U0C2FOZ7wFmG_yxGdiiNIWrFRHY6X1NL6egRgzZGAC_A_6fcigA"
-                , "r2HJzuoJiFD0uMDoQcKMQCGo8M80wag8kCoTMFf3S34"
-              );
             var client = new WebPushClient();
             var subs = new PushSubscription(endpoint, p256dh, auth);
-
             await client.SendNotificationAsync(subs, payload, vapidDetails);
-            //task.Wait();
+        }
 
+        private async Task NofityUser(PushNotificationModel model, string payload)
+        {
+            var client = new WebPushClient();
+            var subs = new PushSubscription(model.Endpoint, model.Keys.P256dh, model.Keys.Auth);
+            try
+            {
+                await client.SendNotificationAsync(subs, payload, vapidDetails);
+                _logger.LogDebug("Message Sent email:" + model.IdentityEmail + payload);
+            }
+            catch (WebPushException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Gone || ex.StatusCode == HttpStatusCode.NotFound)
+                {
+                    await _mongoRepo.RemoveAsync(model.Id);
+                    _logger.LogError(payload);
+                }
+            }
         }
 
         [HttpPost("Users")]
@@ -92,4 +135,8 @@ namespace Sentinel.Api.Comms.Controllers
             return Content("Ok");
         }
     }
+
+
+
+
 }
