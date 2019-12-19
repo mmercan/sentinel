@@ -37,6 +37,7 @@ using System.Text;
 using Sentinel.Api.Comms.Hubs;
 using AutoMapper;
 using Sentinel.Model.PushNotification;
+using Sentinel.Api.Comms.Services;
 
 namespace Sentinel.Api.Comms
 {
@@ -59,6 +60,7 @@ namespace Sentinel.Api.Comms
             services.AddControllers();
             services.AddSingleton<IServiceCollection>(services);
             services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton<PushNotificationService>();
 
             services.AddHealthChecks()
             .AddProcessList()
