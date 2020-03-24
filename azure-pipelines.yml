@@ -1,98 +1,86 @@
-stages:
-- stage: build
-  jobs:
-  - job: A
-    displayName: Build
-    pool:
-      vmImage: 'Ubuntu-16.04'
-    steps:
-    - task: Docker@2
-      displayName: build
-      inputs:
-        containerRegistry: dockerhub
-        command: build
-        Dockerfile: 'Sentinel.Api.Comms/dockerfile-linux-test'
-        tags: 'test-$(Build.BuildId)'
-        arguments: '--target test -t sentinel-api-comms-test --build-arg buildtime_APPID=$(buildtime_APPID)  --build-arg buildtime_APPSECRET=$(buildtime_APPSECRET) --build-arg buildtime_ADID=$(buildtime_ADID) --build-arg buildtime_SONARKEY=$(buildtime_SONARKEY)'
+pool:
+  name: Hosted Ubuntu 1604
+#Your build pipeline references a secret variable named ‘buildtime_APPID’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it secret. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references a secret variable named ‘buildtime_APPSECRET’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it secret. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references a secret variable named ‘buildtime_ADID’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it secret. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references a secret variable named ‘buildtime_SONARKEY’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it secret. See https://go.microsoft.com/fwlink/?linkid=865972
 
-    - task: Docker@2
-      displayName: run
-      inputs:
-        containerRegistry: dockerhub
-        command: run
-        arguments: '-i -v $(Build.ArtifactStagingDirectory):/TestResults sentinel-api-comms-test'
+steps:
+- task: Docker@2
+  displayName: build
+  inputs:
+    containerRegistry: dockerhub
+    command: build
+    Dockerfile: 'Sentinel.Api.Comms/dockerfile-linux-test'
+    tags: 'test-$(Build.BuildId)'
+    arguments: '--target test -t sentinel-api-comms-test --build-arg buildtime_APPID=$(buildtime_APPID)  --build-arg buildtime_APPSECRET=$(buildtime_APPSECRET) --build-arg buildtime_ADID=$(buildtime_ADID) --build-arg buildtime_SONARKEY=$(buildtime_SONARKEY)'
 
-    - task: PublishTestResults@2
-      displayName: 'Publish Test Results *.trx'
-      inputs:
-        testResultsFormat: VSTest
-        testResultsFiles: '*.trx'
-        searchFolder: '$(Build.ArtifactStagingDirectory)'
+- task: Docker@2
+  displayName: run
+  inputs:
+    containerRegistry: dockerhub
+    command: run
+    arguments: '-i -v $(Build.ArtifactStagingDirectory):/TestResults sentinel-api-comms-test'
 
-    - task: DockerCompose@0
-      displayName: 'Build Images'
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: dockerhub
-        dockerComposeFile: 'Sentinel.Api.Comms/docker-compose.yml'
-        dockerComposeFileArgs: 'TAGVersion=01'
-        action: 'Build services'
-        additionalImageTags: '$(Build.BuildNumber)'
-        includeLatestTag: true
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results *.trx'
+  inputs:
+    testResultsFormat: VSTest
+    testResultsFiles: '*.trx'
+    searchFolder: '$(Build.ArtifactStagingDirectory)'
 
-    - task: DockerCompose@0
-      displayName: 'Push Images'
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: dockerhub
-        dockerComposeFile: 'Sentinel.Api.Comms/docker-compose.yml'
-        dockerComposeFileArgs: 'TAGVersion=01'
-        action: 'Push services'
-        additionalImageTags: '$(Build.BuildNumber)'
-        includeLatestTag: true
-      continueOnError: true
-    - task: CopyFiles@2
-      displayName: 'Copy Helm Sentinel.Api.Comms'
-      inputs:
-        SourceFolder: 'Helm/sentinel/charts/comms-api'
-        TargetFolder: '$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/comms-api'
+- task: DockerCompose@0
+  displayName: 'Build Images'
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: dockerhub
+    dockerComposeFile: 'Sentinel.Api.Comms/docker-compose.yml'
+    dockerComposeFileArgs: 'TAGVersion=01'
+    action: 'Build services'
+    additionalImageTags: '$(Build.BuildNumber)'
+    includeLatestTag: true
 
-    - task: GitHubRelease@1
-      displayName: 'GitHub release (create)'
-      inputs:
-        gitHubConnection: 'mrtmrcn github'
-        tagSource: userSpecifiedTag
-        tag: 'release-v1.0.$(Build.BuildNumber)'
-        assets: '$(Build.ArtifactStagingDirectory)/**'
-        isPreRelease: true
-      enabled: false
+- task: DockerCompose@0
+  displayName: 'Push Images'
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: dockerhub
+    dockerComposeFile: 'Sentinel.Api.Comms/docker-compose.yml'
+    dockerComposeFileArgs: 'TAGVersion=01'
+    action: 'Push services'
+    additionalImageTags: '$(Build.BuildNumber)'
+    includeLatestTag: true
+  continueOnError: true
 
-    - task: colinsalmcorner.colinsalmcorner-buildtasks.replace-tokens-task.ReplaceTokens@1
-      displayName: 'Replace tokens in Sentinel.Api.Comms'
-      inputs:
-        sourcePath: Sentinel.Api.Comms
-        filePattern: '*.yaml'
+- task: CopyFiles@2
+  displayName: 'Copy Helm Sentinel.Api.Comms'
+  inputs:
+    SourceFolder: 'Helm/sentinel/charts/comms-api'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/comms-api'
 
-    - task: CopyFiles@2
-      displayName: 'Copy yaml'
-      inputs:
-        SourceFolder: Sentinel.Api.Comms
-        Contents: '*.yaml'
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+- task: GitHubRelease@1
+  displayName: 'GitHub release (create)'
+  inputs:
+    gitHubConnection: 'mrtmrcn github'
+    tagSource: userSpecifiedTag
+    tag: 'release-v1.0.$(Build.BuildNumber)'
+    assets: '$(Build.ArtifactStagingDirectory)/**'
+    isPreRelease: true
+  enabled: false
 
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifacts: drop'
+- task: colinsalmcorner.colinsalmcorner-buildtasks.replace-tokens-task.ReplaceTokens@1
+  displayName: 'Replace tokens in Sentinel.Api.Comms'
+  inputs:
+    sourcePath: Sentinel.Api.Comms
+    filePattern: '*.yaml'
 
-- stage: deploy
-  jobs:
-  - deployment: DeployWeb
-    displayName: deploy Web App
-    pool:
-      vmImage: 'Ubuntu-16.04'
-    # creates an environment if it doesn't exist
-    environment: 'sentinel-helm.sentinel-helm'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - script: echo Hello world
+- task: CopyFiles@2
+  displayName: 'Copy yaml'
+  inputs:
+    SourceFolder: Sentinel.Api.Comms
+    Contents: '*.yaml'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifacts: drop'
+
