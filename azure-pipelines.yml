@@ -4,7 +4,7 @@ stages:
   - job: A
     displayName: Build
     pool:
-      vmImage: 'Hosted Ubuntu 1604'
+      vmImage: 'Ubuntu-16.04'
     steps:
     - task: Docker@2
       displayName: build
