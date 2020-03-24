@@ -2,7 +2,7 @@ stages:
 - stage: build
   jobs:
   - job: A
-    displayName: deploy Web App
+    displayName: Build
     pool:
       vmImage: 'Ubuntu-16.04'
     steps:
