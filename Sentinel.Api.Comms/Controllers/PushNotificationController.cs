@@ -98,12 +98,12 @@ namespace Sentinel.Api.Comms.Controllers
 
         //generate vapid key from : https://web-push-codelab.glitch.me/
 
-        // [HttpPost("Users")]
-        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "user")]
-        // public IActionResult JustforUsers([FromBody] PushNotificationModel model)
-        // {
-        //     return Content("Ok");
-        // }
+        [HttpPost("Users")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "user")]
+        public IActionResult JustforUsers([FromBody] PushNotificationModel model)
+        {
+            return Content("Ok");
+        }
     }
 
 
