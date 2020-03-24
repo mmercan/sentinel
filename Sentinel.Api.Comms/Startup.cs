@@ -38,6 +38,9 @@ using Sentinel.Api.Comms.Hubs;
 using AutoMapper;
 using Sentinel.Model.PushNotification;
 using Sentinel.Api.Comms.Services;
+using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.FeatureFilters;
+using Sentinel.Api.Comms.CustomFeatureFilter;
 
 namespace Sentinel.Api.Comms
 {
@@ -189,6 +192,11 @@ namespace Sentinel.Api.Comms
             .AddPolicyHandler(HttpClientHelpers.GetRetryPolicy())
             .AddPolicyHandler(HttpClientHelpers.GetCircuitBreakerPolicy());
 
+            services.AddHttpContextAccessor();
+
+            services.AddFeatureManagement()
+            .AddFeatureFilter<PercentageFilter>()
+            .AddFeatureFilter<HeadersFeatureFilter>();
             // services.AddHostedService<HealthCheckSubscribeService>();
 
             services.AddSignalR();

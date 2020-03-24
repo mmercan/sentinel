@@ -1,0 +1,79 @@
+[{
+    "PackageName": "Microsoft.AspNetCore.Http",
+    "PackageUrl": "https://asp.net/",
+    "Description": "ASP.NET Core default HTTP feature implementations.\r\n\r\nThis package was built from the source code at https://github.com/aspnet/AspNetCore/tree/522705f9a27b99ca4ad261f2e89fe51a77b2338e",
+    "LicenseUrl": "https://raw.githubusercontent.com/aspnet/AspNetCore/2.0.0/LICENSE.txt",
+    "LicenseType": ""
+}, {
+    "PackageName": "Microsoft.Extensions.Diagnostics.HealthChecks",
+    "PackageUrl": "https://asp.net/",
+    "Description": "Components for performing health checks in .NET applications\r\n    \r\nCommonly Used Types:\r\nMicrosoft.Extensions.Diagnostics.HealthChecks.HealthCheckService\r\nMicrosoft.Extensions.Diagnostics.HealthChecks.IHealthChecksBuilder\r\n    \r\n\r\nThis package was built from the source code at https://github.com/aspnet/Diagnostics/tree/c802d5ef5fba1ba8dfbcb8c3741af2ba15e9d1aa",
+    "LicenseUrl": "https://raw.githubusercontent.com/aspnet/AspNetCore/2.0.0/LICENSE.txt",
+    "LicenseType": ""
+}, {
+    "PackageName": "Polly",
+    "PackageUrl": "https://github.com/App-vNext/Polly",
+    "Description": "Polly is a library that allows developers to express resilience and transient fault handling policies such as Retry, Circuit Breaker, Timeout, Bulkhead Isolation, and Fallback in a fluent and thread-safe manner.",
+    "LicenseUrl": "https://licenses.nuget.org/BSD-3-Clause",
+    "LicenseType": "BSD-3-Clause"
+}, {
+    "PackageName": "Newtonsoft.Json",
+    "PackageUrl": "https://www.newtonsoft.com/json",
+    "Description": "Json.NET is a popular high-performance JSON framework for .NET",
+    "LicenseUrl": "https://raw.github.com/JamesNK/Newtonsoft.Json/master/LICENSE.md",
+    "LicenseType": ""
+}, {
+    "PackageName": "System.Data.SqlClient",
+    "PackageUrl": "https://dot.net/",
+    "Description": "Provides the data provider for SQL Server. These classes provide access to versions of SQL Server and encapsulate database-specific protocols, including tabular data stream (TDS)\r\n\r\nCommonly Used Types:\r\nSystem.Data.SqlClient.SqlConnection\r\nSystem.Data.SqlClient.SqlException\r\nSystem.Data.SqlClient.SqlParameter\r\nSystem.Data.SqlDbType\r\nSystem.Data.SqlClient.SqlDataReader\r\nSystem.Data.SqlClient.SqlCommand\r\nSystem.Data.SqlClient.SqlTransaction\r\nSystem.Data.SqlClient.SqlParameterCollection\r\nSystem.Data.SqlClient.SqlClientFactory\r\n \r\n215f374988eba0829f6880026909851ed04a8638 \r\nWhen using NuGet 3.x this package requires at least version 3.4.",
+    "LicenseUrl": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
+    "LicenseType": ""
+}, {
+    "PackageName": "Microsoft.Extensions.Options.ConfigurationExtensions",
+    "PackageUrl": "https://asp.net/",
+    "Description": "Provides additional configuration specific functionality related to Options.\r\n\r\nThis package was built from the source code at https://github.com/aspnet/Extensions/tree/9bc79b2f25a3724376d7af19617c33749a30ea3a",
+    "LicenseUrl": "https://raw.githubusercontent.com/aspnet/AspNetCore/2.0.0/LICENSE.txt",
+    "LicenseType": ""
+}, {
+    "PackageName": "Microsoft.Extensions.Logging",
+    "PackageUrl": "https://asp.net/",
+    "Description": "Logging infrastructure default implementation for Microsoft.Extensions.Logging.\r\n\r\nThis package was built from the source code at https://github.com/aspnet/Extensions/tree/9bc79b2f25a3724376d7af19617c33749a30ea3a",
+    "LicenseUrl": "https://raw.githubusercontent.com/aspnet/AspNetCore/2.0.0/LICENSE.txt",
+    "LicenseType": ""
+}, {
+    "PackageName": "Microsoft.Extensions.Options",
+    "PackageUrl": "https://asp.net/",
+    "Description": "Provides a strongly typed way of specifying and accessing settings using dependency injection.\r\n\r\nThis package was built from the source code at https://github.com/aspnet/Extensions/tree/9bc79b2f25a3724376d7af19617c33749a30ea3a",
+    "LicenseUrl": "https://raw.githubusercontent.com/aspnet/AspNetCore/2.0.0/LICENSE.txt",
+    "LicenseType": ""
+}, {
+    "PackageName": "Microsoft.Extensions.DependencyInjection",
+    "PackageUrl": "https://asp.net/",
+    "Description": "Default implementation of dependency injection for Microsoft.Extensions.DependencyInjection.",
+    "LicenseUrl": "https://raw.githubusercontent.com/aspnet/AspNetCore/2.0.0/LICENSE.txt",
+    "LicenseType": ""
+}, {
+    "PackageName": "System.Management",
+    "PackageUrl": "https://dot.net/",
+    "Description": "Provides access to a rich set of management information and management events about the system, devices, and applications instrumented to the Windows Management Instrumentation (WMI) infrastructure.\r\n\r\nCommonly Used Types:\r\nSystem.Management.ManagementClass\r\nSystem.Management.ManagementObject\r\nSystem.Management.SelectQuery\r\n \r\n30ab651fcb4354552bd4891619a0bdd81e0ebdbf \r\nWhen using NuGet 3.x this package requires at least version 3.4.",
+    "LicenseUrl": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
+    "LicenseType": ""
+}, {
+    "PackageName": "Microsoft.Identity.Client",
+    "PackageUrl": "https://go.microsoft.com/fwlink/?linkid=844761",
+    "Description": "This package contains the binaries of the Microsoft Authentication Library (MSAL).\r\n      MSAL makes it easy to obtain tokens from Azure AD v2 (work & school accounts, MSA) and Azure AD B2C, gaining access to Microsoft Cloud API and any other API secured by Microsoft identities. This version supports adding authentication functionality to your .NET based client on Windows desktop (.NET 4.5+), UWP, .NET Core, Xamarin iOS and Xamarin Android.",
+    "LicenseUrl": "https://go.microsoft.com/fwlink/?linkid=844762",
+    "LicenseType": ""
+}, {
+    "PackageName": "System.Threading.Tasks.Extensions",
+    "PackageUrl": "https://dot.net/",
+    "Description": "Provides additional types that simplify the work of writing concurrent and asynchronous code.\r\n\r\nCommonly Used Types:\r\nSystem.Threading.Tasks.ValueTask<TResult>\r\n \r\n7ee84596d92e178bce54c986df31ccc52479e772",
+    "LicenseUrl": "https://github.com/dotnet/corefx/blob/master/LICENSE.TXT",
+    "LicenseType": ""
+}, {
+    "PackageName": "Microsoft.AspNetCore.Diagnostics.HealthChecks",
+    "PackageUrl": "https://asp.net/",
+    "Description": "ASP.NET Core middleware for returning the results of Health Checks in the application\r\n      \r\n    \r\n\r\nThis package was built from the source code at https://github.com/aspnet/Diagnostics/tree/c802d5ef5fba1ba8dfbcb8c3741af2ba15e9d1aa",
+    "LicenseUrl": "https://raw.githubusercontent.com/aspnet/AspNetCore/2.0.0/LICENSE.txt",
+    "LicenseType": ""
+}]
