@@ -15,6 +15,19 @@ steps:
     tags: 'test-$(Build.BuildId)'
     arguments: '--target test -t sentinel-api-comms-test --build-arg buildtime_APPID=$(buildtime_APPID)  --build-arg buildtime_APPSECRET=$(buildtime_APPSECRET) --build-arg buildtime_ADID=$(buildtime_ADID) --build-arg buildtime_SONARKEY=$(buildtime_SONARKEY)'
   continueOnError: true
+  enabled: false
+
+- task: DockerCompose@0
+  displayName: 'Build Images'
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: dockerhub
+    dockerComposeFile: 'Sentinel.Api.Comms/docker-compose-test.yml'
+    dockerComposeFileArgs: 'TAGVersion=01'
+    action: 'Build services'
+    additionalImageTags: '$(Build.BuildNumber)'
+    includeLatestTag: true
+    arguments: '--build-arg buildtime_APPID=$(buildtime_APPID)  --build-arg buildtime_APPSECRET=$(buildtime_APPSECRET) --build-arg buildtime_ADID=$(buildtime_ADID) --build-arg buildtime_SONARKEY=$(buildtime_SONARKEY)'
 
 - task: Docker@2
   displayName: run
