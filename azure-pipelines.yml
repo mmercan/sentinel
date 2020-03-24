@@ -14,6 +14,7 @@ steps:
     Dockerfile: 'Sentinel.Api.Comms/dockerfile-linux-test'
     tags: 'test-$(Build.BuildId)'
     arguments: '--target test -t sentinel-api-comms-test --build-arg buildtime_APPID=$(buildtime_APPID)  --build-arg buildtime_APPSECRET=$(buildtime_APPSECRET) --build-arg buildtime_ADID=$(buildtime_ADID) --build-arg buildtime_SONARKEY=$(buildtime_SONARKEY)'
+  continueOnError: true
 
 - task: Docker@2
   displayName: run
@@ -21,6 +22,7 @@ steps:
     containerRegistry: dockerhub
     command: run
     arguments: '-i -v $(Build.ArtifactStagingDirectory):/TestResults sentinel-api-comms-test'
+  continueOnError: true
 
 - task: PublishTestResults@2
   displayName: 'Publish Test Results *.trx'
