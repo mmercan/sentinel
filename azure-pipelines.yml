@@ -9,9 +9,9 @@ trigger:
     exclude:
     - /
     include:
-    - Sentinel.Api.Comms/
-    - Sentinel.Api.Comms.Tests/
-    - Helm/sentinel/charts/comms-api
+    - /Sentinel.Api.Comms/*
+    - /Sentinel.Api.Comms.Tests/*
+    - /Helm/sentinel/charts/comms-api/*
 
 stages:
 - stage: build
