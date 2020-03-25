@@ -44,6 +44,13 @@ steps:
     testResultsFiles: '*.trx'
     searchFolder: '$(Build.ArtifactStagingDirectory)'
 
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage from $(Build.ArtifactStagingDirectory)/coverage.cobertura.xml'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.ArtifactStagingDirectory)/coverage.cobertura.xml'
+    pathToSources: '$(Build.SourcesDirectory)'
+
 - task: DockerCompose@0
   displayName: 'Build Images'
   inputs:
