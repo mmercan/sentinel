@@ -126,3 +126,11 @@ stages:
         deploy:
           steps:
           - script: echo Hello world
+          - task: HelmInstaller@1
+            inputs:
+              helmVersionToInstall: 'latest'
+          - task: HelmDeploy@0
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceConnection: 'sentinel-helm-sentinel-helm-1585014518048'
+              command: 'ls'
