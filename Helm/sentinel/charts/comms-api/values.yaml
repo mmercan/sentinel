@@ -23,7 +23,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   path: /
   host: comms-helm.api.myrcan.com
-  secretName: tls-secret-comms-helm-prod
+  secretName: tls-comms-api-myrcan-com-secret
 
 
 resources: {}
