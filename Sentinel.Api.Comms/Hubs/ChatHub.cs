@@ -18,8 +18,7 @@ namespace Sentinel.Api.Comms.Hubs
         }
         public Task Send(string message)
         {
-
-            var user = Context.User;
+            //var user = Context.User;
             return Clients.All.SendAsync("Send", message);
         }
 
