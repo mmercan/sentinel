@@ -10,6 +10,7 @@ using Sentinel.Api.Comms.Services;
 using Microsoft.FeatureManagement;
 using Sentinel.Api.Comms.Models;
 using Microsoft.FeatureManagement.Mvc;
+using System.Collections.Generic;
 
 namespace Sentinel.Api.Comms.Controllers
 {
@@ -19,7 +20,6 @@ namespace Sentinel.Api.Comms.Controllers
     [Authorize(AuthenticationSchemes = "azure")]
     public class PushNotificationController : Controller
     {
-
         private readonly IFeatureManager _featureManager;
         private readonly ILogger<PushNotificationController> _logger;
         private readonly PushNotificationService _pushNotificationService;
@@ -33,7 +33,6 @@ namespace Sentinel.Api.Comms.Controllers
         }
 
         [HttpGet]
-        // [FeatureGate(CommsFeatureFlags.UseQueue)]
         public async Task<IActionResult> Get()
         {
             if (await _featureManager.IsEnabledAsync(nameof(CommsFeatureFlags.UseQueue)))
@@ -44,13 +43,7 @@ namespace Sentinel.Api.Comms.Controllers
             {
                 return Content("Just Blah No Queue involved.");
             }
-            {
-                // Run the following code
-            }
-            //TODO: Implement Realistic Implementation
-            return Content("Blah");
         }
-
 
         [HttpGet("queue")]
         [FeatureGate(CommsFeatureFlags.UseQueue)]
@@ -59,14 +52,12 @@ namespace Sentinel.Api.Comms.Controllers
             return Content("Queue Used to Blah");
         }
 
-
         [HttpGet("beta")]
         [FeatureGate(CommsFeatureFlags.Beta)]
         public async Task<IActionResult> GetBeta()
         {
             return Content("Beta Used to Blah");
         }
-
 
         [HttpPost("subscribe")]
         public async Task<IActionResult> Post([FromBody] PushNotificationModel model)
@@ -77,7 +68,6 @@ namespace Sentinel.Api.Comms.Controllers
             {
                 email = this.User.Claims.FirstOrDefault(p => p.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
             }
-            await _pushNotificationService.NewUserAsync(email, model);
 
             var pushmessage = new PushNotificationPayloadModel
             {
@@ -85,7 +75,13 @@ namespace Sentinel.Api.Comms.Controllers
                 Email = email,
                 Message = "Welcome"
             };
-            await _pushNotificationService.PushNotification(model, pushmessage);
+
+            List<Task> tasks = new List<Task>();
+            var task1 = _pushNotificationService.NewUserAsync(email, model);
+            var task2 = _pushNotificationService.PushNotification(model, pushmessage);
+            tasks.Add(task1);
+            tasks.Add(task2);
+            Task.WaitAll(tasks.ToArray());
             return Created("", null);
         }
 
