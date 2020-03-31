@@ -2,9 +2,9 @@
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
-  name: tls-secret-product-helm-prod
+  name: tls-product-api-cert
 spec:
-  secretName: tls-secret-product-helm-prod
+  secretName: tls-product-api-secret
   dnsNames:
   - {{ $host }}
   acme:

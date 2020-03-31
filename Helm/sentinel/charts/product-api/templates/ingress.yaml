@@ -16,7 +16,7 @@ spec:
   tls:
   - hosts:
     - {{ $host }}
-    secretName: tls-secret-product-helm-prod
+    secretName: tls-member-api-secret
   rules:
   - host: {{ $host }}
     http:
