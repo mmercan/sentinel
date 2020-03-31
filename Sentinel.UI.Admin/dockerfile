@@ -5,18 +5,18 @@ USER node
 RUN mkdir /home/node/.npm-global
 ENV PATH=/home/node/.npm-global/bin:$PATH
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@8.3.19
 WORKDIR /var/www/html
 
 
-FROM node:12.0 as builder
+FROM node:11.0 as builder
 RUN apt-get update && apt-get install -y vim && apt-get -y install sudo
 EXPOSE 4200
 USER node
 RUN mkdir /home/node/.npm-global
 ENV PATH=/home/node/.npm-global/bin:$PATH
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@8.3.19
 WORKDIR /home/node/admin
 COPY Sentinel.UI.Admin/ .
 USER root
