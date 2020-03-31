@@ -6,7 +6,7 @@ USER node
 RUN mkdir /home/node/.npm-global
 ENV PATH=/home/node/.npm-global/bin:$PATH
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@8.3.19
 WORKDIR /var/www/html
 
 
@@ -18,7 +18,7 @@ USER node
 RUN mkdir /home/node/.npm-global
 ENV PATH=/home/node/.npm-global/bin:$PATH
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@8.3.19
 WORKDIR /home/node/health
 COPY Sentinel.UI.HealthMonitoring/ .
 USER root
