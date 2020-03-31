@@ -16,7 +16,7 @@ spec:
   tls:
   - hosts:
     - {{ $host }}
-    secretName: tls-secret-healthmonitoring-helm-prod
+    secretName: tls-healthmonitoring-api-secret
   rules:
   - host: {{ $host }}
     http:

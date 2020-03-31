@@ -2,9 +2,9 @@
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
-  name: tls-secret-healthmonitoring-helm-prod
+  name: tls-healthmonitoring-api-cert
 spec:
-  secretName: tls-secret-healthmonitoring-helm-prod
+  secretName: tls-healthmonitoring-api-secret
   dnsNames:
   - $host
   acme:
