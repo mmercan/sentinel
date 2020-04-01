@@ -1,4 +1,4 @@
-{{- $host := printf "%s.%s.%s" .Chart.Name .Values.environment .Values.hostdomain -}}
+{{- $host := printf "%s.%s.%s" "kibana" .Values.environment .Values.hostdomain -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
