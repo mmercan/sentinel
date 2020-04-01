@@ -2,17 +2,17 @@
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
-  name: tls-member-api-cert
+  name: member-api-cert
 spec:
-  secretName: tls-member-api-secret
+  secretName: member-api-secret
   dnsNames:
-  - $host
+  - {{ $host }}
   acme:
     config:
     - http01:
         ingressClass: nginx
       domains:
-      - $host
+      - {{ $host }}
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer

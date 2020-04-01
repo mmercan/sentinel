@@ -16,7 +16,7 @@ spec:
   tls:
   - hosts:
     - {{ $host }}
-    secretName: tls-member-api-secret
+    secretName: member-api-secret
   rules:
   - host: {{ $host }}
     http:
