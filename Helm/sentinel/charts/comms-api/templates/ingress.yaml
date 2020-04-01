@@ -16,7 +16,7 @@ spec:
   tls:
   - hosts:
     - {{ $host }}
-    secretName: tls-comms-api-myrcan-com-secret
+    secretName: comms-api-myrcan-com-secret
   rules:
   - host: {{ $host }}
     http:

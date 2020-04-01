@@ -2,9 +2,9 @@
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
 metadata:
-  name: tls-comms-api-myrcan-com-cert
+  name: comms-api-myrcan-com-cert
 spec:
-  secretName: tls-comms-api-myrcan-com-secret
+  secretName: comms-api-myrcan-com-secret
   dnsNames:
   - {{ $host }}
   acme:
