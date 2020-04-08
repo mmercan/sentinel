@@ -7,9 +7,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+    - protocol: TCP
+      port: 80
+      targetPort: 80
   selector:
     app: sentinel-ui-admin
 ---
@@ -27,11 +27,11 @@ spec:
         app: sentinel-ui-admin
     spec:
       containers:
-      - name: sentinel-ui-admin
-        image: mmercan/sentinel-ui-admin:__imageversion__
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
+        - name: sentinel-ui-admin
+          image: mmercan/sentinel-ui-admin:__imageversion__
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -40,9 +40,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+    - protocol: TCP
+      port: 80
+      targetPort: 80
   selector:
     app: sentinel-ui-sts
 ---
@@ -58,36 +58,36 @@ spec:
         app: sentinel-ui-sts
     spec:
       containers:
-      - name: sentinel-ui-sts
-        image: mmercan/sentinel-ui-sts:__imageversion__
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
-        env:
-        - name: ASPNETCORE_ENVIRONMENT
-          value: "Production"
-        - name: RedisConnection
-          value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
-        - name: Mongodb__ConnectionString
-          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
-        - name: Mongodb__DatabaseName
-          value: "sentinel"
-        - name: Mongodb__CollectionName
-          value: "product"
-        - name: Mongodb__IdField
-          value: "Id"
-        - name: SentinelConnection
-          value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
-        - name: SMTP__Server
-          value: "sentinel-util-mailhog"
-        - name: SMTP__Port
-          value: "1025"
-        - name: SMTP__UserName
-          value: "mail@mail.com"
-        - name: SMTP__Password
-          value: "password123"
-        - name: DOTNET_RUNNING_IN_CONTAINER
-          value: "true"
+        - name: sentinel-ui-sts
+          image: mmercan/sentinel-ui-sts:__imageversion__
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: RedisConnection
+              value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
+            - name: Mongodb__ConnectionString
+              value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+            - name: Mongodb__DatabaseName
+              value: "sentinel"
+            - name: Mongodb__CollectionName
+              value: "product"
+            - name: Mongodb__IdField
+              value: "Id"
+            - name: SentinelConnection
+              value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+            - name: SMTP__Server
+              value: "sentinel-util-mailhog"
+            - name: SMTP__Port
+              value: "1025"
+            - name: SMTP__UserName
+              value: "mail@mail.com"
+            - name: SMTP__Password
+              value: "password123"
+            - name: DOTNET_RUNNING_IN_CONTAINER
+              value: "true"
 ---
 apiVersion: v1
 kind: Service
@@ -98,9 +98,9 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+    - protocol: TCP
+      port: 80
+      targetPort: 80
   selector:
     app: sentinel-ui-product
 ---
@@ -116,58 +116,58 @@ spec:
         app: sentinel-ui-product
     spec:
       containers:
-      - name: sentinel-ui-product
-        image: mmercan/sentinel-ui-product:__imageversion__
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
-        env:
-        - name: ASPNETCORE_ENVIRONMENT
-          value: "Production"
-        - name: RedisConnection
-          value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
-        - name: Mongodb__ConnectionString
-          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
-        - name: Mongodb__DatabaseName
-          value: "sentinel"
-        - name: Mongodb__CollectionName
-          value: "product"
-        - name: Mongodb__IdField
-          value: "Id"
-        - name: SentinelConnection
-          value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
-        - name: kafkaUrl
-          value: "http://sentinel-util-kafka:9092"
-        - name: DOTNET_RUNNING_IN_CONTAINER
-          value: "true"
-        - name: RabbitMQConnection
-          value: "host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10"
-        - name: SMTP__Server
-          value: sentinel-util-mailhog
-        - name: SMTP__Port
-          value: "1025"
-        - name: SMTP__UserName
-          value: "mail@mail.com"
-        - name: SMTP__Password
-          value: "password123"
-        - name: ELASTICSEARCH_URL
-          value: "http://40.117.115.1:9200"
-        - name: sentinel-ui-sts__ClientOptions__BaseAddress
-          value: "http://sentinel-ui-sts/"
-        - name: sentinel-ui-sts__ClientOptions__ClientId
-          value: "67d009b1-97fe-4963-84ff-3590b06df0da"
-        - name: sentinel-api-member__ClientOptions__BaseAddress
-          value: "http://sentinel-api-member/"
-        - name: sentinel-api-member__ClientOptions__ClientId
-          value: "67d009b1-97fe-4963-84ff-3590b06df0da"
-        - name: sentinel-api-product__ClientOptions__BaseAddress
-          value: "http://sentinel-api-product/"
-        - name: sentinel-api-product__ClientOptions__ClientId
-          value: "67d009b1-97fe-4963-84ff-3590b06df0da"
-        - name: sentinel-api-comms__ClientOptions__BaseAddress
-          value: "http://sentinel-api-comms/"
-        - name: sentinel-api-comms__ClientOptions__ClientId
-          value: "67d009b1-97fe-4963-84ff-3590b06df0da"
+        - name: sentinel-ui-product
+          image: mmercan/sentinel-ui-product:__imageversion__
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: RedisConnection
+              value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
+            - name: Mongodb__ConnectionString
+              value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+            - name: Mongodb__DatabaseName
+              value: "sentinel"
+            - name: Mongodb__CollectionName
+              value: "product"
+            - name: Mongodb__IdField
+              value: "Id"
+            - name: SentinelConnection
+              value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+            - name: kafkaUrl
+              value: "http://sentinel-util-kafka:9092"
+            - name: DOTNET_RUNNING_IN_CONTAINER
+              value: "true"
+            - name: RabbitMQConnection
+              value: "host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10"
+            - name: SMTP__Server
+              value: sentinel-util-mailhog
+            - name: SMTP__Port
+              value: "1025"
+            - name: SMTP__UserName
+              value: "mail@mail.com"
+            - name: SMTP__Password
+              value: "password123"
+            - name: ELASTICSEARCH_URL
+              value: "http://40.117.115.1:9200"
+            - name: sentinel-ui-sts__ClientOptions__BaseAddress
+              value: "http://sentinel-ui-sts/"
+            - name: sentinel-ui-sts__ClientOptions__ClientId
+              value: "67d009b1-97fe-4963-84ff-3590b06df0da"
+            - name: sentinel-api-member__ClientOptions__BaseAddress
+              value: "http://sentinel-dev-member-api/"
+            - name: sentinel-api-member__ClientOptions__ClientId
+              value: "67d009b1-97fe-4963-84ff-3590b06df0da"
+            - name: sentinel-api-product__ClientOptions__BaseAddress
+              value: "http://sentinel-api-product/"
+            - name: sentinel-api-product__ClientOptions__ClientId
+              value: "67d009b1-97fe-4963-84ff-3590b06df0da"
+            - name: sentinel-api-comms__ClientOptions__BaseAddress
+              value: "http://sentinel-api-comms/"
+            - name: sentinel-api-comms__ClientOptions__ClientId
+              value: "67d009b1-97fe-4963-84ff-3590b06df0da"
 ---
 apiVersion: v1
 kind: Service
@@ -178,9 +178,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+    - protocol: TCP
+      port: 80
+      targetPort: 80
   selector:
     app: sentinel-api-product
 ---
@@ -196,30 +196,30 @@ spec:
         app: sentinel-api-product
     spec:
       containers:
-      - name: sentinel-api-product
-        image: mmercan/sentinel-api-product:__imageversion__
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
-        env:
-        - name: ASPNETCORE_ENVIRONMENT
-          value: "Production"
-        - name: RedisConnection
-          value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
-        - name: Mongodb__ConnectionString
-          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
-        - name: Mongodb__DatabaseName
-          value: "sentinel"
-        - name: Mongodb__CollectionName
-          value: "product"
-        - name: Mongodb__IdField
-          value: "Id"
-        - name: SentinelConnection
-          value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
-        - name: kafkaUrl
-          value: "http://sentinel-util-kafka:9092"
-        - name: DOTNET_RUNNING_IN_CONTAINER
-          value: "true"
+        - name: sentinel-api-product
+          image: mmercan/sentinel-api-product:__imageversion__
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: RedisConnection
+              value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
+            - name: Mongodb__ConnectionString
+              value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+            - name: Mongodb__DatabaseName
+              value: "sentinel"
+            - name: Mongodb__CollectionName
+              value: "product"
+            - name: Mongodb__IdField
+              value: "Id"
+            - name: SentinelConnection
+              value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+            - name: kafkaUrl
+              value: "http://sentinel-util-kafka:9092"
+            - name: DOTNET_RUNNING_IN_CONTAINER
+              value: "true"
 ---
 apiVersion: v1
 kind: Service
@@ -230,9 +230,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+    - protocol: TCP
+      port: 80
+      targetPort: 80
   selector:
     app: sentinel-api-member
 ---
@@ -248,30 +248,30 @@ spec:
         app: sentinel-api-member
     spec:
       containers:
-      - name: sentinel-api-member
-        image: mmercan/sentinel-api-member:__imageversion__
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
-        env:
-        - name: ASPNETCORE_ENVIRONMENT
-          value: "Production"
-        - name: RedisConnection
-          value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
-        - name: Mongodb__ConnectionString
-          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
-        - name: Mongodb__DatabaseName
-          value: "sentinel"
-        - name: Mongodb__CollectionName
-          value: "product"
-        - name: Mongodb__IdField
-          value: "Id"
-        - name: SentinelConnection
-          value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
-        - name: kafkaUrl
-          value: "http://sentinel-util-kafka:9092"
-        - name: DOTNET_RUNNING_IN_CONTAINER
-          value: "true"
+        - name: sentinel-api-member
+          image: mmercan/sentinel-api-member:__imageversion__
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: RedisConnection
+              value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
+            - name: Mongodb__ConnectionString
+              value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+            - name: Mongodb__DatabaseName
+              value: "sentinel"
+            - name: Mongodb__CollectionName
+              value: "product"
+            - name: Mongodb__IdField
+              value: "Id"
+            - name: SentinelConnection
+              value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+            - name: kafkaUrl
+              value: "http://sentinel-util-kafka:9092"
+            - name: DOTNET_RUNNING_IN_CONTAINER
+              value: "true"
 ---
 apiVersion: v1
 kind: Service
@@ -282,9 +282,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
+    - protocol: TCP
+      port: 80
+      targetPort: 80
   selector:
     app: sentinel-api-comms
 ---
@@ -300,34 +300,34 @@ spec:
         app: sentinel-api-comms
     spec:
       containers:
-      - name: sentinel-api-comms
-        image: mmercan/sentinel-api-comms:__imageversion__
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
-        env:
-        - name: ASPNETCORE_ENVIRONMENT
-          value: "Production"
-        - name: RedisConnection
-          value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
-        - name: Mongodb__ConnectionString
-          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
-        - name: Mongodb__DatabaseName
-          value: "sentinel"
-        - name: Mongodb__CollectionName
-          value: "product"
-        - name: Mongodb__IdField
-          value: "Id"
-        - name: SentinelConnection
-          value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
-        - name: kafkaUrl
-          value: "http://sentinel-util-kafka:9092"
-        - name: NATS_URL
-          value: "nats://sentinel-service-nats:4222/"
-        - name: MongoConnection
-          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
-        - name: DOTNET_RUNNING_IN_CONTAINER
-          value: "true"
+        - name: sentinel-api-comms
+          image: mmercan/sentinel-api-comms:__imageversion__
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: RedisConnection
+              value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
+            - name: Mongodb__ConnectionString
+              value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+            - name: Mongodb__DatabaseName
+              value: "sentinel"
+            - name: Mongodb__CollectionName
+              value: "product"
+            - name: Mongodb__IdField
+              value: "Id"
+            - name: SentinelConnection
+              value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+            - name: kafkaUrl
+              value: "http://sentinel-util-kafka:9092"
+            - name: NATS_URL
+              value: "nats://sentinel-service-nats:4222/"
+            - name: MongoConnection
+              value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+            - name: DOTNET_RUNNING_IN_CONTAINER
+              value: "true"
 ---
 apiVersion: v1
 kind: Service
@@ -338,9 +338,9 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - protocol: TCP
-    port: 15672
-    targetPort: 15672
+    - protocol: TCP
+      port: 15672
+      targetPort: 15672
   selector:
     app: sentinel-service-rabbitmq
 ---
@@ -353,9 +353,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - protocol: TCP
-    port: 5672
-    targetPort: 5672
+    - protocol: TCP
+      port: 5672
+      targetPort: 5672
   selector:
     app: sentinel-service-rabbitmq
 ---
@@ -371,14 +371,14 @@ spec:
         app: sentinel-service-rabbitmq
     spec:
       containers:
-      - name: sentinel-service-rabbitmq
-        image: mmercan/sentinel-service-rabbitmq
-        ports:
-        - containerPort: 5672
-        - containerPort: 15672
-        env:
-        - name: RABBITMQ_ERLANG_COOKIE
-          value: "SWQOKODSQALRPCLNMEQG"
+        - name: sentinel-service-rabbitmq
+          image: mmercan/sentinel-service-rabbitmq
+          ports:
+            - containerPort: 5672
+            - containerPort: 15672
+          env:
+            - name: RABBITMQ_ERLANG_COOKIE
+              value: "SWQOKODSQALRPCLNMEQG"
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -392,36 +392,36 @@ spec:
         app: sentinel-handler-comms
     spec:
       containers:
-      - name: sentinel-handler-comms
-        image: mmercan/sentinel-handler-comms:__imageversion__
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
-        env:
-        - name: RabbitMQConnection
-          value: "host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10"
-        - name: ASPNETCORE_ENVIRONMENT
-          value: "Production"
-        - name: RedisConnection
-          value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
-        - name: Mongodb__ConnectionString
-          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
-        - name: Mongodb__DatabaseName
-          value: "sentinel"
-        - name: Mongodb__CollectionName
-          value: "product"
-        - name: Mongodb__IdField
-          value: "Id"
-        - name: SentinelConnection
-          value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
-        - name: kafkaUrl
-          value: "http://sentinel-util-kafka:9092"
-        - name: NATS_URL
-          value: "nats://sentinel-service-nats:4222/"
-        - name: MongoConnection
-          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
-        - name: DOTNET_RUNNING_IN_CONTAINER
-          value: "true"
+        - name: sentinel-handler-comms
+          image: mmercan/sentinel-handler-comms:__imageversion__
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: RabbitMQConnection
+              value: "host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: RedisConnection
+              value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
+            - name: Mongodb__ConnectionString
+              value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+            - name: Mongodb__DatabaseName
+              value: "sentinel"
+            - name: Mongodb__CollectionName
+              value: "product"
+            - name: Mongodb__IdField
+              value: "Id"
+            - name: SentinelConnection
+              value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+            - name: kafkaUrl
+              value: "http://sentinel-util-kafka:9092"
+            - name: NATS_URL
+              value: "nats://sentinel-service-nats:4222/"
+            - name: MongoConnection
+              value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+            - name: DOTNET_RUNNING_IN_CONTAINER
+              value: "true"
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -435,34 +435,35 @@ spec:
         app: sentinel-handler-product
     spec:
       containers:
-      - name: sentinel-handler-product
-        image: mmercan/sentinel-handler-product:__imageversion__
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
-        env:
-        - name: RabbitMQConnection
-          value: "host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10"
-        - name: ASPNETCORE_ENVIRONMENT
-          value: "Production"
-        - name: RedisConnection
-          value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
-        - name: Mongodb__ConnectionString
-          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
-        - name: Mongodb__DatabaseName
-          value: "sentinel"
-        - name: Mongodb__CollectionName
-          value: "product"
-        - name: Mongodb__IdField
-          value: "Id"
-        - name: SentinelConnection
-          value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
-        - name: kafkaUrl
-          value: "http://sentinel-util-kafka:9092"
-        - name: NATS_URL
-          value: "nats://sentinel-service-nats:4222/"
-        - name: MongoConnection
-          value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
-        - name: DOTNET_RUNNING_IN_CONTAINER
-          value: "true"
+        - name: sentinel-handler-product
+          image: mmercan/sentinel-handler-product:__imageversion__
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: RabbitMQConnection
+              value: "host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: RedisConnection
+              value: "sentinel-db-redis:6379,defaultDatabase=2,password=yourpassword"
+            - name: Mongodb__ConnectionString
+              value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+            - name: Mongodb__DatabaseName
+              value: "sentinel"
+            - name: Mongodb__CollectionName
+              value: "product"
+            - name: Mongodb__IdField
+              value: "Id"
+            - name: SentinelConnection
+              value: "Server=sentinel-mssql-db;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+            - name: kafkaUrl
+              value: "http://sentinel-util-kafka:9092"
+            - name: NATS_URL
+              value: "nats://sentinel-service-nats:4222/"
+            - name: MongoConnection
+              value: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+            - name: DOTNET_RUNNING_IN_CONTAINER
+              value: "true"
 ---
+

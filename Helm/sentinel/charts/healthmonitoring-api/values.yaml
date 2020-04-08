@@ -74,9 +74,9 @@ configmap:
     NATS_URL: "nats://sentinel-service-nats:4222/"
     DOTNET_RUNNING_IN_CONTAINER: "true"
     sentinel-ui-sts__ClientOptions__BaseAddress: "http://sentinel-ui-sts/"
-    sentinel-api-member__ClientOptions__BaseAddress: "http://sentinel-api-member/"
-    sentinel-api-product__ClientOptions__BaseAddress: "http://sentinel-api-product/"
-    sentinel-api-comms__ClientOptions__BaseAddress: "http://sentinel-api-comms/"
+    sentinel-api-member__ClientOptions__BaseAddress: "http://sentinel-dev-member-api/"
+    sentinel-api-product__ClientOptions__BaseAddress: "http://sentinel-dev-product-api/"
+    sentinel-api-comms__ClientOptions__BaseAddress: "http://sen-dev-comms-api/"
 
 extSecrets:
     RedisConnection:
