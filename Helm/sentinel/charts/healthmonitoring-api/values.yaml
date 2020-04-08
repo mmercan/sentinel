@@ -57,7 +57,7 @@ secrets:
   SentinelConnection: "Server=sentinel-mssql-db-helm-insecret;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
   RedisConnection: "sentinel-db-redis:6379,defaultDatabase=2,password=2jWa8sSM8ZuhS3Qc"
   Mongodb__ConnectionString: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
-  RabbitMQConnection: "host=sentinel-service-rabbitmq;username=rabbitmq;password=rabbitmq; timeout=10"
+  RabbitMQConnection: "host=sentinel-service-rabbitmq-tcp;username=rabbitmq;password=rabbitmq; timeout=10"
   SMTP__Server: "sentinel-util-mailhog"
   SMTP__Port: "1025"
   SMTP__UserName: "mail@mail.com"
