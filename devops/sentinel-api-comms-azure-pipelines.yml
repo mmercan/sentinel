@@ -121,14 +121,32 @@ stages:
       vmImage: 'Ubuntu-16.04'
     # creates an environment if it doesn't exist
     environment: 'sentinel-helm.sentinel-helm'
+    variables:
+       chartName: 'healthmonitoring-api'
     strategy:
       runOnce:
         deploy:
           steps:
           - script: echo Hello world
-          - task: HelmInstaller@1
+          - task: HelmInstaller@0
+            displayName: 'Install Helm 3.1.2'
             inputs:
-              helmVersionToInstall: 'latest'
+              helmVersion: 3.1.2
+              checkLatestHelmVersion: false
+
+          - task: HelmDeploy@0
+            displayName: 'helm package'
+            inputs:
+              azureSubscription: 'Visual Studio Enterprise'
+              azureResourceGroup: 'akscluster-rg'
+              kubernetesCluster: 'aks-matt'
+              namespace: 'sentinel-helm'
+              command: package
+              chartPath: '$(System.DefaultWorkingDirectory)/_Sentinel.Api.HealthMonitoring/drop/Helm/sentinel/charts/$(chartName)'
+              chartVersion: '2.0.0-$(Build.BuildNumber)'
+              destination: '$(System.DefaultWorkingDirectory)'
+              save: false
+
           - task: HelmDeploy@0
             inputs:
               connectionType: 'Kubernetes Service Connection'
