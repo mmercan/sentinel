@@ -23,23 +23,12 @@ stages:
         #Your build pipeline references a secret variable named ‘buildtime_ADID’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it secret. See https://go.microsoft.com/fwlink/?linkid=865972
         #Your build pipeline references a secret variable named ‘buildtime_SONARKEY’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it secret. See https://go.microsoft.com/fwlink/?linkid=865972
         steps:
-          - task: Docker@2
-            displayName: build
-            inputs:
-              containerRegistry: dockerhub
-              command: build
-              Dockerfile: "Sentinel.Api.HealthMonitoring/dockerfile-linux-test"
-              tags: "test-$(Build.BuildId)"
-              arguments: "--target test -t sentinel-api-healthmonitoring-test  --build-arg buildtime_APPID=$(buildtime_APPID)  --build-arg buildtime_APPSECRET=$(buildtime_APPSECRET) --build-arg buildtime_ADID=$(buildtime_ADID) --build-arg buildtime_SONARKEY=$(buildtime_SONARKEY)"
-            continueOnError: true
-            enabled: false
-
           - task: DockerCompose@0
             displayName: "Build Images"
             inputs:
               containerregistrytype: "Container Registry"
               dockerRegistryEndpoint: dockerhub
-              dockerComposeFile: "Sentinel.Api.HealthMonitoring/docker-compose.yml"
+              dockerComposeFile: "Sentinel.Api.HealthMonitoring/docker-compose-test.yml"
               dockerComposeFileArgs: "TAGVersion=01"
               action: "Build services"
               additionalImageTags: "$(Build.BuildNumber)"
