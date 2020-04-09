@@ -12,6 +12,15 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/version:  {{ .Chart.AppVersion }}
     branch:  {{ .Values.branch }}
+  annotations:
+    azure-pipelines/run: {{ .Values.azure-pipelines.run }}
+    azure-pipelines/pipeline: {{ .Values.azure-pipelines.pipeline }}
+    azure-pipelines/pipelineId: {{ .Values.azure-pipelines.pipelineId }}
+    azure-pipelines/jobName: {{ .Values.azure-pipelines.jobName }}
+    azure-pipelines/runuri: {{ .Values.azure-pipelines.runuri }}
+    azure-pipelines/project: {{ .Values.azure-pipelines.project }}
+    azure-pipelines/org: {{ .Values.azure-pipelines.org }}
+
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 1
@@ -25,6 +34,14 @@ spec:
         app.kubernetes.io/name: {{ include "Sentinel.Api.HealthMonitoring.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
         branch:  {{ .Values.branch }}
+      annotations:
+        azure-pipelines/run: {{ .Values.azure-pipelines.run }}
+        azure-pipelines/pipeline: {{ .Values.azure-pipelines.pipeline }}
+        azure-pipelines/pipelineId: {{ .Values.azure-pipelines.pipelineId }}
+        azure-pipelines/jobName: {{ .Values.azure-pipelines.jobName }}
+        azure-pipelines/runuri: {{ .Values.azure-pipelines.runuri }}
+        azure-pipelines/project: {{ .Values.azure-pipelines.project }}
+        azure-pipelines/org: {{ .Values.azure-pipelines.org }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
