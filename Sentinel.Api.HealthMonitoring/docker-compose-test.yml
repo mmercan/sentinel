@@ -1,0 +1,12 @@
+version: "3.4"
+
+services:
+  sentinel-api-healthmonitoring:
+    image: sentinel-api-healthmonitoring-test
+    build:
+      target: test
+      context: ../
+      dockerfile: Sentinel.Api.HealthMonitoring/dockerfile-linux-test
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
