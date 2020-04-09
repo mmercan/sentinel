@@ -149,9 +149,9 @@ stages:
                     kubernetesCluster: "aks-matt"
                     namespace: "sentinel-helm"
                     command: package
-                    chartPath: "$(Build.ArtifactDirectory)/drop/_Sentinel.Api.HealthMonitoring/drop/Helm/sentinel/charts/$(chartName)"
+                    chartPath: "$(System.ArtifactsDirectory)/drop/_Sentinel.Api.HealthMonitoring/drop/Helm/sentinel/charts/$(chartName)"
                     chartVersion: "2.0.0-$(Build.BuildNumber)"
-                    destination: "$(Build.ArtifactDirectory)/drop"
+                    destination: "$(System.ArtifactsDirectory)/drop"
                     save: false
 
                 - task: HelmDeploy@0
@@ -164,7 +164,7 @@ stages:
                     namespace: "sentinel-helm"
                     command: upgrade
                     chartType: FilePath
-                    chartPath: "$(Build.ArtifactDirectory)/drop/$(chartName)-2.0.0-$(Build.BuildNumber).tgz"
+                    chartPath: "$(System.ArtifactsDirectory)/drop/$(chartName)-2.0.0-$(Build.BuildNumber).tgz"
                     releaseName: "$(releaseName)"
                     overrideValues: "image.tag=$(Build.BuildNumber) --set branch=$(Build.SourceBranchName) --set azurepipelines.pipeline=$(pipelines_pipeline)  --set azurepipelines.run='$(pipelines_run)'  --set azurepipelines.pipelineId='$(pipelines_pipelineId)'  --set azurepipelines.project=$(pipelines_project)  --set azurepipelines.org='$(pipelines_org)'  --set azurepipelines.jobName='$(pipelines_jobName)' --set azurepipelines.runuri='$(pipelines_runuri)' "
 
