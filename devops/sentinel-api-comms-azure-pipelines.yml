@@ -122,7 +122,16 @@ stages:
     # creates an environment if it doesn't exist
     environment: 'sentinel-helm.sentinel-helm'
     variables:
-       chartName: 'healthmonitoring-api'
+      chartName: 'healthmonitoring-api'
+      namespace: 'sentinel-helm'
+      releaseName: 'sentinel-dev-health-api'
+      pipelines_pipeline: '"$(Release.DefinitionName)"'
+      pipelines_run: '"$(Release.ReleaseId)"'
+      pipelines_pipelineId: '"$(Release.DefinitionId)"'
+      pipelines_project: '"$(System.TeamProject)"'
+      pipelines_org: '"$(System.TeamFoundationCollectionUri)"'
+      pipelines_jobName: '"$(Agent.JobName)"'
+      pipelines_runuri: '"$(pipelines_org)$(pipelines_project)/_releaseProgress?releaseId=$(Release.ReleaseId)"'
     strategy:
       runOnce:
         deploy:
@@ -146,6 +155,21 @@ stages:
               chartVersion: '2.0.0-$(Build.BuildNumber)'
               destination: '$(System.DefaultWorkingDirectory)'
               save: false
+
+
+          - task: HelmDeploy@0
+            displayName: 'helm upgrade'
+            inputs:
+              connectionType: 'Azure Resource Manager'
+              azureSubscription: 'Visual Studio Enterprise'
+              azureResourceGroup: 'akscluster-rg'
+              kubernetesCluster: 'aks-matt'
+              namespace: 'sentinel-helm'
+              command: upgrade
+              chartType: FilePath
+              chartPath: '$(System.DefaultWorkingDirectory)/$(chartName)-2.0.0-$(Build.BuildNumber).tgz'
+              releaseName: '$(releaseName)'
+              overrideValues: 'image.tag=$(Build.BuildNumber) --set branch=$(Build.SourceBranchName) --set azurepipelines.pipeline=$(pipelines_pipeline)  --set azurepipelines.run=''$(pipelines_run)''  --set azurepipelines.pipelineId=''$(pipelines_pipelineId)''  --set azurepipelines.project=$(pipelines_project)  --set azurepipelines.org=''$(pipelines_org)''  --set azurepipelines.jobName=''$(pipelines_jobName)'' --set azurepipelines.runuri=''$(pipelines_runuri)'' '
 
           - task: HelmDeploy@0
             inputs:
