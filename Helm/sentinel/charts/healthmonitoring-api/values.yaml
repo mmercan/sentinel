@@ -83,7 +83,7 @@ extSecrets:
       secretname: "sentinel-db-redis"
       secretkey: "RedisConnection"
 
-azure-pipelines:
+azurepipelines:
   run: "run"
   pipeline: "pipeline"
   pipelineId: "pipelineId"

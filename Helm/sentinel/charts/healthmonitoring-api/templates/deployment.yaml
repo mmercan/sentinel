@@ -13,14 +13,13 @@ metadata:
     app.kubernetes.io/version:  {{ .Chart.AppVersion }}
     branch:  {{ .Values.branch }}
   annotations:
-    azure-pipelines/run: {{ .Values.azure-pipelines.run }}
-    azure-pipelines/pipeline: {{ .Values.azure-pipelines.pipeline }}
-    azure-pipelines/pipelineId: {{ .Values.azure-pipelines.pipelineId }}
-    azure-pipelines/jobName: {{ .Values.azure-pipelines.jobName }}
-    azure-pipelines/runuri: {{ .Values.azure-pipelines.runuri }}
-    azure-pipelines/project: {{ .Values.azure-pipelines.project }}
-    azure-pipelines/org: {{ .Values.azure-pipelines.org }}
-
+    azure-pipelines/run: {{ .Values.azurepipelines.run }}
+    azure-pipelines/pipeline: {{ .Values.azurepipelines.pipeline }}
+    azure-pipelines/pipelineId: {{ .Values.azurepipelines.pipelineId }}
+    azure-pipelines/jobName: {{ .Values.azurepipelines.jobName }}
+    azure-pipelines/runuri: {{ .Values.azurepipelines.runuri }}
+    azure-pipelines/project: {{ .Values.azurepipelines.project }}
+    azure-pipelines/org: {{ .Values.azurepipelines.org }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 1
@@ -35,13 +34,13 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
         branch:  {{ .Values.branch }}
       annotations:
-        azure-pipelines/run: {{ .Values.azure-pipelines.run }}
-        azure-pipelines/pipeline: {{ .Values.azure-pipelines.pipeline }}
-        azure-pipelines/pipelineId: {{ .Values.azure-pipelines.pipelineId }}
-        azure-pipelines/jobName: {{ .Values.azure-pipelines.jobName }}
-        azure-pipelines/runuri: {{ .Values.azure-pipelines.runuri }}
-        azure-pipelines/project: {{ .Values.azure-pipelines.project }}
-        azure-pipelines/org: {{ .Values.azure-pipelines.org }}
+        azure-pipelines/run: {{ .Values.azurepipelines.run }}
+        azure-pipelines/pipeline: {{ .Values.azurepipelines.pipeline }}
+        azure-pipelines/pipelineId: {{ .Values.azurepipelines.pipelineId }}
+        azure-pipelines/jobName: {{ .Values.azurepipelines.jobName }}
+        azure-pipelines/runuri: {{ .Values.azurepipelines.runuri }}
+        azure-pipelines/project: {{ .Values.azurepipelines.project }}
+        azure-pipelines/org: {{ .Values.azurepipelines.org }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
