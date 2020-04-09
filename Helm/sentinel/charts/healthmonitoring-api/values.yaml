@@ -83,6 +83,15 @@ extSecrets:
       secretname: "sentinel-db-redis"
       secretkey: "RedisConnection"
 
+azure-pipelines:
+  run: "run"
+  pipeline: "pipeline"
+  pipelineId: "pipelineId"
+  jobName: "jobName"
+  runuri: "runuri"
+  project: "project"
+  org: "org"
+
 env:
   configmap:
     - name: Mongodb__DatabaseName
