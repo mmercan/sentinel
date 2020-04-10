@@ -170,6 +170,11 @@ stages:
 
                 - task: HelmDeploy@0
                   inputs:
-                    connectionType: "Kubernetes Service Connection"
-                    kubernetesServiceConnection: "sentinel-helm-sentinel-helm-1585014518048"
+                    #connectionType: "Kubernetes Service Connection"
+                    #kubernetesServiceConnection: "sentinel-helm-sentinel-helm-1585014518048"
+                    connectionType: "Azure Resource Manager"
+                    azureSubscription: "Visual Studio Enterprise"
+                    azureResourceGroup: "akscluster-rg"
+                    kubernetesCluster: "aks-matt"
+                    namespace: "sentinel-helm"
                     command: "ls"
