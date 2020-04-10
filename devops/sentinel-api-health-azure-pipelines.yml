@@ -149,7 +149,7 @@ stages:
                     kubernetesCluster: "aks-matt"
                     namespace: "sentinel-helm"
                     command: package
-                    chartPath: "$(Pipeline.Workspace)/drop/_Sentinel.Api.HealthMonitoring/drop/Helm/sentinel/charts/$(chartName)"
+                    chartPath: "$(Pipeline.Workspace)/drop/Helm/sentinel/charts/$(chartName)"
                     chartVersion: "2.0.0-$(Build.BuildNumber)"
                     destination: "$(System.DefaultWorkingDirectory)"
                     save: false
