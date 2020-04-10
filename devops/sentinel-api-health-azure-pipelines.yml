@@ -134,7 +134,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - script: echo Hello world
+                - script: printenv | sort
                 - task: HelmInstaller@0
                   displayName: "Install Helm 3.1.2"
                   inputs:
