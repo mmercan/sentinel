@@ -178,3 +178,29 @@ stages:
                     kubernetesCluster: "aks-matt"
                     namespace: "sentinel-helm"
                     command: "ls"
+
+
+  - stage: deploy-to-test
+    jobs:
+      - deployment: DeployWeb
+        displayName: deploy Web App
+        pool:
+          vmImage: "Ubuntu-16.04"
+        # creates an environment if it doesn't exist
+        environment: "sentinel-helm.sentinel-helm"
+        variables:
+          chartName: "healthmonitoring-api"
+          namespace: "sentinel-helm"
+          releaseName: "sentinel-dev-health-api"
+          pipelines_pipeline: '"$(Build.DefinitionName)"'
+          pipelines_run: '"$(Build.BuildNumber)"'
+          pipelines_pipelineId: '"$(System.DefinitionId)"'
+          pipelines_project: '"$(System.TeamProject)"'
+          pipelines_org: '"$(System.TeamFoundationCollectionUri)"'
+          pipelines_jobName: '"$(Agent.JobName)"'
+          pipelines_runuri: '"$(pipelines_org)$(pipelines_project)/_build/results?buildId=$(Build.BuildId)"'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: printenv | sort
