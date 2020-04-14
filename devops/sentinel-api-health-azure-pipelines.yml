@@ -111,7 +111,7 @@ stages:
           - task: PublishBuildArtifacts@1
             displayName: "Publish Artifacts: drop"
 
-  - stage: deploy-to-dev
+  - stage: deploy_to_dev
     jobs:
       - deployment: DeployWeb
         displayName: deploy Web App
@@ -180,7 +180,7 @@ stages:
                     command: "ls"
 
 
-  - stage: deploy-to-test
+  - stage: deploy_to_test
     jobs:
       - deployment: DeployWeb
         displayName: deploy Web App
