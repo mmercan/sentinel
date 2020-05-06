@@ -30,3 +30,23 @@ Create chart name and version as used by the chart label.
 {{- define "Sentinel.UI.Admin.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{- define "Sentinel.UI.Admin.labels" -}}
+helm.sh/chart: {{ include "Sentinel.UI.Admin.chart" . }}
+{{ include "Sentinel.UI.Admin.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+branch:  {{ .Values.branch }}
+{{- end -}}
+
+{{/*
+Selector labels
+*/}}
+{{- define "Sentinel.UI.Admin.selectorLabels" -}}
+app: {{ include "Sentinel.UI.Admin.name" . }}
+version: {{ .Chart.AppVersion  | quote }}
+app.kubernetes.io/name: {{ include "Sentinel.UI.Admin.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
