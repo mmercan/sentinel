@@ -111,7 +111,7 @@ stages:
           - task: PublishBuildArtifacts@1
             displayName: "Publish Artifacts: drop"
 
-  - stage: deploy
+  - stage: deploy_to_dev
     jobs:
       - deployment: DeployWeb
         displayName: deploy Web App
@@ -134,7 +134,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - script: echo Hello world
+                - script: printenv | sort
                 - task: HelmInstaller@0
                   displayName: "Install Helm 3.1.2"
                   inputs:
@@ -149,7 +149,7 @@ stages:
                     kubernetesCluster: "aks-matt"
                     namespace: "sentinel-helm"
                     command: package
-                    chartPath: "$(System.DefaultWorkingDirectory)/_Sentinel.Api.HealthMonitoring/drop/Helm/sentinel/charts/$(chartName)"
+                    chartPath: "$(Pipeline.Workspace)/drop/Helm/sentinel/charts/$(chartName)"
                     chartVersion: "2.0.0-$(Build.BuildNumber)"
                     destination: "$(System.DefaultWorkingDirectory)"
                     save: false
@@ -170,6 +170,56 @@ stages:
 
                 - task: HelmDeploy@0
                   inputs:
-                    connectionType: "Kubernetes Service Connection"
-                    kubernetesServiceConnection: "sentinel-helm-sentinel-helm-1585014518048"
+                    #connectionType: "Kubernetes Service Connection"
+                    #kubernetesServiceConnection: "sentinel-helm-sentinel-helm-1585014518048"
+                    connectionType: "Azure Resource Manager"
+                    azureSubscription: "Visual Studio Enterprise"
+                    azureResourceGroup: "akscluster-rg"
+                    kubernetesCluster: "aks-matt"
+                    namespace: "sentinel-helm"
                     command: "ls"
+
+
+  - stage: deploy_to_test
+    jobs:
+      - deployment: DeployWeb
+        displayName: deploy Web App
+        pool:
+          vmImage: "Ubuntu-16.04"
+        # creates an environment if it doesn't exist
+        environment: "sentinel-helm.sentinel-helm"
+        variables:
+          chartName: "healthmonitoring-api"
+          namespace: "sentinel-helm"
+          releaseName: "sentinel-dev-health-api"
+          pipelines_pipeline: '"$(Build.DefinitionName)"'
+          pipelines_run: '"$(Build.BuildNumber)"'
+          pipelines_pipelineId: '"$(System.DefinitionId)"'
+          pipelines_project: '"$(System.TeamProject)"'
+          pipelines_org: '"$(System.TeamFoundationCollectionUri)"'
+          pipelines_jobName: '"$(Agent.JobName)"'
+          pipelines_runuri: '"$(pipelines_org)$(pipelines_project)/_build/results?buildId=$(Build.BuildId)"'
+        strategy:
+          runOnce:
+            preDeploy:
+              steps:
+                - download: current
+                  artifact: drop
+                - script: echo initialize, cleanup, backup, install certs
+            deploy:
+              steps:
+                - script: printenv | sort
+
+            routeTraffic:
+              steps:
+                - script: echo routing traffic
+            postRouteTraffic:
+              steps:
+                - script: echo health check post-route traffic
+            on:
+              failure:
+                steps:
+                  - script: echo Restore from backup! This is on failure
+              success:
+                steps:
+                  - script: echo Notify! This is on success
