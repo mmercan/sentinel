@@ -1,0 +1,14 @@
+    version: '3.4'
+
+    services:
+      sentinel-sonarqube-dotnet31-sdk:      
+        image: mmercan/sentinel-sonarqube-dotnet31-sdk:latest
+        build:
+          # target: final
+          context: ./
+          dockerfile: dockerfile-sonarqube-dotnet31-sdk
+        # environment:
+        #   - ASPNETCORE_ENVIRONMENT=Production
+        #   - DOTNET_USE_POLLING_FILE_WATCHER=1
+        # # ports:
+        # #   - "5005:80"
