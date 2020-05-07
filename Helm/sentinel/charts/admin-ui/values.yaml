@@ -72,6 +72,6 @@ azurepipelines:
   pipeline: "pipeline"
   pipelineId: "pipelineId"
   jobName: "jobName"
-  runuri: "runuri"
-  project: "project"
+  runuri: "runuri url url * (kk)-"
+  project: "project * (kk)-"
   org: "org"
