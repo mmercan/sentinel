@@ -38,7 +38,6 @@ helm.sh/chart: {{ include "Sentinel.UI.Admin.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-branch:  {{ .Values.branch }}
 {{- end -}}
 
 {{/*
@@ -49,4 +48,15 @@ app: {{ include "Sentinel.UI.Admin.name" . }}
 version: {{ .Chart.AppVersion  | quote }}
 app.kubernetes.io/name: {{ include "Sentinel.UI.Admin.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+branch:  {{ .Values.branch }}
+{{- end -}}
+
+{{- define "Sentinel.UI.Admin.annotations" -}}
+azure-pipelines/run: {{ .Values.azurepipelines.run }}
+azure-pipelines/pipeline: {{ .Values.azurepipelines.pipeline }}
+azure-pipelines/pipelineId: {{ .Values.azurepipelines.pipelineId }}
+azure-pipelines/jobName: {{ .Values.azurepipelines.jobName }}
+azure-pipelines/runuri: {{ .Values.azurepipelines.runuri }}
+azure-pipelines/project: {{ .Values.azurepipelines.project }}
+azure-pipelines/org: {{ .Values.azurepipelines.org }}
 {{- end -}}

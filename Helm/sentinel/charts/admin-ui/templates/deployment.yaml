@@ -7,23 +7,20 @@ metadata:
   name:  {{ include "Sentinel.UI.Admin.fullname" . }}
   labels:
     {{- include "Sentinel.UI.Admin.labels" . | nindent 4 }}
+  annotations:
+    {{- include "Sentinel.UI.Admin.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "Sentinel.UI.Admin.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
-      app: {{ include "Sentinel.UI.Admin.name" . }}
-      version:  {{ .Chart.AppVersion }}
+      {{- include "Sentinel.UI.Admin.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "Sentinel.UI.Admin.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
-        branch:  {{ .Values.branch }}
-        app: {{ include "Sentinel.UI.Admin.name" . }}
-        version:  {{ .Chart.AppVersion }}
+        {{- include "Sentinel.UI.Admin.selectorLabels" . | nindent 8 }}
+      annotations:
+        {{- include "Sentinel.UI.Admin.annotations" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
