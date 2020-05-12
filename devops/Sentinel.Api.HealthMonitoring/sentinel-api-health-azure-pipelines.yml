@@ -10,6 +10,7 @@ trigger:
       - Sentinel.Api.HealthMonitoring/*
       - Sentinel.Api.HealthMonitoring.Tests/*
       - Helm/sentinel/charts/healthmonitoring-api/*
+      - devops/Sentinel.Api.HealthMonitoring/sentinel-api-health-azure-pipelines.yml
 
 stages:
   - stage: build
