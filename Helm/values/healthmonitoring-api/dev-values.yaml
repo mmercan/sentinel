@@ -1,20 +1,8 @@
 ingress:
-  enabled: true
-  annotations:
-    {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  path: /
-  hosts:
-    - chart-example.local
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-
-istio:
   enabled: false
 
-affinity: {}
+istio:
+  enabled: true
+
 environment: dev
-hostdomain: ui.sentinel.mercan.io
+hostdomain: api.sentinel.mercan.io

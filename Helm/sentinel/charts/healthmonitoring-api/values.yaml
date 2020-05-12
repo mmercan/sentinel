@@ -30,7 +30,7 @@ ingress:
   #      - chart-example.local
 
 istio:
-  enabled: false
+  enabled: true
 
 
 resources: {}
