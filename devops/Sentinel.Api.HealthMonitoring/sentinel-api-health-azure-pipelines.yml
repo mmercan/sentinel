@@ -159,6 +159,12 @@ stages:
                     destination: "$(System.DefaultWorkingDirectory)"
                     save: false
 
+                - task: PowerShell@2
+                  inputs:
+                    targetType: 'inline'
+                    script: 'helm template $Env:Pipeline_Workspace/drop/Helm/sentinel/charts/$Env:chartName'
+                    errorActionPreference: 'silentlyContinue'
+                    
                 - task: HelmDeploy@0
                   displayName: "helm upgrade"
                   inputs:
