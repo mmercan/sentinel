@@ -5,10 +5,7 @@ kind: Ingress
 metadata:
   name:  {{ include "Sentinel.Api.HealthMonitoring.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "Sentinel.Api.HealthMonitoring.name" . }}
-    helm.sh/chart: {{ include "Sentinel.Api.HealthMonitoring.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "Sentinel.Api.HealthMonitoring.labels" . | nindent 4 }}
   annotations:
     kubernetes.io/ingress.class: nginx
     certmanager.k8s.io/cluster-issuer: letsencrypt-prod
@@ -17,7 +14,7 @@ spec:
   tls:
   - hosts:
     - {{ $host }}
-    secretName: healthmonitoring-api-secret
+    secretName: "{{ $host }}-secret"
   rules:
   - host: {{ $host }}
     http:
