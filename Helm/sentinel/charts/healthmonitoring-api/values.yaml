@@ -17,7 +17,7 @@ service:
   port: 80
 
 ingress:
-  enabled: false
+  enabled: true
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
@@ -28,6 +28,10 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+
+istio:
+  enabled: false
+
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -93,30 +97,6 @@ azurepipelines:
   org: "org"
 
 env:
-  configmap:
-    - name: Mongodb__DatabaseName
-    - name: Mongodb__CollectionName
-    - name: Mongodb__IdField
-    - name: kafkaUrl
-    - name: NATS_URL
-    - name: SMTP__Server
-    - name: SMTP__Port
-    - name: ELASTICSEARCH_URL
-    - name: sentinel-ui-sts__ClientOptions__BaseAddress
-    - name: sentinel-ui-sts__ClientOptions__ClientId
-    - name: sentinel-api-member__ClientOptions__BaseAddress
-    - name: sentinel-api-member__ClientOptions__ClientId
-    - name: sentinel-api-product__ClientOptions__BaseAddress
-    - name: sentinel-api-product__ClientOptions__ClientId
-    - name: sentinel-api-comms__ClientOptions__BaseAddress
-    - name: sentinel-api-comms__ClientOptions__ClientId
-  secrets:
-    - name: RedisConnection
-    - name: Mongodb__ConnectionString
-    - name: SentinelConnection
-    - name: RabbitMQConnection
-    - name: SMTP__UserName
-    - name: SMTP__Password
   values:
     - name: ASPNETCORE_ENVIRONMENT
       value: "Production"
