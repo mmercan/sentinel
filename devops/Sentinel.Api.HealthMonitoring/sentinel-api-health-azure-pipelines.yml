@@ -82,6 +82,12 @@ stages:
               SourceFolder: "Helm/sentinel/charts/healthmonitoring-api"
               TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/healthmonitoring-api"
 
+          - task: CopyFiles@2
+            displayName: "Copy Helm Values"
+            inputs:
+              SourceFolder: "Helm/values"
+              TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/values"
+
           - task: GitHubRelease@1
             displayName: "GitHub release (create)"
             inputs:
@@ -153,6 +159,12 @@ stages:
                     destination: "$(System.DefaultWorkingDirectory)"
                     save: false
 
+                - task: PowerShell@2
+                  inputs:
+                    targetType: 'inline'
+                    script: 'helm template "$ENV:PIPELINE_WORKSPACE/drop/Helm/sentinel/charts/healthmonitoring-api" -f "$ENV:PIPELINE_WORKSPACE/drop/Helm/values/healthmonitoring-api/dev-values.yaml"'
+                    errorActionPreference: 'silentlyContinue'
+                    
                 - task: HelmDeploy@0
                   displayName: "helm upgrade"
                   inputs:
@@ -162,6 +174,7 @@ stages:
                     command: upgrade
                     chartType: FilePath
                     chartPath: "$(System.DefaultWorkingDirectory)/$(chartName)-2.0.0-$(Build.BuildNumber).tgz"
+                    valueFile: '$(Pipeline.Workspace)/drop/Helm/values/healthmonitoring-api/dev-values.yaml'
                     releaseName: "$(releaseName)"
                     overrideValues: "image.tag=$(Build.BuildNumber) --set ingress.enabled=$(pipelines_ingressEnabled) --set istio.enabled=$(pipelines_istioEnabled) --set hostdomain=$(hostdomain) --set branch=$(Build.SourceBranchName) --set azurepipelines.pipeline=$(pipelines_pipeline)  --set azurepipelines.run='$(pipelines_run)'  --set azurepipelines.pipelineId='$(pipelines_pipelineId)'  --set azurepipelines.project=$(pipelines_project)  --set azurepipelines.org='$(pipelines_org)'  --set azurepipelines.jobName='$(pipelines_jobName)' --set azurepipelines.runuri='$(pipelines_runuri)' "
 
