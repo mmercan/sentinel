@@ -120,7 +120,7 @@ stages:
     pool:
       vmImage: 'Ubuntu-16.04'
     # creates an environment if it doesn't exist
-    environment: 'sentinel-helm.sentinel-helm'
+    environment: 'sentinel-dev.sentinel-dev'
     strategy:
       runOnce:
         deploy:
