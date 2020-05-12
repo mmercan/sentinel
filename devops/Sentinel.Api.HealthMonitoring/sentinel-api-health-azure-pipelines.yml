@@ -82,6 +82,12 @@ stages:
               SourceFolder: "Helm/sentinel/charts/healthmonitoring-api"
               TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/healthmonitoring-api"
 
+          - task: CopyFiles@2
+            displayName: "Copy Helm Values"
+            inputs:
+              SourceFolder: "Helm/values"
+              TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/values"
+
           - task: GitHubRelease@1
             displayName: "GitHub release (create)"
             inputs:
@@ -149,6 +155,7 @@ stages:
                     namespace: $(namespace)
                     command: package
                     chartPath: "$(Pipeline.Workspace)/drop/Helm/sentinel/charts/$(chartName)"
+                    valueFile: '$(System.DefaultWorkingDirectory)/drop/Helm/values/healthmonitoring-api/dev-values.yaml'
                     chartVersion: "2.0.0-$(Build.BuildNumber)"
                     destination: "$(System.DefaultWorkingDirectory)"
                     save: false
