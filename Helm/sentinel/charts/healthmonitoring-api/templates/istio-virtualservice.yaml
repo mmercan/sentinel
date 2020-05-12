@@ -10,7 +10,7 @@ spec:
   gateways:
     - {{ include "Sentinel.Api.HealthMonitoring.fullname" . }}-gateway
   http:
-    route:
+    - route:
         - destination:
             host: {{ include "Sentinel.Api.HealthMonitoring.fullname" . }}  # Service Name
             port:
