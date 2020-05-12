@@ -141,7 +141,7 @@ stages:
                   displayName: "helm package"
                   inputs:
                     connectionType: "Kubernetes Service Connection"
-                    kubernetesServiceConnection: "dev-sentinel-dev-1570428393098"
+                    kubernetesServiceConnection: "sentinel-dev-sentinel-dev-1589249908507"
                     namespace: "sentinel-dev"
                     command: package
                     chartPath: "$(Pipeline.Workspace)/drop/Helm/sentinel/charts/$(chartName)"
@@ -153,7 +153,7 @@ stages:
                   displayName: "helm upgrade"
                   inputs:
                     connectionType: "Kubernetes Service Connection"
-                    kubernetesServiceConnection: "dev-sentinel-dev-1570428393098"
+                    kubernetesServiceConnection: "sentinel-dev-sentinel-dev-1589249908507"
                     namespace: "sentinel-dev"
                     command: upgrade
                     chartType: FilePath
