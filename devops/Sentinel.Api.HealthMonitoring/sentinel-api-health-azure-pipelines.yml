@@ -1,0 +1,206 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - "*"
+    exclude:
+      - features/experimental/*
+  paths:
+    include:
+      - Sentinel.Api.HealthMonitoring/*
+      - Sentinel.Api.HealthMonitoring.Tests/*
+      - Helm/sentinel/charts/healthmonitoring-api/*
+
+stages:
+  - stage: build
+    jobs:
+      - job: A
+        displayName: Build
+        pool:
+          name: Hosted Ubuntu 1604
+        steps:
+          - task: DockerCompose@0
+            displayName: "Build Images"
+            inputs:
+              containerregistrytype: "Container Registry"
+              dockerRegistryEndpoint: dockerhub
+              dockerComposeFile: "Sentinel.Api.HealthMonitoring/docker-compose-test.yml"
+              dockerComposeFileArgs: "TAGVersion=01"
+              action: "Build services"
+              additionalImageTags: "$(Build.BuildNumber)"
+              includeLatestTag: true
+              arguments: "--build-arg buildtime_APPID=$(buildtime_APPID)  --build-arg buildtime_APPSECRET=$(buildtime_APPSECRET) --build-arg buildtime_ADID=$(buildtime_ADID) --build-arg buildtime_SONARKEY=$(buildtime_SONARKEY)"
+
+          - task: Docker@2
+            displayName: run
+            inputs:
+              containerRegistry: dockerhub
+              command: run
+              arguments: "-i -v $(Build.ArtifactStagingDirectory):/TestResults sentinel-api-healthmonitoring-test"
+            continueOnError: true
+
+          - task: PublishTestResults@2
+            displayName: "Publish Test Results *.trx"
+            inputs:
+              testResultsFormat: VSTest
+              testResultsFiles: "*.trx"
+              searchFolder: "$(Build.ArtifactStagingDirectory)"
+
+          - task: PublishCodeCoverageResults@1
+            displayName: "Publish code coverage from $(Build.ArtifactStagingDirectory)/coverage.cobertura.xml"
+            inputs:
+              codeCoverageTool: Cobertura
+              summaryFileLocation: "$(Build.ArtifactStagingDirectory)/coverage.cobertura.xml"
+              pathToSources: "$(Build.SourcesDirectory)"
+
+          - task: DockerCompose@0
+            displayName: "Build Images"
+            inputs:
+              containerregistrytype: "Container Registry"
+              dockerRegistryEndpoint: dockerhub
+              dockerComposeFile: "Sentinel.Api.HealthMonitoring/docker-compose.yml"
+              dockerComposeFileArgs: "TAGVersion=01"
+              action: "Build services"
+              additionalImageTags: "$(Build.BuildNumber)"
+              includeLatestTag: true
+
+          - task: DockerCompose@0
+            displayName: "Push Images"
+            inputs:
+              containerregistrytype: "Container Registry"
+              dockerRegistryEndpoint: dockerhub
+              dockerComposeFile: "Sentinel.Api.HealthMonitoring/docker-compose.yml"
+              dockerComposeFileArgs: "TAGVersion=01"
+              action: "Push services"
+              additionalImageTags: "$(Build.BuildNumber)"
+              includeLatestTag: true
+
+          - task: CopyFiles@2
+            displayName: "Copy Helm Sentinel.Api.HealthMonitoring"
+            inputs:
+              SourceFolder: "Helm/sentinel/charts/healthmonitoring-api"
+              TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/healthmonitoring-api"
+
+          - task: GitHubRelease@1
+            displayName: "GitHub release (create)"
+            inputs:
+              gitHubConnection: "mrtmrcn github"
+              tagSource: userSpecifiedTag
+              tag: "release-v1.0.$(Build.BuildNumber)"
+              assets: "$(Build.ArtifactStagingDirectory)/**"
+              isPreRelease: true
+            enabled: false
+
+          - task: colinsalmcorner.colinsalmcorner-buildtasks.replace-tokens-task.ReplaceTokens@1
+            displayName: "Replace tokens in Sentinel.Api.HealthMonitoring"
+            inputs:
+              sourcePath: Sentinel.Api.HealthMonitoring
+              filePattern: "*.yaml"
+
+          - task: CopyFiles@2
+            displayName: "Copy yaml"
+            inputs:
+              SourceFolder: Sentinel.Api.HealthMonitoring
+              Contents: "*.yaml"
+              TargetFolder: "$(Build.ArtifactStagingDirectory)"
+
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Artifacts: drop"
+
+  - stage: deploy_to_dev
+    jobs:
+      - deployment: DeployWeb
+        displayName: deploy Web App
+        pool:
+          vmImage: "Ubuntu-16.04"
+        # creates an environment if it doesn't exist
+        environment: "sentinel-helm.sentinel-helm"
+        variables:
+          chartName: "healthmonitoring-api"
+          namespace: "sentinel-helm"
+          releaseName: "sentinel-dev-health-api"
+          pipelines_pipeline: '"$(Build.DefinitionName)"'
+          pipelines_run: '"$(Build.BuildNumber)"'
+          pipelines_pipelineId: '"$(System.DefinitionId)"'
+          pipelines_project: '"$(System.TeamProject)"'
+          pipelines_org: '"$(System.TeamFoundationCollectionUri)"'
+          pipelines_jobName: '"$(Agent.JobName)"'
+          pipelines_runuri: '"$(pipelines_org)$(pipelines_project)/_build/results?buildId=$(Build.BuildId)"'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: printenv | sort
+                - task: HelmInstaller@0
+                  displayName: "Install Helm 3.1.2"
+                  inputs:
+                    helmVersion: 3.1.2
+                    checkLatestHelmVersion: false
+
+                - task: HelmDeploy@0
+                  displayName: "helm package"
+                  inputs:
+                    connectionType: "Kubernetes Service Connection"
+                    kubernetesServiceConnection: "dev-sentinel-dev-1570428393098"
+                    namespace: "sentinel-dev"
+                    command: package
+                    chartPath: "$(Pipeline.Workspace)/drop/Helm/sentinel/charts/$(chartName)"
+                    chartVersion: "2.0.0-$(Build.BuildNumber)"
+                    destination: "$(System.DefaultWorkingDirectory)"
+                    save: false
+
+                - task: HelmDeploy@0
+                  displayName: "helm upgrade"
+                  inputs:
+                    connectionType: "Kubernetes Service Connection"
+                    kubernetesServiceConnection: "dev-sentinel-dev-1570428393098"
+                    namespace: "sentinel-dev"
+                    command: upgrade
+                    chartType: FilePath
+                    chartPath: "$(System.DefaultWorkingDirectory)/$(chartName)-2.0.0-$(Build.BuildNumber).tgz"
+                    releaseName: "$(releaseName)"
+                    overrideValues: "image.tag=$(Build.BuildNumber) --set branch=$(Build.SourceBranchName) --set azurepipelines.pipeline=$(pipelines_pipeline)  --set azurepipelines.run='$(pipelines_run)'  --set azurepipelines.pipelineId='$(pipelines_pipelineId)'  --set azurepipelines.project=$(pipelines_project)  --set azurepipelines.org='$(pipelines_org)'  --set azurepipelines.jobName='$(pipelines_jobName)' --set azurepipelines.runuri='$(pipelines_runuri)' "
+
+  - stage: deploy_to_test
+    jobs:
+      - deployment: DeployWeb
+        displayName: deploy Web App
+        pool:
+          vmImage: "Ubuntu-16.04"
+        # creates an environment if it doesn't exist
+        environment: "sentinel-helm.sentinel-helm"
+        variables:
+          chartName: "healthmonitoring-api"
+          namespace: "sentinel-helm"
+          releaseName: "sentinel-dev-health-api"
+          pipelines_pipeline: '"$(Build.DefinitionName)"'
+          pipelines_run: '"$(Build.BuildNumber)"'
+          pipelines_pipelineId: '"$(System.DefinitionId)"'
+          pipelines_project: '"$(System.TeamProject)"'
+          pipelines_org: '"$(System.TeamFoundationCollectionUri)"'
+          pipelines_jobName: '"$(Agent.JobName)"'
+          pipelines_runuri: '"$(pipelines_org)$(pipelines_project)/_build/results?buildId=$(Build.BuildId)"'
+        strategy:
+          runOnce:
+            preDeploy:
+              steps:
+                - download: current
+                  artifact: drop
+                - script: echo initialize, cleanup, backup, install certs
+            deploy:
+              steps:
+                - script: printenv | sort
+
+            routeTraffic:
+              steps:
+                - script: echo routing traffic
+            postRouteTraffic:
+              steps:
+                - script: echo health check post-route traffic
+            on:
+              failure:
+                steps:
+                  - script: echo Restore from backup! This is on failure
+              success:
+                steps:
+                  - script: echo Notify! This is on success
