@@ -114,10 +114,10 @@ stages:
         pool:
           vmImage: "Ubuntu-16.04"
         # creates an environment if it doesn't exist
-        environment: "sentinel-helm.sentinel-helm"
+        environment: "sentinel-dev.sentinel-dev"
         variables:
           chartName: "healthmonitoring-api"
-          namespace: "sentinel-helm"
+          namespace: "sentinel-dev"
           releaseName: "sentinel-dev-health-api"
           pipelines_pipeline: '"$(Build.DefinitionName)"'
           pipelines_run: '"$(Build.BuildNumber)"'
@@ -142,7 +142,7 @@ stages:
                   inputs:
                     connectionType: "Kubernetes Service Connection"
                     kubernetesServiceConnection: "sentinel-dev-sentinel-dev-1589249908507"
-                    namespace: "sentinel-dev"
+                    namespace: $(namespace)
                     command: package
                     chartPath: "$(Pipeline.Workspace)/drop/Helm/sentinel/charts/$(chartName)"
                     chartVersion: "2.0.0-$(Build.BuildNumber)"
@@ -154,7 +154,7 @@ stages:
                   inputs:
                     connectionType: "Kubernetes Service Connection"
                     kubernetesServiceConnection: "sentinel-dev-sentinel-dev-1589249908507"
-                    namespace: "sentinel-dev"
+                    namespace: $(namespace)
                     command: upgrade
                     chartType: FilePath
                     chartPath: "$(System.DefaultWorkingDirectory)/$(chartName)-2.0.0-$(Build.BuildNumber).tgz"
@@ -168,10 +168,10 @@ stages:
         pool:
           vmImage: "Ubuntu-16.04"
         # creates an environment if it doesn't exist
-        environment: "sentinel-helm.sentinel-helm"
+        environment: "sentinel-dev.sentinel-dev"
         variables:
           chartName: "healthmonitoring-api"
-          namespace: "sentinel-helm"
+          namespace: "sentinel-test"
           releaseName: "sentinel-dev-health-api"
           pipelines_pipeline: '"$(Build.DefinitionName)"'
           pipelines_run: '"$(Build.BuildNumber)"'
