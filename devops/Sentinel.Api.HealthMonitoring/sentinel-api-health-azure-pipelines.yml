@@ -133,9 +133,6 @@ stages:
           pipelines_org: '"$(System.TeamFoundationCollectionUri)"'
           pipelines_jobName: '"$(Agent.JobName)"'
           pipelines_runuri: '"$(pipelines_org)$(pipelines_project)/_build/results?buildId=$(Build.BuildId)"'
-          pipelines_ingressEnabled: "true"
-          pipelines_istioEnabled: "false"
-          hostdomain: "ui.sentinel.mercan.io"
         strategy:
           runOnce:
             deploy:
@@ -176,7 +173,7 @@ stages:
                     chartPath: "$(System.DefaultWorkingDirectory)/$(chartName)-2.0.0-$(Build.BuildNumber).tgz"
                     valueFile: '$(Pipeline.Workspace)/drop/Helm/values/healthmonitoring-api/dev-values.yaml'
                     releaseName: "$(releaseName)"
-                    overrideValues: "image.tag=$(Build.BuildNumber) --set ingress.enabled=$(pipelines_ingressEnabled) --set istio.enabled=$(pipelines_istioEnabled) --set hostdomain=$(hostdomain) --set branch=$(Build.SourceBranchName) --set azurepipelines.pipeline=$(pipelines_pipeline)  --set azurepipelines.run='$(pipelines_run)'  --set azurepipelines.pipelineId='$(pipelines_pipelineId)'  --set azurepipelines.project=$(pipelines_project)  --set azurepipelines.org='$(pipelines_org)'  --set azurepipelines.jobName='$(pipelines_jobName)' --set azurepipelines.runuri='$(pipelines_runuri)' "
+                    overrideValues: "image.tag=$(Build.BuildNumber) --set branch=$(Build.SourceBranchName) --set azurepipelines.pipeline=$(pipelines_pipeline)  --set azurepipelines.run='$(pipelines_run)'  --set azurepipelines.pipelineId='$(pipelines_pipelineId)'  --set azurepipelines.project=$(pipelines_project)  --set azurepipelines.org='$(pipelines_org)'  --set azurepipelines.jobName='$(pipelines_jobName)' --set azurepipelines.runuri='$(pipelines_runuri)' "
 
   - stage: deploy_to_test
     jobs:
