@@ -162,7 +162,7 @@ stages:
                 - task: PowerShell@2
                   inputs:
                     targetType: 'inline'
-                    script: 'helm template "$ENV:PIPELINE_WORKSPACE/drop/Helm/sentinel/charts/healthmonitoring-api"'
+                    script: 'helm template "$ENV:PIPELINE_WORKSPACE/drop/Helm/sentinel/charts/healthmonitoring-api" -f "$ENV:PIPELINE_WORKSPACE/drop/Helm/values/healthmonitoring-api/dev-values.yaml"'
                     errorActionPreference: 'silentlyContinue'
                     
                 - task: HelmDeploy@0
