@@ -22,6 +22,7 @@ spec:
       annotations:
         {{- include "Sentinel.Api.HealthMonitoring.annotations" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ include "Sentinel.Api.HealthMonitoring.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
