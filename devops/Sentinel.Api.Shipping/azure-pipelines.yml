@@ -7,10 +7,10 @@ trigger:
       - features/experimental/*
   paths:
     include:
-      - Sentinel.Api.HealthMonitoring/*
-      - Sentinel.Api.HealthMonitoring.Tests/*
-      - Helm/sentinel/charts/healthmonitoring-api/*
-      - devops/Sentinel.Api.HealthMonitoring/sentinel-api-health-azure-pipelines.yml
+      - Sentinel.Api.Shipping/*
+      - Sentinel.Api.Shipping.Tests/*
+      - Helm/sentinel/charts/shipping-api/*
+      - devops/Sentinel.Api.Shipping/azure-pipelines.yml
 
 stages:
   - stage: build
@@ -25,7 +25,7 @@ stages:
             inputs:
               containerregistrytype: "Container Registry"
               dockerRegistryEndpoint: dockerhub
-              dockerComposeFile: "Sentinel.Api.HealthMonitoring/docker-compose-test.yml"
+              dockerComposeFile: "Sentinel.Api.Shipping/docker-compose-test.yml"
               dockerComposeFileArgs: "TAGVersion=01"
               action: "Build services"
               additionalImageTags: "$(Build.BuildNumber)"
@@ -37,7 +37,7 @@ stages:
             inputs:
               containerRegistry: dockerhub
               command: run
-              arguments: "-i -v $(Build.ArtifactStagingDirectory):/TestResults sentinel-api-healthmonitoring-test"
+              arguments: "-i -v $(Build.ArtifactStagingDirectory):/TestResults sentinel-api-shipping-test"
             continueOnError: true
 
           - task: PublishTestResults@2
@@ -59,7 +59,7 @@ stages:
             inputs:
               containerregistrytype: "Container Registry"
               dockerRegistryEndpoint: dockerhub
-              dockerComposeFile: "Sentinel.Api.HealthMonitoring/docker-compose.yml"
+              dockerComposeFile: "Sentinel.Api.Shipping/docker-compose.yml"
               dockerComposeFileArgs: "TAGVersion=01"
               action: "Build services"
               additionalImageTags: "$(Build.BuildNumber)"
@@ -70,17 +70,17 @@ stages:
             inputs:
               containerregistrytype: "Container Registry"
               dockerRegistryEndpoint: dockerhub
-              dockerComposeFile: "Sentinel.Api.HealthMonitoring/docker-compose.yml"
+              dockerComposeFile: "Sentinel.Api.Shipping/docker-compose.yml"
               dockerComposeFileArgs: "TAGVersion=01"
               action: "Push services"
               additionalImageTags: "$(Build.BuildNumber)"
               includeLatestTag: true
 
           - task: CopyFiles@2
-            displayName: "Copy Helm Sentinel.Api.HealthMonitoring"
+            displayName: "Copy Helm Sentinel.Api.Shipping"
             inputs:
-              SourceFolder: "Helm/sentinel/charts/healthmonitoring-api"
-              TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/healthmonitoring-api"
+              SourceFolder: "Helm/sentinel/charts/shipping-api"
+              TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/shipping-api"
 
           - task: CopyFiles@2
             displayName: "Copy Helm Values"
@@ -99,15 +99,15 @@ stages:
             enabled: false
 
           - task: colinsalmcorner.colinsalmcorner-buildtasks.replace-tokens-task.ReplaceTokens@1
-            displayName: "Replace tokens in Sentinel.Api.HealthMonitoring"
+            displayName: "Replace tokens in Sentinel.Api.Shipping"
             inputs:
-              sourcePath: Sentinel.Api.HealthMonitoring
+              sourcePath: Sentinel.Api.Shipping
               filePattern: "*.yaml"
 
           - task: CopyFiles@2
             displayName: "Copy yaml"
             inputs:
-              SourceFolder: Sentinel.Api.HealthMonitoring
+              SourceFolder: Sentinel.Api.Shipping
               Contents: "*.yaml"
               TargetFolder: "$(Build.ArtifactStagingDirectory)"
 
@@ -123,9 +123,9 @@ stages:
         # creates an environment if it doesn't exist
         environment: "sentinel-dev.sentinel-dev"
         variables:
-          chartName: "healthmonitoring-api"
+          chartName: "shipping-api"
           namespace: "sentinel-dev"
-          releaseName: "sentinel-dev-health-api"
+          releaseName: "sentinel-dev-shipping-api"
           pipelines_pipeline: '"$(Build.DefinitionName)"'
           pipelines_run: '"$(Build.BuildNumber)"'
           pipelines_pipelineId: '"$(System.DefinitionId)"'
@@ -159,7 +159,7 @@ stages:
                 - task: PowerShell@2
                   inputs:
                     targetType: 'inline'
-                    script: 'helm template "$ENV:PIPELINE_WORKSPACE/drop/Helm/sentinel/charts/healthmonitoring-api" -f "$ENV:PIPELINE_WORKSPACE/drop/Helm/values/healthmonitoring-api/dev-values.yaml"'
+                    script: 'helm template "$ENV:PIPELINE_WORKSPACE/drop/Helm/sentinel/charts/shipping-api" -f "$ENV:PIPELINE_WORKSPACE/drop/Helm/values/shipping-api/dev-values.yaml"'
                     errorActionPreference: 'silentlyContinue'
                     
                 - task: HelmDeploy@0
@@ -171,7 +171,7 @@ stages:
                     command: upgrade
                     chartType: FilePath
                     chartPath: "$(System.DefaultWorkingDirectory)/$(chartName)-2.0.0-$(Build.BuildNumber).tgz"
-                    valueFile: '$(Pipeline.Workspace)/drop/Helm/values/healthmonitoring-api/dev-values.yaml'
+                    valueFile: '$(Pipeline.Workspace)/drop/Helm/values/shipping-api/dev-values.yaml'
                     releaseName: "$(releaseName)"
                     overrideValues: "image.tag=$(Build.BuildNumber) --set branch=$(Build.SourceBranchName) --set azurepipelines.pipeline=$(pipelines_pipeline)  --set azurepipelines.run='$(pipelines_run)'  --set azurepipelines.pipelineId='$(pipelines_pipelineId)'  --set azurepipelines.project=$(pipelines_project)  --set azurepipelines.org='$(pipelines_org)'  --set azurepipelines.jobName='$(pipelines_jobName)' --set azurepipelines.runuri='$(pipelines_runuri)' "
 
@@ -184,9 +184,9 @@ stages:
         # creates an environment if it doesn't exist
         environment: "sentinel-dev.sentinel-dev"
         variables:
-          chartName: "healthmonitoring-api"
+          chartName: "shipping-api"
           namespace: "sentinel-test"
-          releaseName: "sentinel-dev-health-api"
+          releaseName: "sentinel-dev-shipping-api"
           pipelines_pipeline: '"$(Build.DefinitionName)"'
           pipelines_run: '"$(Build.BuildNumber)"'
           pipelines_pipelineId: '"$(System.DefinitionId)"'
