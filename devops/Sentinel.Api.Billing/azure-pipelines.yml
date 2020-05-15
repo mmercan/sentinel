@@ -25,7 +25,7 @@ stages:
             inputs:
               containerregistrytype: "Container Registry"
               dockerRegistryEndpoint: dockerhub
-              dockerComposeFile: "Sentinel.Api.Sentinel.Api.Billing/docker-compose-test.yml"
+              dockerComposeFile: "Sentinel.Api.Billing/docker-compose-test.yml"
               dockerComposeFileArgs: "TAGVersion=01"
               action: "Build services"
               additionalImageTags: "$(Build.BuildNumber)"
