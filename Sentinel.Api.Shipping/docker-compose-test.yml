@@ -1,12 +1,12 @@
 version: "3.4"
 
 services:
-  sentinel-api-comms-test:
-    image: sentinel-api-comms-test
+  sentinel-api-shipping-test:
+    image: sentinel-api-shipping-test
     build:
       target: test
       context: ../
-      dockerfile: Sentinel.Api.Comms/dockerfile-linux-test
+      dockerfile: Sentinel.Api.Shipping/dockerfile-linux-test
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - DOTNET_USE_POLLING_FILE_WATCHER=1
