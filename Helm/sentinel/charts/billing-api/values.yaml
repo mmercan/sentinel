@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: sentinel-api-billing
   tag: stable
   pullPolicy: IfNotPresent
 
