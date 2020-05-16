@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: sentinel-api-billing
+  repository: mmercan/sentinel-api-billing
   tag: stable
   pullPolicy: IfNotPresent
 
