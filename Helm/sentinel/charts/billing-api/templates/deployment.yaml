@@ -1,24 +1,28 @@
+{{- $name := include "Sentinel.Api.Billing.fullname" . -}}
+{{- $cfgname := printf "%s-%s" $name "config" -}}
+{{- $secretname := printf "%s-%s" $name "secret" -}}
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: {{ include "Sentinel.Api.Billing.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "Sentinel.Api.Billing.name" . }}
-    helm.sh/chart: {{ include "Sentinel.Api.Billing.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "Sentinel.Api.Billing.labels" . | nindent 4 }}
+  annotations:
+    {{- include "Sentinel.Api.Billing.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "Sentinel.Api.Billing.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- include "Sentinel.Api.Billing.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "Sentinel.Api.Billing.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        {{- include "Sentinel.Api.Billing.selectorLabels" . | nindent 8 }}
+      annotations:
+        {{- include "Sentinel.Api.Billing.annotations" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ include "Sentinel.Api.Billing.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -35,6 +39,18 @@ spec:
             httpGet:
               path: /
               port: http
+          envFrom:
+            - configMapRef:
+                name: {{ $cfgname }}
+            - secretRef:
+                name: {{ $secretname }}
+          env:
+          {{- if .Values.env.values -}}
+          {{- range .Values.env.values }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end -}}
+          {{- end -}}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
