@@ -13,6 +13,7 @@ spec:
     - route:
         - destination:
             host: {{ include "Sentinel.Api.HealthMonitoring.fullname" . }}  # Service Name
+            subset: v1
             port:
               number: {{ .Values.service.port }}
 
