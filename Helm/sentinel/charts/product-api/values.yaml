@@ -103,3 +103,18 @@ configmap:
     sentinel-api-product__ClientOptions__BaseAddress: "http://sentinel-api-product/"
     sentinel-api-comms__ClientOptions__BaseAddress: "http://sentinel-api-comms/"
 
+azurepipelines:
+  run: "run"
+  pipeline: "pipeline"
+  pipelineId: "pipelineId"
+  jobName: "jobName"
+  runuri: "runuri"
+  project: "project"
+  org: "org"
+
+env:
+  values:
+    - name: ASPNETCORE_ENVIRONMENT
+      value: "Production"
+    - name: DOTNET_RUNNING_IN_CONTAINER
+      value: "true"
