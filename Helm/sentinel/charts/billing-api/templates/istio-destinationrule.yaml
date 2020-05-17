@@ -1,9 +1,11 @@
+{{- if .Values.istio.enabled -}}
+{{- $host := printf "%s.%s.%s" .Chart.Name .Values.environment .Values.hostdomain -}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: details
+  name: {{ include "Sentinel.Api.Billing.fullname" . }}-vs
 spec:
-  host: details
+  host: {{ $host }}
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
@@ -14,3 +16,4 @@ spec:
     - name: v2
       labels:
         version: "2.0"
+{{- end }}
