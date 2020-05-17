@@ -50,3 +50,13 @@ environment: dev
 hostdomain: myrcan.com
 env:
   values:
+
+
+azurepipelines:
+  run: "run"
+  pipeline: "pipeline"
+  pipelineId: "pipelineId"
+  jobName: "jobName"
+  runuri: "runuri"
+  project: "project"
+  org: "org"
