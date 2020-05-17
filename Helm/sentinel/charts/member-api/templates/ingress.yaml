@@ -1,13 +1,13 @@
+{{- if .Values.ingress.enabled -}}
 {{- $host := printf "%s.%s.%s" .Chart.Name .Values.environment .Values.hostdomain -}}
+{{- $fullName := include "Sentinel.Api.Member.fullname" . -}}
+{{- $ingressPath := .Values.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name:  {{ include "Sentinel.Api.Member.fullname" . }}
+  name:  {{ $fullName }}
   labels:
-    app.kubernetes.io/name: {{ include "Sentinel.Api.Member.name" . }}
-    helm.sh/chart: {{ include "Sentinel.Api.Member.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "Sentinel.Api.Member.labels" . | nindent 4 }}
   annotations:
     kubernetes.io/ingress.class: nginx
     certmanager.k8s.io/cluster-issuer: letsencrypt-prod
@@ -16,12 +16,13 @@ spec:
   tls:
   - hosts:
     - {{ $host }}
-    secretName: member-api-secret
+    secretName: "{{ $host }}-secret"
   rules:
   - host: {{ $host }}
     http:
       paths:
-      - path: /
+      - path:  {{ $ingressPath }}
         backend:
           serviceName: {{ include "Sentinel.Api.Member.fullname" . }}
           servicePort: 80
+{{- end }}

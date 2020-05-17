@@ -1,0 +1,17 @@
+{{- if .Values.istio.enabled -}}
+{{- $host := printf "%s.%s.%s" .Chart.Name .Values.environment .Values.hostdomain -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name:  {{ include "Sentinel.Api.Member.fullname" . }}-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - {{ $host }}
+{{- end }}

@@ -9,15 +9,35 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
 
 service:
   type: ClusterIP
   port: 80
 
 ingress:
-  enabled: false
+  enabled: true
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
@@ -28,6 +48,10 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+
+istio:
+  enabled: true
+
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -79,8 +103,13 @@ configmap:
     sentinel-api-product__ClientOptions__BaseAddress: "http://sentinel-api-product/"
     sentinel-api-comms__ClientOptions__BaseAddress: "http://sentinel-api-comms/"
 
-extSecrets:
-    RedisConnection:
-      secretname: "sentinel-db-redis"
-      secretkey: "RedisConnection"
+azurepipelines:
+  run: "run"
+  pipeline: "pipeline"
+  pipelineId: "pipelineId"
+  jobName: "jobName"
+  runuri: "runuri"
+  project: "project"
+  org: "org"
+
 
