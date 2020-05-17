@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "Sentinel.Util.Mailhog.fullname" . }}
   labels:
-    {{- include "Sentinel.Api.Mailhog.labels" . | nindent 4 }}
+    {{- include "Sentinel.Util.Mailhog.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "Sentinel.Api.Mailhog.selectorLabels" . | nindent 4 }}
+    {{- include "Sentinel.Util.Mailhog.selectorLabels" . | nindent 4 }}
