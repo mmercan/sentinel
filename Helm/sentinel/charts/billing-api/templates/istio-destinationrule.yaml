@@ -3,9 +3,9 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: {{ include "Sentinel.Api.Billing.fullname" . }}-vs
+  name: {{ include "Sentinel.Api.Billing.fullname" . }}-dr
 spec:
-  host: {{ $host }}
+  host: {{ include "Sentinel.Api.Billing.fullname" . }}
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
@@ -13,7 +13,7 @@ spec:
     - name: v1
       labels:
         version: "1.0"
-    - name: v2
-      labels:
-        version: "2.0"
+    # - name: v2
+    #   labels:
+    #     version: "2.0"
 {{- end }}
