@@ -9,8 +9,27 @@ image:
   tag: latest
   pullPolicy: Always
 
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
 service:
   type: ClusterIP
@@ -24,6 +43,9 @@ ingress:
   path: /
   host: comms-api.dev.myrcan.com
   secretName: comms-api-myrcan-com-secret
+
+istio:
+  enabled: true
 
 
 resources: {}
@@ -64,7 +86,11 @@ configmap:
     NATS_URL: "nats://sentinel-service-nats:4222/"
     DOTNET_RUNNING_IN_CONTAINER: "true"
 
-extSecrets:
-    RedisConnection:
-      secretname: "sentinel-db-redis"
-      secretkey: "RedisConnection"
+azurepipelines:
+  run: "run"
+  pipeline: "pipeline"
+  pipelineId: "pipelineId"
+  jobName: "jobName"
+  runuri: "runuri"
+  project: "project"
+  org: "org"
