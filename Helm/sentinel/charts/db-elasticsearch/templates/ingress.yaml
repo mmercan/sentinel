@@ -1,3 +1,4 @@
+{{- if .Values.ingress.enabled -}}
 {{- $host := printf "%s.%s.%s" "elasticsearch" .Values.environment .Values.hostdomain -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -25,3 +26,4 @@ spec:
         backend:
           serviceName: {{ include "Sentinel.Db.Elasticsearch.fullname" . }}
           servicePort: 80
+{{- end }}
