@@ -7,29 +7,21 @@ kind: StatefulSet
 metadata:
   name: {{ include "Sentinel.Db.Elasticsearch.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "Sentinel.Db.Elasticsearch.name" . }}
-    helm.sh/chart: {{ include "Sentinel.Db.Elasticsearch.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/version:  {{ .Chart.AppVersion }}
-    branch:  {{ .Values.branch }}
-    service: {{ include "Sentinel.Db.Elasticsearch.fullname" . }}
+    {{- include "Sentinel.Db.Elasticsearch.labels" . | nindent 4 }}
+  annotations:
+    {{- include "Sentinel.Db.Elasticsearch.annotations" . | nindent 4 }}
 spec:
   serviceName: {{ include "Sentinel.Db.Elasticsearch.fullname" . }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      service: {{ include "Sentinel.Db.Elasticsearch.fullname" . }}
+      {{- include "Sentinel.Db.Elasticsearch.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "Sentinel.Db.Elasticsearch.name" . }}
-        helm.sh/chart: {{ include "Sentinel.Db.Elasticsearch.chart" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
-        app.kubernetes.io/managed-by: {{ .Release.Service }}
-        app.kubernetes.io/version:  {{ .Chart.AppVersion }}
-        branch:  {{ .Values.branch }}
-        service: {{ include "Sentinel.Db.Elasticsearch.fullname" . }}
+        {{- include "Sentinel.Db.Elasticsearch.selectorLabels" . | nindent 8 }}
+      annotations:
+        {{- include "Sentinel.Db.Elasticsearch.annotations" . | nindent 8 }}
     spec:
       terminationGracePeriodSeconds: 15
       initContainers:

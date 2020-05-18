@@ -3,15 +3,11 @@ kind: Service
 metadata:                    
   name: {{ include "Sentinel.Db.Elasticsearch.fullname" . }}        
   labels:                    
-    app.kubernetes.io/name: {{ include "Sentinel.Db.Elasticsearch.name" . }}
-    helm.sh/chart: {{ include "Sentinel.Db.Elasticsearch.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "Sentinel.Db.Elasticsearch.labels" . | nindent 4 }}
 spec:                        
   type:  {{ .Values.service.type }}
   selector:
-    app.kubernetes.io/name: {{ include "Sentinel.Db.Elasticsearch.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "Sentinel.Db.Elasticsearch.selectorLabels" . | nindent 4 }}
   ports:                     
   - name: http               
     port: 80               
