@@ -1,3 +1,4 @@
+{{- if .Values.ingress.enabled -}}
 {{- $host := printf "%s.%s.%s" "rabbitmq" .Values.environment .Values.hostdomain -}}
 apiVersion: certmanager.k8s.io/v1alpha1
 kind: Certificate
@@ -16,3 +17,4 @@ spec:
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
+{{- end }}

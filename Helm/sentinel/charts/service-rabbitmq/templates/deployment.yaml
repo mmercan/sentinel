@@ -6,26 +6,23 @@ kind: Deployment
 metadata:
   name:  {{ include "Sentinel.Service.Rabbitmq.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "Sentinel.Service.Rabbitmq.name" . }}
-    helm.sh/chart: {{ include "Sentinel.Service.Rabbitmq.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/version:  {{ .Chart.AppVersion }}
-    branch:  {{ .Values.branch }}
+    {{- include "Sentinel.Service.Rabbitmq.labels" . | nindent 4 }}
+  annotations:
+    {{- include "Sentinel.Service.Rabbitmq.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "Sentinel.Service.Rabbitmq.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- include "Sentinel.Service.Rabbitmq.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "Sentinel.Service.Rabbitmq.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
-        branch:  {{ .Values.branch }}
+        {{- include "Sentinel.Service.Rabbitmq.selectorLabels" . | nindent 8 }}
+      annotations:
+        {{- include "Sentinel.Service.Rabbitmq.annotations" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ include "Sentinel.Service.Rabbitmq.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
