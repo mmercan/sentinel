@@ -12,7 +12,7 @@ spec:
   http:
     - route:
         - destination:
-            host: {{ include "Sentinel.Service.Rabbitmq.fullname" . }}  # Service Name
+            host: {{ include "Sentinel.Service.Rabbitmq.fullname" . }}-http  # Service Name
             subset: v1
             port:
               number: 80
