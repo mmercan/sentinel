@@ -25,14 +25,16 @@ stages:
               sourcePath: Sentinel.UI.HealthMonitoring
               filePattern: "*.properties"
 
-          - task: Docker@2
-            displayName: build
+          - task: DockerCompose@0
+            displayName: "Build test Image"
             inputs:
-              containerRegistry: dockerhub
-              command: build
-              Dockerfile: "Sentinel.UI.HealthMonitoring/dockerfile-test"
-              tags: "test-$(Build.BuildId)"
-              arguments: "--target test"
+              containerregistrytype: "Container Registry"
+              dockerRegistryEndpoint: dockerhub
+              dockerComposeFile: "Sentinel.UI.HealthMonitoring/docker-compose-test.yml"
+              dockerComposeFileArgs: "TAGVersion=01"
+              action: "Build services"
+              additionalImageTags: "$(Build.BuildNumber)"
+              includeLatestTag: true
 
           - task: DockerCompose@0
             displayName: "Build Images"
