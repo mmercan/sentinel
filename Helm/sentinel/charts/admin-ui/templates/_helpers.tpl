@@ -60,3 +60,12 @@ azure-pipelines/runuri: {{ .Values.azurepipelines.runuri | replace " " "%20" | r
 azure-pipelines/project: {{ .Values.azurepipelines.project | replace " " "%20" | replace "(" "%28" | replace ")" "%29" | replace "*" "%2A"}}
 azure-pipelines/org: {{ .Values.azurepipelines.org }}
 {{- end -}}
+
+
+{{- define "Sentinel.UI.Admin.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ default (include "Sentinel.UI.Admin.fullname" .) .Values.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.serviceAccount.name }}
+{{- end -}}
+{{- end -}}
