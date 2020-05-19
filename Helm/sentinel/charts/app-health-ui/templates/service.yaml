@@ -3,10 +3,7 @@ kind: Service
 metadata:
   name: {{ include "Sentinel.UI.HealthMonitoring.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "Sentinel.UI.HealthMonitoring.name" . }}
-    helm.sh/chart: {{ include "Sentinel.UI.HealthMonitoring.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "Sentinel.UI.HealthMonitoring.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -15,5 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "Sentinel.UI.HealthMonitoring.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "Sentinel.UI.HealthMonitoring.selectorLabels" . | nindent 4 }}
