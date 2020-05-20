@@ -24,91 +24,36 @@ stages:
             inputs:
               containerregistrytype: "Container Registry"
               dockerRegistryEndpoint: dockerhub
-              dockerComposeFile: "Sentinel.Api.HealthMonitoring/docker-compose-test.yml"
+              dockerComposeFile: "Sentinel.Util.Kibana/docker-compose.yml"
               dockerComposeFileArgs: "TAGVersion=01"
               action: "Build services"
               additionalImageTags: "$(Build.BuildNumber)"
               includeLatestTag: true
-              arguments: "--build-arg buildtime_APPID=$(buildtime_APPID)  --build-arg buildtime_APPSECRET=$(buildtime_APPSECRET) --build-arg buildtime_ADID=$(buildtime_ADID) --build-arg buildtime_SONARKEY=$(buildtime_SONARKEY)"
-
-          - task: Docker@2
-            displayName: run
-            inputs:
-              containerRegistry: dockerhub
-              command: run
-              arguments: "-i -v $(Build.ArtifactStagingDirectory):/TestResults sentinel-api-healthmonitoring-test"
-            continueOnError: true
-
-          - task: PublishTestResults@2
-            displayName: "Publish Test Results *.trx"
-            inputs:
-              testResultsFormat: VSTest
-              testResultsFiles: "*.trx"
-              searchFolder: "$(Build.ArtifactStagingDirectory)"
-
-          - task: PublishCodeCoverageResults@1
-            displayName: "Publish code coverage from $(Build.ArtifactStagingDirectory)/coverage.cobertura.xml"
-            inputs:
-              codeCoverageTool: Cobertura
-              summaryFileLocation: "$(Build.ArtifactStagingDirectory)/coverage.cobertura.xml"
-              pathToSources: "$(Build.SourcesDirectory)"
-
-          - task: DockerCompose@0
-            displayName: "Build Images"
-            inputs:
-              containerregistrytype: "Container Registry"
-              dockerRegistryEndpoint: dockerhub
-              dockerComposeFile: "Sentinel.Api.HealthMonitoring/docker-compose.yml"
-              dockerComposeFileArgs: "TAGVersion=01"
-              action: "Build services"
-              additionalImageTags: "$(Build.BuildNumber)"
-              includeLatestTag: true
+            enabled: false
 
           - task: DockerCompose@0
             displayName: "Push Images"
             inputs:
               containerregistrytype: "Container Registry"
               dockerRegistryEndpoint: dockerhub
-              dockerComposeFile: "Sentinel.Api.HealthMonitoring/docker-compose.yml"
+              dockerComposeFile: "Sentinel.Util.Kibana/docker-compose.yml"
               dockerComposeFileArgs: "TAGVersion=01"
               action: "Push services"
               additionalImageTags: "$(Build.BuildNumber)"
               includeLatestTag: true
+            enabled: false
 
           - task: CopyFiles@2
-            displayName: "Copy Helm Sentinel.Api.HealthMonitoring"
+            displayName: "Copy Helm util-kibana"
             inputs:
-              SourceFolder: "Helm/sentinel/charts/healthmonitoring-api"
-              TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/healthmonitoring-api"
+              SourceFolder: "Helm/sentinel/charts/util-kibana"
+              TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/util-kibana"
 
           - task: CopyFiles@2
             displayName: "Copy Helm Values"
             inputs:
               SourceFolder: "Helm/values"
               TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/values"
-
-          - task: GitHubRelease@1
-            displayName: "GitHub release (create)"
-            inputs:
-              gitHubConnection: "mrtmrcn github"
-              tagSource: userSpecifiedTag
-              tag: "release-v1.0.$(Build.BuildNumber)"
-              assets: "$(Build.ArtifactStagingDirectory)/**"
-              isPreRelease: true
-            enabled: false
-
-          - task: colinsalmcorner.colinsalmcorner-buildtasks.replace-tokens-task.ReplaceTokens@1
-            displayName: "Replace tokens in Sentinel.Api.HealthMonitoring"
-            inputs:
-              sourcePath: Sentinel.Api.HealthMonitoring
-              filePattern: "*.yaml"
-
-          - task: CopyFiles@2
-            displayName: "Copy yaml"
-            inputs:
-              SourceFolder: Sentinel.Api.HealthMonitoring
-              Contents: "*.yaml"
-              TargetFolder: "$(Build.ArtifactStagingDirectory)"
 
           - task: PublishBuildArtifacts@1
             displayName: "Publish Artifacts: drop"
@@ -122,9 +67,9 @@ stages:
         # creates an environment if it doesn't exist
         environment: "sentinel-dev.sentinel-dev"
         variables:
-          chartName: "healthmonitoring-api"
+          chartName: "util-kibana"
           namespace: "sentinel-dev"
-          releaseName: "sentinel-dev-health-api"
+          releaseName: "sentinel-dev-util-kibana"
           pipelines_pipeline: '"$(Build.DefinitionName)"'
           pipelines_run: '"$(Build.BuildNumber)"'
           pipelines_pipelineId: '"$(System.DefinitionId)"'
@@ -158,7 +103,7 @@ stages:
                 - task: PowerShell@2
                   inputs:
                     targetType: "inline"
-                    script: 'helm template "$ENV:PIPELINE_WORKSPACE/drop/Helm/sentinel/charts/healthmonitoring-api" -f "$ENV:PIPELINE_WORKSPACE/drop/Helm/values/healthmonitoring-api/dev-values.yaml"'
+                    script: 'helm template "$ENV:PIPELINE_WORKSPACE/drop/Helm/sentinel/charts/util-kibana" -f "$ENV:PIPELINE_WORKSPACE/drop/Helm/values/util-kibana/dev-values.yaml"'
                     errorActionPreference: "silentlyContinue"
 
                 - task: HelmDeploy@0
@@ -170,7 +115,7 @@ stages:
                     command: upgrade
                     chartType: FilePath
                     chartPath: "$(System.DefaultWorkingDirectory)/$(chartName)-2.0.0-$(Build.BuildNumber).tgz"
-                    valueFile: "$(Pipeline.Workspace)/drop/Helm/values/healthmonitoring-api/dev-values.yaml"
+                    valueFile: "$(Pipeline.Workspace)/drop/Helm/values/util-kibana/dev-values.yaml"
                     releaseName: "$(releaseName)"
                     overrideValues: "image.tag=$(Build.BuildNumber) --set branch=$(Build.SourceBranchName) --set azurepipelines.pipeline=$(pipelines_pipeline)  --set azurepipelines.run='$(pipelines_run)'  --set azurepipelines.pipelineId='$(pipelines_pipelineId)'  --set azurepipelines.project=$(pipelines_project)  --set azurepipelines.org='$(pipelines_org)'  --set azurepipelines.jobName='$(pipelines_jobName)' --set azurepipelines.runuri='$(pipelines_runuri)' "
 
@@ -183,9 +128,9 @@ stages:
         # creates an environment if it doesn't exist
         environment: "sentinel-dev.sentinel-dev"
         variables:
-          chartName: "healthmonitoring-api"
+          chartName: "util-kibana"
           namespace: "sentinel-test"
-          releaseName: "sentinel-dev-health-api"
+          releaseName: "sentinel-test-util-kibana"
           pipelines_pipeline: '"$(Build.DefinitionName)"'
           pipelines_run: '"$(Build.BuildNumber)"'
           pipelines_pipelineId: '"$(System.DefinitionId)"'
