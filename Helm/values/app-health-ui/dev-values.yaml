@@ -1,8 +1,8 @@
 ingress:
-  enabled: false
-
-istio:
   enabled: true
 
+istio:
+  enabled: false
+
 environment: dev
-hostdomain: api.sentinel.mercan.io
+hostdomain: ui.sentinel.mercan.io
