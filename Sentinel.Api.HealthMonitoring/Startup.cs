@@ -79,13 +79,7 @@ namespace Sentinel.Api.HealthMonitoring
                    .SetSlidingExpiration(TimeSpan.FromSeconds(20));
                   fn.SetString("testkey", "blah", options);
                   return true;
-              })
-               .AddDIObjectHealthCheck<CategoryInfo>((fn) =>
-              {
-                  fn.Name = 123;
-                  return true;
               });
-
             if (Environment.EnvironmentName != "dockertest")
             {
                 healthcheckBuilder.AddRabbitMQHealthCheckWithDiIBus();
