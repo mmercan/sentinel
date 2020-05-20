@@ -6,25 +6,21 @@ kind: Deployment
 metadata:
   name:  {{ include "Sentinel.Util.Kibana.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "Sentinel.Util.Kibana.name" . }}
-    helm.sh/chart: {{ include "Sentinel.Util.Kibana.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/version:  {{ .Chart.AppVersion }}
-    branch:  {{ .Values.branch }}
+    {{- include "Sentinel.Util.Kibana.labels" . | nindent 4 }}
+  annotations:
+    {{- include "Sentinel.Util.Kibana.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "Sentinel.Util.Kibana.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- include "Sentinel.Util.Kibana.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "Sentinel.Util.Kibana.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
-        branch:  {{ .Values.branch }}
+        {{- include "Sentinel.Util.Kibana.selectorLabels" . | nindent 8 }}
+      annotations:
+        {{- include "Sentinel.Util.Kibana.annotations" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
