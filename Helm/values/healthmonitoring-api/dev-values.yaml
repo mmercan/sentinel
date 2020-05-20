@@ -6,3 +6,14 @@ istio:
 
 environment: dev
 hostdomain: api.sentinel.mercan.io
+
+secrets:
+  SentinelConnection: "Server=sentinel-dev-db-sql;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+  RedisConnection: "sentinel-dev-db-redis:6379,defaultDatabase=2,password=2jWa8sSM8ZuhS3Qc"
+  Mongodb__ConnectionString: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-dev-db-mongodb:27017/admin?readPreference=primary"
+  RabbitMQConnection: "host=sentinel-dev-service-rabbitmq-tcp;username=rabbitmq;password=rabbitmq; timeout=10"
+  SMTP__Server: "sentinel-util-mailhog"
+  SMTP__Port: "1025"
+  SMTP__UserName: "mail@mail.com"
+  SMTP__Password: "password123"
+  ELASTICSEARCH_URL: "http://sentinel-dev-db-elasticsearch:9200"

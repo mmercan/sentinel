@@ -99,7 +99,7 @@ configmap:
     sentinel-ui-sts__ClientOptions__BaseAddress: "http://sentinel-ui-sts/"
     sentinel-api-member__ClientOptions__BaseAddress: "http://sentinel-dev-member-api/"
     sentinel-api-product__ClientOptions__BaseAddress: "http://sentinel-dev-product-api/"
-    sentinel-api-comms__ClientOptions__BaseAddress: "http://sen-dev-comms-api/"
+    sentinel-api-comms__ClientOptions__BaseAddress: "http://sentinel-dev-comms-api/"
 
 extSecrets:
     RedisConnection:
