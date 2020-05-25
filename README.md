@@ -1,3 +1,11 @@
+# Flow 
+Improving flow through the technology value stream is essential to achieving 
+DevOps outcomes. We do this by making work visible, limiting WIP, reducing 
+batch sizes and the number of handoffs, continually identifying and evaluating 
+our constraints, and eliminating hardships in our daily work.
+
+
+
 ### Sentinel.Api.Billing
 [![Build status](https://mrtmrcn.visualstudio.com/sentinel/_apis/build/status/sentinel%20docker%20builders/Sentinel.Api.Billing)](https://hub.docker.com/r/mmercan/sentinel-api-billing/)
 
