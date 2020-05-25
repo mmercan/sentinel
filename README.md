@@ -4,6 +4,18 @@ DevOps outcomes. We do this by making work visible, limiting WIP, reducing
 batch sizes and the number of handoffs, continually identifying and evaluating 
 our constraints, and eliminating hardships in our daily work.
 
+# Feedback
+Creating fast feedback is critical to achieving quality, reliability, and safety in 
+the technology value stream. We do this by seeing problems as they occur, 
+swarming and solving problems to build new knowledge, pushing quality 
+closer to the source, and continually optimizing for downstream work centers
+
+# Continual Learning and Experimentation
+Accepting that failures will always occur in complex systems, and making it 
+acceptable to talk about problems so we can create a safe system of work. It 
+also requires institutionalizing the improvement of daily work, converting 
+local learnings into global learnings that can be used by the entire organization, 
+as well as continually injecting tension into our daily work
 
 
 ### Sentinel.Api.Billing
