@@ -3,21 +3,20 @@ kind: Deployment
 metadata:
   name: {{ include "Sentinel.Util.Seq.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "Sentinel.Util.Seq.name" . }}
-    helm.sh/chart: {{ include "Sentinel.Util.Seq.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "Sentinel.Util.Seq.labels" . | nindent 4 }}
+  annotations:
+    {{- include "Sentinel.Util.Seq.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "Sentinel.Util.Seq.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- include "Sentinel.Util.Seq.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "Sentinel.Util.Seq.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        {{- include "Sentinel.Util.Seq.selectorLabels" . | nindent 8 }}
+      annotations:
+        {{- include "Sentinel.Util.Seq.annotations" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
