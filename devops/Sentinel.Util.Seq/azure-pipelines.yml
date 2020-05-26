@@ -8,7 +8,7 @@ trigger:
   paths:
     include:
       - Sentinel.Util.Seq/*
-      - Helm/sentinel/charts/Sentinel.Util.Seq/*
+      - Helm/sentinel/charts/util-seq/*
       - devops/Sentinel.Util.Seq/azure-pipelines.yml
 
 stages:
@@ -42,10 +42,10 @@ stages:
               includeLatestTag: true
 
           - task: CopyFiles@2
-            displayName: "Copy Helm Sentinel.Util.Seq"
+            displayName: "Copy Helm util-seq"
             inputs:
-              SourceFolder: "Helm/sentinel/charts/Sentinel.Util.Seq"
-              TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/Sentinel.Util.Seq"
+              SourceFolder: "Helm/sentinel/charts/util-seq"
+              TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/util-seq"
 
           - task: CopyFiles@2
             displayName: "Copy Helm Values"
@@ -65,7 +65,7 @@ stages:
         # creates an environment if it doesn't exist
         environment: "sentinel-dev.sentinel-dev"
         variables:
-          chartName: "Sentinel.Util.Seq"
+          chartName: "util-seq"
           namespace: "sentinel-dev"
           releaseName: "sentinel-dev-seq"
           pipelines_pipeline: '"$(Build.DefinitionName)"'
@@ -101,7 +101,7 @@ stages:
                 - task: PowerShell@2
                   inputs:
                     targetType: "inline"
-                    script: 'helm template "$ENV:PIPELINE_WORKSPACE/drop/Helm/sentinel/charts/Sentinel.Util.Seq" -f "$ENV:PIPELINE_WORKSPACE/drop/Helm/values/Sentinel.Util.Seq/dev-values.yaml"'
+                    script: 'helm template "$ENV:PIPELINE_WORKSPACE/drop/Helm/sentinel/charts/util-seq" -f "$ENV:PIPELINE_WORKSPACE/drop/Helm/values/util-seq/dev-values.yaml"'
                     errorActionPreference: "silentlyContinue"
 
                 - task: HelmDeploy@0
@@ -113,7 +113,7 @@ stages:
                     command: upgrade
                     chartType: FilePath
                     chartPath: "$(System.DefaultWorkingDirectory)/$(chartName)-2.0.0-$(Build.BuildNumber).tgz"
-                    valueFile: "$(Pipeline.Workspace)/drop/Helm/values/Sentinel.Util.Seq/dev-values.yaml"
+                    valueFile: "$(Pipeline.Workspace)/drop/Helm/values/util-seq/dev-values.yaml"
                     releaseName: "$(releaseName)"
                     overrideValues: "image.tag=$(Build.BuildNumber) --set branch=$(Build.SourceBranchName) --set azurepipelines.pipeline=$(pipelines_pipeline)  --set azurepipelines.run='$(pipelines_run)'  --set azurepipelines.pipelineId='$(pipelines_pipelineId)'  --set azurepipelines.project=$(pipelines_project)  --set azurepipelines.org='$(pipelines_org)'  --set azurepipelines.jobName='$(pipelines_jobName)' --set azurepipelines.runuri='$(pipelines_runuri)' "
 
@@ -126,9 +126,9 @@ stages:
         # creates an environment if it doesn't exist
         environment: "sentinel-dev.sentinel-dev"
         variables:
-          chartName: "Sentinel.Util.Seq"
+          chartName: "util-seq"
           namespace: "sentinel-test"
-          releaseName: "sentinel-dev-seq"
+          releaseName: "sentinel-test-seq"
           pipelines_pipeline: '"$(Build.DefinitionName)"'
           pipelines_run: '"$(Build.BuildNumber)"'
           pipelines_pipelineId: '"$(System.DefinitionId)"'
