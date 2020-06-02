@@ -54,14 +54,33 @@ env:
     - name: DOTNET_RUNNING_IN_CONTAINER
       value: "true"
 
-secrets:
-  SMTP__UserName: "mail@mail.com"
-  SMTP__Password: "password123"
-
-configmap:
-    DOTNET_RUNNING_IN_CONTAINER: "true"
-
 extSecrets:
     RedisConnection:
       secretname: "sentinel-db-redis"
       secretkey: "RedisConnection"
+
+
+secrets:
+  SentinelConnection: "Server=sentinel-mssql-db-helm-insecret;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+  RedisConnection: "sentinel-db-redis:6379,defaultDatabase=2,password=2jWa8sSM8ZuhS3Qc"
+  Mongodb__ConnectionString: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-db-mongodb:27017/admin?readPreference=primary"
+  SMTP__UserName: "mail@mail.com"
+  SMTP__Password: "password123"
+  
+configmap:
+    ASPNETCORE_ENVIRONMENT: "Production"
+    Mongodb__DatabaseName: "pushNotifications"
+    Mongodb__CollectionName: "registers"
+    Mongodb__IdField: "Id"
+    kafkaUrl: "http://sentinel-util-kafka:9092"
+    NATS_URL: "nats://sentinel-service-nats:4222/"
+    DOTNET_RUNNING_IN_CONTAINER: "true"
+
+azurepipelines:
+  run: "run"
+  pipeline: "pipeline"
+  pipelineId: "pipelineId"
+  jobName: "jobName"
+  runuri: "runuri"
+  project: "project"
+  org: "org"

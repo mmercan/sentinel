@@ -6,3 +6,8 @@ istio:
 
 environment: dev
 hostdomain: api.sentinel.mercan.io
+
+secrets:
+  SentinelConnection: "Server=sentinel-dev-db-sql;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;"
+  RedisConnection: "sentinel-dev-db-redis:6379,defaultDatabase=2,password=2jWa8sSM8ZuhS3Qc"
+  Mongodb__ConnectionString: "mongodb://root:hbMnztmZ4w9JJTGZ@sentinel-dev-db-mongodb:27017/admin?readPreference=primary"

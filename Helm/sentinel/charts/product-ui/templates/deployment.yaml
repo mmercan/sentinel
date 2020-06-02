@@ -6,12 +6,9 @@ kind: Deployment
 metadata:
   name:  {{ include "Sentinel.UI.Product.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "Sentinel.UI.Product.name" . }}
-    helm.sh/chart: {{ include "Sentinel.UI.Product.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/version:  {{ .Chart.AppVersion }}
-    branch:  {{ .Values.branch }}
+    {{- include "Sentinel.UI.Product.labels" . | nindent 4 }}
+  annotations:
+    {{- include "Sentinel.UI.Product.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 1
