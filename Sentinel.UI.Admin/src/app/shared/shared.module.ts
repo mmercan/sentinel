@@ -17,6 +17,8 @@ import { LocalAuthService } from './authentication/local-auth/local-auth.service
 import { AuthService } from './authentication/auth.service';
 import { IfAuthenticatedDirective } from './authentication/if-authenticated/if-authenticated.directive';
 import { UserAvatarComponent } from './authentication/user-avatar/user-avatar.component';
+import { ImageClassfierService } from './ai/image-classfier.service';
+
 
 import { IfOnlineDirective } from './offline/if-online.directive';
 import { OfflineNotificationService } from './offline/offline-notification.service';
@@ -47,7 +49,7 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [AppConfig, AdalService, LocalAuthService, AuthService, MenuItems, NotificationService, AdalInterceptor,
-        OfflineNotificationService, AdalGuard, ProductDataStoreService, ProductCRUDService, SettingsService]
+        OfflineNotificationService, AdalGuard, ProductDataStoreService, ProductCRUDService, SettingsService, ImageClassfierService]
     };
   }
 }

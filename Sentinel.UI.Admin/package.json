@@ -34,6 +34,7 @@
     "@ngx-translate/http-loader": "4.0.0",
     "@swimlane/ngx-charts": "13.0.2",
     "@swimlane/ngx-datatable": "16.0.3",
+    "@tensorflow-models/mobilenet": "^2.0.4",
     "@tensorflow/tfjs": "^2.0.0",
     "@types/moment": "^2.13.0",
     "@why520crazy/ngx-validator": "^1.0.0",
