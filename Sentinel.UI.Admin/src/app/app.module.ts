@@ -33,7 +33,7 @@ import { DynamicHTMLModule } from './dynamic-html/dynamic-html.module';
     // RouterModule.forRoot(AppRoutes, { useHash: true }),
     FormsModule,
     HttpClientModule,
-    NgbModule.forRoot(),
+    NgbModule,
     SidebarModule.forRoot(),
     DragulaModule.forRoot(),
     DynamicHTMLModule.forRoot({

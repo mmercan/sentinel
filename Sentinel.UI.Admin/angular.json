@@ -35,13 +35,13 @@
               "./node_modules/dragula/dist/dragula.css",
               "./node_modules/quill/dist/quill.snow.css",
               "./node_modules/angular-calendar/scss/angular-calendar.scss",
-              "./node_modules/@swimlane/ngx-datatable/release/index.css",
+              "./node_modules/@swimlane/ngx-datatable/index.css",
               "src/assets/fonts/data-table/icons.css",
               "src/assets/styles/app.scss",
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
             ],
             "scripts": [
-              "./node_modules/hammerjs/hammer.min.js",
+              // "./node_modules/hammerjs/hammer.min.js",
               "./node_modules/@aspnet/signalr/dist/browser/signalr.min.js"
             ]
           },
@@ -95,13 +95,13 @@
               "./node_modules/dragula/dist/dragula.css",
               "./node_modules/quill/dist/quill.snow.css",
               "./node_modules/angular-calendar/scss/angular-calendar.scss",
-              "./node_modules/@swimlane/ngx-datatable/release/index.css",
+              "./node_modules/@swimlane/ngx-datatable/index.css",
               "src/assets/fonts/data-table/icons.css",
               "src/assets/styles/app.scss",
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
             ],
             "scripts": [
-              "./node_modules/hammerjs/hammer.min.js",
+              // "./node_modules/hammerjs/hammer.min.js",
               "./node_modules/@aspnet/signalr/dist/browser/signalr.min.js"
             ],
             "assets": [
@@ -149,5 +149,8 @@
       }
     }
   },
-  "defaultProject": "ClientApp"
+  "defaultProject": "ClientApp",
+  "cli": {
+    "analytics": false
+  }
 }
