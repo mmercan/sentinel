@@ -42,9 +42,9 @@ export class ImageClassfierService {
     console.log('model trained!');
   }
 
-  linearPrediction(val) {
+  linearPrediction(val: number) {
     const output = this.linearModel.predict(tf.tensor2d([val], [1, 1])) as any;
-    this.prediction = Array.from(output.dataSync())[0]
+    this.prediction = Array.from(output.dataSync())[0];
   }
 
 

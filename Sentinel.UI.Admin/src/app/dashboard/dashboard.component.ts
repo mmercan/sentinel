@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(DrawableDirective) canvas;
 
   predictions: any;
+  prediction: any;
   predictionsobject: any[] = [];
   ngAfterViewInit(): void {
     //  throw new Error("Method not implemented.");
@@ -57,5 +58,12 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
 
+  }
+
+  linearPrediction(val: any) {
+    // tslint:disable-next-line:radix
+    const numval = parseInt(val);
+    this.imageClassfier.linearPrediction(numval);
+    this.prediction = this.imageClassfier.prediction;
   }
 }
