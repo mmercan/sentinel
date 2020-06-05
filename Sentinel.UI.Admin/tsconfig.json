@@ -1,4 +1,5 @@
 {
+  "skipLibCheck": true,
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",

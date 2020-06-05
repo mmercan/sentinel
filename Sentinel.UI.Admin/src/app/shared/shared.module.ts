@@ -33,15 +33,16 @@ import { ProductCRUDService } from './generated/api.client.generated';
 import { SettingsService } from './settings/settings.service';
 import { SettingsComponent } from './settings/settings.component';
 import { TestComponent } from './test-tools/test/test.component';
+import { DrawableDirective } from './drawable/drawable.directive';
 
 
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, FormsModule, DragulaModule],
-  declarations: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
-    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent, SettingsComponent, TestComponent],
+  declarations: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective, IfAuthenticatedDirective,
+    IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent, SettingsComponent, TestComponent, DrawableDirective],
   exports: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, ToggleFullscreenDirective,
-    IfAuthenticatedDirective, IfOnlineDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent, DragulaModule],
+    IfAuthenticatedDirective, IfOnlineDirective, DrawableDirective, UserAvatarComponent, Ng4FilterPipe, StorageComponent, DragulaModule],
   providers: [SettingsService]
 })
 export class SharedModule {

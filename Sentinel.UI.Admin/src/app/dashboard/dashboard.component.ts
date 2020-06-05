@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ImageClassfierService } from '../shared/ai/image-classfier.service';
+import { DrawableDirective } from '../shared/drawable/drawable.directive';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -18,6 +19,11 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
   }
+
+
+  @ViewChild(DrawableDirective) canvas;
+
+  predictions: any;
   ngAfterViewInit(): void {
     //  throw new Error("Method not implemented.");
   }
@@ -25,8 +31,23 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     // throw new Error("Method not implemented.");
   }
   async ngOnInit() {
-    await this.imageClassfier.loader();
-    console.log('ai loadded');
+
+
+    await this.imageClassfier.trainNewModel();
+    await this.imageClassfier.loadModel();
+
+    // await this.imageClassfier.train();
+    // console.log('ai loadded');
+    // this.imageClassfier.predict(20);
     // throw new Error("Method not implemented.");
+
+
+
+
+  }
+  async predict(imageData: ImageData) {
+    await this.imageClassfier.predict(imageData);
+    this.predictions = this.imageClassfier.predictions;
+    console.log(this.predictions);
   }
 }

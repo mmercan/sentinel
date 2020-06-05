@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutes } from './dashboard.routing';
-
+import { SharedModule } from '../shared/shared.module';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(DashboardRoutes)],
+  imports: [CommonModule, SharedModule, NgxChartsModule, RouterModule.forChild(DashboardRoutes)],
   declarations: [DashboardComponent]
 })
 
-export class DashboardModule {}
+export class DashboardModule { }

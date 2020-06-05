@@ -1,2 +1,44 @@
 Dashboard Works :)...
 No Waiittttt :)()
+
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-sm">
+      <h3>Draw Here</h3>
+      <div class="wrapper">
+        <canvas drawable (newImage)="predict($event)"></canvas><br>
+      </div>
+
+      <button class="btn btn-sm btn-warning" (click)="canvas.clear()">Erase</button>
+
+    </div>
+
+    <div class="col-sm">
+      <h3>TensorFlow Prediction</h3>
+      {{predictions | json}}
+
+      <ngx-charts-bar-vertical [results]="predictions">
+      </ngx-charts-bar-vertical>
+    </div>
+  </div>
+</div>
+
+
+<hr>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-sm">
+      <h1>Linear Model</h1>
+
+      <h4>Predicted Value: <span class="badge badge-info">{{ prediction }}</span></h4>
+
+      <p>Basic TensorFlow linear regression model that was trained in the browser.</p>
+
+      <hr>
+
+      <input type="number" (change)="linearPrediction($event.target.value)" class="form-control" placeholder="enter any random numbner">
+    </div>
+  </div>
+</div>
