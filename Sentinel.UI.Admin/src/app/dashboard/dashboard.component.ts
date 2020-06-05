@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(DrawableDirective) canvas;
 
   predictions: any;
+  predictionsobject: any[] = [];
   ngAfterViewInit(): void {
     //  throw new Error("Method not implemented.");
   }
@@ -48,6 +49,13 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   async predict(imageData: ImageData) {
     await this.imageClassfier.predict(imageData);
     this.predictions = this.imageClassfier.predictions;
-    console.log(this.predictions);
+    this.predictionsobject = [];
+    let i = 0;
+    this.predictions.forEach(e => {
+      this.predictionsobject.push({ item: i, value: e.toFixed(15) });
+      i++;
+    });
+
+
   }
 }

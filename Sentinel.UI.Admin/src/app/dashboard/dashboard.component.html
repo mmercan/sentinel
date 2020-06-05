@@ -17,9 +17,10 @@ No Waiittttt :)()
     <div class="col-sm">
       <h3>TensorFlow Prediction</h3>
       {{predictions | json}}
-
-      <ngx-charts-bar-vertical [results]="predictions">
-      </ngx-charts-bar-vertical>
+      <ul></ul>
+      <li *ngFor="let item of predictionsobject">
+        <span> {{item.item}} </span> <b>{{item.value}}</b>
+      </li>
     </div>
   </div>
 </div>

@@ -58,12 +58,13 @@ export class ImageClassfierService {
     console.log('model is loaded...');
   }
 
-  async predict(imageData: ImageData): any {
+  async predict(imageData: ImageData) {
 
     const pred = tf.tidy(() => {
 
       // Convert the canvas pixels to
       let img = tf.browser.fromPixels(imageData, 1);
+      // @ts-ignore
       img = img.reshape([1, 28, 28, 1]);
       img = tf.cast(img, 'float32');
 
