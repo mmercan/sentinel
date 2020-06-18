@@ -18,6 +18,7 @@ namespace Sentinel.Repos.Repositories
             try
             {
                 db.Database.EnsureCreated();
+                logger.LogInformation("Database is Ready");
             }
             catch (Exception ex)
             {
