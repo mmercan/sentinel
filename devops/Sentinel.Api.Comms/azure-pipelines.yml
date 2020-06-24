@@ -139,7 +139,6 @@ stages:
               steps:
                 - script: printenv | sort
                 - script: |
-                    az aks get-credentials -n nonprod1aks -g bupaanz-mel-test-caas-vnet-rg --admin
                     namespace=$(namespace)
                     ns="$(kubectl get ns $namespace -o=name)"
                     nsname=namespace/$namespace
