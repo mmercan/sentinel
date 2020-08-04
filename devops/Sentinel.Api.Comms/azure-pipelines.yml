@@ -138,17 +138,6 @@ stages:
             deploy:
               steps:
                 - script: printenv | sort
-                - script: |
-                    namespace=$(namespace)
-                    ns="$(kubectl get ns $namespace -o=name)"
-                    nsname=namespace/$namespace
-                    if [[ $ns == $nsname ]]; then
-                      echo "Namespace already exists"
-                    else
-                      kubectl create ns $namespace
-                      kubectl label namespace $namespace istio-injection=enabled
-                    fi
-                    enabled:false
                 - task: HelmInstaller@0
                   displayName: "Install Helm 3.1.2"
                   inputs:
