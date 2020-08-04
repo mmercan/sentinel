@@ -148,6 +148,7 @@ stages:
                       kubectl create ns $namespace
                       kubectl label namespace $namespace istio-injection=enabled
                     fi
+                  enabled:false
                 - task: HelmInstaller@0
                   displayName: "Install Helm 3.1.2"
                   inputs:
