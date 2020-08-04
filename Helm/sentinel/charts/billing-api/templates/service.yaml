@@ -4,6 +4,8 @@ metadata:
   name: {{ include "Sentinel.Api.Billing.fullname" . }}
   labels:
     {{- include "Sentinel.Api.Billing.labels" . | nindent 4 }}
+  annotations:
+    {{- include "Sentinel.Api.Billing.service.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:

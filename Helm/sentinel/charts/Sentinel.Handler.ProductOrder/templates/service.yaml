@@ -7,6 +7,8 @@ metadata:
     helm.sh/chart: {{ include "Sentinel.Handler.ProductOrder.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    {{- include "Sentinel.Handler.ProductOrder.service.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:

@@ -4,6 +4,8 @@ metadata:
   name: {{ include "Sentinel.UI.Admin.fullname" . }}
   labels:
     {{- include "Sentinel.UI.Admin.labels" . | nindent 4 }}
+  annotations:
+    {{- include "Sentinel.UI.Admin.service.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:

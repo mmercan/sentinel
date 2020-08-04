@@ -49,7 +49,7 @@ ingress:
 
 
 istio:
-  enabled: false
+  enabled: true
 
 
 resources: {}

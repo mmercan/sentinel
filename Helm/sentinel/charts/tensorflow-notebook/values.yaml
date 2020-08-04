@@ -4,7 +4,7 @@
 jupyter:
   image:
     repository: tensorflow/tensorflow
-    tag: 1.6.0-devel
+    tag: 1.6.0-devel-py3
     pullPolicy: IfNotPresent
   password: tensorflow
   resources: {}
@@ -19,7 +19,7 @@ jupyter:
 tensorboard:
   image:
     repository: tensorflow/tensorflow
-    tag: 1.6.0-devel
+    tag: 1.6.0-devel-py3
     pullPolicy: IfNotPresent
 service:
   type: LoadBalancer

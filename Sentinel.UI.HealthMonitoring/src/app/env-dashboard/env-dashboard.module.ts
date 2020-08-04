@@ -16,17 +16,17 @@ import { NetworkHealthChecksComponent } from './check-components/network-health-
 import { PerformanceCounterListComponent } from './check-components/performance-counter-list/performance-counter-list.component';
 import { ProcessListHealthChecksComponent } from './check-components/process-list-health-checks/process-list-health-checks.component';
 import { RabbitMqHealthCheckComponent } from './check-components/rabbit-mq-health-check/rabbit-mq-health-check.component';
+import { RedisHealthCheckComponent } from './check-components/redis-health-check/redis-health-check.component';
 import { ServiceBusHealthChecksComponent } from './check-components/service-bus-health-checks/service-bus-health-checks.component';
 import {
   ServiceClientBaseHealthCheckComponent,
 } from './check-components/service-client-base-health-check/service-client-base-health-check.component';
 import { SqlHealthChecksComponent } from './check-components/sql-health-checks/sql-health-checks.component';
 import { SystemInfoHealthChecksComponent } from './check-components/system-info-health-checks/system-info-health-checks.component';
+import { UserNotAuthenticatedComponent } from './check-components/user-not-authenticated/user-not-authenticated.component';
 import { EnvDashboardRoutingModule } from './env-dashboard-routing.module';
 import { ImportConfigComponent } from './import-config/import-config.component';
 import { ProgDashboardComponent } from './prog-dashboard/prog-dashboard.component';
-import { RedisHealthCheckComponent } from './check-components/redis-health-check/redis-health-check.component';
-import { UserNotAuthenticatedComponent } from './check-components/user-not-authenticated/user-not-authenticated.component';
 
 @NgModule({
   imports: [

@@ -31,6 +31,9 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{/*
+Common labels
+*/}}
 {{- define "Sentinel.UI.Admin.labels" -}}
 helm.sh/chart: {{ include "Sentinel.UI.Admin.chart" . }}
 {{ include "Sentinel.UI.Admin.selectorLabels" . }}
@@ -61,7 +64,15 @@ azure-pipelines/project: {{ .Values.azurepipelines.project | replace " " "%20" |
 azure-pipelines/org: {{ .Values.azurepipelines.org }}
 {{- end -}}
 
+{{- define "Sentinel.UI.Admin.service.annotations" -}}
+healthcheck/isalive: "/healthcheck/isalive"
+healthcheck/isaliveandwell: "/healthcheck/isaliveandwell"
+healthcheck/crontab: "*/15 * * * *"
+{{- end -}}
 
+{{/*
+Create the name of the service account to use
+*/}}
 {{- define "Sentinel.UI.Admin.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
     {{ default (include "Sentinel.UI.Admin.fullname" .) .Values.serviceAccount.name }}

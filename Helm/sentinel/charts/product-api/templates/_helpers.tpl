@@ -63,6 +63,11 @@ azure-pipelines/project: {{ .Values.azurepipelines.project | replace " " "%20" |
 azure-pipelines/org: {{ .Values.azurepipelines.org }}
 {{- end -}}
 
+{{- define "Sentinel.Api.Product.service.annotations" -}}
+healthcheck/isalive: "/healthcheck/isalive"
+healthcheck/isaliveandwell: "/healthcheck/isaliveandwell"
+healthcheck/crontab: "*/15 * * * *"
+{{- end -}}
 
 {{- define "Sentinel.Api.Product.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}

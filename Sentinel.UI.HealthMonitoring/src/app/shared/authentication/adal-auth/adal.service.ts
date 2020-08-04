@@ -6,14 +6,14 @@ import { AppConfig, authenticationType, logLevel } from '../../../app.config';
 @Injectable()
 export class AdalService {
 
-    private context: adal.AuthenticationContext = <any>null;
+    private context: adal.AuthenticationContext = null;
 
     private user: adal.User = {
         authenticated: false,
         userName: '',
         error: '',
         token: '',
-        profile: {}
+        profile: {},
     };
 
     constructor(private appConfig: AppConfig) {

@@ -4,6 +4,8 @@ metadata:
   name: {{ include "Sentinel.Api.Comms.fullname" . }}
   labels:
     {{- include "Sentinel.Api.Comms.labels" . | nindent 4 }}
+  annotations:
+    {{- include "Sentinel.Api.Comms.service.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
