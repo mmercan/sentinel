@@ -67,7 +67,7 @@ azure-pipelines/org: {{ .Values.azurepipelines.org }}
 {{- define "Sentinel.Api.Comms.service.annotations" -}}
 healthcheck/isalive: "/healthcheck/isalive"
 healthcheck/isaliveandwell: "/healthcheck/isaliveandwell"
-healthcheck/crontab: "*/15 * * * *"
+healthcheck/crontab: "*/2 * * * *"
 {{- end -}}
 
 {{/*
