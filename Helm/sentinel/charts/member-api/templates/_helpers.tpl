@@ -67,6 +67,7 @@ azure-pipelines/org: {{ .Values.azurepipelines.org }}
 healthcheck/isalive: "/healthcheck/isalive"
 healthcheck/isaliveandwell: "/healthcheck/isaliveandwell"
 healthcheck/crontab: "*/15 * * * *"
+healthcheck/clientid: "67d009b1-97fe-4963-84ff-3590b06df0da"
 {{- end -}}
 
 {{- define "Sentinel.Api.Member.serviceAccountName" -}}
