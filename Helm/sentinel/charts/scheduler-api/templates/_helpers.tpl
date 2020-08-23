@@ -32,8 +32,8 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{- define "Sentinel.Api.Scheduler.service.annotations" -}}
-healthcheck/isalive: "/healthcheck/isalive"
-healthcheck/isaliveandwell: "/healthcheck/isaliveandwell"
+healthcheck/isalive: "/Health/IsAlive"
+healthcheck/isaliveandwell: "/Health/IsAliveAndWell"
 healthcheck/crontab: "*/15 * * * *"
 healthcheck/clientid: "67d009b1-97fe-4963-84ff-3590b06df0da"
 {{- end -}}

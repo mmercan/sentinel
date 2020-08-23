@@ -63,8 +63,8 @@ azure-pipelines/org: {{ .Values.azurepipelines.org }}
 {{- end -}}
 
 {{- define "Sentinel.Api.Billing.service.annotations" -}}
-healthcheck/isalive: "/healthcheck/isalive"
-healthcheck/isaliveandwell: "/healthcheck/isaliveandwell"
+healthcheck/isalive: "/Health/IsAlive"
+healthcheck/isaliveandwell: "/Health/IsAliveAndWell"
 healthcheck/crontab: "*/15 * * * *"
 {{- end -}}
 

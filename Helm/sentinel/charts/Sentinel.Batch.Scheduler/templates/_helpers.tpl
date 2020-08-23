@@ -32,7 +32,7 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{- define "Sentinel.Batch.Scheduler.service.annotations" -}}
-healthcheck/isalive: "/healthcheck/isalive"
-healthcheck/isaliveandwell: "/healthcheck/isaliveandwell"
+healthcheck/isalive: "/Health/IsAlive"
+healthcheck/isaliveandwell: "/Health/IsAliveAndWell"
 healthcheck/crontab: "*/15 * * * *"
 {{- end -}}

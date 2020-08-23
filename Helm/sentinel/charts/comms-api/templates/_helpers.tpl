@@ -65,8 +65,8 @@ azure-pipelines/org: {{ .Values.azurepipelines.org }}
 {{- end -}}
 
 {{- define "Sentinel.Api.Comms.service.annotations" -}}
-healthcheck/isalive: "/healthcheck/isalive"
-healthcheck/isaliveandwell: "/healthcheck/isaliveandwell"
+healthcheck/isalive: "/Health/IsAlive"
+healthcheck/isaliveandwell: "/Health/IsAliveAndWell"
 healthcheck/crontab: "*/2 * * * *"
 healthcheck/clientid: "67d009b1-97fe-4963-84ff-3590b06df0da"
 {{- end -}}
