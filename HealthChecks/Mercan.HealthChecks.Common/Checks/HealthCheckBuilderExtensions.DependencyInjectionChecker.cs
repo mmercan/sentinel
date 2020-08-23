@@ -65,7 +65,7 @@ namespace Mercan.HealthChecks.Common.Checks
                             if (exceptions.Contains(service.ServiceType))
                             {
                                 skip = true;
-                                data.Add(order.ToString() + " " + service.ServiceType.FullName, "Skipped");
+                                data.Add(order.ToString() + "_" + service.ServiceType.FullName, "Skipped");
                             }
                             if (!skip)
                             {
@@ -73,18 +73,18 @@ namespace Mercan.HealthChecks.Common.Checks
                                 {
                                     var t = service.ServiceType.MakeGenericType(typeof(DIHealthCheck));
                                     var instance = serviceprovider.GetService(t);
-                                    data.Add(order.ToString() + " " + instance.GetType().FullName, "Success");
+                                    data.Add(order.ToString() + "_" + instance.GetType().FullName, "Success");
                                 }
                                 else
                                 {
                                     var instance = serviceprovider.GetService(service.ServiceType);
-                                    data.Add(order.ToString() + " " + instance.GetType().FullName, "Success");
+                                    data.Add(order.ToString() + "_" + instance.GetType().FullName, "Success");
                                 }
                             }
                         }
                         catch (Exception ex)
                         {
-                            data.Add(order.ToString() + " " + service.ServiceType.FullName, "Failed Exception " + ex.Message);
+                            data.Add(order.ToString() + "_" + service.ServiceType.FullName, "Failed Exception " + ex.Message);
                             failedAny = true;
                         }
                     }
@@ -98,7 +98,7 @@ namespace Mercan.HealthChecks.Common.Checks
                     {
                         string description = "DependencyInjection is healthy for all services";
                         ReadOnlyDictionary<string, Object> rodata = new ReadOnlyDictionary<string, object>(data);
-                        return HealthCheckResult.Healthy(description, rodata);              
+                        return HealthCheckResult.Healthy(description, rodata);
                     }
                 }
                 catch (Exception ex)
