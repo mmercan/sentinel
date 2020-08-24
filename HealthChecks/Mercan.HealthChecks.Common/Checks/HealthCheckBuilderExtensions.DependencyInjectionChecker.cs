@@ -65,7 +65,7 @@ namespace Mercan.HealthChecks.Common.Checks
                             if (exceptions.Contains(service.ServiceType))
                             {
                                 skip = true;
-                                data.Add(order.ToString() + "_" + service.ServiceType.FullName, "Skipped");
+                                data.Add(order.ToString() + "_" + service.ServiceType.FullName.Replace(".", "_"), "Skipped");
                             }
                             if (!skip)
                             {
@@ -73,18 +73,18 @@ namespace Mercan.HealthChecks.Common.Checks
                                 {
                                     var t = service.ServiceType.MakeGenericType(typeof(DIHealthCheck));
                                     var instance = serviceprovider.GetService(t);
-                                    data.Add(order.ToString() + "_" + instance.GetType().FullName, "Success");
+                                    data.Add(order.ToString() + "_" + instance.GetType().FullName.Replace(".", "_"), "Success");
                                 }
                                 else
                                 {
                                     var instance = serviceprovider.GetService(service.ServiceType);
-                                    data.Add(order.ToString() + "_" + instance.GetType().FullName, "Success");
+                                    data.Add(order.ToString() + "_" + instance.GetType().FullName.Replace(".", "_"), "Success");
                                 }
                             }
                         }
                         catch (Exception ex)
                         {
-                            data.Add(order.ToString() + "_" + service.ServiceType.FullName, "Failed Exception " + ex.Message);
+                            data.Add(order.ToString() + "_" + service.ServiceType.FullName.Replace(".", "_"), "Failed Exception " + ex.Message);
                             failedAny = true;
                         }
                     }
