@@ -1,7 +1,7 @@
 {{- $name := include "Sentinel.Api.Billing.fullname" . -}}
 {{- $cfgname := printf "%s-%s" $name "config" -}}
 {{- $secretname := printf "%s-%s" $name "secret" -}}
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "Sentinel.Api.Billing.fullname" . }}

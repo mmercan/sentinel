@@ -1,7 +1,7 @@
 {{- $name := include "Sentinel.UI.Product.fullname" . -}}
 {{- $cfgname := printf "%s-%s" $name "config" -}}
 {{- $secretname := printf "%s-%s" $name "secret" -}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name:  {{ include "Sentinel.UI.Product.fullname" . }}
