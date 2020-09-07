@@ -1,18 +1,18 @@
-{{- $host := printf "%s.%s.%s" "kibana" .Values.environment .Values.hostdomain -}}
-apiVersion: certmanager.k8s.io/v1alpha1
-kind: Certificate
-metadata:
-  name: "{{ $host }}-cert"
-spec:
-  secretName: "{{ $host }}-secret"
-  dnsNames:
-  - {{ $host }}
-  acme:
-    config:
-    - http01:
-        ingressClass: nginx
-      domains:
-      -  {{ $host }}
-  issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
+# {{- $host := printf "%s.%s.%s" "kibana" .Values.environment .Values.hostdomain -}}
+# apiVersion: certmanager.k8s.io/v1alpha1
+# kind: Certificate
+# metadata:
+#   name: "{{ $host }}-cert"
+# spec:
+#   secretName: "{{ $host }}-secret"
+#   dnsNames:
+#   - {{ $host }}
+#   acme:
+#     config:
+#     - http01:
+#         ingressClass: nginx
+#       domains:
+#       -  {{ $host }}
+#   issuerRef:
+#     name: letsencrypt-prod
+#     kind: ClusterIssuer
