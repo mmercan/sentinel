@@ -88,16 +88,6 @@ stages:
               SourceFolder: "Helm/values"
               TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/values"
 
-          - task: GitHubRelease@1
-            displayName: "GitHub release (create)"
-            inputs:
-              gitHubConnection: "mrtmrcn github"
-              tagSource: userSpecifiedTag
-              tag: "release-v1.0.$(Build.BuildNumber)"
-              assets: "$(Build.ArtifactStagingDirectory)/**"
-              isPreRelease: true
-            enabled: false
-
           - task: colinsalmcorner.colinsalmcorner-buildtasks.replace-tokens-task.ReplaceTokens@1
             displayName: "Replace tokens in Sentinel.Api.HealthMonitoring"
             inputs:
@@ -148,7 +138,7 @@ stages:
                   displayName: "helm package"
                   inputs:
                     connectionType: "Kubernetes Service Connection"
-                    kubernetesServiceConnection: "sentinel-dev-sentinel-dev-1589249908507"
+                    kubernetesServiceConnection: "sentinel-dev"
                     namespace: $(namespace)
                     command: package
                     chartPath: "$(Pipeline.Workspace)/drop/Helm/sentinel/charts/$(chartName)"
@@ -158,20 +148,20 @@ stages:
 
                 - task: PowerShell@2
                   inputs:
-                    targetType: 'inline'
+                    targetType: "inline"
                     script: 'helm template "$ENV:PIPELINE_WORKSPACE/drop/Helm/sentinel/charts/healthmonitoring-api" -f "$ENV:PIPELINE_WORKSPACE/drop/Helm/values/healthmonitoring-api/dev-values.yaml"'
-                    errorActionPreference: 'silentlyContinue'
-                    
+                    errorActionPreference: "silentlyContinue"
+
                 - task: HelmDeploy@0
                   displayName: "helm upgrade"
                   inputs:
                     connectionType: "Kubernetes Service Connection"
-                    kubernetesServiceConnection: "sentinel-dev-sentinel-dev-1589249908507"
+                    kubernetesServiceConnection: "sentinel-dev"
                     namespace: $(namespace)
                     command: upgrade
                     chartType: FilePath
                     chartPath: "$(System.DefaultWorkingDirectory)/$(chartName)-2.0.0-$(Build.BuildNumber).tgz"
-                    valueFile: '$(Pipeline.Workspace)/drop/Helm/values/healthmonitoring-api/dev-values.yaml'
+                    valueFile: "$(Pipeline.Workspace)/drop/Helm/values/healthmonitoring-api/dev-values.yaml"
                     releaseName: "$(releaseName)"
                     overrideValues: "image.tag=$(Build.BuildNumber) --set branch=$(Build.SourceBranchName) --set azurepipelines.pipeline=$(pipelines_pipeline)  --set azurepipelines.run='$(pipelines_run)'  --set azurepipelines.pipelineId='$(pipelines_pipelineId)'  --set azurepipelines.project=$(pipelines_project)  --set azurepipelines.org='$(pipelines_org)'  --set azurepipelines.jobName='$(pipelines_jobName)' --set azurepipelines.runuri='$(pipelines_runuri)' "
 
