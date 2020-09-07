@@ -1,24 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "Sentinel.UI.STS.fullname" . }}
+  name:  {{ include "Sentinel.UI.STS.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "Sentinel.UI.STS.name" . }}
-    helm.sh/chart: {{ include "Sentinel.UI.STS.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "Sentinel.UI.STS.labels" . | nindent 4 }}
+  annotations:
+    {{- include "Sentinel.UI.STS.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "Sentinel.UI.STS.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- include "Sentinel.UI.STS.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "Sentinel.UI.STS.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        {{- include "Sentinel.UI.STS.selectorLabels" . | nindent 8 }}
+      annotations:
+        {{- include "Sentinel.UI.STS.annotations" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ include "SSentinel.UI.STS.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

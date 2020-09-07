@@ -3,12 +3,9 @@ kind: Service
 metadata:
   name: {{ include "Sentinel.UI.STS.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "Sentinel.UI.STS.name" . }}
-    helm.sh/chart: {{ include "Sentinel.UI.STS.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "Sentinel.UI.STS.labels" . | nindent 4 }}
   annotations:
-    {{- include "Sentinel.UI.STS.service.annotations" . | nindent 4 }}
+    {{- include "Sentinel.UI.STS.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
