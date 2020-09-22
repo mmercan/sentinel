@@ -4,6 +4,9 @@ metadata:
   name: {{ include "Sentinel.UI.HealthMonitoring.fullname" . }}
   labels:
     {{- include "Sentinel.UI.HealthMonitoring.labels" . | nindent 4 }}
+  annotations:
+    healthcheck/crontab: '0 * * * *'
+    healthcheck/isaliveandwell: /
 spec:
   type: {{ .Values.service.type }}
   ports:

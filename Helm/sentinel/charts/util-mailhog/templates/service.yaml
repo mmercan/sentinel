@@ -4,6 +4,9 @@ metadata:
   name: {{ include "Sentinel.Util.Mailhog.fullname" . }}
   labels:
     {{- include "Sentinel.Util.Mailhog.labels" . | nindent 4 }}
+  annotations:
+    healthcheck/crontab: '0 * * * *'
+    healthcheck/isaliveandwell: /
 spec:
   type: {{ .Values.service.type }}
   ports:
