@@ -22,3 +22,4 @@ Sentinel.elk.Logstash/data/classified-ads-for-cars.zip
 Sentinel.Api.HealthMonitoring/*appsettings*
 HealthChecks/Mercan.HealthChecks.ServiceBus.Tests/appsettings.test.json
 Helm/sentinel/charts/*.tgz
+*.log
