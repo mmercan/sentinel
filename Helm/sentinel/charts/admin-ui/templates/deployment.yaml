@@ -9,7 +9,7 @@ metadata:
     {{- include "Sentinel.UI.Admin.labels" . | nindent 4 }}
   annotations:
     {{- include "Sentinel.UI.Admin.annotations" . | nindent 4 }}
-    taka/downscale-crontab : "0 7 * * *"
+    taka/downscale-crontab : "0 22 * * *"
     taka/downscale-replica : "0"
     taka/downscale-nodatimezone : "Australia/Melbourne"
     taka/upscale-crontab : "0 7 * * 1-5"
