@@ -4,6 +4,8 @@ metadata:
   name: {{ include "Sentinel.Util.Seq.fullname" . }}
   labels:
     {{- include "Sentinel.Util.Seq.labels" . | nindent 4 }}
+  annotations:
+    {{- include "Sentinel.Util.Seq.service.annotations" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:

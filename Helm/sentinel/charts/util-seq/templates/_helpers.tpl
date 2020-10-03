@@ -70,3 +70,10 @@ azure-pipelines/org: {{ .Values.azurepipelines.org }}
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+
+{{- define "Sentinel.Util.Seq.service.annotations" -}}
+healthcheck/isalive: "/Health/IsAlive"
+healthcheck/isaliveandwell: "/"
+healthcheck/crontab: "*/15 * * * *"
+{{- end -}}
