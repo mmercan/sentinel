@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: mmercan/sentinel-api-scheduler
   tag: stable
   pullPolicy: IfNotPresent
 
