@@ -11,10 +11,9 @@ metadata:
     {{- include "Sentinel.Api.Comms.annotations" . | nindent 4 }}
     taka/downscale-crontab : "0 22 * * *"
     taka/downscale-replica : "0"
-    taka/downscale-nodatimezone : "Australia/Melbourne"
+    taka/scale-timezone : "Australia/Melbourne"
     taka/upscale-crontab : "0 7 * * 1-5"
     taka/upscale-replica : "1"
-    taka/downscale-nodatimezone : "Australia/Melbourne"
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 1
