@@ -1,0 +1,14 @@
+version: "3.4"
+
+services:
+  dockerfile-sonarqube-dotnet50-sdk:
+    image: mmercan/dockerfile-sonarqube-dotnet50-sdk:latest
+    build:
+      # target: final
+      context: ./
+      dockerfile: dockerfile-sonarqube-dotnet50-sdk
+    # environment:
+    #   - ASPNETCORE_ENVIRONMENT=Production
+    #   - DOTNET_USE_POLLING_FILE_WATCHER=1
+    # # ports:
+    # #   - "5005:80"
