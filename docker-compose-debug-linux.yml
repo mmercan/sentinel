@@ -118,7 +118,7 @@ services:
       - DOTNET_USE_POLLING_FILE_WATCHER=1
       - DOTNET_RUNNING_IN_CONTAINER=true
       - SentinelConnection=Server=52.247.221.7;Database=sentinel;User Id=sa;Password=MySentP@ssw0rd;
-      - RedisConnection="13.77.156.236:6379,defaultDatabase=2,password=yourpassword"
+      - RedisConnection="52.247.72.202:6379,defaultDatabase=2,password=2jWa8sSM8ZuhS3Qc"
       - Mongodb__ConnectionString=mongodb://root:hbMnztmZ4w9JJTGZ@mongo.db.myrcan.com:27017/admin?readPreference=primary
       - Mongodb__DatabaseName=pushNotificationstest
       - Mongodb__CollectionName=registers
