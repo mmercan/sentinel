@@ -178,7 +178,7 @@ stages:
   - stage: deploy_to_test
     jobs:
       - deployment: DeployWeb
-        displayName: deploy Web App
+        displayName: deploy Web App to dev
         pool:
           vmImage: "Ubuntu-16.04"
         # creates an environment if it doesn't exist
