@@ -22,7 +22,7 @@ ENV Mongodb__ConnectionString="mongodb://root:hbMnztmZ4w9JJTGZ@52.183.8.101:2701
 ENV Mongodb__DatabaseName=sentinel
 ENV Mongodb__CollectionName=product
 ENV Mongodb__IdField=Id
-ENV RabbitMQConnection="host=13.77.151.111;username=rabbitmq;password=rabbitmq"
+ENV RabbitMQConnection="host=52.252.16.88;username=rabbitmq;password=rabbitmq"
 ENV SONAR_HOST=https://sonarcloud.io
 
 WORKDIR /src

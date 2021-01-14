@@ -123,7 +123,7 @@ services:
       - Mongodb__DatabaseName=pushNotificationstest
       - Mongodb__CollectionName=registers
       - Mongodb__IdField=Id
-      - RabbitMQConnection="host=13.77.151.111;username=rabbitmq;password=rabbitmq"
+      - RabbitMQConnection="host=52.252.16.88;username=rabbitmq;password=rabbitmq"
     # volumes:
     #   - SentinelWeb:/src
     volumes:
