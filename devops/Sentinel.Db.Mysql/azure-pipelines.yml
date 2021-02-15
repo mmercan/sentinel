@@ -43,10 +43,10 @@ stages:
               includeLatestTag: true
 
           - task: CopyFiles@2
-            displayName: "Copy Helm db-mongodb"
+            displayName: "Copy Helm db-mysql"
             inputs:
-              SourceFolder: "Helm/sentinel/charts/db-mongodb"
-              TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/db-mongodb"
+              SourceFolder: "Helm/sentinel/charts/db-mysql"
+              TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/db-mysql"
 
           - task: CopyFiles@2
             displayName: "Copy Helm Values"
@@ -65,9 +65,9 @@ stages:
         # creates an environment if it doesn't exist
         environment: "sentinel-dev.sentinel-dev"
         variables:
-          chartName: "db-mongodb"
+          chartName: "db-mysql"
           namespace: "sentinel-dev"
-          releaseName: "sentinel-dev-health-api"
+          releaseName: "sentinel-dev-db-mysql"
           pipelines_pipeline: '"$(Build.DefinitionName)"'
           pipelines_run: '"$(Build.BuildNumber)"'
           pipelines_pipelineId: '"$(System.DefinitionId)"'
