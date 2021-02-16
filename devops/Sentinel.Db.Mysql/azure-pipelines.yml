@@ -30,6 +30,7 @@ stages:
               action: "Build services"
               additionalImageTags: "$(Build.BuildNumber)"
               includeLatestTag: true
+            enabled: false
 
           - task: DockerCompose@0
             displayName: "Push Images"
@@ -41,6 +42,7 @@ stages:
               action: "Push services"
               additionalImageTags: "$(Build.BuildNumber)"
               includeLatestTag: true
+            enabled: false
 
           - task: CopyFiles@2
             displayName: "Copy Helm db-mysql"
@@ -126,9 +128,9 @@ stages:
         # creates an environment if it doesn't exist
         environment: "sentinel-dev.sentinel-dev"
         variables:
-          chartName: "db-mongodb"
+          chartName: "db-mysql"
           namespace: "sentinel-test"
-          releaseName: "sentinel-dev-health-api"
+          releaseName: "sentinel-dev-db-mysql"
           pipelines_pipeline: '"$(Build.DefinitionName)"'
           pipelines_run: '"$(Build.BuildNumber)"'
           pipelines_pipelineId: '"$(System.DefinitionId)"'
