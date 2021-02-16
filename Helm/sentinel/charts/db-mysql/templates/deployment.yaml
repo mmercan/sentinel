@@ -79,7 +79,7 @@ spec:
       {{- end }}
       containers:
       - name: {{ template "mysql.fullname" . }}
-        image: "{{ .Values.image }}:{{ .Values.imageTag }}"
+        image: "mysql:{{ .Values.imageTag }}"
         imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
 
         {{- with .Values.args }}
