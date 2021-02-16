@@ -30,6 +30,7 @@ stages:
               action: "Build services"
               additionalImageTags: "$(Build.BuildNumber)"
               includeLatestTag: true
+            enabled: false
 
           - task: DockerCompose@0
             displayName: "Push Images"
@@ -41,12 +42,13 @@ stages:
               action: "Push services"
               additionalImageTags: "$(Build.BuildNumber)"
               includeLatestTag: true
+            enabled: false
 
           - task: CopyFiles@2
-            displayName: "Copy Helm db-mongodb"
+            displayName: "Copy Helm db-mysql"
             inputs:
-              SourceFolder: "Helm/sentinel/charts/db-mongodb"
-              TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/db-mongodb"
+              SourceFolder: "Helm/sentinel/charts/db-mysql"
+              TargetFolder: "$(Build.ArtifactStagingDirectory)/Helm/sentinel/charts/db-mysql"
 
           - task: CopyFiles@2
             displayName: "Copy Helm Values"
@@ -65,9 +67,9 @@ stages:
         # creates an environment if it doesn't exist
         environment: "sentinel-dev.sentinel-dev"
         variables:
-          chartName: "db-mongodb"
+          chartName: "db-mysql"
           namespace: "sentinel-dev"
-          releaseName: "sentinel-dev-health-api"
+          releaseName: "sentinel-dev-db-mysql"
           pipelines_pipeline: '"$(Build.DefinitionName)"'
           pipelines_run: '"$(Build.BuildNumber)"'
           pipelines_pipelineId: '"$(System.DefinitionId)"'
@@ -101,7 +103,7 @@ stages:
                 - task: PowerShell@2
                   inputs:
                     targetType: 'inline'
-                    script: 'helm template "$ENV:PIPELINE_WORKSPACE/drop/Helm/sentinel/charts/db-mongodb" -f "$ENV:PIPELINE_WORKSPACE/drop/Helm/values/db-mongodb/dev-values.yaml"'
+                    script: 'helm template "$ENV:PIPELINE_WORKSPACE/drop/Helm/sentinel/charts/$(chartName)" -f "$ENV:PIPELINE_WORKSPACE/drop/Helm/values/$(chartName)/dev-values.yaml"'
                     errorActionPreference: 'silentlyContinue'
                     
                 - task: HelmDeploy@0
@@ -113,7 +115,7 @@ stages:
                     command: upgrade
                     chartType: FilePath
                     chartPath: "$(System.DefaultWorkingDirectory)/$(chartName)-2.0.0-$(Build.BuildNumber).tgz"
-                    valueFile: '$(Pipeline.Workspace)/drop/Helm/values/db-mongodb/dev-values.yaml'
+                    valueFile: '$(Pipeline.Workspace)/drop/Helm/values/$(chartName)/dev-values.yaml'
                     releaseName: "$(releaseName)"
                     overrideValues: "image.tag=$(Build.BuildNumber) --set branch=$(Build.SourceBranchName) --set azurepipelines.pipeline=$(pipelines_pipeline)  --set azurepipelines.run='$(pipelines_run)'  --set azurepipelines.pipelineId='$(pipelines_pipelineId)'  --set azurepipelines.project=$(pipelines_project)  --set azurepipelines.org='$(pipelines_org)'  --set azurepipelines.jobName='$(pipelines_jobName)' --set azurepipelines.runuri='$(pipelines_runuri)' "
 
@@ -126,9 +128,9 @@ stages:
         # creates an environment if it doesn't exist
         environment: "sentinel-dev.sentinel-dev"
         variables:
-          chartName: "db-mongodb"
+          chartName: "db-mysql"
           namespace: "sentinel-test"
-          releaseName: "sentinel-dev-health-api"
+          releaseName: "sentinel-dev-db-mysql"
           pipelines_pipeline: '"$(Build.DefinitionName)"'
           pipelines_run: '"$(Build.BuildNumber)"'
           pipelines_pipelineId: '"$(System.DefinitionId)"'
